@@ -1,0 +1,33 @@
+---
+name: Publish collection
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'roles/**'
+      - '.github/workflows/publish-collection.yml'
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --use-feature=2020-resolver --upgrade pip
+          python3 -m pip install --use-feature=2020-resolver ansible~=2.9.0
+      - name: Build collection
+        run: ansible-galaxy collection build -f
+
+      # NOTE: --api-key required because of https://github.com/ansible/ansible/issues/67862
+      - name: Publish collection
+        run: ansible-galaxy collection publish --api-key $ANSIBLE_GALAXY_TOKEN osism-services-*.tar.gz
+        env:
+          ANSIBLE_GALAXY_TOKEN: ${{ secrets.ANSIBLE_GALAXY_TOKEN }}

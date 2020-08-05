@@ -1,0 +1,27 @@
+---
+name: Check yaml syntax
+
+on:
+  push:
+    paths:
+      - .github/workflows/syntax-yaml.yml
+      - '**.yml'
+      - '**.yaml'
+  pull_request:
+    paths:
+      - .github/workflows/syntax-yaml.yml
+      - '**.yml'
+      - '**.yaml'
+
+jobs:
+  default:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - run: pip3 install yamllint
+      - run: yamllint --config-file .github/yamllint.yml .

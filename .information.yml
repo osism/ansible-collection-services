@@ -1,0 +1,7 @@
+---
+ansible_collection_name: services
+distributions:
+  - bionic
+  - focal
+releases:
+  - 2.9

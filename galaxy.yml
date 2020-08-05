@@ -1,0 +1,16 @@
+---
+namespace: osism
+name: services
+version: 0.0.1
+readme: README.md
+authors:
+  - OSISM community <info@osism.de> (https://github.com/osism/ansible-collection-services/graphs/contributors)
+description: OSISM service roles
+license_file: LICENSE
+tags:
+  - system
+dependencies: {}
+repository: https://github.com/osism/ansible-collection-services.git
+documentation: https://docs.osism.de
+homepage: https://osism.de
+issues: https://github.com/osism/ansible-collection-services/issues

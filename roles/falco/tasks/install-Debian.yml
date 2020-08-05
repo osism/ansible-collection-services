@@ -1,0 +1,46 @@
+---
+- name: Install apt-transport-https package
+  apt:
+    name: apt-transport-https
+    state: present
+  become: true
+  when: falco_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  apt_key:
+    url: "{{ falco_debian_repository_key }}"
+  become: true
+  when: falco_configure_repository|bool
+
+- name: Add repository
+  apt_repository:
+    repo: "{{ falco_debian_repository }}"
+    state: present
+    filename: falco
+    update_cache: true
+  become: true
+  when: falco_configure_repository|bool
+
+- name: Install falco package
+  apt:
+    name: "{{ falco_package_name }}"
+    state: present
+  become: true
+
+- name: Check if /var/run/reboot-required exist
+  stat:
+    path: /var/run/reboot-required
+  register: result
+
+- name: Print message if /var/run/reboot-required exist
+  debug:
+    msg: "Reboot of {{ inventory_hostname }} required to get the latest kernel running"
+  when: result.stat.islnk is defined
+
+- name: Start/enable falco service
+  service:
+    name: "{{ falco_service_name }}"
+    state: started
+    enabled: true
+  become: true

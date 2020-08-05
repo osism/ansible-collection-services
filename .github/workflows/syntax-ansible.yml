@@ -1,0 +1,19 @@
+---
+name: Check ansible syntax
+
+on:
+  push:
+    paths:
+      - .github/workflows/syntax-ansible.yml
+      - '**.yml'
+  pull_request:
+    paths:
+      - .github/workflows/syntax-ansible.yml
+      - '**.yml'
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ansible/ansible-lint-action@master
