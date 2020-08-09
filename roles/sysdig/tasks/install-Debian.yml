@@ -1,0 +1,54 @@
+---
+- name: Install apt-transport-https package
+  apt:
+    name: apt-transport-https
+    state: present
+  become: true
+  when: sysdig_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  apt_key:
+    url: "{{ sysdig_debian_repository_key }}"
+  become: true
+  when: sysdig_configure_repository|bool
+
+- name: Add repository
+  apt_repository:
+    repo: "{{ sysdig_debian_repository }}"
+    state: present
+    filename: sysdig
+    update_cache: yes
+  become: true
+  when: sysdig_configure_repository|bool
+
+- name: Check if /var/run/reboot-required exist
+  stat:
+    path: /var/run/reboot-required
+  register: result
+
+- name: Print message if /var/run/reboot-required exist
+  debug:
+    msg: "Reboot of {{ inventory_hostname }} required to get the latest kernel running"
+  when: result.stat.islnk is defined
+
+- name: Install sysdig package
+  apt:
+    name: "{{ sysdig_package_name }}"
+    state: present
+  become: true
+
+- name: Persist sysdig_probe kernel module via modules-load.d
+  copy:
+    content: sysdig_probe
+    dest: /etc/modules-load.d/sysdig.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Load sysdig_probe kernel module
+  modprobe:
+    name: sysdig_probe
+    state: present
+  become: true
