@@ -1,0 +1,27 @@
+---
+- name: Install rsyslog package
+  apt:
+    name: "{{ rsyslog_package_name }}"
+    state: present
+  become: true
+
+- name: Copy rsyslog.conf configuration file
+  template:
+    src: rsyslog.conf.j2
+    dest: /etc/rsyslog.conf
+    mode: 0644
+    owner: root
+    group: root
+  become: true
+  notify: Restart rsyslog service
+
+- name: Start/enable rsyslog service
+  service:
+    name: "{{ rsyslog_service_name }}"
+    state: started
+    enabled: true
+  become: true
+
+- name: Include fluentd tasks
+  include: fluentd.yml
+  tags: fluentd

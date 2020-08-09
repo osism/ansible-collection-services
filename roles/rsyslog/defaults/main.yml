@@ -1,0 +1,16 @@
+---
+##########################
+# services
+
+rsyslog_service_name: rsyslog
+
+##########################
+# packages
+
+rsyslog_package_name: rsyslog
+
+##########################
+# fluentd
+
+fluentd_port: 5140
+fluentd_host: 127.0.0.1

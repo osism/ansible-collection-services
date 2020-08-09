@@ -1,0 +1,10 @@
+---
+- name: Forward syslog message to local fluentd daemon
+  template:
+    src: 70-fluentd.conf.j2
+    dest: /etc/rsyslog.d/70-fluentd.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: Restart rsyslog service
