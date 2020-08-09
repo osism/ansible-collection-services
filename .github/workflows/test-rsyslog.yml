@@ -19,7 +19,7 @@ jobs:
   default:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
+      max-parallel: 1
       matrix:
         ansible-version: [2.9.0]
         python-version: [3.6, 3.7]
