@@ -1,0 +1,29 @@
+---
+auditd_backup: false
+auditd_syslog: false
+
+##########################
+# configuration
+
+auditd_config:
+  - parameter: active
+    value: "{{ 'yes' if auditd_syslog|bool else 'no' }}"
+    config: /etc/audisp/plugins.d/syslog.conf
+
+##########################
+# rules
+
+auditd_rules_path: /etc/audit/rules.d
+auditd_rules_files:
+  - 20-neo23x0.rules
+
+##########################
+# packages
+
+auditd_package_name: auditd
+audispd_plugins_package_name: audispd-plugins
+
+##########################
+# services
+
+auditd_service_name: auditd

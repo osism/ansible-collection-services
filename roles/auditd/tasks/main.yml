@@ -1,0 +1,62 @@
+---
+- name: Install auditd package
+  apt:
+    name: "{{ auditd_package_name }}"
+    state: present
+  become: true
+
+- name: Install audispd-plugins package
+  apt:
+    name: "{{ audispd_plugins_package_name }}"
+    state: present
+  become: true
+
+- name: Copy auditd.conf configuration files
+  template:
+    src: auditd.conf.j2
+    dest: /etc/audit/audit.conf
+  notify: Restart auditd service
+  become: true
+
+- name: Adjust auditd/audispd configurations
+  lineinfile:
+    dest: "{{ item.config }}"
+    regexp: '^#?{{ item.parameter }}\s*='
+    line: "{{ item.parameter }} = {{ item.value }}"
+  with_items: "{{ auditd_config }}"
+  notify: Restart auditd service
+  become: true
+
+- name: Deploy rules for auditd
+  template:
+    src: "rules/{{ item }}.j2"
+    dest: "{{ auditd_rules_path }}/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: "{{ auditd_backup }}"
+  loop: "{{ auditd_rules_files }}"
+  notify: Generate auditd rules
+  become: true
+
+- name: Start/enable auditd service
+  service:
+    name: "{{ auditd_service_name }}"
+    state: started
+    enabled: yes
+  become: true
+
+- name: List existing rules files
+  command: "find {{ auditd_rules_path }} -type f -printf '%f\n'"
+  changed_when: no
+  register: auditd_existing_rules
+  become: true
+
+- name: Remove unmanaged rules files
+  file:
+    dest: "{{ auditd_rules_path }}/{{ item }}"
+    state: absent
+  when: item not in auditd_rules_files
+  loop: "{{ auditd_existing_rules.stdout_lines | default([]) }}"
+  notify: Generate auditd rules
+  become: true

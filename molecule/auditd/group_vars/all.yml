@@ -1,0 +1,37 @@
+---
+molecule_job_id: "{{ lookup('env', 'MOLECULE_JOB_ID') }}"
+# molecule_ephemeral_directory: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}"
+molecule_file: "{{ lookup('env', 'MOLECULE_FILE') }}"
+molecule_instance_config: "{{ lookup('env', 'MOLECULE_INSTANCE_CONFIG') }}"
+molecule_scenario_directory: "{{ lookup('env', 'MOLECULE_SCENARIO_DIRECTORY') }}"
+molecule_yml: "{{ lookup('file', molecule_file) | molecule_from_yaml }}"
+
+images:
+  xenial: Ubuntu 16.04
+  bionic: Ubuntu 18.04
+  focal: Ubuntu 20.04
+
+ssh_user: ubuntu
+ssh_port: 22
+
+security_group_name: "molecule-{{ molecule_job_id }}"
+security_group_description: "Security group for molecule-{{ molecule_job_id }}"
+security_group_rules:
+  - proto: tcp
+    port: "{{ ssh_port }}"
+    cidr: 0.0.0.0/0
+  - proto: icmp
+    port: -1
+    cidr: 0.0.0.0/0
+  - ethertype: IPv4
+    group: "{{ security_group.id }}"
+
+keypair_name: "molecule-{{ molecule_job_id }}"
+keypair_path: "{{ molecule_ephemeral_directory }}/ssh_key"
+
+nova:
+  availability_zone: south-2
+  flavor_name: "{{ lookup('env', 'MOLECULE_FLAVOR')|default('1C-1GB-10GB', true) }}"
+  floating_ip_pool: external
+  image_name: "{{ images[lookup('env', 'MOLECULE_UBUNTU_VERSION')|default('bionic', true)] }}"
+  network_name: molecule

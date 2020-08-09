@@ -1,0 +1,62 @@
+---
+name: Test auditd
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'roles/auditd/**'
+      - 'molecule/auditd/**'
+      - '.github/workflows/test-auditd.yml'
+  pull_request:
+    paths:
+      - 'roles/auditd/**'
+      - 'molecule/auditd/**'
+      - '.github/workflows/test-auditd.yml'
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        ansible-version: [2.9.0]
+        python-version: [3.6, 3.7]
+        ubuntu-version: [bionic, focal]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --use-feature=2020-resolver --upgrade pip
+          python3 -m pip install --use-feature=2020-resolver -r molecule/requirements.txt
+          python3 -m pip install --use-feature=2020-resolver ansible~=${{ matrix.ansible-version }}
+      - name: Build collection
+        run: ansible-galaxy collection build -f
+      - name: Install collection
+        run: ansible-galaxy collection install osism-services-*.tar.gz
+      - name: Decrypt credentials
+        run: ./.github/scripts/decrypt.sh
+        env:
+          MOLECULE_SECRET_PASSPHRASE: ${{ secrets.MOLECULE_SECRET_PASSPHRASE }}
+      - name: Generate random job id
+        run: |
+          random_job_id=$( uuidgen | cut -c 1-8 )
+          echo "::set-env name=RANDOM_JOB_ID::$random_job_id"
+      - name: Run molecule
+        run: molecule test -s auditd
+        env:
+          MOLECULE_JOB_ID: "${{ env.RANDOM_JOB_ID }}"
+          MOLECULE_UBUNTU_VERSION: "${{ matrix.ubuntu-version }}"
+      - name: Cleanup molecule
+        run: molecule destroy -s auditd
+        env:
+          MOLECULE_JOB_ID: "${{ env.RANDOM_JOB_ID }}"
+          MOLECULE_UBUNTU_VERSION: "${{ matrix.ubuntu-version }}"
+        if: ${{ always() }}
