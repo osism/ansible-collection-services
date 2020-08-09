@@ -1,0 +1,16 @@
+---
+- name: Include distribution specific install tasks
+  include: "install-{{ ansible_os_family }}.yml"
+
+- name: Copy configuration files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/osquery/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart osquery service
+  become: true
+  loop:
+    - osquery.conf
+    - osquery.flags

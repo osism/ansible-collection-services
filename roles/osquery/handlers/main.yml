@@ -1,0 +1,6 @@
+---
+- name: Restart osquery service
+  service:
+    name: "{{ osquery_service_name }}"
+    state: restarted
+  become: true
