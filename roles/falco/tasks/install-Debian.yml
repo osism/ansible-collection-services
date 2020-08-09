@@ -38,6 +38,21 @@
     msg: "Reboot of {{ inventory_hostname }} required to get the latest kernel running"
   when: result.stat.islnk is defined
 
+- name: Persist falco kernel module via modules-load.d
+  copy:
+    content: falco
+    dest: /etc/modules-load.d/falco.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Load falco kernel module
+  modprobe:
+    name: falco
+    state: present
+  become: true
+
 - name: Start/enable falco service
   service:
     name: "{{ falco_service_name }}"
