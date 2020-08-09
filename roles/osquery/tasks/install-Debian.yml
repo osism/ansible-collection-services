@@ -1,0 +1,37 @@
+---
+- name: Install apt-transport-https package
+  apt:
+    name: apt-transport-https
+    state: present
+  become: true
+  when: osquery_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ osquery_debian_repository_key }}"
+  become: true
+  when: osquery_configure_repository|bool
+
+- name: Add repository
+  apt_repository:
+    repo: "{{ osquery_debian_repository }}"
+    state: present
+    filename: osquery
+    update_cache: yes
+  become: true
+  when: osquery_configure_repository|bool
+
+- name: Install osquery package
+  apt:
+    name: "{{ osquery_package_name }}"
+    state: present
+  become: true
+
+- name: Start/enable osquery service
+  service:
+    name: "{{ osquery_service_name }}"
+    state: started
+    enabled: yes
+  become: true
