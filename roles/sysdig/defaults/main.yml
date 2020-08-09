@@ -1,0 +1,14 @@
+---
+##########################
+# packages
+
+sysdig_package_name: sysdig
+
+##########################
+# repository
+
+sysdig_configure_repository: no
+
+sysdig_debian_repository_arch: amd64
+sysdig_debian_repository_key: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
+sysdig_debian_repository: "deb [ arch={{ sysdig_debian_repository_arch }} ] https://download.sysdig.com/stable/deb stable-{{ sysdig_debian_repository_arch }}/"
