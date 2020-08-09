@@ -1,0 +1,11 @@
+---
+- name: Restart auditd service
+  service:
+    name: "{{ auditd_service_name }}"
+    state: restarted
+  become: true
+
+- name: Generate auditd rules
+  command: augenrules --load
+  notify: Restart auditd service
+  become: true
