@@ -1,0 +1,58 @@
+---
+- name: Install required packages (server)
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop: "{{ required_packages_cockpit_server }}"
+
+- name: Create systemd overlay directory
+  file:
+    path: /etc/systemd/system/cockpit.socket.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy systemd overlay file
+  template:
+    src: listen.conf.j2
+    dest: /etc/systemd/system/cockpit.socket.d/listen.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: Restart cockpit.socket service
+
+- name: Copy configuration file
+  copy:
+    src: cockpit.conf
+    dest: /etc/cockpit/cockpit.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: Restart cockpit service
+
+- name: Start/enable required services
+  systemd:
+    enabled: yes
+    state: started
+    daemon_reload: yes
+    name: "{{ item }}"
+  become: true
+  loop:
+    - cockpit
+    - cockpit.socket
+
+- name: Copy machine files
+  template:
+    src: machine.json.j2
+    dest: "/etc/cockpit/machines.d/05-osism-{{ item }}.json"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  loop: "{{ groups[cockpit_groupname]|default([]) }}"
+  when: item != inventory_hostname

@@ -1,0 +1,4 @@
+---
+- name: osism.repository
+  src: git+https://github.com/osism/ansible-repository.git
+  version: master
