@@ -1,0 +1,24 @@
+---
+version: '3'
+
+services:
+  phpmyadmin:
+    container_name: phpmyadmin
+    restart: unless-stopped
+    image: "{{ phpmyadmin_image }}"
+    environment:
+      PMA_HOST: "{{ phpmyadmin_database_host }}"
+    ports:
+      - "{{ phpmyadmin_host }}:{{ phpmyadmin_port }}:80"
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+    healthcheck:
+      test: curl --silent --fail localhost:80
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ phpmyadmin_network }}
