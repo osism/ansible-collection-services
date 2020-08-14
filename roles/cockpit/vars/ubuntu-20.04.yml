@@ -1,0 +1,9 @@
+---
+required_packages_cockpit:
+  - cockpit-bridge
+  - cockpit-storaged
+  - cockpit-system
+
+required_packages_cockpit_server:
+  - cockpit-dashboard
+  - cockpit-ws

@@ -1,0 +1,26 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: openstack
+platforms:
+  - name: molecule-$MOLECULE_JOB_ID
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3
+verifier:
+  name: testinfra
+  enabled: true
+scenario:
+  name: cockpit
+  test_sequence:
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
