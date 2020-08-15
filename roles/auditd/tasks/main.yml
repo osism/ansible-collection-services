@@ -15,6 +15,7 @@
   template:
     src: auditd.conf.j2
     dest: /etc/audit/audit.conf
+    mode: 0600
   notify: Restart auditd service
   become: true
 
