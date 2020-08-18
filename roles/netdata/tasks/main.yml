@@ -1,0 +1,3 @@
+---
+- name: Include action specific tasks
+  include: "{{ netdata_action }}.yml"

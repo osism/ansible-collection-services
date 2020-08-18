@@ -1,0 +1,40 @@
+---
+netdata_action: deploy
+
+##########################
+# internal
+
+netdata_configuration_files:
+  - netdata.conf
+  - stream.conf
+
+##########################
+# services
+
+netdata_service_name: netdata
+
+##########################
+# packages
+
+netdata_package_name: netdata
+
+##########################
+# repository
+
+netdata_configure_repository: no
+
+netdata_debian_repository_arch: amd64
+netdata_debian_repository_key: https://packagecloud.io/netdata/netdata-edge/gpgkey
+netdata_debian_repository: "deb [ arch={{ netdata_debian_repository_arch }} ] https://packagecloud.io/netdata/netdata-edge/ubuntu/ {{ ansible_distribution_release }} main"
+
+##########################
+# parameters
+
+netdata_host_type: client
+
+netdata_api_key: 00000000-0000-0000-0000-000000000000
+
+netdata_api_host: 127.0.0.1
+netdata_api_port: 19999
+
+netdata_enable_cloud: no
