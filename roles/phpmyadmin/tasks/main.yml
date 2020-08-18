@@ -4,13 +4,13 @@
     manager: apt
 
 - name: Create required directories
+  become: true
   file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0755
-  become: true
   with_items:
     - "{{ phpmyadmin_docker_compose_directory }}"
 

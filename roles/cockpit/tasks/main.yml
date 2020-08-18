@@ -11,10 +11,10 @@
   - always
 
 - name: Install required packages (client)
+  become: true
   package:
     name: "{{ item }}"
     state: present
-  become: true
   when: configure_cockpit|bool
   loop: "{{ required_packages_cockpit }}"
   tags:
