@@ -1,0 +1,37 @@
+---
+- name: Install apt-transport-https package
+  become: true
+  apt:
+    name: apt-transport-https
+    state: present
+  when: zabbix_agent_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  become: true
+  apt_key:
+    url: "{{ zabbix_agent_debian_repository_key }}"
+  when: zabbix_agent_configure_repository|bool
+
+- name: Add repository
+  become: true
+  apt_repository:
+    repo: "{{ zabbix_agent_debian_repository }}"
+    state: present
+    filename: zabbix
+    update_cache: yes
+    mode: 0644
+  when: zabbix_agent_configure_repository|bool
+
+- name: Install required packages
+  become: true
+  package:
+    name: "{{ zabbix_agent_package_name }}"
+    state: present
+
+- name: Start zabbix-agent service
+  become: true
+  service:
+    name: "{{ zabbix_agent_service_name }}"
+    state: started
+    enabled: true

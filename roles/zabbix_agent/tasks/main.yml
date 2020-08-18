@@ -1,0 +1,13 @@
+---
+- name: Include distribution specific install tasks
+  include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Include config tasks
+  include_tasks: config.yml
+
+- name: Manage agent extensions
+  include_tasks: agent-extension.yml
+  loop: "{{ zabbix_agent_extensions }}"
+  loop_control:
+    loop_var: zabbix_extension
+  when: zabbix_agent_install_extensions|bool

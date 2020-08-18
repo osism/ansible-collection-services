@@ -1,0 +1,2 @@
+UserParameter=mysql.global.stats[*], /usr/local/bin/zabbix-agent-extension-mysql -z $1 -p $2 -m "$3" --user $4 --pass $5 --type $6 -o {{ inventory_hostname }}
+UserParameter=mysql.galera.stats[*], /usr/local/bin/zabbix-agent-extension-mysql -z $1 -p $2 -m "$3" --user $4 --pass $5 --type galera -o {{ inventory_hostname }}

@@ -1,0 +1,53 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_registry: index.docker.io
+
+##########################
+# zabbix
+
+zabbix_configuration_directory: /opt/zabbix/configuration
+zabbix_secrets_directory: /opt/zabbix/secrets
+zabbix_docker_compose_directory: /opt/zabbix
+
+zabbix_network: 172.31.100.112/28
+
+# zabbix-server
+
+zabbix_server_host: "{{ ansible_default_ipv4.address }}"
+zabbix_server_hostname: "{{ zabbix_server_host }}"
+zabbix_server_port: 10051
+
+zabbix_server_tag: alpine-latest
+zabbix_server_image: "{{ docker_registry }}/zabbix/zabbix-server-mysql:{{ zabbix_server_tag }}"
+
+zabbix_server_container_name: zabbix-server
+
+# zabbix-web
+
+zabbix_web_host: "{{ ansible_default_ipv4.address }}"
+zabbix_web_hostname: "{{ zabbix_web_host }}"
+zabbix_web_port: 8160
+
+zabbix_web_tag: alpine-latest
+zabbix_web_image: "{{ docker_registry }}/zabbix/zabbix-web-apache-mysql:{{ zabbix_web_tag }}"
+
+zabbix_web_container_name: zabbix-web
+
+# mariadb
+
+zabbix_mariadb_username: zabbix
+zabbix_mariadb_password: password
+zabbix_mariadb_databasename: "{{ zabbix_mariadb_username }}"
+
+zabbix_mariadb_tag: 10.5
+zabbix_mariadb_image: "{{ docker_registry }}/library/mariadb:{{ zabbix_mariadb_tag }}"
+
+zabbix_mariadb_container_name: zabbix-mariab

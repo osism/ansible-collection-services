@@ -1,0 +1,17 @@
+---
+- name: Copy zabbix_agentd.conf configuration file
+  become: true
+  template:
+    src: "{{ zabbix_agent_configuration_file }}.j2"
+    dest: "/etc/zabbix/{{ zabbix_agent_configuration_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart zabbix-agent service
+
+- name: Add zabbix user to docker group
+  become: true
+  user:
+    name: zabbix
+    groups: docker
+    append: yes

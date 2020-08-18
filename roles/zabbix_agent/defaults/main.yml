@@ -1,0 +1,47 @@
+---
+zabbix_agent_server: 127.0.0.1
+
+zabbix_agent_host: "{{ internal_address|default(ansible_default_ipv4.address) }}"
+zabbix_agent_port: 10050
+zabbix_agent_source: "{{ zabbix_agent_host }}"
+zabbix_agent_hostname: "{{ inventory_hostname }}"
+
+zabbix_agent_configuration_file: zabbix_agent2.conf
+
+##########################
+# package
+
+zabbix_agent_package_name: zabbix-agent2
+
+##########################
+# service
+
+zabbix_agent_service_name: zabbix-agent2
+
+##########################
+# repository
+
+zabbix_agent_configure_repository: no
+
+zabbix_agent_version: 5.0
+zabbix_agent_debian_repository_arch: amd64
+zabbix_agent_debian_repository_key: https://repo.zabbix.com/zabbix-official-repo.key
+zabbix_agent_debian_repository: "deb [ arch={{ zabbix_agent_debian_repository_arch }} ] https://repo.zabbix.com/zabbix/{{ zabbix_agent_version }}/ubuntu {{ ansible_distribution_release }} main"
+
+##########################
+# extensions
+
+zabbix_agent_install_extensions: yes
+zabbix_agent_extensions:
+  - name: zabbix-agent-extension-mysql
+    group: mariadb
+    binary_files:
+      - zabbix-agent-extension-mysql
+    configuration_files:
+      - zabbix-agent-extension-mysql.conf
+    macros:
+      - MYSQL_DSN
+      - MYSQL_PASS
+      - MYSQL_USER
+      - ZABBIX_SERVER_IP
+      - ZABBIX_SERVER_PORT
