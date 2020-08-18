@@ -121,6 +121,7 @@
       copy:  # noqa 503
         content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
         dest: "{{ molecule_instance_config }}"
+        mode: 0644
       when: server.changed | bool
 
     - name: Wait for SSH
