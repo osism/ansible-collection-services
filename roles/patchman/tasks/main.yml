@@ -1,0 +1,90 @@
+---
+- name: Gather the apt package facts
+  package_facts:
+    manager: auto
+
+- name: Create required directories
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ patchman_configuration_directory }}"
+    - "{{ patchman_docker_compose_directory }}"
+
+- name: Copy environment files
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ patchman_configuration_directory }}/{{ item }}.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - patchman
+    - postgres
+
+- name: Copy local_settings.py configuration file
+  template:
+    src: local_settings.py.j2
+    dest: "{{ patchman_configuration_directory }}/local_settings.py"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
+- name: Copy patchman-update script
+  become: true
+  template:
+    src: "patchman-update.j2"
+    dest: /usr/local/bin/patchman-update
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Copy docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ patchman_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+- name: Run service
+  docker_compose:
+    project_src: "{{ patchman_docker_compose_directory }}"
+    build: false
+    pull: true
+    remove_orphans: true
+  when: "'docker-compose' in ansible_facts.packages"
+
+# NOTE: If docker-compose was not installed by package, the Python bindings are not available.
+#       Therefore in this case docker-compose is called directly.
+
+- name: Pull images
+  command: "docker-compose -f {{ patchman_docker_compose_directory }}/docker-compose.yml pull"
+  register: result
+  changed_when: ('Downloaded' in result.stdout)
+  when: "'docker-compose' not in ansible_facts.packages"
+
+- name: Run service
+  command: "docker-compose -f {{ patchman_docker_compose_directory }}/docker-compose.yml up -d --remove-orphans --no-build"
+  register: result
+  changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
+  when: "'docker-compose' not in ansible_facts.packages"
+
+- name: Create patchman cronjob
+  become: true
+  cron:
+    name: "run patchman update"
+    minute: "{{ patchman_cron_minute }}"
+    hour: "{{ patchman_cron_hour }}"
+    day: "{{ patchman_cron_day }}"
+    job: /usr/local/bin/patchman-update
+    cron_file: patchman
+    user: "{{ patchman_cron_user }}"
+
+- name: Include update tasks
+  include_tasks: update.yml
+  when: patchman_update|bool
