@@ -15,6 +15,7 @@
   template:
     src: auditd.conf.j2
     dest: /etc/audit/audit.conf
+    mode: 0640
   notify: Restart auditd service
   become: true
 
@@ -23,6 +24,7 @@
     dest: "{{ item.config }}"
     regexp: '^#?{{ item.parameter }}\s*='
     line: "{{ item.parameter }} = {{ item.value }}"
+    mode: 0640
   with_items: "{{ auditd_config }}"
   notify: Restart auditd service
   become: true
