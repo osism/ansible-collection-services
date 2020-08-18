@@ -1,0 +1,47 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# cephclient
+
+cephclient_install_type: container
+cephclient_version: octopus
+
+cephclient_mons: []
+cephclient_keyring: ""
+cephclient_keyring_name: client.admin
+
+##########################
+# container
+
+cephclient_configuration_directory: /opt/cephclient/configuration
+cephclient_data_directory: /opt/cephclient/data
+cephclient_docker_compose_directory: /opt/cephclient
+
+cephclient_tag: "{{ cephclient_version }}"
+cephclient_image: "{{ docker_registry }}/osism/cephclient:{{ cephclient_tag }}"
+
+cephclient_container_name: cephclient
+
+cephclient_network: 172.31.100.0/28
+
+##########################
+# package
+
+cephclient_configure_repository: no
+
+cephclient_debian_repository_arch: amd64
+cephclient_debian_repository_key: https://download.ceph.com/keys/release.asc
+cephclient_debian_repository: "deb [ arch={{ cephclient_debian_repository_arch }} ] https://download.ceph.com/debian-{{ cephclient_version }} {{ ansible_distribution_release }} main"
+
+cephclient_debian_packages:
+  - ceph

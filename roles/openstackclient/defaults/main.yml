@@ -1,0 +1,45 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# openstackclient
+
+openstackclient_install_type: container
+openstackclient_version: ussuri
+
+##########################
+# container
+
+openstackclient_configuration_directory: /opt/openstackclient/configuration
+openstackclient_data_directory: /opt/openstackclient/data
+openstackclient_docker_compose_directory: /opt/openstackclient
+
+openstackclient_tag: "{{ openstackclient_version }}"
+openstackclient_image: "{{ docker_registry }}/osism/openstackclient:{{ openstackclient_tag }}"
+
+openstackclient_container_name: openstackclient
+
+openstackclient_network: 172.31.100.16/28
+
+##########################
+# package
+
+openstackclient_configure_repository: no
+
+openstackclient_debian_repository_arch: amd64
+openstackclient_debian_repository_key: "391A9AA2147192839E9DB0315EDB1B62EC4926EA"
+openstackclient_debian_repository: "deb [ arch={{ openstackclient_debian_repository_arch }} ] http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/{{ openstackclient_version }} main"
+
+openstackclient_debian_packages:
+  - python3-openstackclient
+  - python3-heatclient
+  - python3-magnumclient

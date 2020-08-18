@@ -1,0 +1,21 @@
+---
+version: '3'
+
+services:
+  cephclient:
+    container_name: "{{ cephclient_container_name }}"
+    restart: unless-stopped
+    image: "{{ cephclient_image }}"
+    command: sleep infinity
+    volumes:
+      - "{{ cephclient_configuration_directory }}:/etc/ceph:rw"
+      - "{{ cephclient_data_directory }}:/data:rw"
+      - "/etc/hosts:/etc/hosts:ro"
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ cephclient_network }}

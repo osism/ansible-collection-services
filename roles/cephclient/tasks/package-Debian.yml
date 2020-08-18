@@ -1,0 +1,42 @@
+---
+- name: Add repository key
+  become: true
+  apt_key:
+    url: "{{ cephclient_debian_repository_key }}"
+  when: cephclient_configure_repository|bool
+
+- name: Add repository
+  become: true
+  apt_repository:
+    repo: "{{ cephclient_debian_repository }}"
+    state: present
+    update_cache: yes
+    mode: 0644
+  when: cephclient_configure_repository|bool
+
+- name: Install required packages
+  become: true
+  apt:
+    name: "{{ cephclient_debian_packages }}"
+    state: present
+
+- name: Copy configuration files
+  become: true
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+    group: root
+  loop:
+    - src: ceph.conf.j2
+      dest: "/etc/ceph/ceph.conf"
+
+- name: Copy keyring file
+  become: true
+  copy:
+    content: "{{ cephclient_keyring }}"
+    dest: "/etc/ceph/ceph.{{ cephclient_keyring_name }}.keyring"
+    owner: root
+    group: root
+    mode: 0600
