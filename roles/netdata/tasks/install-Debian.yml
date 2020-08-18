@@ -1,0 +1,37 @@
+---
+- name: Install apt-transport-https package
+  become: true
+  apt:
+    name: apt-transport-https
+    state: present
+  when: netdata_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  become: true
+  apt_key:
+    url: "{{ netdata_debian_repository_key }}"
+  when: netdata_configure_repository|bool
+
+- name: Add repository
+  become: true
+  apt_repository:
+    repo: "{{ netdata_debian_repository }}"
+    state: present
+    filename: netdata
+    update_cache: yes
+    mode: 0644
+  when: netdata_configure_repository|bool
+
+- name: Install netdata package
+  become: true
+  apt:
+    name: "{{ netdata_package_name }}"
+    state: present
+
+- name: Start/enable netdata service
+  become: true
+  service:
+    name: "{{ netdata_service_name }}"
+    state: started
+    enabled: yes

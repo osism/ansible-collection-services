@@ -1,0 +1,43 @@
+---
+- name: Copy /etc/netdata configuration files
+  become: true
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/netdata/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart netdata service
+  loop: "{{ netdata_configuration_files }}"
+
+- name: Copy cloud.conf configuration file
+  become: true
+  template:
+    src: cloud.conf.j2
+    dest: /var/lib/netdata/cloud.d/cloud.conf
+    owner: netdata
+    group: netdata
+    mode: 0644
+  notify: Restart netdata service
+
+- name: Retrieve /etc/netdata/.opt-out-from-anonymous-statistics status
+  stat:
+    path: /etc/netdata/.opt-out-from-anonymous-statistics
+  register: result
+
+- name: Opt out from anonymous statistics
+  become: true
+  file:
+    path: /etc/netdata/.opt-out-from-anonymous-statistics
+    owner: root
+    group: root
+    mode: 0644
+    state: touch
+  when: result.stat.exists is defined and not result.stat.exists
+
+- name: Add netdata user to docker group
+  become: true
+  user:
+    name: netdata
+    groups: docker
+    append: yes
