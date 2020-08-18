@@ -1,0 +1,45 @@
+---
+version: '3'
+
+services:
+  patchman:
+    container_name: "{{ patchman_container_name }}"
+    restart: unless-stopped
+    image: "{{ patchman_image }}"
+    env_file:
+      - "{{ patchman_configuration_directory }}/patchman.env"
+    volumes:
+      - "{{ patchman_configuration_directory }}/local_settings.py:/etc/patchman/local_settings.py:ro"
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "{{ patchman_host }}:{{ patchman_port }}:8000"
+    depends_on:
+      - postgres
+      - memcached
+    healthcheck:
+      test: curl --silent --fail --basic --user $$PATCHMAN_USERNAME:$$PATCHMAN_PASSWORD http://localhost:8000
+  postgres:
+    container_name: "{{ patchman_container_name }}_postgres"
+    image: "{{ postgres_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ patchman_configuration_directory }}/postgres.env"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  memcached:
+    container_name: "{{ patchman_container_name }}_memcached"
+    image: "{{ memcached_image }}"
+    restart: unless-stopped
+
+volumes:
+  postgres:
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ patchman_network }}

@@ -1,0 +1,11 @@
+# Patchman server
+server="{{ patchman_client_server_url }}"
+
+# Options to curl
+curl_options="{{ patchman_client_curl_options }}"
+
+# Space delimited tags to send
+tags="{{ patchman_client_tags }}"
+
+# Does the client output a report of the upload (e.g. for cronjob output)
+report={{ patchman_client_report }}
