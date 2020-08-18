@@ -1,0 +1,81 @@
+---
+version: '3.5'
+
+services:
+  server:
+    container_name: "{{ zabbix_server_container_name }}"
+    restart: unless-stopped
+    image: "{{ zabbix_server_image }}"
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - modules:/var/lib/zabbix/modules
+    ports:
+      - "{{ zabbix_server_host }}:{{ zabbix_server_port }}:10051"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    stop_grace_period: 30s
+    sysctls:
+      - net.ipv4.ip_local_port_range=1024 65000
+      - net.ipv4.conf.all.accept_redirects=0
+      - net.ipv4.conf.all.secure_redirects=0
+      - net.ipv4.conf.all.send_redirects=0
+    secrets:
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD
+    env_file:
+      - "{{ zabbix_configuration_directory }}/zabbix-server.env"
+    depends_on:
+      - mariadb
+
+  web:
+    container_name: "{{ zabbix_web_container_name }}"
+    restart: unless-stopped
+    image: "{{ zabbix_web_image }}"
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "{{ zabbix_web_host }}:{{ zabbix_web_port }}:8080"
+    secrets:
+      - MYSQL_PASSWORD
+    env_file:
+      - "{{ zabbix_configuration_directory }}/zabbix-web.env"
+    depends_on:
+      - server
+    healthcheck:
+      test: curl -f http://localhost:8080
+
+  mariadb:
+    container_name: "{{ zabbix_mariadb_container_name }}"
+    restart: unless-stopped
+    image: "{{ zabbix_mariadb_image }}"
+    secrets:
+      - MYSQL_ROOT_PASSWORD
+    env_file:
+      - "{{ zabbix_configuration_directory }}/mariadb.env"
+    volumes:
+      - "mariadb:/var/lib/mysql"
+
+volumes:
+  mariadb:
+  modules:
+
+secrets:
+  MYSQL_PASSWORD:
+    file: {{ zabbix_secrets_directory }}/MYSQL_PASSWORD
+  MYSQL_ROOT_PASSWORD:
+    file: {{ zabbix_secrets_directory }}/MYSQL_ROOT_PASSWORD
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ zabbix_network }}
