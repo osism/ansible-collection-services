@@ -1,0 +1,39 @@
+---
+- name: Stop/disable timesyncd service
+  become: true
+  service:
+    name: systemd-timesyncd
+    state: stopped
+    enabled: no
+
+- name: Install package
+  become: true
+  package:
+    name: "{{ chrony_package_name }}"
+    state: present
+
+- name: Start/enable chrony
+  become: true
+  service:
+    name: "{{ chrony_service_name }}"
+    state: started
+    enabled: yes
+
+- name: Check if configuration file exists
+  stat:
+    path: "{{ chrony_conf_file }}"
+  register: chrony_conf_check
+
+- name: Copy configuration file
+  become: true
+  template:
+    src: "{{ item }}"
+    dest: "{{ chrony_conf_file }}"
+    mode: 0644
+  when:
+    - chrony_conf_check.stat.exists
+  with_first_found:
+    - "{{ chrony_conf_template }}"
+    - chrony.conf.j2
+  notify:
+    - Restart chrony service

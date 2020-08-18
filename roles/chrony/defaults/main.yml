@@ -1,0 +1,31 @@
+---
+chrony_conf_file: /etc/chrony/chrony.conf
+chrony_key_file: /etc/chrony/chrony.keys
+chrony_package_name: chrony
+chrony_service_name: chrony
+
+configuration_directory: /opt/configuration
+chrony_local_conf_template: "{{ configuration_directory }}/environments/generic/templates/chrony.conf.j2"
+
+# Use the following NTP servers.
+chrony_servers:
+  - 0.de.pool.ntp.org
+  - 1.de.pool.ntp.org
+  - 2.de.pool.ntp.org
+  - 3.de.pool.ntp.org
+
+# NTP server options.
+chrony_server_options: iburst
+
+# Configure Chrony to synchronize the hardware clock
+chrony_sync_rtc: false
+
+# Chrony limits access to clients that are on certain subnets.  Adjust the
+# following subnets here to limit client access to chrony servers.
+chrony_allowed_subnets:
+  - 10/8
+  - 192.168/16
+  - 172.16/12
+
+# Listen for NTP requests only on local interfaces.
+chrony_bind_local_interfaces_only: yes
