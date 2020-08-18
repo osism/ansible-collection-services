@@ -1,32 +1,32 @@
 ---
 - name: Install apt-transport-https package
+  become: true
   apt:
     name: apt-transport-https
     state: present
-  become: true
   when: falco_configure_repository|bool
   changed_when: false
 
 - name: Add repository gpg key
+  become: true
   apt_key:
     url: "{{ falco_debian_repository_key }}"
-  become: true
   when: falco_configure_repository|bool
 
 - name: Add repository
+  become: true
   apt_repository:
     repo: "{{ falco_debian_repository }}"
     state: present
     filename: falco
     update_cache: true
-  become: true
   when: falco_configure_repository|bool
 
 - name: Install falco package
+  become: true
   apt:
     name: "{{ falco_package_name }}"
     state: present
-  become: true
 
 - name: Check if /var/run/reboot-required exist
   stat:
@@ -39,23 +39,23 @@
   when: result.stat.islnk is defined
 
 - name: Persist falco kernel module via modules-load.d
+  become: true
   copy:
     content: falco
     dest: /etc/modules-load.d/falco.conf
     owner: root
     group: root
     mode: 0644
-  become: true
 
 - name: Load falco kernel module
+  become: true
   modprobe:
     name: falco
     state: present
-  become: true
 
 - name: Start/enable falco service
+  become: true
   service:
     name: "{{ falco_service_name }}"
     state: started
     enabled: true
-  become: true

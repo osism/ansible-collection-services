@@ -1,6 +1,6 @@
 ---
 - name: Restart rsyslog service
+  become: true
   service:
     name: "{{ rsyslog_service_name }}"
     state: restarted
-  become: true

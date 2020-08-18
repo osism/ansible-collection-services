@@ -1,14 +1,14 @@
 ---
 - name: Restart cockpit.socket service
+  become: true
   systemd:
     state: restarted
     daemon_reload: yes
     name: cockpit.socket
-  become: true
 
 - name: Restart cockpit service
+  become: true
   systemd:
     state: restarted
     daemon_reload: yes
     name: cockpit
-  become: true
