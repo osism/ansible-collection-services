@@ -1,4 +1,3 @@
-ansible-lint==4.2.0
 molecule-openstack==0.1
 molecule==3.0.7
 openstacksdk==0.48.0
