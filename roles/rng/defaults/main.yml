@@ -1,0 +1,6 @@
+---
+##########################
+# random number generator
+
+rng_service_name: haveged
+rng_package_name: haveged

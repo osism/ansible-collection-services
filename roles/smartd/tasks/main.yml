@@ -1,0 +1,32 @@
+---
+- name: Install smartmontools package
+  become: true
+  apt:
+    name: "{{ smartd_package_name }}"
+    state: present
+
+- name: Create /var/log/smartd directory
+  become: true
+  file:
+    path: /var/log/smartd
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy smartmontools configuration file
+  become: true
+  copy:
+    src: smartmontools
+    dest: /etc/default/smartmontools
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart smartd service
+
+- name: Start/enable smartd service
+  become: true
+  service:
+    name: "{{ smartd_service_name }}"
+    state: started
+    enabled: yes

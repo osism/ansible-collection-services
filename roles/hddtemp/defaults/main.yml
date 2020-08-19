@@ -1,0 +1,6 @@
+---
+##########################
+# hddtemp
+
+hddtemp_package_name: hddtemp
+hddtemp_service_name: hddtemp

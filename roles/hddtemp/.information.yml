@@ -1,0 +1,8 @@
+---
+ansible_collection_name: services
+ansible_role_name: hddtemp
+distributions:
+  - bionic
+  - focal
+releases:
+  - 2.9
