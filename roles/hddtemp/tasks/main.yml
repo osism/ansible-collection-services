@@ -1,0 +1,23 @@
+---
+- name: Install hddtemp package
+  become: true
+  apt:
+    name: "{{ hddtemp_package_name }}"
+    state: present
+
+- name: Copy hddtemp configuration file
+  become: true
+  copy:
+    src: hddtemp
+    dest: /etc/default/hddtemp
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart hddtemp service
+
+- name: Start/enable hddtemp service
+  become: true
+  service:
+    name: "{{ hddtemp_service_name }}"
+    state: started
+    enabled: yes

@@ -1,0 +1,13 @@
+---
+- name: Install rng package
+  become: true
+  apt:
+    name: "{{ rng_package_name }}"
+    state: present
+
+- name: Start/enable rng service
+  become: true
+  service:
+    name: "{{ rng_service_name }}"
+    state: started
+    enabled: yes
