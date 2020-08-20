@@ -1,5 +1,5 @@
 molecule-openstack==0.1
-molecule==3.0.7
+molecule==3.0.8
 openstacksdk==0.48.0
 paramiko==2.7.1
 testinfra==5.2.2
