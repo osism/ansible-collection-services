@@ -1,0 +1,41 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_registry_keycloak: quay.io
+docker_registry_postgres: index.docker.io
+
+##########################
+# keycloak
+
+keycloak_configuration_directory: /opt/keycloak/configuration
+keycloak_secrets_directory: /opt/keycloak/secrets
+keycloak_docker_compose_directory: /opt/keycloak
+
+keycloak_network: 172.31.100.144/28
+keycloak_container_name: keycloak
+
+keycloak_host: 127.0.0.1
+keycloak_port: 8170
+
+keycloak_tag: latest
+keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
+
+keycloak_username: admin
+keycloak_password: password
+
+##########################
+# postgres
+
+postgres_tag: 12-alpine
+postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
+
+keycloak_postgres_password: password
+keycloak_postgres_username: keycloak
+keycloak_postgres_databasename: keycloak
