@@ -1,0 +1,45 @@
+---
+version: '3.5'
+
+services:
+  keycloak:
+    container_name: "{{ keycloak_container_name }}"
+    image: "{{ keycloak_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ keycloak_configuration_directory }}/keycloak.env"
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "{{ keycloak_host }}:{{ keycloak_port }}:8000"
+    depends_on:
+      - postgres
+  postgres:
+    container_name: "{{ keycloak_container_name }}_postgres"
+    image: "{{ postgres_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ keycloak_configuration_directory }}/postgres.env"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    secrets:
+      - POSTGRES_PASSWORD
+    healthcheck:
+      test: pg_isready -U {{ keycloak_postgres_username }}
+
+volumes:
+  postgres:
+
+secrets:
+  POSTGRES_PASSWORD:
+    file: {{ keycloak_secrets_directory }}/POSTGRES_PASSWORD
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ keycloak_network }}
