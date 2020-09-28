@@ -1,15 +1,31 @@
 # Ansible collection osism.services
 
-The following ansible roles are included in this collection.
+The following Ansible roles are included in this collection.
 
-| Rolename   | Status                                                                                                         |
-|------------|----------------------------------------------------------------------------------------------------------------|
-| cockpit    | ![Test cockpit](https://github.com/osism/ansible-collection-services/workflows/Test%20cockpit/badge.svg)       |
-| falco      | ![Test falco](https://github.com/osism/ansible-collection-services/workflows/Test%20falco/badge.svg)           |
-| osquery    | ![Test osquery](https://github.com/osism/ansible-collection-services/workflows/Test%20osquery/badge.svg)       |
-| phpmyadmin | ![Test phpmyadmin](https://github.com/osism/ansible-collection-services/workflows/Test%20phpmyadmin/badge.svg) |
-| rsyslog    | ![Test rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20rsyslog/badge.svg)       |
+| Rolename        |
+|-----------------|
+| adminer         |
+| auditd          |
+| cephclient      |
+| chrony          |
+| cockpit         |
+| falco           |
+| hddtemp         |
+| keycloak        |
+| netdata         |
+| openstackclient |
+| osquery         |
+| patchman        |
+| patchman_client |
+| phpmyadmin      |
+| pulp            |
+| rng             |
+| rsyslog         |
+| smartd          |
+| ucs             |
+| zabbix          |
+| zabbix_agent    |
 
 ## Author information
 
-This ansible collection was created by [Betacloud Solutions GmbH](https://www.betacloud-solutions.de).
+This Ansible collection was created by [Betacloud Solutions GmbH](https://www.betacloud-solutions.de).
