@@ -1,4 +1,4 @@
-molecule-openstack==0.1
+molecule-openstack==0.2
 molecule==3.1.5
 openstacksdk==0.50.0
 paramiko==2.7.2
