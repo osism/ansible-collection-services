@@ -1,0 +1,278 @@
+---
+version: '3.5'
+services:
+  osism-ansible: &ansible
+    restart: unless-stopped
+    image: "{{ osism_ansible_image }}"
+    env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+{% if ara_enable|bool %}
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
+    command: sleep infinity
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - "cache:{{ cache_directory }}"
+      - "logs:{{ logs_directory }}"
+      - "share:/share"
+      - "{{ archive_directory }}:/archive:rw"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+{% if netbox_enable|bool %}
+    secrets:
+      - NETBOX_TOKEN
+{% endif %}
+    depends_on:
+{% if redis_enable|bool %}
+      - redis
+{% endif %}
+{% if ara_enable|bool %}
+      - ara-server
+{% endif %}
+{% if ceph_ansible_enable|bool %}
+  ceph-ansible:
+    <<: *ansible
+    image: "{{ ceph_ansible_image }}"
+{% endif %}
+{% if kolla_ansible_enable|bool %}
+  kolla-ansible:
+    <<: *ansible
+    image: "{{ kolla_ansible_image }}"
+{% endif %}
+{% if redis_enable|bool %}
+  redis:
+    restart: unless-stopped
+    image: "{{ redis_image }}"
+    command: redis-server --appendonly yes
+    volumes:
+      - "redis:/data"
+    healthcheck:
+      test: redis-cli ping
+    networks:
+      default:
+        aliases:
+          - cache
+{% endif %}
+{% if ara_enable|bool %}
+  ara-server:
+    restart: unless-stopped
+    image: "{{ ara_server_image }}"
+    env_file:
+      - "{{ manager_configuration_directory }}/ara-server.env"
+      - "{{ manager_configuration_directory }}/ara.env"
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
+    depends_on:
+      - mariadb
+    healthcheck:
+      test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
+  mariadb:
+    restart: unless-stopped
+    image: "{{ mariadb_image }}"
+    env_file:
+      - "{{ manager_configuration_directory }}/mariadb.env"
+    volumes:
+      - "mariadb:/var/lib/mysql"
+    healthcheck:
+      test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
+{% endif %}
+{% if awx_enable|bool %}
+  awx-task: &awx
+    image: "{{ awx_image }}"
+    command: /run.sh
+    restart: unless-stopped
+    hostname: awx
+    user: root
+    depends_on:
+      - postgres
+      - redis
+{% if vault_enable|bool %}
+      - vault
+{% endif %}
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - "{{ manager_configuration_directory }}/awx.env:/etc/tower/conf.d/environment.sh"
+      - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
+      - "{{ manager_configuration_directory }}/nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "awx_logs:/ansible/logs"
+      - "awx_share:/share"
+    environment:
+      WAIT_HOSTS: redis:6379, postgres:5432, vault:8200
+    env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+      - "{{ manager_configuration_directory }}/awx.env"
+{% if ara_enable|bool %}
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    secrets:
+{% if netbox_enable|bool %}
+      - NETBOX_TOKEN
+{% endif %}
+      - TOWER_PASSWORD
+      - TOWER_SECRET_KEY
+      - TOWER_USERNAME
+  awx-web:
+    <<: *awx
+    hostname: awxweb
+    ports:
+      - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
+    env_file:
+      - "{{ manager_configuration_directory }}/awx.env"
+    healthcheck:
+      test: curl --silent --fail http://localhost:8052/api/v2
+{% if vault_enable|bool %}
+  vault:
+    image: "{{ vault_image }}"
+    command: server -config=/vault/config -dev -dev-root-token-id={{ vault_token }} -dev-listen-address=0.0.0.0:8200
+    restart: unless-stopped
+    ports:
+      - "{{ vault_host }}:{{ vault_port }}:8200"
+    env_file:
+      - "{{ manager_configuration_directory }}/vault.env"
+# NOTE: during the TP the service runs in-memory
+#    volumes:
+#      - vault:/vault/file
+    cap_add:
+      - IPC_LOCK
+    healthcheck:
+      # NOTE: If Vault is sealed the container is unhealthy
+      #
+      # 0 - unsealed
+      # 1 - error
+      # 2 - sealed
+      test: vault status -address http://127.0.0.1:8200
+{% endif %}
+{% endif %}
+{% if postgres_enable|bool %}
+  postgres:
+    image: "{{ postgres_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ manager_configuration_directory }}/postgres.env"
+    volumes:
+      - "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
+      - postgres:/var/lib/postgresql/data
+    secrets:
+      - POSTGRES_PASSWORD
+    healthcheck:
+      test: pg_isready -U postgres
+{% endif %}
+
+{% if netbox_enable|bool %}
+  netbox: &netbox
+    image: "{{ netbox_image }}"
+    restart: unless-stopped
+    user: "{{ netbox_userid }}"
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - "{{ manager_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
+      - "{{ manager_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
+      - "{{ manager_configuration_directory }}/netbox/initializers:/opt/netbox/initializers:ro"
+      # NOTE: Workaround until script is available upstream
+      - "{{ manager_configuration_directory }}/netbox/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
+      - netbox-nginx-config:/etc/netbox-nginx:rw
+      - netbox-static-files:/opt/netbox/netbox/static:rw
+      - netbox-media-files:/opt/netbox/netbox/media:rw
+    secrets:
+      - NETBOX_POSTGRES_PASSWORD
+      - NETBOX_SECRET_KEY
+
+  netbox-worker:
+    <<: *netbox
+    depends_on:
+      - netbox
+      - redis
+    entrypoint: python3 /opt/netbox/netbox/manage.py
+    command: rqworker
+
+  netbox-nginx:
+    image: "{{ netbox_nginx_image }}"
+    restart: unless-stopped
+    command: nginx -c /etc/netbox-nginx/nginx.conf
+    depends_on:
+      - netbox
+    ports:
+      - "{{ netbox_host }}:{{ netbox_port }}:8080"
+    volumes:
+      - netbox-static-files:/opt/netbox/netbox/static:ro
+      - netbox-nginx-config:/etc/netbox-nginx/:ro
+    healthcheck:
+      test: curl --silent --fail http://localhost:8080
+{% endif %}
+
+volumes:
+{% if postgres_enable|bool %}
+  postgres:
+{% endif %}
+{% if awx_enable|bool %}
+  awx_share:
+  awx_logs:
+{% if vault_enable|bool %}
+  vault:
+{% endif %}
+{% endif %}
+  cache:
+  logs:
+{% if ara_enable|bool %}
+  mariadb:
+{% endif %}
+{% if redis_enable|bool %}
+  redis:
+{% endif %}
+{% if netbox_enable|bool %}
+  netbox-nginx-config:
+  netbox-static-files:
+  netbox-media-files:
+{% endif %}
+  share:
+
+{% if postgres_enable|bool or awx_enable|bool %}
+secrets:
+{% if awx_enable|bool %}
+  TOWER_PASSWORD:
+    file: {{ manager_secrets_directory }}/TOWER_PASSWORD
+  TOWER_USERNAME:
+    file: {{ manager_secrets_directory }}/TOWER_USERNAME
+  TOWER_SECRET_KEY:
+    file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
+{% endif %}
+{% if netbox_enable|bool %}
+  NETBOX_POSTGRES_PASSWORD:
+    file: {{ manager_secrets_directory }}/NETBOX_POSTGRES_PASSWORD
+  NETBOX_SECRET_KEY:
+    file: {{ manager_secrets_directory }}/NETBOX_SECRET_KEY
+  NETBOX_TOKEN:
+    file: {{ manager_secrets_directory }}/NETBOX_TOKEN
+{% endif %}
+{% if postgres_enable|bool %}
+  POSTGRES_PASSWORD:
+    file: {{ manager_secrets_directory }}/POSTGRES_PASSWORD
+{% endif %}
+{% endif %}
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ manager_network }}

@@ -1,0 +1,219 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+docker_registry_service: "{{ docker_registry }}"
+docker_registry_ansible: "{{ docker_registry }}"
+
+manager_network: 172.31.101.0/28
+
+##########################
+# directories
+
+ansible_directory: /opt/ansible
+archive_directory: /opt/archive
+cache_directory: /opt/ansible/cache
+configuration_directory: /opt/configuration
+logs_directory: /opt/ansible/logs
+secrets_directory: /opt/ansible/secrets
+
+manager_docker_compose_directory: /opt/manager
+manager_configuration_directory: /opt/manager/configuration
+manager_secrets_directory: /opt/manager/secrets
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+operator_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  ...
+  -----END RSA PRIVATE KEY-----
+
+private_keys:
+  operator: "{{ operator_private_key }}"
+
+##########################
+# packages
+
+required_packages_manager:
+  - python3-virtualenv
+
+##########################
+# osism-ansible helper
+
+osism_ansible_container_name: manager_osism-ansible_1
+
+osism_ansible_tag: latest
+osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
+
+##########################
+# ceph-ansible helper
+
+ceph_ansible_enable: true
+
+ceph_ansible_container_name: manager_ceph-ansible_1
+
+ceph_ansible_tag: nautilus
+ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
+
+##########################
+# kolla-ansible helper
+
+kolla_ansible_enable: true
+
+kolla_ansible_container_name: manager_kolla-ansible_1
+
+kolla_ansible_tag: train
+kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
+
+##########################
+# redis
+
+redis_enable: true
+
+redis_tag: 6-alpine
+redis_image: "{{ docker_registry_service }}/library/redis:{{ redis_tag }}"
+
+##########################
+# ara
+
+ara_enable: true
+
+ara_username: ara
+ara_password: password
+
+# ara server
+
+ara_server_host: "{{ ansible_default_ipv4.address }}"
+ara_server_port: 8120
+
+ara_server_tag: 1.4.0
+ara_server_image: "{{ docker_registry_service }}/osism/ara-server:{{ ara_server_tag }}"
+
+# mariadb (used by ara)
+
+ara_server_mariadb_host: "{{ ansible_default_ipv4.address }}"
+ara_server_mariadb_port: 3306
+
+ara_server_mariadb_username: ara
+ara_server_mariadb_password: password
+ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
+
+mariadb_tag: 10.5
+mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
+
+##########################
+# postgres
+
+postgres_enable: "{{ awx_enable|bool or netbox_enable|bool }}"
+
+postgres_tag: 12-alpine
+postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
+
+postgres_password: password
+
+##########################
+# netbox
+
+netbox_enable: false
+
+netbox_secret_key: 00000000-0000-0000-0000-000000000000
+
+netbox_superuser_name: netbox
+netbox_superuser_email: netbox@osism.local
+netbox_superuser_password: password
+netbox_superuser_api_token: "0000000000000000000000000000000000000000"
+
+netbox_ansibleuser_name: ansible
+netbox_ansibleuser_api_token: "1111111111111111111111111111111111111111"
+
+netbox_tag: latest
+netbox_image: "{{ docker_registry_service }}/netboxcommunity/netbox:{{ netbox_tag }}"
+
+netbox_nginx_tag: stable
+netbox_nginx_image: "{{ docker_registry_service }}/library/nginx:{{ netbox_nginx_tag }}"
+
+netbox_host: "{{ ansible_default_ipv4.address }}"
+netbox_port: 8121
+
+netbox_userid: 101
+
+netbox_initializers:
+  - device_roles
+  - device_types
+  - manufacturers
+  - prefix_vlan_roles
+  - sites
+  - tags
+  - users
+
+# postgres
+
+netbox_postgres_username: netbox
+netbox_postgres_password: password
+netbox_postgres_databasename: "{{ netbox_postgres_username }}"
+
+##########################
+# awx
+
+awx_enable: false
+
+awx_username: "{{ operator_user }}"
+awx_password: password
+
+awx_secret_key: 00000000-0000-0000-0000-000000000000
+
+awx_server_host: "{{ ansible_default_ipv4.address }}"
+awx_server_port: 8052
+
+awx_tag: latest
+awx_image: "{{ docker_registry_ansible }}/osism/manager:{{ awx_tag }}"
+
+# postgres
+
+awx_postgres_username: awx
+awx_postgres_password: password
+awx_postgres_databasename: "{{ awx_postgres_username }}"
+
+# vault
+
+# possible choices: [vault, ansible, none]
+awx_vault_type: ansible
+
+vault_enable: "{{ awx_vault_type == 'vault' }}"
+
+vault_host: "{{ ansible_default_ipv4.address }}"
+vault_port: 8200
+
+vault_tag: latest
+vault_image: "{{ docker_registry_service }}/hashicorp/vault:{{ vault_tag }}"
+
+vault_config:
+  # NOTE: during the TP the service runs in-memory
+  #  backend:
+  #    file:
+  #      path: /vault/file
+  default_lease_ttl: 168h
+  max_lease_ttl: 720h
+vault_token: 00000000-0000-0000-0000-000000000000
+
+##########################
+# wrapper
+
+wrapper_scripts:
+  - osism-ansible
+  - osism-ceph
+  - osism-custom
+  - osism-generic
+  - osism-infrastructure
+  - osism-kolla
+  - osism-manager
+  - osism-mirror
+  - osism-monitoring
+  - osism-openstack
+  - osism-run
+  - osism-run-without-secrets
+  - osism-update-manager

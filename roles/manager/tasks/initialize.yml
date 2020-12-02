@@ -1,0 +1,4 @@
+---
+- name: Include vault initialize tasks
+  include_tasks: initialize-vault.yml
+  when: vault_enable|bool

@@ -1,0 +1,35 @@
+---
+- name: Gather the apt package facts
+  package_facts:
+    manager: auto
+
+- name: Copy docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ manager_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+- name: Run service
+  docker_compose:
+    project_src: "{{ manager_docker_compose_directory }}"
+    build: false
+    pull: true
+    remove_orphans: true
+  when: "'docker-compose' in ansible_facts.packages"
+
+# NOTE: If docker-compose was not installed by package, the Python bindings are not available.
+#       Therefore in this case docker-compose is called directly.
+
+- name: Pull images
+  command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml pull"
+  register: result
+  changed_when: ('Downloaded' in result.stdout)
+  when: "'docker-compose' not in ansible_facts.packages"
+
+- name: Run service
+  command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml up -d --remove-orphans --no-build"
+  register: result
+  changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
+  when: "'docker-compose' not in ansible_facts.packages"
