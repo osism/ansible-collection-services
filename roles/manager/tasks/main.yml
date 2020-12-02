@@ -1,0 +1,16 @@
+---
+- name: Include install tasks
+  include: "install-{{ ansible_os_family }}.yml"
+  tags: install
+
+- name: Include config tasks
+  include_tasks: config.yml
+  tags: config
+
+- name: Include service tasks
+  include_tasks: service.yml
+  tags: service
+
+- name: Include initialize tasks
+  include: initialize.yml
+  tags: initialize

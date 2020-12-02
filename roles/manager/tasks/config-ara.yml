@@ -1,0 +1,12 @@
+---
+- name: Copy ARA environment files
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - ara
+    - ara-server
+    - mariadb

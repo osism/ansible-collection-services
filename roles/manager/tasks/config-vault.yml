@@ -1,0 +1,8 @@
+---
+- name: Copy Vault environment file
+  template:
+    src: "env/vault.env.j2"
+    dest: "{{ manager_configuration_directory }}/vault.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"

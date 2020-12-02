@@ -1,0 +1,18 @@
+---
+- name: Copy private ssh keys
+  copy:
+    content: "{{ item.value }}"
+    dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
+    owner: "{{ operator_user }}"
+    mode: 0600
+  become: true
+  loop: "{{ private_keys|dict2items }}"
+  no_log: true
+
+- name: Copy ansible environment file
+  template:
+    src: env/ansible.env.j2
+    dest: "{{ manager_configuration_directory }}/ansible.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
