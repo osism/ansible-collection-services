@@ -9,9 +9,11 @@ The following Ansible roles are included in this collection.
 | cephclient      |
 | chrony          |
 | cockpit         |
+| docker          |
 | falco           |
 | hddtemp         |
 | keycloak        |
+| manager         |
 | netdata         |
 | openstackclient |
 | osquery         |
@@ -25,7 +27,3 @@ The following Ansible roles are included in this collection.
 | ucs             |
 | zabbix          |
 | zabbix_agent    |
-
-## Author information
-
-This Ansible collection was created by [Betacloud Solutions GmbH](https://www.betacloud-solutions.de).
