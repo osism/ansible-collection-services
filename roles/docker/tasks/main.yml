@@ -1,0 +1,24 @@
+---
+- name: Include storage tasks
+  include: storage.yml
+  when: docker_configure_storage_block_device|bool
+
+- name: Include kata install tasks
+  include: "install-kata-{{ ansible_os_family }}.yml"
+  when: docker_kata_install|bool
+
+- name: Include docker install tasks
+  include: "install-docker-{{ ansible_os_family }}.yml"
+
+- name: Include config tasks
+  include: config.yml
+
+- name: Include open policy agent install tasks
+  include: install-open-policy-agent.yml
+  when: docker_policies|bool
+
+- name: Include service tasks
+  include: service.yml
+
+- name: Include bootstrap tasks
+  include: bootstrap.yml

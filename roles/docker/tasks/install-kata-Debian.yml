@@ -1,0 +1,28 @@
+---
+- name: Install apt-transport-https package
+  apt:
+    name: apt-transport-https
+    state: present
+  when: docker_kata_configure_repository|bool
+  become: true
+
+- name: Add repository gpg key
+  apt_key:
+    url: "{{ docker_kata_debian_repository_key }}"
+  when: docker_kata_configure_repository|bool
+  become: true
+
+- name: Add repository
+  apt_repository:
+    repo: "{{ docker_kata_debian_repository }}"
+    state: present
+    filename: kata
+    update_cache: yes
+  when: docker_kata_configure_repository|bool
+  become: true
+
+- name: Install required packages
+  apt:
+    name: "{{ docker_kata_packages }}"
+    state: present
+  become: true

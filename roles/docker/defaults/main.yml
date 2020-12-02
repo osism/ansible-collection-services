@@ -1,0 +1,177 @@
+---
+##########################
+# generic
+
+docker_debug: "false"
+docker_experimental: "false"
+docker_live_restore: "true"
+docker_user: "{{ operator_user | default('dragon') }}"
+
+##########################
+# networking
+
+docker_ipv6: "false"
+docker_disable_default_network: false
+
+##########################
+# logging
+
+docker_log_driver: "json-file"
+docker_log_level: info
+docker_log_opts:
+  max-size: 10m
+  max-file: 3
+
+##########################
+# hosts
+
+docker_hosts:
+  - "unix:///var/run/docker.sock"
+
+##########################
+# services
+
+docker_service_name: docker
+containerd_service_name: containerd
+
+##########################
+# packages
+
+docker_package_name: docker-ce
+docker_cli_package_name: "{{ docker_package_name }}-cli"
+containerd_package_name: containerd.io
+
+# NOTE: By default this role uses the packages from Docker itself. Therefore the
+#       packages of Ubuntu must not be installed.
+#
+#       To use the packages of Ubuntu the following parameters have to be adjusted.
+#       The repository of Docker should then also not be included
+#
+#       docker_package_name: docker.io
+#       containerd_package_name: containerd
+#       docker_packages_fail: []
+
+docker_packages_fail:
+  - containerd
+  - docker.io
+
+##########################
+# python package
+
+docker_python3_package_name: python3-docker
+docker_python_package_name: python-docker
+docker_python_package_names:
+  - "{{ docker_python3_package_name }}"
+  - "{{ docker_python_package_name }}"
+
+docker_python_install_from_pip: "{{ ansible_distribution_release == 'xenial' }}"
+docker_pip_package_name: docker
+docker_pip_extra_args: ""
+
+##########################
+# version
+
+# NOTE: This "5:" must be prepended starting with version 18.09.
+#       Check available version under Ubuntu with apt-cache madison docker-ce.
+docker_version: "5:19.03.12"
+
+##########################
+# registry
+
+docker_registry: index.docker.io
+# docker_registry_password:
+# docker_registry_username:
+
+docker_insecure_registries: []
+docker_registry_mirrors: []
+
+##########################
+# storage driver
+
+# NOTE: overlay2 is the default choice for Docker CE
+docker_storage_driver: overlay2
+
+##########################
+# storage block device
+
+docker_configure_storage_block_device: no
+
+docker_storage_block_device: /dev/sdb
+docker_storage_filesystem: ext4
+docker_storage_force: no
+
+##########################
+# proxy
+
+docker_configure_proxy: no
+
+docker_proxy_http: "http://proxy.tld:8080"
+docker_proxy_https: "{{ docker_proxy_http }}"
+docker_proxy_no_proxy:
+  - localhost
+  - 127.0.0.1
+
+##########################
+# repository
+
+docker_configure_repository: no
+
+docker_debian_repository_arch: amd64
+docker_debian_repository_key: https://download.docker.com/linux/ubuntu/gpg
+docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+
+##########################
+# network
+
+# docker_default_address_pools:
+#   - scope: local
+#     base: 10.10.0.0/16
+#     size: 24
+#   - scope: global
+#     base: 10.20.0.0/16
+#     size: 24
+
+##########################
+# runtime
+
+docker_default_runtime: runc
+
+docker_kata_install: no
+docker_kata_version: 1.11
+docker_kata_packages:
+  - kata-runtime
+  - kata-proxy
+  - kata-shim
+
+docker_kata_configure_repository: yes
+docker_kata_debian_repository_arch: amd64
+
+# NOTE: The focal repository for Kata is not yet available. Until then,
+# we will use the Bionic repository for Focal.
+
+docker_kata_debian_repository_key: "http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_{{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/Release.key"
+docker_kata_debian_repository: "deb [ arch={{ docker_kata_debian_repository_arch }} ] http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_{{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/ /"
+
+##########################
+# dragonfly
+
+docker_dragonfly: false
+
+##########################
+# policies
+
+docker_policies: false
+
+docker_open_policy_agent_tag: "0.7"
+docker_open_policy_agent_image: "{{ docker_registry}}/openpolicyagent/opa-docker-authz-v2:{{ docker_open_policy_agent_tag }}"
+
+docker_authorization_plugins:
+  - "{{ docker_open_policy_agent_image }}"
+docker_static_policy_files:
+  - default.rego
+
+##########################
+# other options
+
+# https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+docker_opts: {}

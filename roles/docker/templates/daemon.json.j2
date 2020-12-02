@@ -1,0 +1,67 @@
+{{- docker_registry_mirrors.append('http://127.0.0.1:65001') if docker_dragonfly|bool else none -}}
+{
+{% if docker_opts|length %}
+{% for key, value in docker_opts|dictsort %}
+{% if value is sameas false %}
+    "{{ key }}": false,
+{% elif value is sameas true %}
+    "{{ key }}": true,
+{% elif value is string %}
+    "{{ key }}": "{{ value }}",
+{% elif value is number %}
+    "{{ key }}": {{ value }},
+{% elif value is sequence %}
+    "{{ key }}": [
+{% for nvalue in value|sort %}
+      "{{ nvalue }}"{% if not loop.last %}, {% endif %}
+
+{% endfor %}
+    ],
+{% else %}
+    "{{ key }}": "{{ value }}",
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if docker_policies|bool %}
+    "authorization-plugins": [{% for plugin in docker_authorization_plugins %}"{{ plugin }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+{% endif %}
+{% if docker_disable_default_network is defined and docker_disable_default_network|bool %}
+    "bridge": "none",
+{% endif %}
+    "debug": {{ docker_debug }},
+{% if docker_default_address_pools is defined %}
+    "default-address-pools" : [
+{% for item in docker_default_address_pools %}
+    {
+      "scope" : "{{ item.scope }}",
+      "base" : "{{ item.base }}",
+      "size" : {{ item.size }}
+    }{% if not loop.last %},{% endif %}
+
+{% endfor %}
+    ],
+{% endif %}
+    "experimental": {{ docker_experimental }},
+    "hosts": [{% for host in docker_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+    "insecure-registries": [{% for registry in docker_insecure_registries %}"{{ registry }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+    "ipv6": {{ docker_ipv6 }},
+    "live-restore": {{ docker_live_restore }},
+    "log-driver": "{{ docker_log_driver }}",
+    "log-level": "{{ docker_log_level }}",
+    "log-opts": {
+{% for key, value in docker_log_opts|dictsort %}
+      "{{ key }}": "{{ value }}"{% if not loop.last %}, {% endif %}
+
+{% endfor %}
+    },
+    "registry-mirrors": [{% for mirror in docker_registry_mirrors %}"{{ mirror }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+    "storage-driver": "{{ docker_storage_driver }}",
+{% if docker_kata_install|bool %}
+    "runtimes": {
+         "kata-runtime": {
+             "path": "/usr/bin/kata-runtime"
+         }
+    },
+{% endif %}
+    "default-runtime": "{{ docker_default_runtime }}"
+}

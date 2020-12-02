@@ -1,0 +1,50 @@
+---
+- name: Create policies directory
+  file:
+    path: /etc/docker/policies
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+  become: true
+
+- name: Copy static policy files
+  copy:
+    src: "policies/{{ item }}"
+    dest: "/etc/docker/policies/{{ item }}"
+    owner: root
+    group: root
+    mode: 0640
+  loop: "{{ docker_static_policy_files }}"
+  become: true
+  notify: Reload docker service
+
+- name: List existing policy files
+  command: "find /etc/docker/policies/ -type f -printf '%f\n'"
+  changed_when: false
+  register: existing_policy_files
+  become: true
+
+- name: Remove unmanaged policy files
+  file:
+    dest: "/etc/docker/policies/{{ item }}"
+    state: absent
+  when: item not in docker_static_policy_files
+  loop: "{{ existing_policy_files.stdout_lines | default([]) }}"
+  become: true
+  notify: Reload docker service
+
+- name: Create .docker directory
+  file:
+    path: "{{ ansible_env.HOME }}/.docker"
+    state: directory
+    owner: "{{ docker_user }}"
+    mode: 0750
+
+- name: Copy .docker/config.json configuration file
+  template:
+    src: config.json.j2
+    dest: "{{ ansible_env.HOME }}/.docker/config.json"
+    backup: true
+    owner: "{{ docker_user }}"
+    mode: 0640

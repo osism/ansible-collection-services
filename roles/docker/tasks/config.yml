@@ -1,0 +1,58 @@
+---
+- name: Create plugins directory
+  file:
+    path: /etc/docker/plugins
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Create systemd overlay directory
+  file:
+    path: "/etc/systemd/system/{{ docker_service_name }}.service.d"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy systemd overlay file
+  template:
+    src: overlay.conf.j2
+    dest: "/etc/systemd/system/{{ docker_service_name }}.service.d/overlay.conf"
+    owner: root
+    group: root
+    mode: 0644
+  register: systemd_overlay_template
+  become: true
+  notify: Restart docker service
+
+- name: Reload systemd daemon if systemd overlay file is changed
+  systemd:
+    daemon_reload: true
+  when: systemd_overlay_template is changed
+  become: true
+
+- name: Copy limits configuration file
+  copy:
+    src: limits.conf
+    dest: /etc/security/limits.d/docker.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Copy daemon.json configuration file
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart docker service
+  become: true
+
+- name: Include open policy agent tasks
+  include_tasks: config-open-policy-agent.yml
+  when: docker_policies|bool
