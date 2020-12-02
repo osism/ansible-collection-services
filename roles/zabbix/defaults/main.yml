@@ -13,6 +13,13 @@ docker_registry: index.docker.io
 ##########################
 # zabbix
 
+# parameters
+
+zabbix_cachesize: 1024M
+zabbix_startpollers: 5
+
+# docker-compose
+
 zabbix_configuration_directory: /opt/zabbix/configuration
 zabbix_secrets_directory: /opt/zabbix/secrets
 zabbix_docker_compose_directory: /opt/zabbix
