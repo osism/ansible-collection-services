@@ -4,7 +4,7 @@
 
 docker_registry: index.docker.io
 docker_registry_service: "{{ docker_registry }}"
-docker_registry_ansible: "{{ docker_registry }}"
+docker_registry_ansible: quay.io
 
 manager_network: 172.31.101.0/28
 
@@ -66,7 +66,7 @@ kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
-kolla_ansible_tag: train
+kolla_ansible_tag: victoria
 kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
@@ -90,7 +90,7 @@ ara_password: password
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
-ara_server_tag: 1.4.0
+ara_server_tag: 1.5.3
 ara_server_image: "{{ docker_registry_service }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
@@ -110,7 +110,7 @@ mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
 
 postgres_enable: "{{ awx_enable|bool or netbox_enable|bool }}"
 
-postgres_tag: 12-alpine
+postgres_tag: 13-alpine
 postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
 
 postgres_password: password
