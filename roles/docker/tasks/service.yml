@@ -1,0 +1,23 @@
+---
+- name: Start/enable service
+  service:
+    name: "{{ docker_service_name }}"
+    state: started
+    enabled: yes
+  become: true
+
+- name: Start/enable docker socket service
+  service:
+    name: "{{ docker_service_name }}.socket"
+    state: started
+    enabled: yes
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Start/enable containerd service
+  service:
+    name: "{{ containerd_service_name }}"
+    state: started
+    enabled: yes
+  when: ansible_os_family == 'Debian'
+  become: true
