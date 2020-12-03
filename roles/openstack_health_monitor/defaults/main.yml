@@ -15,6 +15,9 @@ operator_group: "{{ operator_user }}"
 
 openstack_health_monitor_install_type: container
 
+openstack_health_monitor_clouds_yml_path: /opt/configuration/environments/openstack/clouds.yml
+openstack_health_monitor_secure_yml_path: /opt/configuration/environments/openstack/secure.yml
+
 ##########################
 # configuration
 
@@ -23,6 +26,8 @@ openstack_health_monitor_FLAVOR: 1C-1GB-20GB
 openstack_health_monitor_IMG: Ubuntu 20.04
 openstack_health_monitor_JHFLAVOR: 1C-1GB-20GB
 openstack_health_monitor_JHIMG: Ubuntu 20.04
+
+openstack_health_monitor_OS_CLOUD: openstack_health_monitor
 
 openstack_health_monitor_number_of_instances: 2
 
