@@ -12,10 +12,10 @@ services:
     volumes:
       - "{{ openstack_health_monitor_configuration_directory }}:/configuration:ro"
       - "/etc/hosts:/etc/hosts:ro"
-      - "logs:/logs:rw"
+      - "data:/data:rw"
 
 volumes:
-  logs:
+  data:
 
 networks:
  default:

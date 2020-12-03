@@ -24,7 +24,7 @@ openstack_health_monitor_secure_yml_path: /opt/configuration/environments/openst
 openstack_health_monitor_ADDJHVOLSIZE: 0
 openstack_health_monitor_ADDVMVOLSIZE: 0
 openstack_health_monitor_AZS: nova
-openstack_health_monitor_DATADIR: /logs
+openstack_health_monitor_DATADIR: /data
 openstack_health_monitor_FLAVOR: 1C-1GB-5GB
 openstack_health_monitor_IMG: Ubuntu 20.04
 openstack_health_monitor_JHFLAVOR: 1C-1GB-5GB
