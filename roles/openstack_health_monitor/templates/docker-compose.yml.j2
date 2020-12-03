@@ -6,12 +6,16 @@ services:
     container_name: "{{ openstack_health_monitor_container_name }}"
     restart: unless-stopped
     image: "{{ openstack_health_monitor_image }}"
-    command: crond -f -c /configuration/crontabs
+    entrypoint: crond -f -c /configuration/crontabs
     env_file:
       - "{{ openstack_health_monitor_configuration_directory }}/openstack_health_monitor.env"
     volumes:
       - "{{ openstack_health_monitor_configuration_directory }}:/configuration:ro"
       - "/etc/hosts:/etc/hosts:ro"
+      - "logs:/logs:rw"
+
+volumes:
+  logs:
 
 networks:
  default:

@@ -76,5 +76,6 @@
     name: run openstack health monitor script
     minute: "{{ openstack_health_monitor_cronjob_minute }}"
     hour: "{{ openstack_health_monitor_cronjob_hour }}"
-    job: /"api_monitor.sh -O -C -D -N 1 -n {{ openstack_health_monitor_number_of_instances }} -s -L -b -B -a 2 -R"
+    job: "/api_monitor.sh {{ openstack_health_monitor_arguments }}"
     cron_file: "{{ openstack_health_monitor_crontabs_directory }}/main"
+    user: "{{ operator_user }}"
