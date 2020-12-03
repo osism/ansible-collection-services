@@ -24,6 +24,22 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
 
+- name: Copy clouds.yml file
+  copy:
+    src: "{{ openstack_health_monitor_clouds_yml_path }}"
+    dest: "{{ openstack_health_monitor_configuration_directory }}/clouds.yml"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
+- name: Copy secure.yml file
+  copy:
+    src: "{{ openstack_health_monitor_secure_yml_path }}"
+    dest: "{{ openstack_health_monitor_configuration_directory }}/secure.yml"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
 - name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2
