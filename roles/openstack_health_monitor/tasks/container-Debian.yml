@@ -1,0 +1,64 @@
+---
+- name: Gather the apt package facts
+  package_facts:
+    manager: auto
+
+- name: Create required directories
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ openstack_health_monitor_configuration_directory }}"
+    - "{{ openstack_health_monitor_crontabs_directory }}"
+    - "{{ openstack_health_monitor_docker_compose_directory }}"
+
+- name: Copy environment file
+  template:
+    src: env/openstack_health_monitor.env.j2
+    dest: "{{ openstack_health_monitor_configuration_directory }}/openstack_health_monitor.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
+- name: Copy docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ openstack_health_monitor_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+- name: Run service
+  docker_compose:
+    project_src: "{{ openstack_health_monitor_docker_compose_directory }}"
+    build: false
+    pull: true
+    remove_orphans: true
+  when: "'docker-compose' in ansible_facts.packages"
+
+# NOTE: If docker-compose was not installed by package, the Python bindings are not available.
+#       Therefore in this case docker-compose is called directly.
+
+- name: Pull images
+  command: "docker-compose -f {{ openstack_health_monitor_docker_compose_directory }}/docker-compose.yml pull"
+  register: result
+  changed_when: ('Downloaded' in result.stdout)
+  when: "'docker-compose' not in ansible_facts.packages"
+
+- name: Run service
+  command: "docker-compose -f {{ openstack_health_monitor_docker_compose_directory }}/docker-compose.yml up -d --remove-orphans --no-build"
+  register: result
+  changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
+  when: "'docker-compose' not in ansible_facts.packages"
+
+- name: Create cronjob
+  cron:
+    name: run openstack health monitor script
+    minute: "{{ openstack_health_monitor_cronjob_minute }}"
+    hour: "{{ openstack_health_monitor_cronjob_hour }}"
+    job: /"api_monitor.sh -O -C -D -N 1 -n {{ openstack_health_monitor_number_of_instances }} -s -L -b -B -a 2 -R"
+    cron_file: "{{ openstack_health_monitor_crontabs_directory }}/main"

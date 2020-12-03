@@ -1,0 +1,3 @@
+---
+- name: Include tasks
+  include: "{{ openstack_health_monitor_install_type }}-{{ ansible_os_family }}.yml"
