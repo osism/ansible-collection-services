@@ -2,7 +2,7 @@
 ##########################
 # docker
 
-docker_registry: quay.io
+openstack_health_monitor_docker_registry: quay.io
 
 ##########################
 # operator user
@@ -21,21 +21,23 @@ openstack_health_monitor_secure_yml_path: /opt/configuration/environments/openst
 ##########################
 # configuration
 
+openstack_health_monitor_ADDJHVOLSIZE: 0
+openstack_health_monitor_ADDVMVOLSIZE: 0
 openstack_health_monitor_AZS: nova
-openstack_health_monitor_FLAVOR: 1C-1GB-20GB
+openstack_health_monitor_DATADIR: /logs
+openstack_health_monitor_FLAVOR: 1C-1GB-5GB
 openstack_health_monitor_IMG: Ubuntu 20.04
-openstack_health_monitor_JHFLAVOR: 1C-1GB-20GB
+openstack_health_monitor_JHFLAVOR: 1C-1GB-5GB
 openstack_health_monitor_JHIMG: Ubuntu 20.04
-
 openstack_health_monitor_OS_CLOUD: openstack_health_monitor
 
-openstack_health_monitor_number_of_instances: 2
+openstack_health_monitor_arguments: "-O -C -D -N 1 -i 1 -n 2"
 
 ##########################
 # cronjob
 
-openstack_health_monitor_cronjob_minute: "0"
-openstack_health_monitor_cronjob_hour: "*/2"
+openstack_health_monitor_cronjob_minute: "*/10"
+openstack_health_monitor_cronjob_hour: "*"
 
 ##########################
 # container
@@ -45,7 +47,7 @@ openstack_health_monitor_crontabs_directory: /opt/openstack_health_monitor/confi
 openstack_health_monitor_docker_compose_directory: /opt/openstack_health_monitor
 
 openstack_health_monitor_tag: latest
-openstack_health_monitor_image: "{{ docker_registry }}/sovereigncloudstack/openstack-health-monitor:{{ openstack_health_monitor_tag }}"
+openstack_health_monitor_image: "{{ openstack_health_monitor_docker_registry }}/sovereigncloudstack/openstack-health-monitor:{{ openstack_health_monitor_tag }}"
 
 openstack_health_monitor_container_name: openstack_health_monitor
 
