@@ -38,9 +38,9 @@
 - name: Start/enable required services
   become: true
   systemd:
-    enabled: yes
+    enabled: true
     state: started
-    daemon_reload: yes
+    daemon_reload: true
     name: "{{ item }}"
   loop:
     - cockpit
