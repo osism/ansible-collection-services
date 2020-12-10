@@ -6,7 +6,7 @@
   user:
     name: "{{ docker_user }}"
     groups: docker
-    append: yes
+    append: true
   become: true
 
 # NOTE: use paramiko connection to force a re-login
@@ -16,7 +16,7 @@
     registry: "{{ docker_registry }}"
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"
-    reauthorize: yes
+    reauthorize: true
   when:
     - docker_registry_username is defined and docker_registry_username|length > 0
     - docker_registry_password is defined and docker_registry_password|length > 0

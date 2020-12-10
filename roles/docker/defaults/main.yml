@@ -94,16 +94,16 @@ docker_storage_driver: overlay2
 ##########################
 # storage block device
 
-docker_configure_storage_block_device: no
+docker_configure_storage_block_device: false
 
 docker_storage_block_device: /dev/sdb
 docker_storage_filesystem: ext4
-docker_storage_force: no
+docker_storage_force: false
 
 ##########################
 # proxy
 
-docker_configure_proxy: no
+docker_configure_proxy: false
 
 docker_proxy_http: "http://proxy.tld:8080"
 docker_proxy_https: "{{ docker_proxy_http }}"
@@ -114,7 +114,7 @@ docker_proxy_no_proxy:
 ##########################
 # repository
 
-docker_configure_repository: no
+docker_configure_repository: false
 
 docker_debian_repository_arch: amd64
 docker_debian_repository_key: https://download.docker.com/linux/ubuntu/gpg
@@ -136,14 +136,14 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 
 docker_default_runtime: runc
 
-docker_kata_install: no
+docker_kata_install: false
 docker_kata_version: 1.11
 docker_kata_packages:
   - kata-runtime
   - kata-proxy
   - kata-shim
 
-docker_kata_configure_repository: yes
+docker_kata_configure_repository: true
 docker_kata_debian_repository_arch: amd64
 
 # NOTE: The focal repository for Kata is not yet available. Until then,
