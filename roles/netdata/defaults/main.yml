@@ -21,7 +21,7 @@ netdata_package_name: netdata
 ##########################
 # repository
 
-netdata_configure_repository: no
+netdata_configure_repository: false
 
 netdata_debian_repository_arch: amd64
 netdata_debian_repository_key: https://packagecloud.io/netdata/netdata-edge/gpgkey
@@ -37,4 +37,4 @@ netdata_api_key: 00000000-0000-0000-0000-000000000000
 netdata_api_host: 127.0.0.1
 netdata_api_port: 19999
 
-netdata_enable_cloud: no
+netdata_enable_cloud: false

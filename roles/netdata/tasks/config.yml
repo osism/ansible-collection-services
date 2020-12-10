@@ -40,4 +40,4 @@
   user:
     name: netdata
     groups: docker
-    append: yes
+    append: true
