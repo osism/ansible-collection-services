@@ -1,9 +1,0 @@
----
-- name: Playbook for role testing
-  hosts: all
-
-  collections:
-    - osism.services
-
-  roles:
-    - role: cockpit
