@@ -1,7 +1,7 @@
 ---
 # client
 
-configure_cockpit: yes
+configure_cockpit: true
 
 cockpit_groupname: all
 
@@ -10,7 +10,7 @@ cockpit_system_visible: "true"
 
 # server
 
-configure_cockpit_server: no
+configure_cockpit_server: false
 
 cockpit_groupname_server: manager
 
