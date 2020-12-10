@@ -19,7 +19,7 @@
     repo: "{{ netdata_debian_repository }}"
     state: present
     filename: netdata
-    update_cache: yes
+    update_cache: true
     mode: 0644
   when: netdata_configure_repository|bool
 
@@ -34,4 +34,4 @@
   service:
     name: "{{ netdata_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
