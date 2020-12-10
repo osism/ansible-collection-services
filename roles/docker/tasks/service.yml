@@ -3,14 +3,14 @@
   service:
     name: "{{ docker_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   become: true
 
 - name: Start/enable docker socket service
   service:
     name: "{{ docker_service_name }}.socket"
     state: started
-    enabled: yes
+    enabled: true
   when: ansible_os_family == 'Debian'
   become: true
 
@@ -18,6 +18,6 @@
   service:
     name: "{{ containerd_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   when: ansible_os_family == 'Debian'
   become: true

@@ -17,7 +17,7 @@
     repo: "{{ docker_kata_debian_repository }}"
     state: present
     filename: kata
-    update_cache: yes
+    update_cache: true
   when: docker_kata_configure_repository|bool
   become: true
 
