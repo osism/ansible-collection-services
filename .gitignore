@@ -1,5 +1,2 @@
 .molecule
-clouds.yml
-molecule/default/clouds.yml
-molecule/default/roles
 scripts/render-template.py
