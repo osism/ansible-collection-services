@@ -1,0 +1,48 @@
+# Molecule managed
+
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+
+{% if item.env is defined %}
+{% for var, value in item.env.items() %}
+{% if value %}
+ENV {{ var }} {{ value }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+ENV LC_ALL C
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y \
+      aptitude \
+      bash \
+      ca-certificates \
+      iproute2 \
+      python3 \
+      python3-apt \
+      rsync \
+      sudo \
+      systemd \
+      systemd-sysv \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && cd /lib/systemd/system/sysinit.target.wants/ \
+    && ls | grep -v systemd-tmpfiles-setup | xargs rm -f $1 \
+    && rm -f /lib/systemd/system/multi-user.target.wants/* \
+        /etc/systemd/system/*.wants/* \
+        /lib/systemd/system/local-fs.target.wants/* \
+        /lib/systemd/system/sockets.target.wants/*udev* \
+        /lib/systemd/system/sockets.target.wants/*initctl* \
+        /lib/systemd/system/basic.target.wants/* \
+        /lib/systemd/system/anaconda.target.wants/* \
+        /lib/systemd/system/plymouth* \
+        /lib/systemd/system/systemd-update-utmp*
+
+VOLUME [ "/sys/fs/cgroup" ]
+
+CMD ["/lib/systemd/systemd"]

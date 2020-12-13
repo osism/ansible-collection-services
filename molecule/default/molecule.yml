@@ -1,0 +1,32 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: molecule-${MOLECULE_JOB_ID:-0}
+    image: ${MOLECULE_DOCKER_IMAGE:-ubuntu:20.04}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      - /tmp
+      - /run
+    privileged: true
+    command: /lib/systemd/systemd
+    capabilities:
+      - SYS_ADMIN
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_LIBRARY: ../../plugins
+    ANSIBLE_ROLES_PATH: ../../roles
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3
+        molecule_role: ${MOLECULE_ROLE:-packages}
+scenario:
+  name: default
+  test_sequence:
+    - create
+    - prepare
+    - converge
+    - destroy
