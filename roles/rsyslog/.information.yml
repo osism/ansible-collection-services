@@ -1,8 +1,0 @@
----
-ansible_collection_name: services
-ansible_role_name: rsyslog
-distributions:
-  - bionic
-  - focal
-releases:
-  - 2.9
