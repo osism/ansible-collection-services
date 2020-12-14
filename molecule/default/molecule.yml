@@ -22,7 +22,7 @@ provisioner:
     group_vars:
       all:
         ansible_python_interpreter: /usr/bin/python3
-        molecule_role: ${MOLECULE_ROLE:-packages}
+        molecule_role: ${MOLECULE_ROLE}
 scenario:
   name: default
   test_sequence:
