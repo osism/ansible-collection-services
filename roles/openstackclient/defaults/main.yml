@@ -2,7 +2,7 @@
 ##########################
 # docker
 
-docker_registry: index.docker.io
+docker_registry: quay.io
 
 ##########################
 # operator user
@@ -14,7 +14,7 @@ operator_group: "{{ operator_user }}"
 # openstackclient
 
 openstackclient_install_type: container
-openstackclient_version: ussuri
+openstackclient_version: victoria
 
 ##########################
 # container
