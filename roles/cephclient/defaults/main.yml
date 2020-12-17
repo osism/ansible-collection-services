@@ -2,7 +2,7 @@
 ##########################
 # docker
 
-docker_registry: index.docker.io
+docker_registry: quay.io
 
 ##########################
 # operator user
