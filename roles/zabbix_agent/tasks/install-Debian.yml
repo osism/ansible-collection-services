@@ -19,7 +19,7 @@
     repo: "{{ zabbix_agent_debian_repository }}"
     state: present
     filename: zabbix
-    update_cache: yes
+    update_cache: true
     mode: 0644
   when: zabbix_agent_configure_repository|bool
 

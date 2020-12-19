@@ -2,4 +2,4 @@
 - name: Update package cache
   become: true
   apt:
-    update_cache: yes
+    update_cache: true

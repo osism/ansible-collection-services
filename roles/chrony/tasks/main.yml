@@ -4,7 +4,7 @@
   service:
     name: systemd-timesyncd
     state: stopped
-    enabled: no
+    enabled: false
 
 - name: Install package
   become: true
@@ -17,7 +17,7 @@
   service:
     name: "{{ chrony_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Check if configuration file exists
   stat:

@@ -42,7 +42,7 @@ patchman_cron_user: "{{ operator_user|default('dragon') }}"
 patchman_debug: "False"
 
 patchman_update_statfile: /tmp/patchman.stat
-patchman_update: yes
+patchman_update: true
 patchman_update_valid_time: 86400
 
 ##########################

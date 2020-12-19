@@ -21,7 +21,7 @@ zabbix_agent_service_name: zabbix-agent2
 ##########################
 # repository
 
-zabbix_agent_configure_repository: no
+zabbix_agent_configure_repository: true
 
 zabbix_agent_version: 5.0
 zabbix_agent_debian_repository_arch: amd64
@@ -31,7 +31,7 @@ zabbix_agent_debian_repository: "deb [ arch={{ zabbix_agent_debian_repository_ar
 ##########################
 # extensions
 
-zabbix_agent_install_extensions: yes
+zabbix_agent_install_extensions: true
 zabbix_agent_extensions:
   - name: zabbix-agent-extension-mysql
     group: mariadb

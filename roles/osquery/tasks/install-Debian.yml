@@ -20,7 +20,7 @@
     repo: "{{ osquery_debian_repository }}"
     state: present
     filename: osquery
-    update_cache: yes
+    update_cache: true
   when: osquery_configure_repository|bool
 
 - name: Install osquery package
@@ -34,4 +34,4 @@
   service:
     name: "{{ osquery_service_name }}"
     state: started
-    enabled: yes
+    enabled: true

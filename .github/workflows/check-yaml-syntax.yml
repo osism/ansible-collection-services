@@ -22,4 +22,4 @@ jobs:
         with:
           python-version: '3.x'
       - run: pip3 install yamllint
-      - run: yamllint --config-file .github/yamllint.yml .
+      - run: yamllint .
