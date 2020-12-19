@@ -3,8 +3,17 @@
 # docker
 
 docker_registry: index.docker.io
-docker_registry_service: "{{ docker_registry }}"
 docker_registry_ansible: quay.io
+docker_registry_service: "{{ docker_registry }}"
+
+docker_registry_ara_server: "{{ docker_registry_ansible }}"
+docker_registry_awx: "{{ docker_registry_ansible }}"
+docker_registry_mariadb: "{{ docker_registry_service }}"
+docker_registry_netbox: "{{ docker_registry_service }}"
+docker_registry_nginx: "{{ docker_registry_service }}"
+docker_registry_postgres: "{{ docker_registry_service }}"
+docker_registry_redis: "{{ docker_registry_service }}"
+docker_registry_vault: "{{ docker_registry_service }}"
 
 manager_network: 172.31.101.0/28
 
@@ -75,7 +84,7 @@ kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla
 redis_enable: true
 
 redis_tag: 6-alpine
-redis_image: "{{ docker_registry_service }}/library/redis:{{ redis_tag }}"
+redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
 
 ##########################
 # ara
@@ -91,7 +100,7 @@ ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
 ara_server_tag: 1.5.3
-ara_server_image: "{{ docker_registry_ansible }}/osism/ara-server:{{ ara_server_tag }}"
+ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
 
@@ -103,7 +112,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 mariadb_tag: 10.5
-mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
+mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
 # postgres
@@ -111,7 +120,7 @@ mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
 postgres_enable: "{{ awx_enable|bool or netbox_enable|bool }}"
 
 postgres_tag: 13-alpine
-postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
+postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 postgres_password: password
 
@@ -131,10 +140,10 @@ netbox_ansibleuser_name: ansible
 netbox_ansibleuser_api_token: "1111111111111111111111111111111111111111"
 
 netbox_tag: latest
-netbox_image: "{{ docker_registry_service }}/netboxcommunity/netbox:{{ netbox_tag }}"
+netbox_image: "{{ docker_registry_netbox }}/netboxcommunity/netbox:{{ netbox_tag }}"
 
 netbox_nginx_tag: stable
-netbox_nginx_image: "{{ docker_registry_service }}/library/nginx:{{ netbox_nginx_tag }}"
+netbox_nginx_image: "{{ docker_registry_nginx }}/library/nginx:{{ netbox_nginx_tag }}"
 
 netbox_host: "{{ ansible_default_ipv4.address }}"
 netbox_port: 8121
@@ -170,7 +179,7 @@ awx_server_host: "{{ ansible_default_ipv4.address }}"
 awx_server_port: 8052
 
 awx_tag: latest
-awx_image: "{{ docker_registry_ansible }}/osism/manager:{{ awx_tag }}"
+awx_image: "{{ docker_registry_awx }}/osism/manager:{{ awx_tag }}"
 
 # postgres
 
@@ -189,7 +198,7 @@ vault_host: "{{ ansible_default_ipv4.address }}"
 vault_port: 8200
 
 vault_tag: latest
-vault_image: "{{ docker_registry_service }}/hashicorp/vault:{{ vault_tag }}"
+vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
 
 vault_config:
   # NOTE: during the TP the service runs in-memory
