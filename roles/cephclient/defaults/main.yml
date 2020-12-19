@@ -3,6 +3,7 @@
 # docker
 
 docker_registry: quay.io
+docker_registry_cephclient: "{{ docker_registry }}"
 
 ##########################
 # operator user
@@ -28,7 +29,7 @@ cephclient_data_directory: /opt/cephclient/data
 cephclient_docker_compose_directory: /opt/cephclient
 
 cephclient_tag: "{{ cephclient_version }}"
-cephclient_image: "{{ docker_registry }}/osism/cephclient:{{ cephclient_tag }}"
+cephclient_image: "{{ docker_registry_cephclient }}/osism/cephclient:{{ cephclient_tag }}"
 
 cephclient_container_name: cephclient
 

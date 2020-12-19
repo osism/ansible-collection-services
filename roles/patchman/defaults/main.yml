@@ -9,6 +9,9 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry: index.docker.io
+docker_registry_patchman: "{{ docker_registry }}"
+docker_registry_postgres: "{{ docker_registry }}"
+docker_registry_memcached: "{{ docker_registry }}"
 
 ##########################
 # patchman
@@ -20,7 +23,7 @@ patchman_host: 127.0.0.1
 patchman_port: 8150
 
 patchman_tag: latest
-patchman_image: "{{ docker_registry }}/osism/patchman:{{ patchman_tag }}"
+patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }}"
 
 patchman_container_name: patchman
 
@@ -46,7 +49,7 @@ patchman_update_valid_time: 86400
 # postgres
 
 postgres_tag: 12-alpine
-postgres_image: "{{ docker_registry }}/library/postgres:{{ postgres_tag }}"
+postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 patchman_postgres_username: patchman
 patchman_postgres_password: password
@@ -56,4 +59,4 @@ patchman_postgres_databasename: "{{ patchman_postgres_username }}"
 # memcached
 
 memcached_tag: alpine
-memcached_image: "{{ docker_registry }}/library/memcached:{{ memcached_tag }}"
+memcached_image: "{{ docker_registry_memcached }}/library/memcached:{{ memcached_tag }}"

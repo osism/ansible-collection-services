@@ -3,6 +3,7 @@
 # docker
 
 docker_registry: quay.io
+docker_registry_openstackclient: "{{ docker_registry }}"
 
 ##########################
 # operator user
@@ -24,7 +25,7 @@ openstackclient_data_directory: /opt/openstackclient/data
 openstackclient_docker_compose_directory: /opt/openstackclient
 
 openstackclient_tag: "{{ openstackclient_version }}"
-openstackclient_image: "{{ docker_registry }}/osism/openstackclient:{{ openstackclient_tag }}"
+openstackclient_image: "{{ docker_registry_openstackclient }}/osism/openstackclient:{{ openstackclient_tag }}"
 
 openstackclient_container_name: openstackclient
 

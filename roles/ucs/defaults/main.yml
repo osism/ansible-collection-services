@@ -9,6 +9,7 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry: index.docker.io
+docker_registry_ucs: "{{ docker_registry }}"
 
 ##########################
 # ucs
@@ -24,7 +25,7 @@ ucs_host: 127.0.0.1
 ucs_port: 8011
 
 ucs_tag: latest
-ucs_image: "{{ docker_registry }}/univention/ucs-master-amd64:{{ ucs_tag }}"
+ucs_image: "{{ docker_registry_ucs }}/univention/ucs-master-amd64:{{ ucs_tag }}"
 
 ucs_container_name: ucs
 
