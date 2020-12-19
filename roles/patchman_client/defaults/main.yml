@@ -13,5 +13,5 @@ patchman_client_port: 8150
 patchman_client_server_url: "http://{{ patchman_client_host }}:{{ patchman_client_port }}"
 
 patchman_client_update_statfile: /tmp/patchman-client.stat
-patchman_client_update: yes
+patchman_client_update: true
 patchman_client_update_valid_time: 86400

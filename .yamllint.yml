@@ -4,4 +4,3 @@ extends: default
 rules:
   comments: enable
   line-length: disable
-  truthy: disable

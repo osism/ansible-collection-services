@@ -34,7 +34,7 @@ openstackclient_network: 172.31.100.16/28
 ##########################
 # package
 
-openstackclient_configure_repository: no
+openstackclient_configure_repository: true
 
 openstackclient_debian_repository_arch: amd64
 openstackclient_debian_repository_key: "391A9AA2147192839E9DB0315EDB1B62EC4926EA"

@@ -14,4 +14,4 @@
   user:
     name: zabbix
     groups: docker
-    append: yes
+    append: true

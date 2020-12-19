@@ -28,4 +28,4 @@ chrony_allowed_subnets:
   - 172.16/12
 
 # Listen for NTP requests only on local interfaces.
-chrony_bind_local_interfaces_only: yes
+chrony_bind_local_interfaces_only: true
