@@ -9,6 +9,7 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry: index.docker.io
+docker_registry_pulp: "{{ docker_registry }}"
 
 ##########################
 # pulp
@@ -21,7 +22,7 @@ pulp_hostname: "{{ pulp_host }}"
 pulp_port: 8080
 
 pulp_tag: latest
-pulp_image: "{{ docker_registry }}/pulp/pulp-fedora31:{{ pulp_tag }}"
+pulp_image: "{{ docker_registry_pulp }}/pulp/pulp-fedora31:{{ pulp_tag }}"
 
 pulp_container_name: pulp
 

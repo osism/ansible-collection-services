@@ -2,7 +2,7 @@
 ##########################
 # docker
 
-openstack_health_monitor_docker_registry: quay.io
+docker_registry_openstack_health_monitor: quay.io
 
 ##########################
 # operator user
@@ -47,7 +47,7 @@ openstack_health_monitor_crontabs_directory: /opt/openstack_health_monitor/confi
 openstack_health_monitor_docker_compose_directory: /opt/openstack_health_monitor
 
 openstack_health_monitor_tag: latest
-openstack_health_monitor_image: "{{ openstack_health_monitor_docker_registry }}/sovereigncloudstack/openstack-health-monitor:{{ openstack_health_monitor_tag }}"
+openstack_health_monitor_image: "{{ docker_registry_openstack_health_monitor }}/sovereigncloudstack/openstack-health-monitor:{{ openstack_health_monitor_tag }}"
 
 openstack_health_monitor_container_name: openstack_health_monitor
 
