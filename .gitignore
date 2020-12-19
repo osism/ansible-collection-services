@@ -1,2 +1,3 @@
 .molecule
-scripts/render-template.py
+galaxy.yml
+osism-services-*.tar.gz

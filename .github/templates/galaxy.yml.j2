@@ -1,7 +1,7 @@
 ---
 namespace: osism
 name: services
-version: 0.1.0
+version: {{ tag | regex_replace('^v', '') }}
 readme: README.md
 authors:
   - OSISM community <info@osism.de> (https://github.com/osism/ansible-collection-services/graphs/contributors)

@@ -1,16 +1,13 @@
 ---
 name: Publish collection
 
-on:
+"on":
   push:
-    branches:
-      - master
-    paths:
-      - 'roles/**'
-      - '.github/workflows/publish-collection.yml'
+    tags:
+      - 'v*'
 
 jobs:
-  default:
+  publish-collection:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,12 +19,11 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --use-feature=2020-resolver --upgrade pip
-          python3 -m pip install --use-feature=2020-resolver ansible~=2.9.0
-      - name: Build collection
-        run: ansible-galaxy collection build -f
-
-      # NOTE: --api-key required because of https://github.com/ansible/ansible/issues/67862
+          python3 -m pip install --use-feature=2020-resolver ansible~=2.10.0
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
       - name: Publish collection
-        run: ansible-galaxy collection publish --api-key $ANSIBLE_GALAXY_TOKEN osism-services-*.tar.gz
+        run: ansible-playbook -i localhost, -e tag='${{ steps.get_version.outputs.VERSION }}' .github/playbook-publish-collection.yml
         env:
           ANSIBLE_GALAXY_TOKEN: ${{ secrets.ANSIBLE_GALAXY_TOKEN }}
