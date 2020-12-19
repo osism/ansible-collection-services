@@ -1,8 +1,0 @@
----
-- git: https://github.com/osism/generics.git
-  version: master
-  files:
-    - src: ansible-collection/LICENSE
-      dst: ./
-    - src: ansible-collection/gilt.yml
-      dst: ./
