@@ -2,8 +2,7 @@
 ##########################
 # docker
 
-docker_registry: quay.io
-docker_registry_openstackclient: "{{ docker_registry }}"
+docker_registry_openstackclient: quay.io
 
 ##########################
 # operator user
