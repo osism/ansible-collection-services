@@ -96,6 +96,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
+      - "{{ manager_configuration_directory }}/awxclient.env"
 {% if ara_enable|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
