@@ -1,10 +1,10 @@
 ---
 - name: Copy wrapper scripts
+  become: true
   template:
     src: "wrapper/{{ item }}.j2"
     dest: "/usr/local/bin/{{ item }}"
     mode: 0755
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  become: true
   loop: "{{ wrapper_scripts }}"

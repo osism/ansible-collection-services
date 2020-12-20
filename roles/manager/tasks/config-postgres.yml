@@ -22,13 +22,13 @@
   no_log: true
 
 - name: Create docker-entrypoint-initdb.d directory
+  become: true
   file:
     path: "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d"
     state: directory
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0755
-  become: true
 
 - name: Create init-awx-database.sh script
   copy:

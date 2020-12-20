@@ -1,7 +1,7 @@
 ---
 - name: Install required packages
+  become: true
   package:
     name: "{{ item }}"
     state: present
   loop: "{{ required_packages_manager }}"
-  become: true

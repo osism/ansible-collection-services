@@ -1,5 +1,6 @@
 ---
 - name: Create directories required by netbox
+  become: true
   file:
     path: "{{ item }}"
     state: directory
@@ -9,7 +10,6 @@
   loop:
     - "{{ manager_configuration_directory }}/netbox/initializers"
     - "{{ manager_configuration_directory }}/netbox/startup-scripts"
-  become: true
 
 - name: Copy netbox environment files
   template:
