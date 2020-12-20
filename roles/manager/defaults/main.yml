@@ -182,6 +182,15 @@ awx_server_port: 8052
 awx_tag: latest
 awx_image: "{{ docker_registry_awx }}/osism/manager:{{ awx_tag }}"
 
+# awxclient
+
+awxclient_container_name: awxclient
+
+awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
+
+awxclient_tag: 16.0.0
+awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awx_tag }}"
+
 # postgres
 
 awx_postgres_username: awx

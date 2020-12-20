@@ -83,6 +83,25 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% if awx_enable|bool %}
+  awxclient:
+    container_name: "{{ awxclient_container_name }}"
+    image: "{{ awxclient_image }}"
+    command: sleep infinity
+    restart: unless-stopped
+    depends_on:
+      - awx-task
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+{% if ara_enable|bool %}
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
+    secrets:
+      - TOWER_PASSWORD
+      - TOWER_USERNAME
   awx-task: &awx
     image: "{{ awx_image }}"
     command: /run.sh

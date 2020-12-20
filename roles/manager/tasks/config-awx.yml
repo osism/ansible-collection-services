@@ -8,6 +8,7 @@
     group: "{{ operator_group }}"
   loop:
     - awx
+    - awxclient
 
 - name: Copy AWX configuration files
   template:
