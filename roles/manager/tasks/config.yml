@@ -1,5 +1,6 @@
 ---
 - name: Create required directories
+  become: true
   file:
     path: "{{ item }}"
     state: directory
@@ -13,7 +14,6 @@
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_configuration_directory }}"
     - "{{ manager_secrets_directory }}"
-  become: true
 
 - name: Include ara config tasks
   include_tasks: config-ara.yml

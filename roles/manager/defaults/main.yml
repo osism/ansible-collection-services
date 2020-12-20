@@ -224,6 +224,7 @@ vault_token: 00000000-0000-0000-0000-000000000000
 
 wrapper_scripts:
   - osism-ansible
+  - osism-awx
   - osism-ceph
   - osism-custom
   - osism-generic

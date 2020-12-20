@@ -1,11 +1,11 @@
 ---
 - name: Copy private ssh keys
+  become: true
   copy:
     content: "{{ item.value }}"
     dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
     owner: "{{ operator_user }}"
     mode: 0600
-  become: true
   loop: "{{ private_keys|dict2items }}"
   no_log: true
 
