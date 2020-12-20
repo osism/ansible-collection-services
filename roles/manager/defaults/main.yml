@@ -170,8 +170,9 @@ netbox_postgres_databasename: "{{ netbox_postgres_username }}"
 
 awx_enable: false
 
-awx_username: "{{ operator_user }}"
+awx_mailaddress: "{{ operator_user }}@osism.test"
 awx_password: password
+awx_username: "{{ operator_user }}"
 
 awx_secret_key: 00000000-0000-0000-0000-000000000000
 
