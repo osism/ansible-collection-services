@@ -59,6 +59,8 @@
   file:
     dest: "{{ auditd_rules_path }}/{{ item }}"
     state: absent
-  when: item not in auditd_rules_files
+  when:
+    - item not in auditd_rules_files
+    - item != 'osas-auditd-rhel7.rules'
   loop: "{{ auditd_existing_rules.stdout_lines | default([]) }}"
   notify: Generate auditd rules
