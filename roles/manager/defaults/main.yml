@@ -236,4 +236,5 @@ wrapper_scripts:
   - osism-openstack
   - osism-run
   - osism-run-without-secrets
+  - osism-state
   - osism-update-manager
