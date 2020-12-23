@@ -1,4 +1,6 @@
+###############################################################################
 # AWX settings file
+###############################################################################
 
 import os
 
@@ -13,29 +15,30 @@ def read_secret(secret_name):
             return f.readline().strip()
 
 
+###############################################################################
+# GENERIC
+###############################################################################
+
 ADMINS = ()
 
-STATIC_ROOT = '/var/lib/awx/public/static'
-
-PROJECTS_ROOT = '/opt/ansible'
-
-AWX_ANSIBLE_COLLECTIONS_PATHS = '/var/lib/awx/vendor/awx_ansible_collections'
-
 JOBOUTPUT_ROOT = '/var/lib/awx/job_status'
+PROJECTS_ROOT = '/opt/ansible'
+STATIC_ROOT = '/var/lib/awx/public/static'
 
 SECRET_KEY = read_secret('TOWER_SECRET_KEY')
 
 ALLOWED_HOSTS = ['*']
 
-# Container environments don't like chroots
-AWX_PROOT_ENABLED = False
-
-
 CLUSTER_HOST_ID = "awx"
-SYSTEM_UUID = '00000000-0000-0000-0000-000000000000'
 
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
+
+# Container environments don't like chroots
+AWX_PROOT_ENABLED = False
+
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
 
 ###############################################################################
 # EMAIL SETTINGS
@@ -50,6 +53,10 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
+
+###############################################################################
+# LOGGING
+###############################################################################
 
 LOGGING['handlers']['console'] = {
     '()': 'logging.StreamHandler',
@@ -75,11 +82,18 @@ LOGGING['handlers']['rbac_migrations'] = {'class': 'logging.NullHandler'}
 LOGGING['handlers']['system_tracking_migrations'] = {'class': 'logging.NullHandler'}
 LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 
-USE_X_FORWARDED_HOST = True
-USE_X_FORWARDED_PORT = True
-
 ###############################################################################
 # OTHER
 ###############################################################################
 
-AWX_REBUILD_SMART_MEMBERSHIP = True
+{% for key, value in awx_configuration|dictsort -%}
+{% if value is sameas false %}
+{{ key }} = False
+{% elif value is sameas true %}
+{{ key }} = True,
+{% elif value is string %}
+{{ key }} = '{{ value }}'
+{% elif value is number %}
+{{ key }} = {{ value }}
+{% endif %}
+{% endfor -%}
