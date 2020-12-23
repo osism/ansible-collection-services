@@ -90,7 +90,7 @@ LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 {% if value is sameas false %}
 {{ key }} = False
 {% elif value is sameas true %}
-{{ key }} = True,
+{{ key }} = True
 {% elif value is string %}
 {{ key }} = '{{ value }}'
 {% elif value is number %}
