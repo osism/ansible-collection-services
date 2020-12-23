@@ -8,10 +8,9 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
-docker_registry: index.docker.io
-docker_registry_patchman: "{{ docker_registry }}"
-docker_registry_postgres: "{{ docker_registry }}"
-docker_registry_memcached: "{{ docker_registry }}"
+docker_registry_patchman: quay.io
+docker_registry_postgres: index.docker.io
+docker_registry_memcached: index.docker.io
 
 ##########################
 # patchman
