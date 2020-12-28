@@ -7,7 +7,11 @@
     enabled: false
 
 - name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
 
 - name: Install package
   become: true
