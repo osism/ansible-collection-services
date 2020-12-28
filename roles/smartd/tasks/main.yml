@@ -1,12 +1,6 @@
 ---
-- name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
-
-- name: Install smartmontools package
-  become: true
-  apt:
-    name: "{{ smartd_package_name }}"
-    state: present
+- name: Include distribution specific install tasks
+  include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Create /var/log/smartd directory
   become: true

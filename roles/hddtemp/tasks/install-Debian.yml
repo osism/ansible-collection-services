@@ -1,0 +1,13 @@
+---
+- name: Wait for apt lock
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+
+- name: Install hddtemp package
+  become: true
+  apt:
+    name: "{{ hddtemp_package_name }}"
+    state: present

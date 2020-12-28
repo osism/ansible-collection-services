@@ -1,0 +1,26 @@
+---
+- name: Wait for apt lock
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+
+- name: Install auditd package
+  become: true
+  apt:
+    name: "{{ auditd_package_name }}"
+    state: present
+
+- name: Wait for apt lock
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+
+- name: Install audispd-plugins package
+  become: true
+  apt:
+    name: "{{ audispd_plugins_package_name }}"
+    state: present
