@@ -1,17 +1,6 @@
 ---
-- name: Wait for apt lock
-  become: true
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-
-- name: Install required packages (server)
-  become: true
-  apt:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ required_packages_cockpit_server }}"
+- name: Include distribution specific install tasks
+  include_tasks: "install-server-{{ ansible_os_family }}.yml"
 
 - name: Create systemd overlay directory
   become: true

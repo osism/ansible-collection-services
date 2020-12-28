@@ -10,18 +10,8 @@
   tags:
   - always
 
-- name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
-
-- name: Install required packages (client)
-  become: true
-  apt:
-    name: "{{ item }}"
-    state: present
-  when: configure_cockpit|bool
-  loop: "{{ required_packages_cockpit }}"
-  tags:
-    - client
+- name: Include distribution specific install tasks
+  include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Setup cockpit server
   include: server.yml
