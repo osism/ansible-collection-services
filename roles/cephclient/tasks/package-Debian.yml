@@ -14,6 +14,9 @@
     mode: 0644
   when: cephclient_configure_repository|bool
 
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install required packages
   become: true
   apt:

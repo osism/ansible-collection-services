@@ -1,4 +1,7 @@
 ---
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install apt-transport-https package
   apt:
     name: apt-transport-https
@@ -20,6 +23,9 @@
     update_cache: true
   when: docker_kata_configure_repository|bool
   become: true
+
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
 
 - name: Install required packages
   apt:

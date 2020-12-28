@@ -9,6 +9,9 @@
   when: "item in ansible_facts.packages"
   loop: "{{ docker_packages_fail }}"
 
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install apt-transport-https package
   apt:
     name: apt-transport-https
@@ -60,6 +63,9 @@
   become: true
   tags: molecule-idempotence-notest
 
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
   apt:
@@ -74,11 +80,17 @@
   become: true
   tags: molecule-idempotence-notest
 
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install docker-cli package
   apt:
     name: "{{ docker_cli_package_name }}={{ docker_version }}*"
     state: present
   become: true
+
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
 
 - name: Install docker package
   apt:
@@ -94,8 +106,11 @@
         state: absent
       loop: "{{ docker_python_package_names }}"
 
+    - name: Wait for apt lock
+      shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
     - name: Install python3 docker package
-      package:
+      apt:
         name: "{{ docker_python3_package_name }}"
         state: present
 
@@ -104,8 +119,11 @@
 
 - name: Install python bindings with pip
   block:
+    - name: Wait for apt lock
+      shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
     - name: Remove python docker packages (install python bindings from pip)
-      package:
+      apt:
         name: "{{ item }}"
         state: absent
       loop: "{{ docker_python_package_names }}"
@@ -120,8 +138,11 @@
         mode: 0644
       loop: "{{ docker_python_package_names }}"
 
+    - name: Wait for apt lock
+      shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
     - name: Install python3-pip package (install python bindings from pip)
-      package:
+      apt:
         name: python3-pip
         state: present
 
@@ -135,8 +156,11 @@
   become: true
   when: docker_python_install_from_pip|bool
 
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install packages required by docker login
-  package:
+  apt:
     name: "{{ item }}"
     state: present
   loop:

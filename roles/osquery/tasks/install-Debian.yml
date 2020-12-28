@@ -1,4 +1,7 @@
 ---
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install apt-transport-https package
   become: true
   apt:
@@ -22,6 +25,9 @@
     filename: osquery
     update_cache: true
   when: osquery_configure_repository|bool
+
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
 
 - name: Install osquery package
   become: true
