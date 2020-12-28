@@ -10,7 +10,11 @@
   loop: "{{ docker_packages_fail }}"
 
 - name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
 
 - name: Install apt-transport-https package
   apt:
@@ -64,7 +68,11 @@
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
@@ -81,7 +89,11 @@
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
 
 - name: Install docker-cli package
   apt:
@@ -90,7 +102,11 @@
   become: true
 
 - name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
 
 - name: Install docker package
   apt:
@@ -107,7 +123,11 @@
       loop: "{{ docker_python_package_names }}"
 
     - name: Wait for apt lock
-      shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+      become: true
+      shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+      loop:
+        - lock
+        - lock-frontend
 
     - name: Install python3 docker package
       apt:
@@ -120,7 +140,11 @@
 - name: Install python bindings with pip
   block:
     - name: Wait for apt lock
-      shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+      become: true
+      shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+      loop:
+        - lock
+        - lock-frontend
 
     - name: Remove python docker packages (install python bindings from pip)
       apt:
@@ -139,7 +163,11 @@
       loop: "{{ docker_python_package_names }}"
 
     - name: Wait for apt lock
-      shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+      become: true
+      shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+      loop:
+        - lock
+        - lock-frontend
 
     - name: Install python3-pip package (install python bindings from pip)
       apt:
@@ -157,7 +185,11 @@
   when: docker_python_install_from_pip|bool
 
 - name: Wait for apt lock
-  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
 
 - name: Install packages required by docker login
   apt:
