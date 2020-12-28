@@ -6,9 +6,12 @@
     state: stopped
     enabled: false
 
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install package
   become: true
-  package:
+  apt:
     name: "{{ chrony_package_name }}"
     state: present
 

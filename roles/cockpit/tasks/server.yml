@@ -1,7 +1,10 @@
 ---
+- name: Wait for apt lock
+  shell: while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done
+
 - name: Install required packages (server)
   become: true
-  package:
+  apt:
     name: "{{ item }}"
     state: present
   loop: "{{ required_packages_cockpit_server }}"
