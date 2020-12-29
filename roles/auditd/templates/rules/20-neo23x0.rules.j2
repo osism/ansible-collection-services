@@ -397,7 +397,8 @@
 -w /usr/bin/docker -k docker
 -w /usr/bin/docker-containerd -k docker
 -w /usr/bin/docker-runc -k docker
--w /var/lib/docker -k docker
+# NOTE: ignore /var/lib/docker because it creates a lot of volume
+# -w /var/lib/docker -k docker
 -w /etc/docker -k docker
 -w /etc/sysconfig/docker -k docker
 -w /etc/sysconfig/docker-storage -k docker
