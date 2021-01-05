@@ -1,0 +1,3 @@
+---
+fail2ban_service_name: fail2ban
+fail2ban_package_name: fail2ban
