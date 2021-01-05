@@ -43,6 +43,7 @@ netdata_update_every: 5
 
 # server
 
+netdata_default_history: 3600
 netdata_enable_cloud: false
 
 # possible values: [dbengine, ram, save, map, none, alloc]

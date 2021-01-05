@@ -8,9 +8,10 @@
 {% endif %}
 {% if netdata_host_type == 'server' %}
 [stream]
+
 [{{ netdata_api_key }}]
         enabled = yes
-        default history = 3600
+        default history = {{ netdata_default_history }}
         default memory mode = save
         health enabled by default = auto
         allow from = *
