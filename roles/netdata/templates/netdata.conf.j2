@@ -8,6 +8,7 @@
 {% if netdata_host_type == 'client' %}
         memory mode = none
 {% else %}
+        access log = none
         memory mode = {{ netdata_memory_mode }}
 {% endif %}
 
