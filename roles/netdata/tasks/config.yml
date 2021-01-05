@@ -10,6 +10,15 @@
   notify: Restart netdata service
   loop: "{{ netdata_configuration_files }}"
 
+- name: Create /var/lib/netdata/cloud.d directory
+  become: true
+  file:
+    path: /var/lib/netdata/cloud.d
+    state: directory
+    owner: netdata
+    group: netdata
+    mode: 0775
+
 - name: Copy cloud.conf configuration file
   become: true
   template:
