@@ -3,6 +3,7 @@
 [global]
         hostname = {{ inventory_hostname }}
         run as user = netdata
+        update every = {{ netdata_update_every }}
 
 {% if netdata_host_type == 'client' %}
         memory mode = none
