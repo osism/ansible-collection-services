@@ -1,0 +1,57 @@
+---
+name: Test role auditd
+
+"on":
+  push:
+    paths:
+      - '.github/workflows/test-role-auditd.yml'
+      - 'molecule/auditd/**'
+      - 'molecule/default/*'
+      - 'roles/auditd/**'
+  pull_request:
+    paths:
+      - '.github/workflows/test-role-auditd.yml'
+      - 'molecule/auditd/**'
+      - 'molecule/default/*'
+      - 'roles/auditd/**'
+
+jobs:
+  test-role-auditd:
+
+    runs-on: ubuntu-latest
+
+    env:
+      MOLECULE_ROLE: auditd
+
+    strategy:
+      max-parallel: 4
+      matrix:
+        ansible-version: [2.9.15, 2.10.4]
+        python-version: [3.6, 3.8]
+        docker-image: ['ubuntu:18.04', 'ubuntu:20.04']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install QEMU static binaries
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --use-feature=2020-resolver --upgrade pip
+          python3 -m pip install --use-feature=2020-resolver -r molecule/requirements.txt
+          python3 -m pip install --use-feature=2020-resolver ansible~=${{ matrix.ansible-version }}
+      - name: Run molecule
+        run: molecule test
+        env:
+          MOLECULE_DOCKER_IMAGE: "${{ matrix.docker-image }}"
+      - name: Cleanup molecule
+        run: molecule destroy
+        env:
+          MOLECULE_DOCKER_IMAGE: "${{ matrix.docker-image }}"
+        if: ${{ always() }}
