@@ -1,0 +1,10 @@
+---
+- name: Include distribution specific install tasks
+  include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Start/enable fail2ban service
+  become: true
+  service:
+    name: "{{ fail2ban_service_name }}"
+    state: started
+    enabled: true

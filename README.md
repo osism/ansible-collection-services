@@ -10,6 +10,7 @@ The following Ansible roles are included in this collection.
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg) |
 | cockpit                  |                                                                                                                    |
 | docker                   |                                                                                                                    |
+| fail2ban                 |                                                                                                                    |
 | falco                    |                                                                                                                    |
 | hddtemp                  |                                                                                                                    |
 | keycloak                 |                                                                                                                    |
