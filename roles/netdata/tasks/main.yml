@@ -1,3 +1,6 @@
 ---
-- name: Include action specific tasks
-  include: "{{ netdata_action }}.yml"
+- name: Include distribution specific install tasks
+  include: "install-{{ ansible_os_family }}.yml"
+
+- name: Include config tasks
+  include: config.yml
