@@ -22,3 +22,4 @@
 - name: Include fluentd tasks
   include: fluentd.yml
   tags: fluentd
+  when: rsyslog_fluentd|bool
