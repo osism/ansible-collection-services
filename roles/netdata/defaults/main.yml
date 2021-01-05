@@ -28,11 +28,18 @@ netdata_debian_repository: "deb [ arch={{ netdata_debian_repository_arch }} ] ht
 ##########################
 # parameters
 
+# client & server
+
+# possible values: [client, server]
 netdata_host_type: client
 
 netdata_api_key: 00000000-0000-0000-0000-000000000000
-
 netdata_api_host: 127.0.0.1
 netdata_api_port: 19999
 
+# server
+
 netdata_enable_cloud: false
+
+# possible values: [dbengine, ram, save, map, none, alloc]
+netdata_memory_mode: map
