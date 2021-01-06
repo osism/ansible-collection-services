@@ -6,6 +6,7 @@ The following Ansible roles are included in this collection.
 |------------------------- |--------------------------------------------------------------------------------------------------------------------|
 | adminer                  |                                                                                                                    |
 | auditd                   |                                                                                                                    |
+| bird                     |                                                                                                                    |
 | cephclient               |                                                                                                                    |
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg) |
 | cockpit                  |                                                                                                                    |
