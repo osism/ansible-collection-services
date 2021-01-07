@@ -17,6 +17,15 @@ bird_sysctl:
     value: 2
 
 bird_cidr: 10.12.0.0/16
+bird_leaf_interfaces: []
+
 bird_neighbor_as: 65000
 
-bird_leaf_interfaces: []
+bird_keepalive_time: 1
+bird_leaf_bfd: "no"
+bird_leaf_hold_time: 3
+
+bird_bfd_idle_tx_interval: 200
+bird_bfd_min_rx_interval: 20
+bird_bfd_min_tx_interval: 20
+bird_bfd_multiplier: 3
