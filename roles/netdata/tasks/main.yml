@@ -4,3 +4,6 @@
 
 - name: Include config tasks
   include: config.yml
+
+- name: Include host type specific tasks
+  include: "{{ netdata_host_type }}.yml"
