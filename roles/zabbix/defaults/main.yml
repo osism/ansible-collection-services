@@ -17,6 +17,7 @@ docker_registry_zabbix: "{{ docker_registry }}"
 # parameters
 
 zabbix_cachesize: 1024M
+zabbix_server_name: OSISM
 zabbix_startpollers: 5
 
 # docker-compose
@@ -29,23 +30,23 @@ zabbix_network: 172.31.100.112/28
 
 # zabbix-server
 
-zabbix_server_host: "{{ ansible_default_ipv4.address }}"
+zabbix_server_host: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
 zabbix_server_hostname: "{{ zabbix_server_host }}"
 zabbix_server_port: 10051
 
-zabbix_server_tag: alpine-latest
+zabbix_server_tag: alpine-5.2-latest
 zabbix_server_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-server-mysql:{{ zabbix_server_tag }}"
 
 zabbix_server_container_name: zabbix-server
 
 # zabbix-web
 
-zabbix_web_host: "{{ ansible_default_ipv4.address }}"
+zabbix_web_host: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
 zabbix_web_hostname: "{{ zabbix_web_host }}"
 zabbix_web_port: 8160
 
-zabbix_web_tag: alpine-latest
-zabbix_web_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-web-apache-mysql:{{ zabbix_web_tag }}"
+zabbix_web_tag: alpine-5.2-latest
+zabbix_web_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-web-nginx-mysql:{{ zabbix_web_tag }}"
 
 zabbix_web_container_name: zabbix-web
 
