@@ -48,9 +48,9 @@ protocol bgp leaf{{ loop.index }} {
   neighbor {{ hostvars[inventory_hostname]['ansible_' + item]['ipv4']['address'] | ipmath(-1) }} as {{ bird_neighbor_as|default(65000) }};
   import filter accept_all;
   export filter export_internal_address;
-  hold time 3;
-  keepalive time 1;
-  bfd no;
+  hold time {{ bird_leaf_hold_time }};
+  keepalive time {{ bird_keepalive_time }};
+  bfd {{ bird_leaf_bfd }};
 
 }
 
@@ -61,10 +61,10 @@ protocol bfd {
 {% for item in bird_leaf_interfaces %}
 
   interface "{{ item }}" {
-    min rx interval 20 ms;
-    min tx interval 20 ms;
-    idle tx interval 300 ms;
-    multiplier 3;
+    min rx interval {{ bird_bfd_min_rx_interval }} ms;
+    min tx interval {{ bird_bfd_min_tx_interval }} ms;
+    idle tx interval {{ bird_bfd_idle_tx_interval }} ms;
+    multiplier {{ bird_bfd_multiplier }};
   };
 
 {% endfor %}
