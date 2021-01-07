@@ -9,6 +9,7 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry: index.docker.io
+docker_registry_postgres: "{{ docker_registry }}"
 docker_registry_zabbix: "{{ docker_registry }}"
 
 ##########################
@@ -35,7 +36,7 @@ zabbix_server_hostname: "{{ zabbix_server_host }}"
 zabbix_server_port: 10051
 
 zabbix_server_tag: alpine-5.2-latest
-zabbix_server_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-server-mysql:{{ zabbix_server_tag }}"
+zabbix_server_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-server-pgsql:{{ zabbix_server_tag }}"
 
 zabbix_server_container_name: zabbix-server
 
@@ -46,17 +47,17 @@ zabbix_web_hostname: "{{ zabbix_web_host }}"
 zabbix_web_port: 8160
 
 zabbix_web_tag: alpine-5.2-latest
-zabbix_web_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-web-nginx-mysql:{{ zabbix_web_tag }}"
+zabbix_web_image: "{{ docker_registry_zabbix }}/zabbix/zabbix-web-nginx-pgsql:{{ zabbix_web_tag }}"
 
 zabbix_web_container_name: zabbix-web
 
-# mariadb
+# postgres
 
-zabbix_mariadb_username: zabbix
-zabbix_mariadb_password: password
-zabbix_mariadb_databasename: "{{ zabbix_mariadb_username }}"
+zabbix_postgres_username: zabbix
+zabbix_postgres_password: password
+zabbix_postgres_databasename: "{{ zabbix_postgres_username }}"
 
-zabbix_mariadb_tag: 10.5
-zabbix_mariadb_image: "{{ docker_registry_zabbix }}/library/mariadb:{{ zabbix_mariadb_tag }}"
+zabbix_postgres_tag: 12-alpine
+zabbix_postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ zabbix_postgres_tag }}"
 
-zabbix_mariadb_container_name: zabbix-mariab
+zabbix_postgres_container_name: zabbix-postgres

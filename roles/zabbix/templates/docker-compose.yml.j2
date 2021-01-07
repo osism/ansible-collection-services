@@ -25,12 +25,11 @@ services:
       - net.ipv4.conf.all.secure_redirects=0
       - net.ipv4.conf.all.send_redirects=0
     secrets:
-      - MYSQL_PASSWORD
-      - MYSQL_ROOT_PASSWORD
+      - POSTGRES_PASSWORD
     env_file:
       - "{{ zabbix_configuration_directory }}/zabbix-server.env"
     depends_on:
-      - mariadb
+      - postgres
 
   web:
     container_name: "{{ zabbix_web_container_name }}"
@@ -43,7 +42,7 @@ services:
     ports:
       - "{{ zabbix_web_host }}:{{ zabbix_web_port }}:8080"
     secrets:
-      - MYSQL_PASSWORD
+      - POSTGRES_PASSWORD
     env_file:
       - "{{ zabbix_configuration_directory }}/zabbix-web.env"
     depends_on:
@@ -51,26 +50,26 @@ services:
     healthcheck:
       test: curl -f http://localhost:8080
 
-  mariadb:
-    container_name: "{{ zabbix_mariadb_container_name }}"
+  postgres:
+    container_name: "{{ zabbix_postgres_container_name }}"
     restart: unless-stopped
-    image: "{{ zabbix_mariadb_image }}"
+    image: "{{ zabbix_postgres_image }}"
     secrets:
-      - MYSQL_ROOT_PASSWORD
+      - POSTGRES_PASSWORD
     env_file:
-      - "{{ zabbix_configuration_directory }}/mariadb.env"
+      - "{{ zabbix_configuration_directory }}/postgres.env"
     volumes:
-      - "mariadb:/var/lib/mysql"
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U {{ zabbix_postgres_username }}
 
 volumes:
-  mariadb:
+  postgres:
   modules:
 
 secrets:
-  MYSQL_PASSWORD:
-    file: {{ zabbix_secrets_directory }}/MYSQL_PASSWORD
-  MYSQL_ROOT_PASSWORD:
-    file: {{ zabbix_secrets_directory }}/MYSQL_ROOT_PASSWORD
+  POSTGRES_PASSWORD:
+    file: {{ zabbix_secrets_directory }}/POSTGRES_PASSWORD
 
 networks:
  default:

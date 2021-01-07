@@ -24,22 +24,14 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
-    - mariadb
+    - postgres
     - zabbix-web
     - zabbix-server
 
-- name: Copy MYSQL_PASSWORD secret file
+- name: Copy POSTGRES_PASSWORD secret file
   copy:
-    content: "{{ zabbix_mariadb_password }}"
-    dest: "{{ zabbix_secrets_directory }}/MYSQL_PASSWORD"
-    mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-
-- name: Copy MYSQL_ROOT_PASSWORD secret file
-  copy:
-    content: "{{ zabbix_mariadb_password }}"
-    dest: "{{ zabbix_secrets_directory }}/MYSQL_ROOT_PASSWORD"
+    content: "{{ zabbix_postgres_password }}"
+    dest: "{{ zabbix_secrets_directory }}/POSTGRES_PASSWORD"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
