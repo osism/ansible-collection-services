@@ -1,0 +1,9 @@
+---
+- name: Set sysctl vm.max_map_count parameter
+  become: true
+  sysctl:
+    name: vm.max_map_count
+    value: "{{ netdata_sys_vm_max_map_count }}"
+    state: present
+    sysctl_file: /etc/sysctl.d/50-netdata.conf
+    sysctl_set: true

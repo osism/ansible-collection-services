@@ -48,3 +48,7 @@ netdata_enable_cloud: false
 
 # possible values: [dbengine, ram, save, map, none, alloc]
 netdata_memory_mode: map
+
+# NOTE: The more nodes streaming to the server the higher this
+#       value must be set.
+netdata_sys_vm_max_map_count: 262120
