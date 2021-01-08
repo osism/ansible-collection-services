@@ -1,4 +1,6 @@
 ---
+zabbix_network: 172.31.100.112/28
+
 zabbix_agent_server: 127.0.0.1
 
 zabbix_agent_host: "{{ internal_address|default(ansible_default_ipv4.address) }}"
