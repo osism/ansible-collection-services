@@ -30,13 +30,13 @@
     mode: 0644
   when: zabbix_agent_configure_repository|bool
 
-- name: Install required packages
+- name: "Install {{ zabbix_agent_package_name }} package"
   become: true
-  package:
+  apt:
     name: "{{ zabbix_agent_package_name }}"
     state: present
 
-- name: Start zabbix-agent service
+- name: "Start {{ zabbix_agent_service_name }} service"
   become: true
   service:
     name: "{{ zabbix_agent_service_name }}"
