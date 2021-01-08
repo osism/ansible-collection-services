@@ -2,6 +2,9 @@
 - name: Include distribution specific install tasks
   include_tasks: "install-{{ ansible_os_family }}.yml"
 
+- name: Include distribution specific cleanup tasks
+  include_tasks: "cleanup-{{ ansible_os_family }}.yml"
+
 - name: Include config tasks
   include_tasks: config.yml
 

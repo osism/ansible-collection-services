@@ -1,5 +1,5 @@
 ---
-- name: Copy zabbix_agentd.conf configuration file
+- name: "Copy {{ zabbix_agent_configuration_file }} configuration file"
   become: true
   template:
     src: "{{ zabbix_agent_configuration_file }}.j2"
