@@ -6,7 +6,11 @@ LogFile=/var/log/zabbix/zabbix_agent2.log
 LogFileSize=512
 
 SourceIP={{ zabbix_agent_source }}
+{% if 'zabbix' in group_names %}
+Server={{ zabbix_agent_server }},{{ zabbix_network }}
+{% else %}
 Server={{ zabbix_agent_server }}
+{% endif %}
 
 ListenPort={{ zabbix_agent_port }}
 ListenIP={{ zabbix_agent_host }}
