@@ -1,10 +1,6 @@
 ---
-- name: Wait for apt lock
-  become: true
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
+- name: Collect facts about services
+  scan_services:
 
 - name: Stop old zabbix-agent service
   become: true
@@ -12,8 +8,16 @@
     name: zabbix-agent
     state: stopped
     enabled: false
+  when: "'zabbix-agent.service' in services"
 
-- name: Rmove old zabbix-agent package
+- name: Wait for apt lock
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+
+- name: Remove old zabbix-agent package
   become: true
   apt:
     name: zabbix-agent
