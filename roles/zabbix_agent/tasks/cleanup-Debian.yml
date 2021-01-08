@@ -24,3 +24,9 @@
   file:
     path: /etc/zabbix/zabbix_agentd.conf
     state: absent
+
+- name: Remove old zabbix_agentd.conf.d directory
+  become: true
+  file:
+    path: /etc/zabbix/zabbix_agentd.conf.d
+    state: absent
