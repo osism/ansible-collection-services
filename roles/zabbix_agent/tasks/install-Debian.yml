@@ -35,10 +35,3 @@
   apt:
     name: "{{ zabbix_agent_package_name }}"
     state: present
-
-- name: "Start {{ zabbix_agent_service_name }} service"
-  become: true
-  service:
-    name: "{{ zabbix_agent_service_name }}"
-    state: started
-    enabled: true
