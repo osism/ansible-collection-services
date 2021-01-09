@@ -9,4 +9,11 @@
   loop:
     - ara
     - ara-server
-    - mariadb
+
+- name: Copy MariaDB environment file
+  template:
+    src: env/mariadb.env.j2
+    dest: "{{ manager_configuration_directory }}/mariadb.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"

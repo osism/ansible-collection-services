@@ -68,10 +68,11 @@ services:
       - /etc/timezone:/etc/timezone:ro
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
-    depends_on:
-      - mariadb
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
+{% if ara_server_database_type == 'mysql' %}
+    depends_on:
+      - mariadb
   mariadb:
     restart: unless-stopped
     image: "{{ mariadb_image }}"
@@ -81,6 +82,8 @@ services:
       - "mariadb:/var/lib/mysql"
     healthcheck:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
+      test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
+{% endif %}
 {% endif %}
 {% if awx_enable|bool %}
   awxclient:
@@ -254,7 +257,7 @@ volumes:
 {% endif %}
   cache:
   logs:
-{% if ara_enable|bool %}
+{% if ara_enable|bool and ara_server_database_type == 'mysql' %}
   mariadb:
 {% endif %}
 {% if redis_enable|bool %}
