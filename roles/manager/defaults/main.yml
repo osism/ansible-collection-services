@@ -116,6 +116,8 @@ ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_serv
 
 # mariadb (used by ara)
 
+ara_server_database_type: mysql
+
 ara_server_mariadb_host: "{{ ansible_default_ipv4.address }}"
 ara_server_mariadb_port: 3306
 
