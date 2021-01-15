@@ -37,13 +37,14 @@
     - lock
     - lock-frontend
 
-- name: Install netdata package
+- name: "Install {{ netdata_package_name }} package"
   become: true
   apt:
     name: "{{ netdata_package_name }}"
     state: latest
+  notify: "Restart {{ netdata_service_name }} service"
 
-- name: Start/enable netdata service
+- name: "Start/enable {{ netdata_service_name }} service"
   become: true
   service:
     name: "{{ netdata_service_name }}"
