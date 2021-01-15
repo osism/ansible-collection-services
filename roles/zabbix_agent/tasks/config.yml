@@ -7,7 +7,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: Restart zabbix-agent service
+  notify: "Restart {{ zabbix_agent_service_name }} service"
 
 - name: Add zabbix user to docker group
   become: true
