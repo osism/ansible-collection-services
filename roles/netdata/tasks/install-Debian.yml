@@ -41,7 +41,7 @@
   become: true
   apt:
     name: "{{ netdata_package_name }}"
-    state: present
+    state: latest
 
 - name: Start/enable netdata service
   become: true
