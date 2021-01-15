@@ -20,14 +20,32 @@
     url: "{{ zabbix_agent_debian_repository_key }}"
   when: zabbix_agent_configure_repository|bool
 
+
+# NOTE: We not use apt_repository here to get rid of the old repository
+#       when the version changes.
+
 - name: Add repository
   become: true
-  apt_repository:
-    repo: "{{ zabbix_agent_debian_repository }}"
-    state: present
-    filename: zabbix
-    update_cache: true
+  copy:
+    content: "{{ zabbix_agent_debian_repository }}"
+    dest: /etc/apt/sources.list.d/zabbix.list
+    owner: root
+    group: root
     mode: 0644
+  when: zabbix_agent_configure_repository|bool
+
+- name: Wait for apt lock
+  become: true
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  when: zabbix_agent_configure_repository|bool
+
+- name: Update package cache
+  become: true
+  apt:
+    update_cache: true
   when: zabbix_agent_configure_repository|bool
 
 - name: "Install {{ zabbix_agent_package_name }} package"
