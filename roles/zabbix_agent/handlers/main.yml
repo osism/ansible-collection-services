@@ -1,5 +1,5 @@
 ---
-- name: Restart zabbix-agent service
+- name: "Restart {{ zabbix_agent_service_name }} service"
   become: true
   service:
     name: "{{ zabbix_agent_service_name }}"

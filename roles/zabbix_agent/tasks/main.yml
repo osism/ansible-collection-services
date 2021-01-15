@@ -8,7 +8,7 @@
 - name: Include config tasks
   include_tasks: config.yml
 
-- name: "Start {{ zabbix_agent_service_name }} service"
+- name: "Start/enable {{ zabbix_agent_service_name }} service"
   become: true
   service:
     name: "{{ zabbix_agent_service_name }}"
