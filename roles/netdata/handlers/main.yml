@@ -1,5 +1,5 @@
 ---
-- name: Restart netdata service
+- name: "Restart {{ netdata_service_name }} service"
   become: true
   service:
     name: "{{ netdata_service_name }}"
