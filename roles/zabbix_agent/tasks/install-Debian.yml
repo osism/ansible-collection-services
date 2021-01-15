@@ -53,4 +53,4 @@
   apt:
     name: "{{ zabbix_agent_package_name }}"
     state: latest
-  notify: "Restart {{ zabbix_agent_service_name }}"
+  notify: "Restart {{ zabbix_agent_service_name }} service"
