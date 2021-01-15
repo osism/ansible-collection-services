@@ -52,4 +52,4 @@
   become: true
   apt:
     name: "{{ zabbix_agent_package_name }}"
-    state: present
+    state: latest
