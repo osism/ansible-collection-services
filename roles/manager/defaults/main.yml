@@ -17,7 +17,7 @@ docker_registry_vault: "{{ docker_registry_service }}"
 
 manager_network: 172.31.101.0/28
 
-manager_service_name: manager
+manager_service_name: "docker-compose@manager"
 
 ##########################
 # directories
