@@ -36,11 +36,12 @@
     - lock
     - lock-frontend
 
-- name: Install falco package
+- name: "Install {{ falco_package_name }} package"
   become: true
   apt:
     name: "{{ falco_package_name }}"
-    state: present
+    state: latest
+  notify: "Restart {{ falco_service_name }} service"
 
 - name: Check if /var/run/reboot-required exist
   stat:
@@ -67,7 +68,7 @@
     name: falco
     state: present
 
-- name: Start/enable falco service
+- name: "Start/enable {{ falco_service_name }} service"
   become: true
   service:
     name: "{{ falco_service_name }}"
