@@ -29,6 +29,8 @@ zabbix_docker_compose_directory: /opt/zabbix
 
 zabbix_network: 172.31.100.112/28
 
+zabbix_service_name: "docker-compose@zabbix"
+
 # zabbix-server
 
 zabbix_server_host: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
