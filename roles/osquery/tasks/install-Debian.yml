@@ -37,13 +37,14 @@
     - lock
     - lock-frontend
 
-- name: Install osquery package
+- name: "Install {{ osquery_package_name }} package"
   become: true
   apt:
     name: "{{ osquery_package_name }}"
-    state: present
+    state: latest
+  notify: "Restart {{ osquery_service_name }} service"
 
-- name: Start/enable osquery service
+- name: "Start/enable {{ osquery_service_name }} service"
   become: true
   service:
     name: "{{ osquery_service_name }}"
