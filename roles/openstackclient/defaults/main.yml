@@ -30,6 +30,8 @@ openstackclient_container_name: openstackclient
 
 openstackclient_network: 172.31.100.16/28
 
+openstackclient_service_name: "docker-compose@openstackclient"
+
 ##########################
 # package
 

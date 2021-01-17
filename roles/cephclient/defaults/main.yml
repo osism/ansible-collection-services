@@ -34,6 +34,8 @@ cephclient_container_name: cephclient
 
 cephclient_network: 172.31.100.0/28
 
+cephclient_service_name: "docker-compose@cephclient"
+
 ##########################
 # package
 

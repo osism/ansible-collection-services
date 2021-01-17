@@ -24,3 +24,5 @@ adminer_tag: 4.7
 adminer_image: "{{ docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
 
 adminer_network: 172.31.100.64/28
+
+adminer_service_name: "docker-compose@adminer"
