@@ -28,7 +28,7 @@ patchman_container_name: patchman
 
 patchman_network: 172.31.100.80/28
 
-patchman_service_name: patchman
+patchman_service_name: "docker-compose@patchman"
 
 patchman_username: patchman
 patchman_password: password
