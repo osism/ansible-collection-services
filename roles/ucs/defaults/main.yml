@@ -9,24 +9,27 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry: index.docker.io
-docker_registry_ucs: "{{ docker_registry }}"
+docker_registry_ucs: docker-test.software-univention.de
 
 ##########################
 # ucs
 
-ucs_hostname: ucs-master
-ucs_domainname: osism.local
-ucs_root_password: password
-
-ucs_configuration_directory: /opt/ucs/configuration
-ucs_docker_compose_directory: /opt/ucs
+ucs_configuration_directory: /opt/ucs-iam/configuration
+ucs_docker_compose_directory: /opt/ucs-iam
 
 ucs_host: 127.0.0.1
 ucs_port: 8011
 
-ucs_tag: latest
-ucs_image: "{{ docker_registry_ucs }}/univention/ucs-master-amd64:{{ ucs_tag }}"
+ucs_tag: ucs446
+ucs_image: "{{ docker_registry_ucs }}/univention-corporate-server-scs:{{ ucs_tag }}"
 
-ucs_container_name: ucs
+ucs_container_name: ucs-iam
 
 ucs_network: 172.31.100.128/28
+
+ucs_container_hostname: ucs-iam
+ucs_container_domainname: osism.local
+
+ucs_external_hostname: iam
+ucs_external_domainname: osism.local
+ucs_external_port: 8011
