@@ -1,0 +1,55 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_registry_netbox: quay.io
+docker_registry_nginx: index.docker.io
+docker_registry_postgres: index.docker.io
+
+##########################
+# netbox
+
+netbox_configuration_directory: /opt/netbox/configuration
+netbox_secrets_directory: /opt/netbox/secrets
+netbox_docker_compose_directory: /opt/netbox
+
+netbox_network: 172.31.100.160/28
+netbox_service_name: netbox
+
+netbox_host: 127.0.0.1
+netbox_port: 8121
+
+netbox_tag: latest
+netbox_image: "{{ docker_registry_netbox }}/netbox/netbox:{{ netbox_tag }}"
+
+netbox_secret_key: 00000000-0000-0000-0000-000000000000
+
+netbox_superuser_name: netbox
+netbox_superuser_email: netbox@osism.local
+netbox_superuser_password: password
+netbox_superuser_api_token: "0000000000000000000000000000000000000000"
+
+netbox_user_name: dragon
+netbox_user_api_token: "1111111111111111111111111111111111111111"
+
+##########################
+# nginx
+
+netbox_nginx_tag: stable
+netbox_nginx_image: "{{ docker_registry_nginx }}/library/nginx:{{ netbox_nginx_tag }}"
+
+##########################
+# postgres
+
+netbox_postgres_tag: 13-alpine
+netbox_postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ netbox_postgres_tag }}"
+
+netbox_postgres_password: password
+netbox_postgres_username: netbox
+netbox_postgres_databasename: netbox

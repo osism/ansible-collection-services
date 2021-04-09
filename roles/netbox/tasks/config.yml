@@ -1,0 +1,21 @@
+---
+- name: Create required directories
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ netbox_docker_compose_directory }}"
+    - "{{ netbox_configuration_directory }}"
+    - "{{ netbox_secrets_directory }}"
+
+- name: Include postgres config tasks
+  include_tasks: config-postgres.yml
+  tags: postgres
+
+- name: Include config tasks
+  include_tasks: config-netbox.yml
+  tags: netbox
