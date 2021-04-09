@@ -20,7 +20,7 @@ netbox_secrets_directory: /opt/netbox/secrets
 netbox_docker_compose_directory: /opt/netbox
 
 netbox_network: 172.31.100.176/28
-netbox_service_name: netbox
+netbox_service_name: "docker-compose@netbox"
 
 netbox_host: 127.0.0.1
 netbox_port: 8121
