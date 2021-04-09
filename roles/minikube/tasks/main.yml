@@ -9,8 +9,10 @@
   get_url:
     url: "{{ minikube_package_url }}"
     dest: "{{ tmpfile.path }}"
+    force: true
 
 - name: Install minikube package
+  become: true
   apt:
     deb: "{{ tmpfile.path }}"
 
@@ -19,3 +21,26 @@
     path: "{{ tmpfile.path }}"
     state: absent
   when: tmpfile.path is defined
+
+- name: Copy minikube systemd unit file
+  become: true
+  template:
+    src: minikube.service.j2
+    dest: "/etc/systemd/system/{{ minikube_service_name }}.service"
+    mode: 0644
+    owner: root
+    group: root
+  register: systemd_minikube_template
+
+- name: Reload systemd daemon if minikube systemd unit file is changed
+  become: true
+  systemd:
+    daemon_reload: true
+  when: systemd_minikube_template is changed
+
+- name: "Start/enable {{ minikube_service_name }} service"
+  become: true
+  service:
+    name: "{{ minikube_service_name }}"
+    state: started
+    enabled: true

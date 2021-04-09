@@ -1,5 +1,16 @@
 ---
-##########################
-# packages
+minikube_service_user: "{{ operator_user | default('dragon') }}"
+minikube_service_group: "{{ operator_group | default('dragon') }}"
 
-minikube_package_url: https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+minikube_driver: docker
+
+##########################
+# service
+
+minikube_service_name: minikube
+
+##########################
+# package
+
+minikube_version: "1.18.1"
+minikube_package_url: "https://github.com/kubernetes/minikube/releases/download/v{{ minikube_version }}/minikube_{{ minikube_version }}-0_amd64.deb"
