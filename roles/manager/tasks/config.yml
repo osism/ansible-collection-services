@@ -35,11 +35,6 @@
   tags: vault
   when: vault_enable|bool
 
-- name: Include config tasks
-  include_tasks: config-netbox.yml
-  tags: netbox
-  when: netbox_enable|bool
-
 - name: Include ansible config tasks
   include_tasks: config-ansible.yml
   tags: ansible

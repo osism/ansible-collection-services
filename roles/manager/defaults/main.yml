@@ -9,7 +9,6 @@ docker_registry_service: "{{ docker_registry }}"
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
 docker_registry_awx: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
-docker_registry_netbox: "{{ docker_registry_ansible }}"
 docker_registry_nginx: "{{ docker_registry_service }}"
 docker_registry_postgres: "{{ docker_registry_service }}"
 docker_registry_redis: "{{ docker_registry_service }}"
@@ -63,7 +62,13 @@ required_packages_manager:
   - python3-virtualenv
 
 ##########################
-# osism-ansible helper
+# netbox integration
+
+netbox_api_url: ""
+netbox_api_token: ""
+
+##########################
+# osism-ansible
 
 osism_ansible_container_name: manager_osism-ansible_1
 
@@ -71,7 +76,7 @@ osism_ansible_tag: latest
 osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
 
 ##########################
-# ceph-ansible helper
+# ceph-ansible
 
 ceph_ansible_enable: true
 
@@ -81,7 +86,7 @@ ceph_ansible_tag: nautilus
 ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
-# kolla-ansible helper
+# kolla-ansible
 
 kolla_ansible_enable: true
 
@@ -133,53 +138,12 @@ mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
 ##########################
 # postgres
 
-postgres_enable: "{{ awx_enable|bool or netbox_enable|bool }}"
+postgres_enable: "{{ awx_enable|bool }}"
 
 postgres_tag: 13-alpine
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 postgres_password: password
-
-##########################
-# netbox
-
-netbox_enable: false
-
-netbox_secret_key: 00000000-0000-0000-0000-000000000000
-
-netbox_superuser_name: netbox
-netbox_superuser_email: netbox@osism.local
-netbox_superuser_password: password
-netbox_superuser_api_token: "0000000000000000000000000000000000000000"
-
-netbox_ansibleuser_name: ansible
-netbox_ansibleuser_api_token: "1111111111111111111111111111111111111111"
-
-netbox_tag: latest
-netbox_image: "{{ docker_registry_netbox }}/netboxcommunity/netbox:{{ netbox_tag }}"
-
-netbox_nginx_tag: stable
-netbox_nginx_image: "{{ docker_registry_nginx }}/library/nginx:{{ netbox_nginx_tag }}"
-
-netbox_host: "{{ ansible_default_ipv4.address }}"
-netbox_port: 8121
-
-netbox_userid: 101
-
-netbox_initializers:
-  - device_roles
-  - device_types
-  - manufacturers
-  - prefix_vlan_roles
-  - sites
-  - tags
-  - users
-
-# postgres
-
-netbox_postgres_username: netbox
-netbox_postgres_password: password
-netbox_postgres_databasename: "{{ netbox_postgres_username }}"
 
 ##########################
 # awx
