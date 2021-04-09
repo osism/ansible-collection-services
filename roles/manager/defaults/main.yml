@@ -168,7 +168,7 @@ awxclient_container_name: awxclient
 
 awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
 
-awxclient_tag: 16.0.0
+awxclient_tag: 19.0.0
 awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awxclient_tag }}"
 
 awx_configuration_defaults:
