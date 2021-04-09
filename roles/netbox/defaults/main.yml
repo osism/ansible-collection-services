@@ -11,6 +11,7 @@ operator_group: "{{ operator_user }}"
 docker_registry_netbox: quay.io
 docker_registry_nginx: index.docker.io
 docker_registry_postgres: index.docker.io
+docker_registry_redis: index.docker.io
 
 ##########################
 # netbox
@@ -25,6 +26,8 @@ netbox_service_name: netbox
 netbox_host: 127.0.0.1
 netbox_port: 8121
 
+netbox_userid: 101
+
 netbox_tag: latest
 netbox_image: "{{ docker_registry_netbox }}/netbox/netbox:{{ netbox_tag }}"
 
@@ -37,6 +40,15 @@ netbox_superuser_api_token: "0000000000000000000000000000000000000000"
 
 netbox_user_name: dragon
 netbox_user_api_token: "1111111111111111111111111111111111111111"
+
+netbox_initializers:
+  - device_roles
+  - device_types
+  - manufacturers
+  - prefix_vlan_roles
+  - sites
+  - tags
+  - users
 
 ##########################
 # nginx
@@ -53,3 +65,12 @@ netbox_postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ netbo
 netbox_postgres_password: password
 netbox_postgres_username: netbox
 netbox_postgres_databasename: netbox
+
+##########################
+# redis
+
+##########################
+# redis
+
+netbox_redis_tag: 6-alpine
+netbox_redis_image: "{{ docker_registry_redis }}/library/redis:{{ netbox_redis_tag }}"

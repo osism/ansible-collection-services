@@ -51,7 +51,7 @@
 - name: Deploy initializers for netbox
   template:
     src: "initializers/{{ item }}.yml.j2"
-    dest: "{{ netbox_configuration_directory }}/netbox/initializers/{{ item }}.yml"
+    dest: "{{ netbox_configuration_directory }}/initializers/{{ item }}.yml"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
