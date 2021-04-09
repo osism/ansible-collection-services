@@ -20,7 +20,7 @@ services:
       - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
-{% if netbox_enable|bool %}
+{% if netbox_api_token|length %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
@@ -144,7 +144,7 @@ services:
     security_opt:
       - apparmor:unconfined
     secrets:
-{% if netbox_enable|bool %}
+{% if netbox_api_token|length %}
       - NETBOX_TOKEN
 {% endif %}
       - TOWER_PASSWORD
@@ -197,52 +197,6 @@ services:
       test: pg_isready -U postgres
 {% endif %}
 
-{% if netbox_enable|bool %}
-  netbox: &netbox
-    image: "{{ netbox_image }}"
-    restart: unless-stopped
-    user: "{{ netbox_userid }}"
-    env_file:
-      - "{{ manager_configuration_directory }}/netbox.env"
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - "{{ manager_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
-      - "{{ manager_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
-      - "{{ manager_configuration_directory }}/netbox/initializers:/opt/netbox/initializers:ro"
-      # NOTE: Workaround until script is available upstream
-      - "{{ manager_configuration_directory }}/netbox/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
-      - netbox-nginx-config:/etc/netbox-nginx:rw
-      - netbox-static-files:/opt/netbox/netbox/static:rw
-      - netbox-media-files:/opt/netbox/netbox/media:rw
-    secrets:
-      - NETBOX_POSTGRES_PASSWORD
-      - NETBOX_SECRET_KEY
-
-  netbox-worker:
-    <<: *netbox
-    depends_on:
-      - netbox
-      - redis
-    entrypoint: python3 /opt/netbox/netbox/manage.py
-    command: rqworker
-
-  netbox-nginx:
-    image: "{{ netbox_nginx_image }}"
-    restart: unless-stopped
-    command: nginx -c /etc/netbox-nginx/nginx.conf
-    depends_on:
-      - netbox
-    ports:
-      - "{{ netbox_host }}:{{ netbox_port }}:8080"
-    volumes:
-      - netbox-static-files:/opt/netbox/netbox/static:ro
-      - netbox-nginx-config:/etc/netbox-nginx/:ro
-    healthcheck:
-      test: curl --silent --fail http://localhost:8080
-{% endif %}
-
 volumes:
 {% if postgres_enable|bool %}
   postgres:
@@ -263,11 +217,6 @@ volumes:
 {% if redis_enable|bool %}
   redis:
 {% endif %}
-{% if netbox_enable|bool %}
-  netbox-nginx-config:
-  netbox-static-files:
-  netbox-media-files:
-{% endif %}
   share:
 
 {% if postgres_enable|bool or awx_enable|bool %}
@@ -280,11 +229,7 @@ secrets:
   TOWER_SECRET_KEY:
     file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
 {% endif %}
-{% if netbox_enable|bool %}
-  NETBOX_POSTGRES_PASSWORD:
-    file: {{ manager_secrets_directory }}/NETBOX_POSTGRES_PASSWORD
-  NETBOX_SECRET_KEY:
-    file: {{ manager_secrets_directory }}/NETBOX_SECRET_KEY
+{% if netbox_api_token|length %}
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
 {% endif %}
