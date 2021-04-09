@@ -1,0 +1,26 @@
+---
+{{ netbox_user_name }}:
+  api_token: "{{ netbox_user_api_token }}"
+  # $ ./manage.py shell
+  # > from django.contrib.auth.models import Permission
+  # > print('\n'.join([p.codename for p in Permission.objects.all()]))
+  permissions:
+    - add_device
+    - add_interface
+    - add_ipaddress
+    - change_device
+    - view_cluster
+    - view_device
+    - view_devicerole
+    - view_devicetype
+    - view_interface
+    - view_ipaddress
+    - view_manufacturer
+    - view_platform
+    - view_rack
+    - view_region
+    - view_service
+    - view_site
+    - view_tag
+    - view_tenant
+    - view_virtualmachine
