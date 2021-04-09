@@ -9,7 +9,6 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry_netbox: quay.io
-docker_registry_nginx: index.docker.io
 docker_registry_postgres: index.docker.io
 docker_registry_redis: index.docker.io
 
@@ -20,7 +19,7 @@ netbox_configuration_directory: /opt/netbox/configuration
 netbox_secrets_directory: /opt/netbox/secrets
 netbox_docker_compose_directory: /opt/netbox
 
-netbox_network: 172.31.100.160/28
+netbox_network: 172.31.100.176/28
 netbox_service_name: netbox
 
 netbox_host: 127.0.0.1
@@ -49,12 +48,6 @@ netbox_initializers:
   - sites
   - tags
   - users
-
-##########################
-# nginx
-
-netbox_nginx_tag: stable
-netbox_nginx_image: "{{ docker_registry_nginx }}/library/nginx:{{ netbox_nginx_tag }}"
 
 ##########################
 # postgres
