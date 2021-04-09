@@ -18,7 +18,7 @@
     group: "{{ operator_group }}"
   loop:
     - filename: POSTGRES_PASSWORD
-      secret: "{{ postgres_password }}"
+      secret: "{{ netbox_postgres_password }}"
   no_log: true
 
 - name: Create docker-entrypoint-initdb.d directory

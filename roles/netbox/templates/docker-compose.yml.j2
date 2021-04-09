@@ -1,7 +1,7 @@
 ---
 version: '3.5'
   postgres:
-    image: "{{ postgres_image }}"
+    image: "{{ netbox_postgres_image }}"
     restart: unless-stopped
     env_file:
       - "{{ netbox_configuration_directory }}/postgres.env"
@@ -12,6 +12,15 @@ version: '3.5'
       - POSTGRES_PASSWORD
     healthcheck:
       test: pg_isready -U postgres
+
+  redis:
+    restart: unless-stopped
+    image: "{{ netbox_redis_image }}"
+    command: redis-server --appendonly yes
+    volumes:
+      - "redis:/data"
+    healthcheck:
+      test: redis-cli ping
 
   netbox: &netbox
     image: "{{ netbox_image }}"
@@ -25,9 +34,9 @@ version: '3.5'
     volumes:
       - "{{ netbox_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
       - "{{ netbox_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
-      - "{{ netbox_configuration_directory }}/netbox/initializers:/opt/netbox/initializers:ro"
+      - "{{ netbox_configuration_directory }}/initializers:/opt/netbox/initializers:ro"
       # NOTE: Workaround until script is available upstream
-      - "{{ netbox_configuration_directory }}/netbox/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
+      - "{{ netbox_configuration_directory }}/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
       - netbox-nginx-config:/etc/netbox-nginx:rw
       - netbox-static-files:/opt/netbox/netbox/static:rw
       - netbox-media-files:/opt/netbox/netbox/media:rw
