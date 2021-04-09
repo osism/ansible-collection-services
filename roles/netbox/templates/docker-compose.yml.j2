@@ -1,5 +1,7 @@
 ---
 version: '3.5'
+
+services:
   postgres:
     image: "{{ netbox_postgres_image }}"
     restart: unless-stopped
@@ -37,40 +39,25 @@ version: '3.5'
       - "{{ netbox_configuration_directory }}/initializers:/opt/netbox/initializers:ro"
       # NOTE: Workaround until script is available upstream
       - "{{ netbox_configuration_directory }}/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
-      - netbox-nginx-config:/etc/netbox-nginx:rw
-      - netbox-static-files:/opt/netbox/netbox/static:rw
-      - netbox-media-files:/opt/netbox/netbox/media:rw
     secrets:
       - NETBOX_POSTGRES_PASSWORD
       - NETBOX_SECRET_KEY
+    ports:
+      - "{{ netbox_host }}:{{ netbox_port }}:8080"
 
   netbox-worker:
     <<: *netbox
     depends_on:
       - netbox
       - redis
-    entrypoint: python3 /opt/netbox/netbox/manage.py
+    entrypoint: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py
     command: rqworker
+    ports: []
 
-  netbox-nginx:
-    image: "{{ netbox_nginx_image }}"
-    restart: unless-stopped
-    command: nginx -c /etc/netbox-nginx/nginx.conf
-    depends_on:
-      - netbox
-    ports:
-      - "{{ netbox_host }}:{{ netbox_port }}:8080"
-    volumes:
-      - netbox-static-files:/opt/netbox/netbox/static:ro
-      - netbox-nginx-config:/etc/netbox-nginx/:ro
-    healthcheck:
-      test: curl --silent --fail http://localhost:8080
 
 volumes:
   postgres:
-  netbox-nginx-config:
-  netbox-static-files:
-  netbox-media-files:
+  redis:
 
 secrets:
   NETBOX_POSTGRES_PASSWORD:
