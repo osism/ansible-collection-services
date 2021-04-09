@@ -16,6 +16,7 @@ The following Ansible roles are included in this collection.
 | hddtemp                  |                                                                                                                    |
 | keycloak                 |                                                                                                                    |
 | manager                  |                                                                                                                    |
+| minikube                 |                                                                                                                    |
 | netbox                   |                                                                                                                    |
 | netdata                  |                                                                                                                    |
 | openstack_health_monitor |                                                                                                                    |
