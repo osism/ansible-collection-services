@@ -9,8 +9,10 @@
   get_url:
     url: "{{ minikube_package_url }}"
     dest: "{{ tmpfile.path }}"
+    force: true
 
 - name: Install minikube package
+  become: true
   apt:
     deb: "{{ tmpfile.path }}"
 
@@ -37,8 +39,8 @@
   when: systemd_minikube_template is changed
 
 - name: "Start/enable {{ minikube_service_name }} service"
+  become: true
   service:
     name: "{{ minikube_service_name }}"
     state: started
     enabled: true
-  become: true
