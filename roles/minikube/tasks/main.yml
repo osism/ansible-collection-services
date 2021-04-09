@@ -1,0 +1,21 @@
+---
+- name: Create temporary file
+  ansible.builtin.tempfile:
+    state: file
+    suffix: minikube
+  register: tmpfile
+
+- name: Download minikube package
+  get_url:
+    url: "{{ minikube_package_url }}"
+    dest: "{{ tmpfile.path }}"
+
+- name: Install minikube package
+  apt:
+    deb: "{{ tmpfile.path }}"
+
+- name: Remove temporary file
+  ansible.builtin.file:
+    path: "{{ tmpfile.path }}"
+    state: absent
+  when: tmpfile.path is defined
