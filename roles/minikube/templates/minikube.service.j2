@@ -1,0 +1,15 @@
+[Unit]
+Description=Minikube
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+User={{ minkube_service_user }}
+Group={{ minikube_service_group }}
+ExecStart=minikube start --driver={{ minikube_driver }}
+ExecStop=minikube stop
+
+[Install]
+WantedBy=default.target

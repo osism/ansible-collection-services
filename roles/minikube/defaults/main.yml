@@ -1,5 +1,15 @@
 ---
+minikube_service_user: "{{ operator_user | default('dragon') }}"
+minikube_service_group: "{{ operator_group | default('dragon') }}"
+
+minikube_driver: docker
+
 ##########################
-# packages
+# service
+
+minikube_service_name: minikube
+
+##########################
+# package
 
 minikube_package_url: https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
