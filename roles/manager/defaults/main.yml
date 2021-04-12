@@ -153,7 +153,7 @@ awx_mailaddress: "{{ operator_user }}@osism.test"
 awx_password: password
 awx_username: "{{ operator_user }}"
 
-awx_secret_key: 00000000-0000-0000-0000-000000000000
+awx_secret_key: 22222222-2222-2222-2222-222222222222
 
 awx_server_host: "{{ ansible_default_ipv4.address }}"
 awx_server_port: 8052
@@ -184,7 +184,7 @@ awx_configuration_defaults:
   PROJECTS_ROOT: /opt/ansible
   SESSION_COOKIE_SECURE: false
   STATIC_ROOT: /var/lib/awx/public/static
-  SYSTEM_UUID: "00000000-0000-0000-0000-000000000000"
+  SYSTEM_UUID: "11111111-1111-1111-1111-111111111111"
   USE_X_FORWARDED_HOST: true
   USE_X_FORWARDED_PORT: true
 awx_configuration_extra: {}
