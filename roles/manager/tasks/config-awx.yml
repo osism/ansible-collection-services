@@ -19,6 +19,7 @@
     group: "{{ operator_group }}"
   loop:
     - credentials.py
+    - nginx.conf
     - settings.py
 
 - name: Copy secret files
