@@ -9,7 +9,6 @@ docker_registry_service: "{{ docker_registry }}"
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
 docker_registry_awx: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
-docker_registry_nginx: "{{ docker_registry_service }}"
 docker_registry_postgres: "{{ docker_registry_service }}"
 docker_registry_redis: "{{ docker_registry_service }}"
 docker_registry_vault: "{{ docker_registry_service }}"
@@ -172,10 +171,20 @@ awxclient_tag: 19.0.0
 awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awxclient_tag }}"
 
 awx_configuration_defaults:
-  ANSIBLE_FACT_CACHE_TIMEOUT: 120
+  ANSIBLE_FACT_CACHE_TIMEOUT: 3600
   AWX_ANSIBLE_COLLECTIONS_PATHS: "/var/lib/awx/vendor/awx_ansible_collections"
+  AWX_PROOT_ENABLED: false
   AWX_REBUILD_SMART_MEMBERSHIP: True
+  CLUSTER_HOST_ID: awx
+  CSRF_COOKIE_SECURE: false
+  DEBUG: false
+  JOBOUTPUT_ROOT: /var/lib/awx/job_status
+  PROJECTS_ROOT: /opt/ansible
+  SESSION_COOKIE_SECURE: false
+  STATIC_ROOT: /var/lib/awx/public/static
   SYSTEM_UUID: "00000000-0000-0000-0000-000000000000"
+  USE_X_FORWARDED_HOST: true
+  USE_X_FORWARDED_PORT: true
 awx_configuration_extra: {}
 awx_configuration: "{{ awx_configuration_defaults|combine(awx_configuration_extra) }}"
 
