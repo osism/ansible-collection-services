@@ -170,6 +170,8 @@ awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
 awxclient_tag: 19.0.0
 awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awxclient_tag }}"
 
+awx_group_queues: tower
+
 awx_configuration_defaults:
   ANSIBLE_FACT_CACHE_TIMEOUT: 3600
   AWX_ANSIBLE_COLLECTIONS_PATHS: "/var/lib/awx/vendor/awx_ansible_collections"
