@@ -106,7 +106,7 @@ services:
     secrets:
       - TOWER_PASSWORD
       - TOWER_USERNAME
-  awx-task: &awx
+  awx:
     image: "{{ awx_image }}"
     command: /run.sh
     restart: unless-stopped
@@ -150,13 +150,8 @@ services:
       - TOWER_PASSWORD
       - TOWER_SECRET_KEY
       - TOWER_USERNAME
-  awx-web:
-    <<: *awx
-    hostname: awxweb
     ports:
       - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
-    env_file:
-      - "{{ manager_configuration_directory }}/awx.env"
     healthcheck:
       test: curl --silent --fail http://localhost:8052/api/v2
 {% if vault_enable|bool %}
