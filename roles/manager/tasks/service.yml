@@ -6,6 +6,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
+  notify: Restart manager service
 
 - name: Start/enable manager service
   become: true

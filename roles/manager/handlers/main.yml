@@ -1,0 +1,6 @@
+---
+- name: Restart manager service
+  become: true
+  service:
+    name: "{{ manager_service_name }}"
+    state: restarted
