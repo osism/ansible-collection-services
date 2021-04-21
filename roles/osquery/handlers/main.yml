@@ -1,6 +1,0 @@
----
-- name: "Restart {{ osquery_service_name }} service"
-  become: true
-  service:
-    name: "{{ osquery_service_name }}"
-    state: restarted

@@ -21,7 +21,6 @@ The following Ansible roles are included in this collection.
 | netdata                  |                                                                                                                    |
 | openstack_health_monitor |                                                                                                                    |
 | openstackclient          |                                                                                                                    |
-| osquery                  |                                                                                                                    |
 | patchman                 |                                                                                                                    |
 | patchman_client          |                                                                                                                    |
 | phpmyadmin               |                                                                                                                    |
