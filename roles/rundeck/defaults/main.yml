@@ -24,7 +24,7 @@ rundeck_service_name: "docker-compose@rundeck"
 rundeck_host: 127.0.0.1
 rundeck_port: 4440
 
-rundeck_tag: 3.4.0
+rundeck_tag: 3.3.10
 rundeck_image: "{{ docker_registry_rundeck }}/rundeck/rundeck:{{ rundeck_tag }}"
 
 ##########################
