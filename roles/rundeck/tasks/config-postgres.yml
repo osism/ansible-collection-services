@@ -1,0 +1,22 @@
+---
+- name: Copy postgres environment files
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ rundeck_configuration_directory }}/{{ item }}.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - postgres
+
+- name: Copy secret files
+  no_log: true
+  copy:
+    content: "{{ item.secret }}"
+    dest: "{{ rundeck_secrets_directory }}/{{ item.filename }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - filename: POSTGRES_PASSWORD
+      secret: "{{ rundeck_postgres_password }}"
