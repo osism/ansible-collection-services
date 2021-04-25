@@ -23,8 +23,11 @@ services:
       - postgres
     ports:
       - "{{ rundeck_host }}:{{ rundeck_port }}:4440"
+    volumes:
+      - "keystore:/home/rundeck/.ssh"
 
 volumes:
+  keystore:
   postgres:
 
 secrets:
