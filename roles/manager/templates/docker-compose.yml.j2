@@ -1,6 +1,12 @@
 ---
 version: '3.5'
 services:
+  inventory_reconciler:
+    restart: unless-stopped
+    image: "{{ inventory_reconciler_image }}"
+    volumes:
+      - "inventory_reconciler:/inventory"
+      - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
   osism-ansible: &ansible
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
@@ -20,6 +26,7 @@ services:
       - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "inventory_reconciler:/opt/configuration/inventory:ro"
 {% if netbox_api_token|length %}
     secrets:
       - NETBOX_TOKEN
@@ -193,6 +200,7 @@ services:
 {% endif %}
 
 volumes:
+  inventory_reconciler:
 {% if postgres_enable|bool %}
   postgres:
 {% endif %}
