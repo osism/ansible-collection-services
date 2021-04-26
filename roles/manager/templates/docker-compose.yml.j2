@@ -26,7 +26,7 @@ services:
       - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
-      - "inventory_reconciler:/opt/configuration/inventory:ro"
+      - "inventory_reconciler:/ansible/inventory:ro"
 {% if netbox_api_token|length %}
     secrets:
       - NETBOX_TOKEN
