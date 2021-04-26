@@ -137,7 +137,7 @@ services:
       - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
-      - "awx_inventory:/inventory"
+      - "inventory_reconciler:/inventory:ro"
       - "awx_logs:/ansible/logs"
       - "awx_share:/share"
     environment:
@@ -207,7 +207,6 @@ volumes:
   postgres:
 {% endif %}
 {% if awx_enable|bool %}
-  awx_inventory:
   awx_logs:
   awx_share:
 {% if vault_enable|bool %}
