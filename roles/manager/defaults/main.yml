@@ -8,6 +8,7 @@ docker_registry_service: "{{ docker_registry }}"
 
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
 docker_registry_awx: "{{ docker_registry_ansible }}"
+docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
 docker_registry_postgres: "{{ docker_registry_service }}"
 docker_registry_redis: "{{ docker_registry_service }}"
@@ -65,6 +66,12 @@ required_packages_manager:
 
 netbox_api_url: ""
 netbox_api_token: ""
+
+##########################
+# inventory-reconciler
+
+inventory_reconciler_tag: latest
+inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/osism/inventory-reconciler:{{ inventory_reconciler_tag }}"
 
 ##########################
 # osism-ansible
