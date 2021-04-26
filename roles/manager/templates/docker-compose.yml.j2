@@ -4,6 +4,8 @@ services:
   inventory_reconciler:
     restart: unless-stopped
     image: "{{ inventory_reconciler_image }}"
+    tmpfs:
+      - /inventory.pre:uid=45000,gid=45000
     volumes:
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
