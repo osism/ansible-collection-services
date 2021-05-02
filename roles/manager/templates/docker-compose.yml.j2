@@ -34,6 +34,7 @@ services:
       - NETBOX_TOKEN
 {% endif %}
     depends_on:
+      - inventory_reconciler
 {% if redis_enable|bool %}
       - redis
 {% endif %}
