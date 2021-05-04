@@ -1,12 +1,13 @@
 ---
 - name: Restart docker service
+  become: true
   systemd:
     state: restarted
     name: "{{ docker_service_name }}"
-  become: true
+  when: docker_allow_restart|bool
 
 - name: Reload docker service
+  become: true
   systemd:
     state: reloaded
     name: "{{ docker_service_name }}"
-  become: true
