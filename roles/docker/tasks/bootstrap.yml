@@ -18,6 +18,6 @@
     password: "{{ docker_registry_password }}"
     reauthorize: true
   when:
-    - docker_registry_username is defined and docker_registry_username|length > 0
-    - docker_registry_password is defined and docker_registry_password|length > 0
+    - docker_registry_username is defined and docker_registry_username|string|length > 0
+    - docker_registry_password is defined and docker_registry_password|string|length > 0
   connection: paramiko
