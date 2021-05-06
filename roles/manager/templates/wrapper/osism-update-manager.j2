@@ -40,6 +40,7 @@ ansible-playbook \
     -e @{{ configuration_directory }}/environments/secrets.yml \
     -e @images.yml \
     -e @configuration.yml \
+    -e @secrets.yml \
     -u $ANSIBLE_USER \
     $PLAYBOOK "$@"
 
