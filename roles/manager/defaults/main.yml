@@ -1,0 +1,248 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+docker_registry_ansible: quay.io
+docker_registry_service: "{{ docker_registry }}"
+
+docker_registry_ara_server: "{{ docker_registry_ansible }}"
+docker_registry_awx: "{{ docker_registry_ansible }}"
+docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
+docker_registry_mariadb: "{{ docker_registry_service }}"
+docker_registry_postgres: "{{ docker_registry_service }}"
+docker_registry_redis: "{{ docker_registry_service }}"
+docker_registry_vault: "{{ docker_registry_service }}"
+
+manager_network: 172.31.101.0/28
+
+manager_service_name: "docker-compose@manager"
+
+##########################
+# directories
+
+ansible_directory: /opt/ansible
+archive_directory: /opt/archive
+cache_directory: /opt/ansible/cache
+configuration_directory: /opt/configuration
+logs_directory: /opt/ansible/logs
+secrets_directory: /opt/ansible/secrets
+
+manager_docker_compose_directory: /opt/manager
+manager_configuration_directory: /opt/manager/configuration
+manager_secrets_directory: /opt/manager/secrets
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# private keys
+
+deploy_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  ...
+  -----END RSA PRIVATE KEY-----
+
+operator_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  ...
+  -----END RSA PRIVATE KEY-----
+
+private_keys:
+  deploy: "{{ deploy_private_key }}"
+  operator: "{{ operator_private_key }}"
+
+##########################
+# packages
+
+required_packages_manager:
+  - python3-virtualenv
+
+##########################
+# netbox integration
+
+netbox_enable: false
+netbox_api_url: ""
+netbox_api_token: ""
+
+##########################
+# inventory-reconciler
+
+inventory_reconciler_tag: latest
+inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/osism/inventory-reconciler:{{ inventory_reconciler_tag }}"
+
+##########################
+# osism-ansible
+
+osism_ansible_container_name: manager_osism-ansible_1
+
+osism_ansible_tag: latest
+osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
+
+##########################
+# ceph-ansible
+
+ceph_ansible_enable: true
+
+ceph_ansible_container_name: manager_ceph-ansible_1
+
+ceph_ansible_tag: nautilus
+ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
+
+##########################
+# kolla-ansible
+
+kolla_ansible_enable: true
+
+kolla_ansible_container_name: manager_kolla-ansible_1
+
+kolla_ansible_tag: victoria
+kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
+
+##########################
+# redis
+
+redis_enable: true
+
+redis_tag: 6-alpine
+redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
+
+##########################
+# ara
+
+ara_enable: true
+
+ara_username: ara
+ara_password: password
+
+# ara server
+
+ara_server_host: "{{ ansible_default_ipv4.address }}"
+ara_server_port: 8120
+
+ara_workers: "{{ ansible_processor_vcpus * 2 }}"
+ara_worker_class: eventlet
+
+ara_server_tag: 1.5.4
+ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
+
+# mariadb (used by ara)
+
+ara_server_database_type: mysql
+
+ara_server_mariadb_host: "{{ ansible_default_ipv4.address }}"
+ara_server_mariadb_port: 3306
+
+ara_server_mariadb_username: ara
+ara_server_mariadb_password: password
+ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
+
+mariadb_tag: 10.5
+mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
+
+##########################
+# postgres
+
+postgres_enable: "{{ awx_enable|bool }}"
+
+postgres_tag: 13-alpine
+postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
+
+postgres_password: password
+
+##########################
+# awx
+
+awx_enable: false
+
+awx_mailaddress: "{{ operator_user }}@osism.test"
+awx_password: password
+awx_username: "{{ operator_user }}"
+
+awx_secret_key: 22222222-2222-2222-2222-222222222222
+
+awx_server_host: "{{ ansible_default_ipv4.address }}"
+awx_server_port: 8052
+
+awx_tag: latest
+awx_image: "{{ docker_registry_awx }}/osism/manager:{{ awx_tag }}"
+
+# awxclient
+
+awxclient_container_name: awxclient
+
+awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
+
+awxclient_tag: 19.0.0
+awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awxclient_tag }}"
+
+awx_group_queues: tower
+
+awx_configuration_defaults:
+  ANSIBLE_FACT_CACHE_TIMEOUT: 3600
+  AWX_ANSIBLE_COLLECTIONS_PATHS: "/var/lib/awx/vendor/awx_ansible_collections"
+  AWX_PROOT_ENABLED: false
+  AWX_REBUILD_SMART_MEMBERSHIP: True
+  CLUSTER_HOST_ID: awx
+  CSRF_COOKIE_SECURE: false
+  DEBUG: false
+  JOBOUTPUT_ROOT: /var/lib/awx/job_status
+  PROJECTS_ROOT: /opt/ansible
+  SESSION_COOKIE_SECURE: false
+  STATIC_ROOT: /var/lib/awx/public/static
+  SYSTEM_UUID: "11111111-1111-1111-1111-111111111111"
+  USE_X_FORWARDED_HOST: true
+  USE_X_FORWARDED_PORT: true
+awx_configuration_extra: {}
+awx_configuration: "{{ awx_configuration_defaults|combine(awx_configuration_extra) }}"
+
+# postgres
+
+awx_postgres_username: awx
+awx_postgres_password: password
+awx_postgres_databasename: "{{ awx_postgres_username }}"
+
+# vault
+
+# possible choices: [vault, ansible, none]
+awx_vault_type: ansible
+
+vault_enable: "{{ awx_vault_type == 'vault' }}"
+
+vault_host: "{{ ansible_default_ipv4.address }}"
+vault_port: 8200
+
+vault_tag: latest
+vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
+
+vault_config:
+  # NOTE: during the TP the service runs in-memory
+  #  backend:
+  #    file:
+  #      path: /vault/file
+  default_lease_ttl: 168h
+  max_lease_ttl: 720h
+vault_token: 00000000-0000-0000-0000-000000000000
+
+##########################
+# wrapper
+
+wrapper_scripts:
+  - osism-ansible
+  - osism-awx
+  - osism-ceph
+  - osism-custom
+  - osism-generic
+  - osism-infrastructure
+  - osism-kolla
+  - osism-manager
+  - osism-mirror
+  - osism-monitoring
+  - osism-openstack
+  - osism-run
+  - osism-run-without-secrets
+  - osism-state
+  - osism-update-manager
