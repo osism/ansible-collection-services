@@ -1,6 +1,5 @@
 ---
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
@@ -31,7 +30,6 @@
   when: netdata_configure_repository|bool
 
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
