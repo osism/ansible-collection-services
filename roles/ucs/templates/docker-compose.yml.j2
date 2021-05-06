@@ -4,29 +4,29 @@ version: '3'
 services:
   ucs:
     container_name: "{{ ucs_container_name }}"
-    hostname: "{{ ucs_hostname }}"
-    restart: unless-stopped
     image: "{{ ucs_image }}"
-    # NOTE(berendt): is unfortunately realized in the container image like this
-    command: /sbin/init
+    restart: unless-stopped
     env_file:
-      - "{{ ucs_configuration_directory }}/ucs.env"
+      - "{{ ucs_configuration_directory }}/ucs-iam.env"
+    hostname: "{{ ucs_container_hostname }}"
+    domainname: "{{ ucs_container_domainname }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     tmpfs:
       - /run
-      - /run/lock
+      - /tmp
     cap_add:
       - SYS_ADMIN
+      - MKNOD
     ports:
       - "{{ ucs_host }}:{{ ucs_port }}:80"
+    networks:
+      - ucs_default
 
 networks:
  default:
    driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ ucs_network }}
+   driver_opts:
+     com.docker.network.driver.mtu: 1350
