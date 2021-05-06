@@ -1,0 +1,12 @@
+---
+- name: Copy secret files
+  copy:
+    content: "{{ item.secret }}"
+    dest: "{{ manager_secrets_directory }}/{{ item.filename }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - filename: NETBOX_TOKEN
+      secret: "{{ netbox_api_token }}"
+  no_log: true

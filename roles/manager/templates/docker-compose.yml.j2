@@ -29,7 +29,7 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
-{% if netbox_api_token|length %}
+{% if netbox_enable|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
@@ -154,7 +154,7 @@ services:
     security_opt:
       - apparmor:unconfined
     secrets:
-{% if netbox_api_token|length %}
+{% if netbox_enable|bool %}
       - NETBOX_TOKEN
 {% endif %}
       - TOWER_PASSWORD
@@ -234,7 +234,7 @@ secrets:
   TOWER_SECRET_KEY:
     file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
 {% endif %}
-{% if netbox_api_token|length %}
+{% if netbox_enable|bool %}
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
 {% endif %}
