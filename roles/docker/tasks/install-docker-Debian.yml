@@ -10,7 +10,6 @@
   loop: "{{ docker_packages_fail }}"
 
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
@@ -68,7 +67,6 @@
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
@@ -89,7 +87,6 @@
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
@@ -102,7 +99,6 @@
   become: true
 
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
@@ -123,7 +119,6 @@
       loop: "{{ docker_python_package_names }}"
 
     - name: Wait for apt lock
-      become: true
       shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
       loop:
         - lock
@@ -140,7 +135,6 @@
 - name: Install python bindings with pip
   block:
     - name: Wait for apt lock
-      become: true
       shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
       loop:
         - lock
@@ -163,7 +157,6 @@
       loop: "{{ docker_python_package_names }}"
 
     - name: Wait for apt lock
-      become: true
       shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
       loop:
         - lock
@@ -185,7 +178,6 @@
   when: docker_python_install_from_pip|bool
 
 - name: Wait for apt lock
-  become: true
   shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
