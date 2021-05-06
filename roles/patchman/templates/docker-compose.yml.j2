@@ -30,7 +30,7 @@ services:
       - postgres:/var/lib/postgresql/data
   memcached:
     container_name: "{{ patchman_container_name }}_memcached"
-    image: "{{ memcached_image }}"
+    image: "{{ patchman_memcached_image }}"
     restart: unless-stopped
 
 volumes:
