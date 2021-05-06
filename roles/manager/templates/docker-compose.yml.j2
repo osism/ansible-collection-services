@@ -1,5 +1,6 @@
 ---
 version: '3.5'
+
 services:
   inventory_reconciler:
     restart: unless-stopped
@@ -9,6 +10,12 @@ services:
     volumes:
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
+{% if netbox_enable|bool %}
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+{% endif %}
   osism-ansible: &ansible
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
