@@ -1,0 +1,24 @@
+---
+version: '3'
+
+services:
+  heimdall:
+    container_name: "{{ heimdall_container_name }}"
+    restart: unless-stopped
+    image: "{{ heimdall_image }}"
+    ports:
+      - "{{ heimdall_host }}:{{ heimdall_port }}:80"
+    volumes:
+      - "{{ patchman_configuration_directory }}/config:/config:ro"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ heimdall_network }}

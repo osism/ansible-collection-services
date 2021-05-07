@@ -1,0 +1,29 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_registry_heimdall: ghcr.io
+
+##########################
+# heimdall
+
+heimdall_configuration_directory: /opt/heimdall/configuration
+heimdall_docker_compose_directory: /opt/heimdall
+
+heimdall_host: 127.0.0.1
+heimdall_port: 8080
+
+heimdall_tag: latest
+heimdall_image: "{{ docker_registry_heimdall }}/linuxserver/heimdall:{{ heimdall_tag }}"
+
+heimdall_container_name: heimdall
+
+heimdall_network: 172.31.100.208
+
+heimdall_service_name: "docker-compose@heimdall"
