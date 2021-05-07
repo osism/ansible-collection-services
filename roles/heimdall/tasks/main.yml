@@ -11,14 +11,6 @@
     - "{{ heimdall_configuration_directory }}"
     - "{{ heimdall_docker_compose_directory }}"
 
-- name: Copy configuration file
-  template:
-    src: config.j2
-    dest: "{{ patchman_configuration_directory }}/config"
-    mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-
 - name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2

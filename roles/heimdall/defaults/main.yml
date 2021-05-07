@@ -24,6 +24,6 @@ heimdall_image: "{{ docker_registry_heimdall }}/linuxserver/heimdall:{{ heimdall
 
 heimdall_container_name: heimdall
 
-heimdall_network: 172.31.100.208
+heimdall_network: 172.31.100.208/28
 
 heimdall_service_name: "docker-compose@heimdall"

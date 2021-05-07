@@ -9,11 +9,14 @@ services:
     ports:
       - "{{ heimdall_host }}:{{ heimdall_port }}:80"
     volumes:
-      - "{{ patchman_configuration_directory }}/config:/config:ro"
+      - heimdall:/config:rw
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=UTC
+
+volumes:
+  heimdall:
 
 networks:
  default:
@@ -21,4 +24,4 @@ networks:
    ipam:
      driver: default
      config:
-       - subnet:  {{ heimdall_network }}
+       - subnet: {{ heimdall_network }}
