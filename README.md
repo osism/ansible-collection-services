@@ -13,6 +13,7 @@ The following Ansible roles are included in this collection.
 | fail2ban                 |                                                                                                                    |
 | falco                    |                                                                                                                    |
 | hddtemp                  |                                                                                                                    |
+| heimdall                 |                                                                                                                    |
 | keycloak                 |                                                                                                                    |
 | manager                  |                                                                                                                    |
 | minikube                 |                                                                                                                    |
