@@ -11,9 +11,9 @@ services:
     volumes:
       - heimdall:/config:rw
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
+      - PUID={{ heimdall_uid }}
+      - PGID={{ heimdall_gid }}
+      - TZ={{ heimdall_timezone }}
 
 volumes:
   heimdall:
