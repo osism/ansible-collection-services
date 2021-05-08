@@ -8,10 +8,14 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
-docker_registry_heimdall: ghcr.io
+docker_registry_heimdall: quay.io
 
 ##########################
 # heimdall
+
+heimdall_uid: 45000
+heimdall_gid: 45000
+heimdall_timezone: UTC
 
 heimdall_configuration_directory: /opt/heimdall/configuration
 heimdall_docker_compose_directory: /opt/heimdall
