@@ -19,8 +19,8 @@ heimdall_docker_compose_directory: /opt/heimdall
 heimdall_host: 127.0.0.1
 heimdall_port: 8080
 
-heimdall_tag: latest
-heimdall_image: "{{ docker_registry_heimdall }}/linuxserver/heimdall:{{ heimdall_tag }}"
+heimdall_tag: 2.2.2
+heimdall_image: "{{ docker_registry_heimdall }}/osism/heimdall:{{ heimdall_tag }}"
 
 heimdall_container_name: heimdall
 
