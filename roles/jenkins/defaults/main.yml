@@ -19,6 +19,16 @@ jenkins_docker_compose_directory: /opt/jenkins
 jenkins_tag: 2
 jenkins_image: "{{ docker_registry_jenkins }}/bitnami/jenkins:{{ jenkins_tag }}"
 
+jenkins_host: 127.0.0.1
+jenkins_port: 4441
+
 jenkins_network: 172.31.100.224/28
+
+jenkins_password: password
+jenkins_username: jenkins
+
+# NOTE: this should be a string: ["yes", "no"]
+jenkins_disable_jenkins_initialization: "no"
+jenkins_java_opts: ""
 
 jenkins_service_name: "docker-compose@jenkins"
