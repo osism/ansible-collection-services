@@ -14,6 +14,7 @@ The following Ansible roles are included in this collection.
 | falco                    |                                                                                                                    |
 | hddtemp                  |                                                                                                                    |
 | heimdall                 |                                                                                                                    |
+| jenkins                  |                                                                                                                    |
 | keycloak                 |                                                                                                                    |
 | manager                  |                                                                                                                    |
 | minikube                 |                                                                                                                    |

@@ -1,0 +1,24 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+docker_registry_jenkins: "{{ docker_registry }}"
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# jenkins
+
+jenkins_docker_compose_directory: /opt/jenkins
+
+jenkins_tag: 2
+jenkins_image: "{{ docker_registry_jenkins }}/bitnami/jenkins:{{ jenkins_tag }}"
+
+jenkins_network: 172.31.100.224/28
+
+jenkins_service_name: "docker-compose@jenkins"
