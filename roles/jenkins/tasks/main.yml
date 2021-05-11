@@ -10,6 +10,14 @@
   with_items:
     - "{{ jenkins_docker_compose_directory }}"
 
+- name: Copy environment file
+  template:
+    src: env/jenkins.env.j2
+    dest: "{{ jenkins_configuration_directory }}/jenkins.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
 - name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2
