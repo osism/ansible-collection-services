@@ -44,6 +44,8 @@ services:
       - NETBOX_SECRET_KEY
     ports:
       - "{{ netbox_host }}:{{ netbox_port }}:8080"
+    healthcheck:
+      test: curl -s -k http://127.0.0.1:8080/metrics
 
   netbox-worker:
     <<: *netbox
@@ -53,7 +55,7 @@ services:
     entrypoint: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py
     command: rqworker
     ports: []
-
+    healthcheck: {}
 
 volumes:
   postgres:
