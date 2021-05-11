@@ -48,16 +48,13 @@ services:
 {% if ara_enable|bool %}
       - ara-server
 {% endif %}
-{% if ceph_ansible_enable|bool %}
-  ceph-ansible:
+{% for service in ansible_services %}
+{% if service.enable|bool %}
+  {{ service.name }}:
     <<: *ansible
-    image: "{{ ceph_ansible_image }}"
+    image: "{{ service.image }}"
 {% endif %}
-{% if kolla_ansible_enable|bool %}
-  kolla-ansible:
-    <<: *ansible
-    image: "{{ kolla_ansible_image }}"
-{% endif %}
+{% endfor %}
 {% if redis_enable|bool %}
   redis:
     restart: unless-stopped
