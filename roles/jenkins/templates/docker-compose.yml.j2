@@ -1,0 +1,20 @@
+---
+version: '3'
+
+services:
+  jenkins:
+    container_name: jenkins
+    restart: unless-stopped
+    image: "{{ jenkins_image }}"
+    ports:
+      - "{{ jenkins_host }}:{{ jenkins_port }}:8080"
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ jenkins_network }}
