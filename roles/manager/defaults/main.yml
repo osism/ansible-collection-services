@@ -75,6 +75,25 @@ inventory_reconciler_tag: latest
 inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/osism/inventory-reconciler:{{ inventory_reconciler_tag }}"
 
 ##########################
+# ansible services
+
+# NOTE: the osism-ansible service is always enabled and cannot be disabled
+
+ansible_services_defaults:
+  - name: ceph-ansible
+    container_name: "{{ ceph_ansible_container_name }}"
+    tag: "{{ ceph_ansible_tag }}"
+    image: "{{ ceph_ansible_image }}"
+    enable: "{{ ceph_ansible_enable }}"
+  - name: kolla-ansible
+    container_name: "{{ kolla_ansible_container_name }}"
+    tag: "{{ kolla_ansible_tag }}"
+    image: "{{ kolla_ansible_image }}"
+    enable: "{{ kolla_ansible_enable }}"
+ansible_services_extra: []
+ansible_services: "{{ ansible_services_defaults + ansible_services_extra }}"
+
+##########################
 # osism-ansible
 
 osism_ansible_container_name: manager_osism-ansible_1
