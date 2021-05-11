@@ -10,6 +10,8 @@ services:
     volumes:
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
+    healthcheck:
+      test: pgrep crond
 {% if netbox_enable|bool %}
     secrets:
       - NETBOX_TOKEN
