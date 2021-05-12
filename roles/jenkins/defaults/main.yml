@@ -2,7 +2,7 @@
 ##########################
 # docker
 
-docker_registry: index.docker.io
+docker_registry: quay.io
 docker_registry_jenkins: "{{ docker_registry }}"
 
 ##########################
@@ -18,7 +18,7 @@ jenkins_configuration_directory: /opt/jenkins/configuration
 jenkins_docker_compose_directory: /opt/jenkins
 
 jenkins_tag: 2
-jenkins_image: "{{ docker_registry_jenkins }}/bitnami/jenkins:{{ jenkins_tag }}"
+jenkins_image: "{{ docker_registry_jenkins }}/osism/jenkins:{{ jenkins_tag }}"
 
 jenkins_host: 127.0.0.1
 jenkins_port: 4441
