@@ -9,6 +9,7 @@
     mode: 0755
   with_items:
     - "{{ jenkins_docker_compose_directory }}"
+    - "{{ jenkins_configuration_directory }}"
 
 - name: Copy environment file
   template:
