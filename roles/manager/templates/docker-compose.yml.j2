@@ -38,6 +38,7 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
+      - "interface:/interface"
 {% if netbox_enable|bool %}
     secrets:
       - NETBOX_TOKEN
@@ -145,6 +146,7 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/inventory:ro"
+      - "interface:/interface:ro"
       - "awx_logs:/ansible/logs"
       - "awx_share:/share"
     environment:
@@ -210,6 +212,7 @@ services:
 
 volumes:
   inventory_reconciler:
+  interface:
 {% if postgres_enable|bool %}
   postgres:
 {% endif %}
