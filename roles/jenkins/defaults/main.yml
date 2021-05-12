@@ -2,8 +2,7 @@
 ##########################
 # docker
 
-docker_registry: quay.io
-docker_registry_jenkins: "{{ docker_registry }}"
+docker_registry_jenkins: quay.io
 
 ##########################
 # operator user
