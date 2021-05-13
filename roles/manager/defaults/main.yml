@@ -181,10 +181,13 @@ awx_mailaddress: "{{ operator_user }}@osism.test"
 awx_password: password
 awx_username: "{{ operator_user }}"
 
+awx_broadcast_websocket_secret: secret
 awx_secret_key: 22222222-2222-2222-2222-222222222222
 
 awx_server_host: "{{ ansible_default_ipv4.address }}"
 awx_server_port: 8052
+
+awx_broadcast_websocket_port: 8013
 
 awx_tag: latest
 awx_image: "{{ docker_registry_awx }}/osism/manager:{{ awx_tag }}"
@@ -195,7 +198,7 @@ awxclient_container_name: awxclient
 
 awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
 
-awxclient_tag: 19.0.0
+awxclient_tag: 19.1.0
 awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awxclient_tag }}"
 
 awx_group_queues: tower
@@ -204,18 +207,24 @@ awx_configuration_defaults:
   ANSIBLE_FACT_CACHE_TIMEOUT: 3600
   AWX_ANSIBLE_COLLECTIONS_PATHS: "/var/lib/awx/vendor/awx_ansible_collections"
   AWX_PROOT_ENABLED: false
-  AWX_REBUILD_SMART_MEMBERSHIP: True
+  AWX_REBUILD_SMART_MEMBERSHIP: true
+  BROADCAST_WEBSOCKET_PORT: 8013
+  BROADCAST_WEBSOCKET_PROTOCOL: http
+  BROADCAST_WEBSOCKET_VERIFY_CERT: false
   CLUSTER_HOST_ID: awx
   CSRF_COOKIE_SECURE: false
   DEBUG: false
-  JOBOUTPUT_ROOT: /var/lib/awx/job_status
   PROJECTS_ROOT: /opt/ansible
   SESSION_COOKIE_SECURE: false
   STATIC_ROOT: /var/lib/awx/public/static
   SYSTEM_UUID: "11111111-1111-1111-1111-111111111111"
   USE_X_FORWARDED_HOST: true
   USE_X_FORWARDED_PORT: true
+
+# NOTE: See https://github.com/ansible/awx/blob/devel/awx/settings/defaults.py
+#       for all available configuration parameters.
 awx_configuration_extra: {}
+
 awx_configuration: "{{ awx_configuration_defaults|combine(awx_configuration_extra) }}"
 
 # postgres
