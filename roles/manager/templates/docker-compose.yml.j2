@@ -147,6 +147,7 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/inventory:ro"
       - "interface:/interface:ro"
+      - "awx_configuration:/configuration"
       - "awx_logs:/ansible/logs"
       - "awx_share:/share"
     environment:
@@ -217,6 +218,7 @@ volumes:
   postgres:
 {% endif %}
 {% if awx_enable|bool %}
+  awx_configuration:
   awx_logs:
   awx_share:
 {% if vault_enable|bool %}
