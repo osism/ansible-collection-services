@@ -142,9 +142,8 @@
 
     - name: Remove python docker packages (install python bindings from pip)
       apt:
-        name: "{{ item }}"
+        name: "{{ docker_python_package_names }}"
         state: absent
-      loop: "{{ docker_python_package_names }}"
 
     - name: Block installation of python docker packages (install python bindings from pip)
       copy:
@@ -185,11 +184,8 @@
 
 - name: Install packages required by docker login
   apt:
-    name: "{{ item }}"
+    name: ["gnupg2", "pass"]
     state: present
-  loop:
-    - gnupg2
-    - pass
   become: true
   when:
     - docker_registry_username is defined and docker_registry_username|string|length > 0

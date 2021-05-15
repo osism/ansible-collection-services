@@ -8,6 +8,5 @@
 - name: Install required packages (server)
   become: true
   apt:
-    name: "{{ item }}"
+    name: "{{ required_packages_cockpit_server }}"
     state: present
-  loop: "{{ required_packages_cockpit_server }}"
