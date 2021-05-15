@@ -8,6 +8,5 @@
 - name: Install required packages
   become: true
   apt:
-    name: "{{ item }}"
+    name: "{{ required_packages_manager }}"
     state: present
-  loop: "{{ required_packages_manager }}"
