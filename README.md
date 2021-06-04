@@ -20,6 +20,7 @@ The following Ansible roles are included in this collection.
 | minikube                 |                                                                                                                    |
 | netbox                   |                                                                                                                    |
 | netdata                  |                                                                                                                    |
+| openldap                 |                                                                                                                    |
 | openstack_health_monitor |                                                                                                                    |
 | openstackclient          |                                                                                                                    |
 | patchman                 |                                                                                                                    |

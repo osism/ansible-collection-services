@@ -1,0 +1,53 @@
+---
+version: '3.5'
+
+services:
+  openldap:
+    container_name:  "{{ openldap_container_name }}"
+    image: "{{ openldap_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ openldap_configuration_directory }}/openldap.env"
+    volumes:
+      - {{ openldap_secrets_directory }}/dh_2048.pem:/etc/ldap/dh_2048.pem:ro
+      - {{ openldap_configuration_directory }}/saml/idp/:/usr/share/saml/idp/:ro
+      - db-data:/var/lib/univention-ldap/ldap/:rw
+      - last-id-data:/var/lib/univention-ldap/last-id-data/:rw
+      - ldap-run:/var/run/slapd/:rw
+      - translog-data:/var/lib/univention-ldap/translog/:rw
+    ports:
+      - "{{ openldap_host }}:{{ openldap_ldap_port }}:{{ openldap_ldap_port }}"
+      - "{{ openldap_host }}:{{ openldap_ldaps_port }}:{{ openldap_ldaps_port }}"
+    secrets:
+      - ca_cert
+      - cert_pem
+      - private_key
+    healthcheck:
+      test: bash -c 'echo > /dev/tcp/{{ openldap_host }}/{{ openldap_ldap_port }}'
+      interval: 2s
+      timeout: 1s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  # OpenLDAP only:
+  db-data:
+  last-id-data:
+  ldap-run:
+  translog-data:
+
+secrets:
+  ca_cert:
+    file: {{ openldap_secrets_directory }}/CAcert.pem
+  cert_pem:
+    file: {{ openldap_secrets_directory }}/cert.pem
+  private_key:
+    file: {{ openldap_secrets_directory }}/private.key
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ openldap_network }}
