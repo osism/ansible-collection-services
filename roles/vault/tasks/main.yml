@@ -1,0 +1,64 @@
+---
+- name: create vault directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  register: vault_server_install_status
+  loop:
+    - "{{ vault_cluster_compose_directory }}"
+    - "{{ vault_cluster_config_path }}"
+
+- name: template the vault server config
+  ansible.builtin.template:
+    src: cluster-config.hcl.j2
+    dest: "{{ vault_cluster_config_path }}/config.hcl"
+
+- name: start vault server
+  community.docker.docker_container:
+    name: "{{ vault_cluster_container_name }}"
+    state: started
+    image: "{{ vault_image }}"
+    command: "VAULT_TOKEN={{ vault_unsealer_token }} vault server -config=/vault/config"
+    ports:
+      - "{{ vault_cluster_port }}:{{ vault_cluster_port }}"
+      - "{{ vault_cluster_cluster_port }}:{{ vault_cluster_cluster_port }}"
+    volumes:
+      - "vault_cluster:/vault/raft"
+      - "{{ vault_cluster_config_path }}/config.hcl:/vault/config/config.hcl:ro"
+    capabilities:
+      - IPC_LOCK
+  become: true
+
+- name: initialize vault cluster
+  block:
+    - name: init first vault cluster node
+      community.docker.docker_container_exec:
+        container: "{{ vault_cluster_container_name }}"
+        command: "VAULT_ADDR=http://{{ vault_cluster_host }}:\
+          {{ vault_cluster_port }} VAULT_TOKEN={{ vault_unsealer_token }}
+          vault operator init"
+      retries: 3
+      delay: 10
+      register: cluster_init_output
+      until: cluster_init_output.rc == 0
+
+    - name: save token and recovery keys
+      ansible.builtin.set_fact:
+        cluster_key_1: "{{ cluster_init_output.stdout_lines[0].split(' ')[3] }}"
+        cluster_key_2: "{{ cluster_init_output.stdout_lines[1].split(' ')[3] }}"
+        cluster_key_3: "{{ cluster_init_output.stdout_lines[2].split(' ')[3] }}"
+        cluster_key_4: "{{ cluster_init_output.stdout_lines[3].split(' ')[3] }}"
+        cluster_key_5: "{{ cluster_init_output.stdout_lines[4].split(' ')[3] }}"
+        cluster_token: "{{ cluster_init_output.stdout_lines[6].split(' ')[3] }}"
+
+    - name: vault cluster credentials
+      debug:
+        msg:
+          - "Recover Key 1: {{ cluster_key_1 }}"
+          - "Recover Key 2: {{ cluster_key_2 }}"
+          - "Recover Key 3: {{ cluster_key_3 }}"
+          - "Recover Key 4: {{ cluster_key_4 }}"
+          - "Recover Key 5: {{ cluster_key_5 }}"
+          - "Root Token: {{ cluster_token }}"
+  when: vault_server_install_status.changed
+  run_once: true

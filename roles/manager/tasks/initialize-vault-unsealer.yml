@@ -1,0 +1,95 @@
+---
+- name: VAULT UNSEALER - init vault
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }} vault operator init"
+  retries: 3
+  delay: 10
+  register: unsealer_init_output
+  until: unsealer_init_output.rc == 0
+
+- name: VAULT UNSEALER - save token and unseal keys
+  ansible.builtin.set_fact:
+    unsealer_key_1: "{{ unsealer_init_output.stdout_lines[0].split(' ')[3] }}"
+    unsealer_key_2: "{{ unsealer_init_output.stdout_lines[1].split(' ')[3] }}"
+    unsealer_key_3: "{{ unsealer_init_output.stdout_lines[2].split(' ')[3] }}"
+    unsealer_key_4: "{{ unsealer_init_output.stdout_lines[3].split(' ')[3] }}"
+    unsealer_key_5: "{{ unsealer_init_output.stdout_lines[4].split(' ')[3] }}"
+    unsealer_token: "{{ unsealer_init_output.stdout_lines[6].split(' ')[3] }}"
+
+# use echo with a space in front so the command will not appear in the history
+- name: VAULT UNSEALER - useal the vault
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "echo {{ item }} | VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }} xargs vault operator unseal\""
+  no_log: true
+  loop:
+    - "{{ unsealer_key_1 }}"
+    - "{{ unsealer_key_2 }}"
+    - "{{ unsealer_key_3 }}"
+
+- name: VAULT UNSEALER - enable vault transit engine
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }} VAULT_TOKEN={{ unsealer_token }}
+      vault secrets enable transit"
+  retries: 3
+  delay: 10
+  register: vault_is_ready
+  until: vault_is_ready.rc == 0
+
+- name: VAULT UNSEALER - create key for autounsealing
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }} VAULT_TOKEN={{ unsealer_token }}
+      vault write -f transit/keys/{{ vault_unsealer_policy_name }}"
+
+- name: VAULT UNSEALER - create policy file
+  ansible.builtin.template:
+    src: vault/autounseal.hcl.j2
+    dest: "{{ vault_unsealer_config_path }}/\
+      {{ vault_unsealer_policy_name }}.hcl"
+
+- name: VAULT UNSEALER - write policy for autounsealing
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }} VAULT_TOKEN={{ unsealer_token }}
+      vault policy write {{ vault_unsealer_policy_name }}
+      /vault/{{ vault_unsealer_config_path }}.hcl"
+
+- name: VAULT UNSEALER - create a client token
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }} VAULT_TOKEN={{ unsealer_token }}
+      vault token create -policy=\"{{ vault_unsealer_policy_name }}\"
+      -wrap-ttl=120"
+  register: unsealer_client_token
+
+- name: VAULT UNSEALER - unwrap the secret
+  community.docker.docker_container_exec:
+    container: "{{ vault_unsealer_container_name }}"
+    command: "VAULT_ADDR=http://{{ vault_unsealer_host }}:\
+      {{ vault_unsealer_port }}
+      VAULT_TOKEN={{ unsealer_client_token.stdout_lines[2].split(' ')\
+      [(unsealer_client_token.stdout_lines[2].split(' ')|length) - 1] }}
+      vault unwrap"
+  register: unsealer_unwrapped_token
+
+- name: VAULT UNSEALER - print vault unsealer credentials
+  debug:
+    msg:
+      - "Unseal Key 1: {{ unsealer_key_1 }}"
+      - "Unseal Key 2: {{ unsealer_key_2 }}"
+      - "Unseal Key 3: {{ unsealer_key_3 }}"
+      - "Unseal Key 4: {{ unsealer_key_4 }}"
+      - "Unseal Key 5: {{ unsealer_key_5 }}"
+      - "Root Token: {{ unsealer_token }}"
+      - "Cluster unwrap Token: {{ unsealer_unwrapped_token.stdout_lines[\
+        2].split(' ')[(unsealer_unwrapped_token.stdout_lines[2].split(\
+        ' ')|length) - 1] }}"

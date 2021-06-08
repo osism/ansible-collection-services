@@ -1,0 +1,27 @@
+---
+manager_configuration_directory: "/opt/manager/configuration"
+
+vault_docker_registry: index.docker.io
+vault_docker_registry_service: "{{ vault_docker_registry }}"
+vault_docker_registry_vault: "{{ vault_docker_registry_service }}"
+vault_docker_tag: latest
+vault_docker_image: "{{ vault_docker_registry_vault }}/hashicorp/vault:{{ vault_docker_tag }}"
+
+vault_unsealer_policy_name: autounseal
+vault_unsealer_host: ""  # MANAGER ADDRESS
+vault_unsealer_port: 8202
+# you need to get this from the manager
+vault_unsealer_token: "s.XXXXXXXXXXXfoobar"
+vault_unsealer_tls_disabled: "true"
+
+vault_cluster_container_name: vault-cluster
+vault_cluster_host: "{{ ansible_default_ipv4.address }}"
+vault_cluster_storage_path: /home/ubuntu/vault-data
+vault_cluster_compose_directory: /opt/vault-cluster
+vault_cluster_config_path: "{{ vault_cluster_compose_directory }}/configuration"
+vault_cluster_port: 8200
+vault_cluster_cluster_port: "{{ vault_cluster_port + 1 }}"
+vault_cluster_default_lease_ttl: "168h"
+vault_cluster_max_lease_ttl: "720h"
+vault_cluster_tls_disable: "true"
+vault_cluster_enable_ui: "true"

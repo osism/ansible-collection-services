@@ -1,0 +1,7 @@
+path "transit/encrypt/{{ vault_unsealer_policy_name }}" {
+   capabilities = [ "update" ]
+}
+
+path "transit/decrypt/{{ vault_unsealer_policy_name }}" {
+   capabilities = [ "update" ]
+}

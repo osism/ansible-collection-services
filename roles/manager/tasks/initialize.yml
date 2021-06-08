@@ -1,4 +1,4 @@
 ---
-- name: Include vault initialize tasks
-  include_tasks: initialize-vault.yml
-  when: vault_enable|bool
+- name: Include vault initialize unsealer tasks
+  include_tasks: initialize-vault-unsealer.yml
+  when: vault_enable|bool and vault_server_install_status.changed

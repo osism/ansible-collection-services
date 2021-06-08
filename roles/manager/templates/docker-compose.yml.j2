@@ -133,7 +133,7 @@ services:
       - postgres
       - redis
 {% if vault_enable|bool %}
-      - vault
+      - {{ vault_unsealer_container_name }}
 {% endif %}
     volumes:
       - /etc/hosts:/etc/hosts:ro
@@ -151,7 +151,7 @@ services:
       - "awx_logs:/ansible/logs"
       - "awx_share:/share"
     environment:
-      WAIT_HOSTS: redis:6379, postgres:5432, vault:8200
+      WAIT_HOSTS: redis:6379, postgres:5432, {{ vault_unsealer_container_name }}:{{ vault_unsealer_port }}
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/awx.env"
@@ -174,17 +174,17 @@ services:
     healthcheck:
       test: curl --silent --fail http://localhost:8052/api/v2
 {% if vault_enable|bool %}
-  vault:
+  {{ vault_unsealer_container_name }}:
     image: "{{ vault_image }}"
-    command: server -config=/vault/config -dev -dev-root-token-id={{ vault_token }} -dev-listen-address=0.0.0.0:8200
+    command: vault server -config=/vault/config
     restart: unless-stopped
     ports:
-      - "{{ vault_host }}:{{ vault_port }}:8200"
-    env_file:
-      - "{{ manager_configuration_directory }}/vault.env"
-# NOTE: during the TP the service runs in-memory
-#    volumes:
-#      - vault:/vault/file
+      - "{{ vault_unsealer_host }}:{{ vault_unsealer_port }}:{{ vault_unsealer_port }}"
+      - "{{ vault_unsealer_host }}:{{ vault_unsealer_cluster_port }}:{{ vault_unsealer_cluster_port }}"
+    volumes:
+      - "vault_unsealer:/vault/raft"
+      - "{{ vault_unsealer_config_path }}/config.hcl:/vault/config/config.hcl:ro"
+      - "{{ vault_unsealer_config_path }}/{{ vault_unsealer_policy_name }}.hcl:/vault/{{ vault_unsealer_policy_name }}.hcl:ro"
     cap_add:
       - IPC_LOCK
     healthcheck:
@@ -193,7 +193,8 @@ services:
       # 0 - unsealed
       # 1 - error
       # 2 - sealed
-      test: vault status -address http://127.0.0.1:8200
+      #test: VAULT_TOKEN={{ unsealer_token }}vault status -address http://127.0.0.1:{{ vault_unsealer_port }}
+      # This will not work as we are running in production and require tokens
 {% endif %}
 {% endif %}
 {% if postgres_enable|bool %}
@@ -222,7 +223,7 @@ volumes:
   awx_logs:
   awx_share:
 {% if vault_enable|bool %}
-  vault:
+  vault_unsealer:
 {% endif %}
 {% endif %}
   cache:

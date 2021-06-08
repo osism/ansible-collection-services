@@ -60,6 +60,7 @@ private_keys:
 
 required_packages_manager:
   - python3-virtualenv
+  - python3-docker
 
 ##########################
 # netbox integration
@@ -233,20 +234,23 @@ awx_vault_type: ansible
 
 vault_enable: "{{ awx_vault_type == 'vault' }}"
 
-vault_host: "{{ ansible_default_ipv4.address }}"
-vault_port: 8200
+vault_docker_registry: index.docker.io
+vault_docker_registry_service: "{{ vault_docker_registry }}"
+vault_docker_registry_vault: "{{ vault_docker_registry_service }}"
+vault_docker_tag: latest
+vault_docker_image: "{{ vault_docker_registry_vault }}/hashicorp/vault:{{ vault_docker_tag }}"
 
-vault_tag: latest
-vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
-
-vault_config:
-  # NOTE: during the TP the service runs in-memory
-  #  backend:
-  #    file:
-  #      path: /vault/file
-  default_lease_ttl: 168h
-  max_lease_ttl: 720h
-vault_token: 00000000-0000-0000-0000-000000000000
+vault_unsealer_container_name: vault-unsealer
+vault_unsealer_host: "{{ ansible_default_ipv4.address }}"
+vault_unsealer_policy_name: autounseal
+vault_unsealer_compose_directory: /opt/vault-unsealer
+vault_unsealer_config_path: "{{ vault_unsealer_compose_directory }}/configuration"
+vault_unsealer_port: 8202
+vault_unsealer_cluster_port: "{{ vault_unsealer_port + 1 }}"
+vault_unsealer_default_lease_ttl: "168h"
+vault_unsealer_max_lease_ttl: "720h"
+vault_unsealer_tls_disabled: "true"
+vault_unsealer_enable_ui: "true"
 
 ##########################
 # wrapper

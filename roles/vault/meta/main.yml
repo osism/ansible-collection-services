@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: Tim Beermann
+  description: Role osism.services.vault
+  company: Betacloud Solutions GmbH
+  license: Apache License 2.0
+  min_ansible_version: 3.0.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags:
+    - system
+    - vault
+    - hashicorp vault
+    - hashicorp-vault
+    - hashicorp
+    - cluster
+    - vault cluster
+    - vault-cluster
+dependencies: []

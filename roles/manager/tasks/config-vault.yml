@@ -1,8 +1,14 @@
 ---
-- name: Copy Vault environment file
-  template:
-    src: "env/vault.env.j2"
-    dest: "{{ manager_configuration_directory }}/vault.env"
-    mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+- name: create vault directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  register: vault_server_install_status
+  loop:
+    - "{{ vault_unsealer_compose_directory }}"
+    - "{{ vault_unsealer_config_path }}"
+
+- name: VAULT UNSEALER - create vault vault_config
+  ansible.builtin.template:
+    src: vault/unsealer-config.hcl.j2
+    dest: "{{ vault_unsealer_config_path }}/config.hcl"

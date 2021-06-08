@@ -30,5 +30,6 @@ The following Ansible roles are included in this collection.
 | rundeck                  |                                                                                                                    |
 | smartd                   |                                                                                                                    |
 | ucs                      |                                                                                                                    |
+| vault                    |                                                                                                                    |
 | zabbix                   |                                                                                                                    |
 | zabbix_agent             |                                                                                                                    |
