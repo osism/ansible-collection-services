@@ -17,3 +17,4 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  when: ara_server_database_type == "mysql"
