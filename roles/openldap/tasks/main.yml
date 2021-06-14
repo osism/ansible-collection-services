@@ -24,14 +24,6 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
 
-#- name: Copy UDM-REST environment file
-#  template:
-#    src: env/udm-rest.env.j2
-#    dest: "{{ openldap_configuration_directory }}/udm-rest.env"
-#    mode: 0640
-#    owner: "{{ operator_user }}"
-#    group: "{{ operator_group }}"
-
 - name: Copy secret files
   copy:
     content: "{{ item.secret }}"

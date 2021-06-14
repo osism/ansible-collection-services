@@ -27,8 +27,12 @@ openldap_ldaps_port: 636
 openldap_tag: experimental
 openldap_image: "{{ docker_registry_openldap }}/univention/univention-upx-container-ldap-openldap:{{ openldap_tag }}"
 
-openldap_username: admin
-openldap_password: password
+openldap_domain_name: scs-organization.intranet
+openldap_base_dn: dc=scs-organization,dc=intranet
+
+#openldap_user: cn=admin,{{ openldap_base_dn }}
+# Generate with `echo 'scs' | mkpasswd --hash=md5 -s`
+openldap_password_hash: $1$9f.IKPLC$5F8dQyt.uDevy//Gyya/N/
 
 openldap_cacert_pem: '-----BEGIN CERTIFICATE-----
 
