@@ -17,10 +17,10 @@ openldap_configuration_directory: /opt/openldap/configuration
 openldap_secrets_directory: /opt/openldap/secrets
 openldap_docker_compose_directory: /opt/openldap
 
-openldap_network: 172.31.100.32/28 # TODO: Find a proper one not shared with phpmyadmin
+openldap_network: 172.31.100.240/28
 openldap_container_name: openldap
 
-openldap_host: 192.168.16.5 # TODO: Double check this, perhaps use 127.0.0.1
+openldap_host: 127.0.0.1
 openldap_ldap_port: 389
 openldap_ldaps_port: 636
 
