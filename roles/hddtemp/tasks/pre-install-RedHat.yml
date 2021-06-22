@@ -1,6 +1,0 @@
----
-- name: Install pre requirements - epel
-  become: true
-  dnf:
-    name: "epel-release"
-    state: present

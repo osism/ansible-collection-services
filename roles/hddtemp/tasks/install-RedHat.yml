@@ -2,5 +2,5 @@
 - name: Install hddtemp package
   become: true
   dnf:
-    name: "{{ hddtemp_package_name }}"
+    name: ["epel-release", "{{ hddtemp_package_name }}"]
     state: present

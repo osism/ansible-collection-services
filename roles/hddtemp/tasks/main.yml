@@ -2,9 +2,6 @@
 - name: Gather variables for each operating system
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Include distribution specific pre install tasks
-  include_tasks: "pre-install-{{ ansible_os_family }}.yml"
-
 - name: Include distribution specific install tasks
   include_tasks: "install-{{ ansible_os_family }}.yml"
 
