@@ -1,10 +1,14 @@
 ---
+- name: Gather variables for each operating system
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Stop/disable timesyncd service
   become: true
   service:
     name: systemd-timesyncd
     state: stopped
     enabled: false
+  when: ansible_os_family == "Debian"
 
 - name: Include distribution specific install tasks
   include_tasks: "install-{{ ansible_os_family }}.yml"
