@@ -1,0 +1,6 @@
+---
+- name: Install package
+  become: true
+  package:
+    name: "{{ chrony_package_name }}"
+    state: present

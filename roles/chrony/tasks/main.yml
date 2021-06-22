@@ -5,16 +5,26 @@
     name: systemd-timesyncd
     state: stopped
     enabled: false
+  when: ansible_os_family == "Debian"
 
 - name: Include distribution specific install tasks
   include_tasks: "install-{{ ansible_os_family }}.yml"
 
-- name: Start/enable chrony
+- name: Start/enable chrony - Debian
   become: true
   service:
-    name: "{{ chrony_service_name }}"
+    name: "{{ chrony_service_name_debian }}"
     state: started
     enabled: true
+  when: ansible_os_family == "Debian"
+
+- name: Start/enable chrony - RedHat
+  become: true
+  service:
+    name: "{{ chrony_service_name_redhat }}"
+    state: started
+    enabled: true
+  when: ansible_os_family == "RedHat"
 
 - name: Check if configuration file exists
   stat:

@@ -2,7 +2,8 @@
 chrony_conf_file: /etc/chrony/chrony.conf
 chrony_key_file: /etc/chrony/chrony.keys
 chrony_package_name: chrony
-chrony_service_name: chrony
+chrony_service_name_debian: chrony
+chrony_service_name_redhat: chronyd
 
 configuration_directory: /opt/configuration
 chrony_local_conf_template: "{{ configuration_directory }}/environments/generic/templates/chrony.conf.j2"
