@@ -1,4 +1,9 @@
 ---
+- name: Gather variables for each operating system
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "defaults/{{ ansible_os_family }}.yml"
+
 - name: Stop/disable timesyncd service
   become: true
   service:
@@ -10,21 +15,12 @@
 - name: Include distribution specific install tasks
   include_tasks: "install-{{ ansible_os_family }}.yml"
 
-- name: Start/enable chrony - Debian
+- name: Start/enable chrony
   become: true
   service:
-    name: "{{ chrony_service_name_debian }}"
+    name: "{{ chrony_service_name }}"
     state: started
     enabled: true
-  when: ansible_os_family == "Debian"
-
-- name: Start/enable chrony - RedHat
-  become: true
-  service:
-    name: "{{ chrony_service_name_redhat }}"
-    state: started
-    enabled: true
-  when: ansible_os_family == "RedHat"
 
 - name: Check if configuration file exists
   stat:

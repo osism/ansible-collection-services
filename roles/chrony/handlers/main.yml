@@ -1,14 +1,6 @@
 ---
-- name: Restart chrony service - Debian
+- name: Restart chrony service
   become: true
   service:
-    name: "{{ chrony_service_name_debian }}"
+    name: "{{ chrony_service_name }}"
     state: restarted
-  when: ansible_os_family == "Debian"
-
-- name: Restart chrony service - RedHat
-  become: true
-  service:
-    name: "{{ chrony_service_name_redhat }}"
-    state: restarted
-  when: ansible_os_family == "RedHat"
