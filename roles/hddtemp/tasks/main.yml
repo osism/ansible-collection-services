@@ -11,7 +11,7 @@
 - name: Copy hddtemp configuration file
   become: true
   copy:
-    src: hddtemp
+    src: "hddtemp-{{ ansible_os_family }}"
     dest: "{{ hddtemp_conf_file }}"
     owner: root
     group: root
