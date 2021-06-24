@@ -1,4 +1,10 @@
 ---
+- name: This family is not supported
+  debug:
+    msg: "This family, {{ ansible_os_family }}, is not supported yet."
+  when: ansible_os_family != "Debian"
+  failed_when: ansible_os_family != "Debian"
+
 - name: Include storage tasks
   include: storage.yml
   when: docker_configure_storage_block_device|bool
