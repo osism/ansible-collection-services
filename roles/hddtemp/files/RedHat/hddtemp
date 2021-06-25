@@ -1,0 +1,5 @@
+#
+# hddtemp(8) daemon options.  If no disks are specified here, the service
+# will try to autodetect and start monitoring all of them.
+#
+HDDTEMP_OPTIONS="--listen 127.0.0.1 --daemon --port 7634 --syslog=1 /dev/sd[a-z] /dev/sd[a-z][a-z]"

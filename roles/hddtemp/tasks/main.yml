@@ -1,12 +1,15 @@
 ---
+- name: Gather variables for each operating system
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Include distribution specific install tasks
   include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Copy hddtemp configuration file
   become: true
   copy:
-    src: hddtemp
-    dest: /etc/default/hddtemp
+    src: "{{ ansible_os_family }}/hddtemp"
+    dest: "{{ hddtemp_conf_file }}"
     owner: root
     group: root
     mode: 0644
