@@ -1,9 +1,8 @@
 ---
 - name: This family is not supported
-  debug:
+  fail:
     msg: "This family, {{ ansible_os_family }}, is not supported yet."
   when: ansible_os_family != "Debian"
-  failed_when: ansible_os_family != "Debian"
 
 - name: Include storage tasks
   include: storage.yml
