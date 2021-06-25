@@ -1,0 +1,114 @@
+---
+# defaults file for zuul
+
+###############################################################################
+# Generic
+###############################################################################
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+zuul_host: "{{ inventory_hostname }}"
+zookeeper_fqdn: "zookeeper_1.osism"
+base_conf_dir: /opt/zuul
+component_conf_dirs:
+  nodepool_launcher: "{{ base_conf_dir }}/nodepool_launcher_configuration"
+  zookeeper: "{{ base_conf_dir }}/zookeeper_configuration"
+  zuul: "{{ base_conf_dir }}/zuul_configuration"
+  certs: "{{ base_conf_dir }}/certs"
+  ssh_keys: "{{ base_conf_dir }}/ssh_keys"
+  web: "{{ base_conf_dir }}/web"
+  log_server: "{{ base_conf_dir }}/log_server"
+  scheduler: "{{ base_conf_dir }}/scheduler"
+
+
+###############################################################################
+# Zuul
+###############################################################################
+
+connections:
+  githubzuulapp:
+    driver: github
+    webhook_token: "webhooksecretvalue"
+    app_id: 121873
+    app_key: "/etc/zuul/pem-files/githubzuulapp.pem"
+  opendevorg:
+    name: opendev
+    driver: git
+    baseurl: https://opendev.org
+
+tenants:
+  - tenant:
+      name: my-tenant-name
+      source:
+        opendevorg:
+          untrusted-projects:
+            - zuul/zuul-jobs:
+                include:
+                  - job
+        githubzuulapp:
+          config-projects:
+            - tibeerorg/zuul_config:
+                load-branch: main
+          untrusted-projects:
+            - tibeerorg/zuul_demo_repo
+
+
+###############################################################################
+# docker
+###############################################################################
+
+docker_registry: index.docker.io
+
+port_list:
+  web: 9000
+  nodepool_launcher: 8022
+  log_server: 8000
+
+image_list:
+  nodepool_launcher: "{{ docker_registry }}/zuul/nodepool-launcher:4.1.0"
+  zuul_executor: "{{ docker_registry }}/zuul/zuul-executor:4.5.1"
+  zuul_web: "{{ docker_registry }}/zuul/zuul-web:4.5.1"
+  zuul_scheduler: "{{ docker_registry }}/zuul/zuul-scheduler:4.5.1"
+  zookeeper: "{{ docker_registry }}/zookeeper:3.7.0"
+  mariadb: "{{ docker_registry }}/mariadb:latest"
+  log_server: "{{ docker_registry }}/httpd:alpine"
+
+database:
+  user_name: zuul
+  user_pass: secret
+  root_pass: rootpassword
+  db_name: zuul
+
+container_name:
+  mariadb: "zuul_mariadb"
+  zookeeper: "zuul_zookeeper"
+  nodepool_launcher: "zuul_nodepool_launcher"
+  zuul_scheduler: "zuul_scheduler"
+  zuul_web: "zuul_web"
+  zuul_executor: "zuul_executor"
+  log_server: "zuul_log_server"
+  worker_node_list:
+    - "zuul_worker_node_1"
+# Do not forget to add the to the nodepool list below
+
+
+###############################################################################
+# Nodepool
+###############################################################################
+
+nodepool_labels:
+  labels:  # we need this sub-key. limitation of to_nice_yaml library
+    - name: ubuntu-focal
+
+nodepool_providers:
+  providers:  # we need this sub-key. limitation of to_nice_yaml library
+    - name: docker-containers
+      driver: static
+      pools:
+        - name: docker-compose containers
+          nodes:
+            - name: zuul_worker_node_1
+              labels: ubuntu-focal  # make sure nodepool_labels has this
+              host-key-checking: false
+              python-path: /usr/bin/python3
+              username: root
