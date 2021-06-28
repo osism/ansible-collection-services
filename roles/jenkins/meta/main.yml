@@ -2,7 +2,7 @@
 galaxy_info:
   author: Christian Berendt
   description: Role osism.services.jenkins
-  company: Betacloud Solutions GmbH
+  company: OSISM GmbH
   license: Apache License 2.0
   min_ansible_version: 3.0.0
   platforms:
