@@ -3,7 +3,7 @@ version: '3.5'
 
 services:
   openldap:
-    container_name:  "{{ openldap_container_name }}"
+    container_name: "{{ openldap_container_name }}"
     image: "{{ openldap_image }}"
     restart: unless-stopped
     env_file:
@@ -28,6 +28,18 @@ services:
       timeout: 1s
       retries: 10
       start_period: 5s
+  udm-rest:
+    container_name: "{{ udm_rest_container_name }}"
+    env_file:
+      - "{{ openldap_configuration_directory }}/udm-rest.env"
+    image: "{{ udm_rest_image }}"
+    ports:
+    - 9979:9979
+    depends_on:
+      openldap:
+        condition: service_healthy
+    secrets:
+    - ca_cert
 
 volumes:
   # OpenLDAP only:
