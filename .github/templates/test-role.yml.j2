@@ -6,13 +6,13 @@ name: Test role {{ ansible_role }}
   push:
     paths:
       - '.github/workflows/test-role-{{ ansible_role }}.yml'
-      - 'molecule/default/*'
+      - 'molecule/{{ molecule_scenario }}/*'
       - 'molecule/{{ ansible_role }}/**'
       - 'roles/{{ ansible_role }}/**'
   pull_request:
     paths:
       - '.github/workflows/test-role-{{ ansible_role }}.yml'
-      - 'molecule/default/*'
+      - 'molecule/{{ molecule_scenario }}/*'
       - 'molecule/{{ ansible_role }}/**'
       - 'roles/{{ ansible_role }}/**'
 
@@ -47,15 +47,15 @@ jobs:
       #       work here. Hence this workaround.
       - name: Prepare molecule.yml
         run: |
-          sed -i "s/\${DOCKER_IMAGE}/${{ '{{' }} matrix.docker-image {{ '}}' }}/g" molecule/default/molecule.yml
-          sed -i "s/\${ANSIBLE_ROLE}/${{ '{{' }} env.ANSIBLE_ROLE {{ '}}' }}/g" molecule/default/molecule.yml
+          sed -i "s/\${DOCKER_IMAGE}/${{ '{{' }} matrix.docker-image {{ '}}' }}/g" molecule/{{ molecule_scenario }}/molecule.yml
+          sed -i "s/\${ANSIBLE_ROLE}/${{ '{{' }} env.ANSIBLE_ROLE {{ '}}' }}/g" molecule/{{ molecule_scenario }}/molecule.yml
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install -r molecule/requirements.txt
           python3 -m pip install ansible~=${{ '{{' }} matrix.ansible-version {{ '}}' }}
       - name: Run molecule
-        run: molecule test
+        run: molecule test -s {{ molecule_scenario }}
       - name: Cleanup molecule
-        run: molecule destroy
+        run: molecule destroy -s {{ molecule_scenario }}
         if: ${{ '{{' }} always() {{ '}}' }}

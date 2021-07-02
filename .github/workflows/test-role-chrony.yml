@@ -55,7 +55,7 @@ jobs:
           python3 -m pip install -r molecule/requirements.txt
           python3 -m pip install ansible~=${{ matrix.ansible-version }}
       - name: Run molecule
-        run: molecule test
+        run: molecule test -s default
       - name: Cleanup molecule
-        run: molecule destroy
+        run: molecule destroy -s default
         if: ${{ always() }}
