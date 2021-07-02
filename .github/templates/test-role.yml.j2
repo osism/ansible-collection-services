@@ -1,35 +1,35 @@
 ---
-name: Test role rng
+name: Test role {{ ansible_role }}
 
 "on":
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/test-role-rng.yml'
+      - '.github/workflows/test-role-{{ ansible_role }}.yml'
       - 'molecule/default/*'
-      - 'molecule/rng/**'
-      - 'roles/rng/**'
+      - 'molecule/{{ ansible_role }}/**'
+      - 'roles/{{ ansible_role }}/**'
   pull_request:
     paths:
-      - '.github/workflows/test-role-rng.yml'
+      - '.github/workflows/test-role-{{ ansible_role }}.yml'
       - 'molecule/default/*'
-      - 'molecule/rng/**'
-      - 'roles/rng/**'
+      - 'molecule/{{ ansible_role }}/**'
+      - 'roles/{{ ansible_role }}/**'
 
 jobs:
-  test-role-rng:
+  test-role-{{ ansible_role }}:
 
     runs-on: ubuntu-latest
 
     env:
-      ANSIBLE_ROLE: rng
+      ANSIBLE_ROLE: {{ ansible_role }}
 
     strategy:
       max-parallel: 4
       matrix:
-        ansible-version: ['4.2.0']
-        python-version: ['3.8']
-        docker-image: ['ubuntu:20.04']
+        ansible-version: {{ ansible_versions }}
+        python-version: {{ python_versions }}
+        docker-image: {{ docker_images }}
 
     steps:
       - name: Checkout
@@ -37,7 +37,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ '{{' }} matrix.python-version {{ '}}' }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
         with:
@@ -47,15 +47,15 @@ jobs:
       #       work here. Hence this workaround.
       - name: Prepare molecule.yml
         run: |
-          sed -i "s/\${DOCKER_IMAGE}/${{ matrix.docker-image }}/g" molecule/default/molecule.yml
-          sed -i "s/\${ANSIBLE_ROLE}/${{ env.ANSIBLE_ROLE }}/g" molecule/default/molecule.yml
+          sed -i "s/\${DOCKER_IMAGE}/${{ '{{' }} matrix.docker-image {{ '}}' }}/g" molecule/default/molecule.yml
+          sed -i "s/\${ANSIBLE_ROLE}/${{ '{{' }} env.ANSIBLE_ROLE {{ '}}' }}/g" molecule/default/molecule.yml
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install -r molecule/requirements.txt
-          python3 -m pip install ansible~=${{ matrix.ansible-version }}
+          python3 -m pip install ansible~=${{ '{{' }} matrix.ansible-version {{ '}}' }}
       - name: Run molecule
         run: molecule test
       - name: Cleanup molecule
         run: molecule destroy
-        if: ${{ always() }}
+        if: ${{ '{{' }} always() {{ '}}' }}
