@@ -1,7 +1,7 @@
 ---
 namespace: osism
 name: services
-version: 0.4.0
+version: 0.5.0
 readme: README.md
 authors:
   - OSISM community <info@osism.tech> (https://github.com/osism/ansible-collection-services/graphs/contributors)
