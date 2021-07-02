@@ -1,4 +1,11 @@
 ---
+- name: Deprecation notice
+  fail:
+    msg: |
+      The use of Zabbix is deprecated and will no longer be supported in the future.
+      Please set the ignore_deprecations parameter to True to continue using Zabbix.
+  when: not ignore_deprecations|default(False)|bool
+
 - name: Include distribution specific cleanup tasks
   include_tasks: "cleanup-{{ ansible_os_family }}.yml"
 
