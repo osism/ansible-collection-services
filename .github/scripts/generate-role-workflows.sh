@@ -9,5 +9,6 @@ for role in chrony rng; do
         -D ansible_versions "['4.2.0']" \
         -D python_versions "['3.8']" \
         -D docker_images "['ubuntu:20.04']" \
+        -D molecule_scenario "default"\
     templates/test-role.yml.j2 > workflows/test-role-$role.yml
 done
