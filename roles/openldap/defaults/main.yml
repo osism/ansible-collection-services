@@ -9,6 +9,7 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_registry_openldap: quay.io
+docker_registry_udm_rest: quay.io
 
 ##########################
 # openldap
@@ -31,8 +32,9 @@ openldap_domain_name: scs-organization.intranet
 openldap_base_dn: dc=scs-organization,dc=intranet
 
 #openldap_user: cn=admin,{{ openldap_base_dn }}
-# Generate with `echo 'scs' | mkpasswd --hash=md5 -s`
-openldap_password_hash: $1$9f.IKPLC$5F8dQyt.uDevy//Gyya/N/
+# Generate with `echo 'password' | mkpasswd --hash=md5 -s`
+openldap_password_hash: $1$qqC2Sp17$NvRD.1ev4UNPPIUOCTfuA0
+openldap_password: password
 
 openldap_cacert_pem: '-----BEGIN CERTIFICATE-----
 
@@ -192,3 +194,6 @@ openldap_dh_parameters: '-----BEGIN DH PARAMETERS-----
   '
 ##########################
 # UDM
+udm_rest_container_name: udm-rest
+udm_rest_tag: experimental
+udm_rest_image: "{{ docker_registry_udm_rest }}/univention/univention-upx-container-udm-rest:{{ udm_rest_tag }}"
