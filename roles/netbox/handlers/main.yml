@@ -1,0 +1,6 @@
+---
+- name: Restart netbox service
+  become: true
+  service:
+    name: "{{ netbox_service_name }}"
+    state: restarted
