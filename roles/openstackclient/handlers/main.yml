@@ -1,0 +1,6 @@
+---
+- name: Restart openstackclient service
+  become: true
+  service:
+    name: "{{ openstackclient_service_name }}"
+    state: restarted

@@ -17,6 +17,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
+  notify: Restart adminer service
 
 - name: Start/enable adminer service
   become: true

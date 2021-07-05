@@ -6,6 +6,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
+  notify: Restart netbox service
 
 - name: Start/enable netbox service
   become: true

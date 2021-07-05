@@ -1,0 +1,6 @@
+---
+- name: Restart adminer service
+  become: true
+  service:
+    name: "{{ adminer_service_name }}"
+    state: restarted
