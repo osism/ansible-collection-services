@@ -4,7 +4,7 @@
 
 # requirements: pip3 install jinja-cli
 
-for role in chrony rng; do
+for role in chrony rng hddtemp; do
   jinja -D ansible_role $role \
         -D ansible_versions "['4.2.0']" \
         -D python_versions "['3.8']" \
