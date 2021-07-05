@@ -5,7 +5,7 @@ The following Ansible roles are included in this collection.
 | Rolename                 | Test                                                                                                                 |
 |------------------------- |----------------------------------------------------------------------------------------------------------------------|
 | adminer                  |                                                                                                                      |
-| auditd                   |                                                                                                                      |
+| auditd                   | ![Test role auditd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20auditd/badge.svg)   |
 | cephclient               |                                                                                                                      |
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg)   |
 | cockpit                  |                                                                                                                      |
