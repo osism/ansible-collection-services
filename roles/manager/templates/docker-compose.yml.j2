@@ -235,7 +235,7 @@ volumes:
 {% endif %}
   share:
 
-{% if postgres_enable|bool or awx_enable|bool %}
+{% if postgres_enable|bool or awx_enable|bool or netbox_enable|bool %}
 secrets:
 {% if awx_enable|bool %}
   TOWER_PASSWORD:
