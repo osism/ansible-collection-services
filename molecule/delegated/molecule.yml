@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: delegated
+  options:
+    managed: False
+    ansible_connection_options:
+      ansible_connection: local
+platforms:
+  - name: "molecule-${ANSIBLE_ROLE}"
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_LIBRARY: ../../plugins
+    ANSIBLE_ROLES_PATH: ../../roles
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3
+        molecule_role: "${ANSIBLE_ROLE}"
+scenario:
+  name: delegated
+  test_sequence:
+    - dependency
+    - create
+    - prepare
+    - converge
+    - destroy
