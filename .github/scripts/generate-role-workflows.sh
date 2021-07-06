@@ -17,7 +17,10 @@ for role in \
 done
 
 for role in \
-    auditd; do
+    auditd \
+    fail2ban \
+    rsyslog \
+    smartd ; do
   jinja -D ansible_role $role \
         -D ansible_versions "['4.2.0']" \
         -D python_versions "['3.8']" \
