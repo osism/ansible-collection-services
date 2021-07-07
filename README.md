@@ -8,7 +8,7 @@ The following Ansible roles are included in this collection.
 | auditd                   | ![Test role auditd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20auditd/badge.svg)     |
 | cephclient               |                                                                                                                        |
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg)     |
-| cockpit                  |                                                                                                                        |
+| cockpit                  | ![Test role cockpit](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20cockpit/badge.svg)   |
 | docker                   |                                                                                                                        |
 | fail2ban                 | ![Test role fail2ban](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20fail2ban/badge.svg) |
 | falco                    |                                                                                                                        |
@@ -19,7 +19,7 @@ The following Ansible roles are included in this collection.
 | manager                  |                                                                                                                        |
 | minikube                 |                                                                                                                        |
 | netbox                   |                                                                                                                        |
-| netdata                  |                                                                                                                        |
+| netdata                  | ![Test role netdata](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20netdata/badge.svg)   |
 | openldap                 |                                                                                                                        |
 | openstack_health_monitor |                                                                                                                        |
 | openstackclient          |                                                                                                                        |

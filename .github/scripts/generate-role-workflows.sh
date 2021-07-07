@@ -18,7 +18,9 @@ done
 
 for role in \
     auditd \
+    cockpit \
     fail2ban \
+    netdata \
     rsyslog \
     smartd ; do
   jinja -D ansible_role $role \
