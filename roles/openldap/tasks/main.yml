@@ -13,24 +13,36 @@
     mode: 0750
   loop:
     - "{{ openldap_configuration_directory }}"
+    - "{{ openldap_configuration_directory }}/umc/gateway"
+    - "{{ openldap_configuration_directory }}/umc/web"
+    - "{{ openldap_configuration_directory }}/umc/server"
     - "{{ openldap_secrets_directory }}"
     - "{{ openldap_docker_compose_directory }}"
 
-- name: Copy openldap environment file
+- name: Copy environment files and ucr files
   template:
-    src: env/openldap.env.j2
-    dest: "{{ openldap_configuration_directory }}/openldap.env"
+    src: "{{ item.src }}"
+    dest: "{{ openldap_configuration_directory }}/{{ item.dest }}"
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-
-- name: Copy UDM-REST environment file
-  template:
-    src: env/udm-rest.env.j2
-    dest: "{{ openldap_configuration_directory }}/udm-rest.env"
-    mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+  loop:
+    - src: env/openldap.env.j2
+      dest: openldap.env
+    - src: env/udm-rest.env.j2
+      dest: udm-rest.env
+    - src: env/umc-web.env.j2
+      dest: umc-web.env
+    - src: env/umc-gateway.env.j2
+      dest: umc-gateway.env
+    - src: env/umc-server.env.j2
+      dest: umc-server.env
+    - src: umc/server/ucr.j2
+      dest: umc/server/ucr
+    - src: umc/gateway/ucr.j2
+      dest: umc/gateway/ucr
+    - src: umc/web/ucr.j2
+      dest: umc/web/ucr
 
 - name: Copy secret files
   copy:

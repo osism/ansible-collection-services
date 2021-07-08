@@ -10,6 +10,7 @@ operator_group: "{{ operator_user }}"
 
 docker_registry_openldap: quay.io
 docker_registry_udm_rest: quay.io
+docker_registry_umc: quay.io
 
 ##########################
 # openldap
@@ -192,8 +193,27 @@ openldap_dh_parameters: '-----BEGIN DH PARAMETERS-----
 
   -----END DH PARAMETERS-----
   '
+
 ##########################
 # UDM
 udm_rest_container_name: udm-rest
 udm_rest_tag: experimental
-udm_rest_image: "{{ docker_registry_udm_rest }}/univention/univention-upx-container-udm-rest:{{ udm_rest_tag }}"
+udm_rest_image: "{{ docker_registry_udm_rest }}/univention/univention-upx-container-udm-rest-udm:{{ udm_rest_tag }}"
+
+
+##########################
+# UMC
+
+umc_web_container_name: umc-web
+umc_web_tag: experimental
+umc_web_image: "{{ docker_registry_umc }}/univention/univention-upx-container-umc-web:{{ umc_web_tag }}"
+
+umc_gateway_container_name: umc-gateway
+umc_gateway_tag: experimental
+umc_gateway_image: "{{ docker_registry_umc }}/univention/univention-upx-container-umc-gateway:{{ umc_gateway_tag }}"
+umc_gateway_http_port: 8008
+umc_gateway_https_port: 8009
+
+umc_server_container_name: umc-server
+umc_server_tag: build-21741
+umc_server_image: "{{ docker_registry_umc }}/univention/univention-upx-container-umc-server:{{ umc_server_tag }}"
