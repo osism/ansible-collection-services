@@ -33,6 +33,7 @@ services:
     env_file:
       - "{{ openldap_configuration_directory }}/udm-rest.env"
     image: "{{ udm_rest_image }}"
+    restart: unless-stopped
     ports:
     - "{{ openldap_host }}:9979:9979"
 #   depends_on:
@@ -45,6 +46,7 @@ services:
     env_file:
       - "{{ openldap_configuration_directory }}/umc-server.env"
     image: "{{ umc_server_image }}"
+    restart: unless-stopped
     ports:
     - 6670:6670
     volumes:
@@ -62,6 +64,7 @@ services:
     env_file:
       - "{{ openldap_configuration_directory }}/umc-web.env"
     image: "{{ umc_web_image }}"
+    restart: unless-stopped
     ports:
     - "{{ openldap_host }}:8090:8090"
     volumes:
@@ -78,6 +81,7 @@ services:
     env_file:
       - "{{ openldap_configuration_directory }}/umc-gateway.env"
     image: "{{ umc_gateway_image }}"
+    restart: unless-stopped
     ports:
     - "{{ openldap_host }}:{{ umc_gateway_http_port }}:80"
     - "{{ openldap_host }}:{{ umc_gateway_https_port }}:443"
