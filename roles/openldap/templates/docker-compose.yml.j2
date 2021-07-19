@@ -35,7 +35,7 @@ services:
     image: "{{ udm_rest_image }}"
     restart: unless-stopped
     ports:
-    - "{{ openldap_host }}:9979:9979"
+    - "{{ udm_rest_host }}:{{ udm_rest_port }}:9979"
 #   depends_on:
 #     openldap:
 #       condition: service_healthy
@@ -48,7 +48,7 @@ services:
     image: "{{ umc_server_image }}"
     restart: unless-stopped
     ports:
-    - 6670:6670
+    - "{{ umc_server_host }}:{{ umc_server_port }}:6670"
     volumes:
     - umc-socket:/var/run/univention-management-console
     - umc-temp-upload:/var/tmp/univention-management-console-frontend
@@ -66,7 +66,7 @@ services:
     image: "{{ umc_web_image }}"
     restart: unless-stopped
     ports:
-    - "{{ openldap_host }}:8090:8090"
+    - "{{ umc_web_host }}:{{ umc_web_port }}:8090"
     volumes:
     - umc-socket:/var/run/univention-management-console
     - umc-temp-upload:/var/tmp/univention-management-console-frontend
@@ -83,8 +83,8 @@ services:
     image: "{{ umc_gateway_image }}"
     restart: unless-stopped
     ports:
-    - "{{ openldap_host }}:{{ umc_gateway_http_port }}:80"
-    - "{{ openldap_host }}:{{ umc_gateway_https_port }}:443"
+    - "{{ umc_gateway_host }}:{{ umc_gateway_http_port }}:80"
+    - "{{ umc_gateway_host }}:{{ umc_gateway_https_port }}:443"
     volumes:
     - "{{ openldap_configuration_directory }}/umc/gateway/ucr:/etc/univention/base.conf"
 
