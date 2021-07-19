@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: Christian Berendt
+  author: Ferenc Géczi
   description: Role osism.services.openldap
-  company: OSISM GmbH
+  company: Univention GmbH
   license: Apache License 2.0
   min_ansible_version: 3.0.0
   platforms:
