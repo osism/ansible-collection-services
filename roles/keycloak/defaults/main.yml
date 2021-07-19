@@ -33,7 +33,7 @@ keycloak_password: password
 ##########################
 # postgres
 
-postgres_tag: 12-alpine
+postgres_tag: 13-alpine
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 keycloak_postgres_password: password
