@@ -1,7 +1,7 @@
 ---
 namespace: osism
 name: services
-version: 0.5.0
+version: 0.6.0
 readme: README.md
 authors:
   - OSISM community <info@osism.tech>
