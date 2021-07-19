@@ -52,8 +52,8 @@ netbox_initializers:
 ##########################
 # postgres
 
-netbox_postgres_tag: 13-alpine
-netbox_postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ netbox_postgres_tag }}"
+postgres_tag: 13-alpine
+postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 netbox_postgres_password: password
 netbox_postgres_username: netbox
@@ -62,8 +62,5 @@ netbox_postgres_databasename: netbox
 ##########################
 # redis
 
-##########################
-# redis
-
-netbox_redis_tag: 6-alpine
-netbox_redis_image: "{{ docker_registry_redis }}/library/redis:{{ netbox_redis_tag }}"
+redis_tag: 6-alpine
+redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"

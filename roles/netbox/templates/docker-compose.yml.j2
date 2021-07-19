@@ -3,7 +3,7 @@ version: '3.5'
 
 services:
   postgres:
-    image: "{{ netbox_postgres_image }}"
+    image: "{{ postgres_image }}"
     restart: unless-stopped
     env_file:
       - "{{ netbox_configuration_directory }}/postgres.env"
@@ -17,7 +17,7 @@ services:
 
   redis:
     restart: unless-stopped
-    image: "{{ netbox_redis_image }}"
+    image: "{{ redis_image }}"
     command: redis-server --appendonly yes
     volumes:
       - "redis:/data"
