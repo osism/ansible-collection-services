@@ -33,9 +33,6 @@ openldap_domain_name: osism.local
 openldap_base_dn: dc=osism,dc=local
 
 # openldap_user: cn=admin,{{ openldap_base_dn }}
-
-# Generate with `echo 'password' | mkpasswd --hash=md5 -s`
-openldap_password_hash: $1$qqC2Sp17$NvRD.1ev4UNPPIUOCTfuA0
 openldap_password: password
 
 openldap_cacert_pem: '-----BEGIN CERTIFICATE-----
