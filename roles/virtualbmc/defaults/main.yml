@@ -20,7 +20,7 @@ virtualbmc_network: 172.31.101.16/28
 virtualbmc_service_name: "docker-compose@virtualbmc"
 
 virtualbmc_host: 127.0.0.1
-virtualbmc_port: 623
+virtualbmc_port: 6230-6239
 
 virtualbmc_tag: 2.2.0
 virtualbmc_image: "{{ docker_registry_virtualbmc }}/osism/virtualbmc:{{ virtualbmc_tag }}"

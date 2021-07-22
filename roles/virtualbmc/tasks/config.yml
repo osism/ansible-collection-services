@@ -8,5 +8,5 @@
     group: "{{ operator_group }}"
     mode: 0750
   loop:
-    - "{{ rundeck_docker_compose_directory }}"
-    - "{{ rundeck_configuration_directory }}"
+    - "{{ virtualbmc_docker_compose_directory }}"
+    - "{{ virtualbmc_configuration_directory }}"
