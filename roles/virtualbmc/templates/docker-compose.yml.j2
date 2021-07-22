@@ -10,8 +10,6 @@ services:
       - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:6230-6239"
     volumes:
       - nova_libvirt_run:/var/run/libvirt
-    healthcheck:
-      test: curl --fail http://localhost:8000 || exit 1
 
 volumes:
   nova_libvirt_run:
