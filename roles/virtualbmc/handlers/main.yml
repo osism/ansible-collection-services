@@ -1,0 +1,5 @@
+- name: Restart virtualbmc service
+  become: true
+  service:
+    name: "{{ virtualbmc_service_name }}"
+    state: restarted
