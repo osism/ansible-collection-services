@@ -5,9 +5,9 @@ services:
   virtualbmc:
     image: "{{ virtualbmc_image }}"
     restart: unless-stopped
-        entrypoint: vbmcd --foreground
+    entrypoint: vbmcd --foreground
     ports:
-      - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:623"
+      - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:6230-6239"
     volumes:
       - nova_libvirt_run:/var/run/libvirt
     healthcheck:
