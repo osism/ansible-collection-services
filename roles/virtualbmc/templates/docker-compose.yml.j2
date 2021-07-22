@@ -1,0 +1,26 @@
+---
+version: '3.5'
+
+services:
+  virtualbmc:
+    image: "{{ virtualbmc_image }}"
+    restart: unless-stopped
+        entrypoint: vbmcd --foreground
+    ports:
+      - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:623"
+    volumes:
+      - nova_libvirt_run:/var/run/libvirt
+    healthcheck:
+      test: curl --fail http://localhost:8000 || exit 1
+
+volumes:
+  nova_libvirt_run:
+    external: true
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ virtualbmc_network }}

@@ -1,0 +1,26 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_registry_virtualbmc: quay.io
+
+##########################
+# rundeck
+
+virtualbmc_configuration_directory: /opt/virtualbmc/configuration
+virtualbmc_docker_compose_directory: /opt/virtualbmc
+
+virtualbmc_network: 172.31.101.16/28
+virtualbmc_service_name: "docker-compose@virtualbmc"
+
+virtualbmc_host: 127.0.0.1
+virtualbmc_port: 623
+
+virtualbmc_tag: 2.2.0
+virtualbmc_image: "{{ docker_registry_virtualbmc }}/osism/virtualbmc:{{ virtualbmc_tag }}"
