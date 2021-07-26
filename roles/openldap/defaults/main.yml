@@ -26,7 +26,7 @@ openldap_host: 127.0.0.1
 openldap_ldap_port: 389
 openldap_ldaps_port: 636
 
-openldap_tag: build-23818
+openldap_tag: build-24045
 openldap_image: "{{ docker_registry_openldap }}/univention/univention-upx-container-ldap-openldap:{{ openldap_tag }}"
 
 openldap_domain_name: osism.local
