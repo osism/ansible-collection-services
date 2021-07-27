@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     entrypoint: vbmcd --foreground
     ports:
-      - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:6230-6239"
+      - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:6230-6239/udp"
     volumes:
       - nova_libvirt_run:/var/run/libvirt
 
