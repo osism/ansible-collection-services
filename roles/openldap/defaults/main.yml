@@ -26,8 +26,8 @@ openldap_host: 127.0.0.1
 openldap_ldap_port: 389
 openldap_ldaps_port: 636
 
-openldap_tag: build-24045
-openldap_image: "{{ docker_registry_openldap }}/univention/univention-upx-container-ldap-openldap:{{ openldap_tag }}"
+openldap_tag: build-25862
+openldap_image: "{{ docker_registry_openldap }}/univention/upx-ldap-server:{{ openldap_tag }}"
 
 openldap_domain_name: osism.local
 openldap_base_dn: dc=osism,dc=local
@@ -199,8 +199,8 @@ udm_rest_host: 127.0.0.1
 udm_rest_port: 9979
 
 udm_rest_container_name: udm-rest
-udm_rest_tag: build-23771
-udm_rest_image: "{{ docker_registry_udm_rest }}/univention/univention-upx-container-udm-rest-udm:{{ udm_rest_tag }}"
+udm_rest_tag: build-24328
+udm_rest_image: "{{ docker_registry_udm_rest }}/univention/upx-udm-rest:{{ udm_rest_tag }}"
 
 ##########################
 # UMC
@@ -209,20 +209,20 @@ umc_web_host: 127.0.0.1
 umc_web_port: 8090
 
 umc_web_container_name: umc-web
-umc_web_tag: build-23862
-umc_web_image: "{{ docker_registry_umc }}/univention/univention-upx-container-umc-web:{{ umc_web_tag }}"
+umc_web_tag: build-24437
+umc_web_image: "{{ docker_registry_umc }}/univention/upx-umc-web:{{ umc_web_tag }}"
 
 umc_gateway_host: 127.0.0.1
 umc_gateway_http_port: 8191
 umc_gateway_https_port: 8192
 
 umc_gateway_container_name: umc-gateway
-umc_gateway_tag: build-23862
-umc_gateway_image: "{{ docker_registry_umc }}/univention/univention-upx-container-umc-gateway:{{ umc_gateway_tag }}"
+umc_gateway_tag: build-24437
+umc_gateway_image: "{{ docker_registry_umc }}/univention/upx-umc-gateway:{{ umc_gateway_tag }}"
 
 umc_server_host: 127.0.0.1
 umc_server_port: 6670
 
 umc_server_container_name: umc-server
-umc_server_tag: build-23862
-umc_server_image: "{{ docker_registry_umc }}/univention/univention-upx-container-umc-server:{{ umc_server_tag }}"
+umc_server_tag: build-24437
+umc_server_image: "{{ docker_registry_umc }}/univention/upx-umc-server:{{ umc_server_tag }}"
