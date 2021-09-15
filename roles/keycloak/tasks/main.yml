@@ -44,6 +44,9 @@
       secret: "{{ keycloak_postgres_password }}"
   no_log: true
 
+- include: "createdb.yml"
+  when: "{{ keycloak_galera_backend_enable|bool }} == 'true'"
+
 - name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2
