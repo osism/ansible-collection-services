@@ -27,7 +27,7 @@ netbox_port: 8121
 
 netbox_userid: 101
 
-netbox_tag: latest
+netbox_tag: v3.0-ldap
 netbox_image: "{{ docker_registry_netbox }}/netbox/netbox:{{ netbox_tag }}"
 
 netbox_secret_key: 00000000-0000-0000-0000-000000000000
