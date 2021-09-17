@@ -1,2 +1,2 @@
-molecule==3.4.0
+molecule==3.5.1
 molecule-docker==1.0.2
