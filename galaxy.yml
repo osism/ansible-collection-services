@@ -11,6 +11,6 @@ tags:
   - system
 dependencies: {}
 repository: https://github.com/osism/ansible-collection-services.git
-documentation: https://docs.osism.de
+documentation: https://docs.osism.tech
 homepage: https://www.osism.tech
 issues: https://github.com/osism/ansible-collection-services/issues
