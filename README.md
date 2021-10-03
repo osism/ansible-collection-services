@@ -31,5 +31,3 @@ The following Ansible roles are included in this collection.
 | rundeck                  |                                                                                                                        |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)     |
 | virtualbmc               |                                                                                                                        |
-| zabbix                   |                                                                                                                        |
-| zabbix_agent             |                                                                                                                        |
