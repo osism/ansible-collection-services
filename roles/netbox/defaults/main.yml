@@ -40,6 +40,8 @@ netbox_superuser_api_token: "0000000000000000000000000000000000000000"
 netbox_user_name: dragon
 netbox_user_api_token: "1111111111111111111111111111111111111111"
 
+netbox_metrics: "True"
+
 netbox_initializers:
   - device_roles
   - device_types
