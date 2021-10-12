@@ -18,6 +18,7 @@
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  notify: Restart homer service
 
 - name: Copy docker-compose.yml file
   template:
@@ -26,6 +27,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
+  notify: Restart homer service
 
 - name: Start/enable homer service
   become: true
