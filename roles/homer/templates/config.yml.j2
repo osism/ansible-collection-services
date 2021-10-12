@@ -1,0 +1,59 @@
+---
+title: "Operations dashboard"
+subtitle: OSISM
+logo: "osism.png"
+
+header: true
+footer: false
+
+# Optional theme customization
+theme: default
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link-hover: "#ffdd57"
+
+links:
+  - name: "Contribute"
+    icon: "fab fa-github"
+    url: "https://github.com/osism"
+    target: "_blank" # optional html a tag target attribute
+  - name: "Documentation"
+    icon: "fas fa-book"
+    url: "https://docs.osism.tech/"
+  - name: "Bug report"
+    icon: "fas fa-bug"
+    url: "https://github.com/osism/issues"
+
+# Services
+services:
+  - name: "Deployment"
+    icon: "fas fa-wrench"
+    items:
+      - name: "Ansible dashboard"
+        logo: "ara.png"
+        subtitle: "ARA Records Ansible"
+        tag: "app"
+        url: "{{ homer_url_ara }}"
+        target: "_blank"

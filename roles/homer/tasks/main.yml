@@ -11,6 +11,14 @@
     - "{{ homer_configuration_directory }}"
     - "{{ homer_docker_compose_directory }}"
 
+- name: Copy config.yml configuration file
+  template:
+    src: config.yml.j2
+    dest: "{{ homer_configuration_directory }}/config.yml"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
 - name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2
