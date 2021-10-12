@@ -1,0 +1,21 @@
+---
+version: '3'
+
+services:
+  homer:
+    container_name: "{{ homer_container_name }}"
+    restart: unless-stopped
+    image: "{{ homer_image }}"
+    ports:
+      - "{{ homer_host }}:{{ homer_port }}:8080"
+
+volumes:
+  homer:
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet: {{ homer_network }}
