@@ -8,9 +8,8 @@ services:
     image: "{{ homer_image }}"
     ports:
       - "{{ homer_host }}:{{ homer_port }}:8080"
-
-volumes:
-  homer:
+    volumes:
+      - "{{ homer_configuration_directory }}/config.yml:/www/assets/config.yml:ro"
 
 networks:
  default:

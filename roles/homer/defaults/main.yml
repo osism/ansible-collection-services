@@ -27,3 +27,8 @@ homer_container_name: homer
 homer_network: 172.31.100.208/28
 
 homer_service_name: "docker-compose@homer"
+
+##########################
+# urls
+
+homer_url_ara: "http://{{ ara_server_host|default(ansible_default_ipv4.address) }}:{{ ara_server_port|default(8120) }}"
