@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Zuul needs to be able to connect to the remote systems in order to
+# start.
+
+wait_for_mariadb() {
+    echo "$(date -Iseconds)" "Wait for mariadb to start"
+    for i in $(seq 1 120); do
+        cat < /dev/null > /dev/tcp/{{ container_name.mariadb }}/3306 && return
+        sleep 1
+    done
+
+    echo "$(date -Iseconds)" "Timeout waiting for mariadb"
+    exit 1
+}
+
+wait_for_mariadb

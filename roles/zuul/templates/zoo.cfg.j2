@@ -1,0 +1,15 @@
+dataDir=/data
+dataLogDir=/datalog
+tickTime=2000
+initLimit=5
+syncLimit=2
+autopurge.snapRetainCount=3
+autopurge.purgeInterval=0
+maxClientCnxns=1000
+standaloneEnabled=true
+admin.enableServer=true
+server.1={{ zookeeper_fqdn }}:2888:3888
+serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+secureClientPort=2281
+ssl.keyStore.location=/var/certs/keystores/{{ zookeeper_fqdn }}.pem
+ssl.trustStore.location=/var/certs/certs/cacert.pem

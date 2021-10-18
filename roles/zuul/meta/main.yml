@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Tim Beermann
+  description: Role osism.services.zuul
+  company: OSISM GmbH
+  license: Apache License 2.0
+  min_ansible_version: 3.0.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags:
+    - system
+dependencies: []
