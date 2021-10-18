@@ -16,7 +16,7 @@ services:
       - "{{ keycloak_host }}:{{ keycloak_port }}:8080"
     depends_on:
       - postgres
-{% if not galera_backend_enable|bool %}
+{% if not keycloak_galera_backend_enable |bool %}
   postgres:
     container_name: "{{ keycloak_container_name }}_postgres"
     image: "{{ postgres_image }}"
