@@ -21,7 +21,7 @@ openldap_docker_compose_directory: /opt/openldap
 
 openldap_network: 172.31.100.240/28
 openldap_container_name: openldap
-openldap_service_name: openldap
+openldap_service_name: "docker-compose@openldap"
 
 openldap_host: 127.0.0.1
 openldap_ldap_port: 389
