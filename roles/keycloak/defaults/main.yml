@@ -39,3 +39,9 @@ postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag
 keycloak_postgres_password: password
 keycloak_postgres_username: keycloak
 keycloak_postgres_databasename: keycloak
+
+##########################
+# mariadb
+
+keycloak_galera_backend_enable: false
+keycloak_use_preconfigured_databases: false

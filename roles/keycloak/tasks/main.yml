@@ -45,7 +45,7 @@
   no_log: true
 
 - include: "createdb.yml"
-  when: "{{ keycloak_galera_backend_enable|bool }} == 'true'"
+  when: keycloak_galera_backend_enable|bool
 
 - name: Copy docker-compose.yml file
   template:
