@@ -1,0 +1,6 @@
+---
+- name: Restart keycloak service
+  become: true
+  service:
+    name: "{{ keycloak_service_name }}"
+    state: restarted

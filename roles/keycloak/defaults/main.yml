@@ -20,6 +20,7 @@ keycloak_docker_compose_directory: /opt/keycloak
 
 keycloak_network: 172.31.100.144/28
 keycloak_container_name: keycloak
+keycloak_service_name: keycloak
 
 keycloak_host: 127.0.0.1
 keycloak_port: 8170
