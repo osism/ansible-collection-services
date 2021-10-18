@@ -7,7 +7,12 @@ docker_experimental: "false"
 docker_live_restore: "true"
 docker_user: "{{ operator_user | default('dragon') }}"
 
+##########################
+# restart
+
 docker_allow_restart: true
+docker_enforce_restart: false
+docker_ignore_restart_groupname: manager
 
 ##########################
 # networking

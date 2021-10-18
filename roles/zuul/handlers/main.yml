@@ -1,0 +1,7 @@
+---
+# handlers file for zuul
+
+- name: smart_reload_scheduler
+  community.docker.docker_container_exec:
+    container: zuul_scheduler
+    command: zuul-scheduler smart-reconfigure

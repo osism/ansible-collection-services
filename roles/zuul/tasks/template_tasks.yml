@@ -1,0 +1,70 @@
+---
+- name: template zookeeper zoo.cfg
+  template:
+    src: zoo.cfg.j2
+    dest: "{{ component_conf_dirs.zookeeper }}/zoo.cfg"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+
+- name: temaplte zuul web wait script
+  template:
+    src: wait-to-start-gearman.sh.j2
+    dest: "{{ component_conf_dirs.web }}/wait-to-start-gearman.sh"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0744
+
+- name: template zuul scheduler wait script
+  template:
+    src: wait-to-start.sh.j2
+    dest: "{{ component_conf_dirs.scheduler }}/wait-to-start.sh"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0744
+
+- name: tempalte zuul zuul.conf
+  template:
+    src: zuul.conf.j2
+    dest: "{{ component_conf_dirs.zuul }}/zuul.conf"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+
+- name: template zuul main.yaml
+  template:
+    src: main.yaml.j2
+    dest: "{{ component_conf_dirs.zuul }}/main.yaml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+  notify: smart_reload_scheduler
+
+- name: template nodepool-launcher nodepool.yaml
+  template:
+    src: nodepool.yaml.j2
+    dest: "{{ component_conf_dirs.nodepool_launcher }}/nodepool.yaml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+
+- name: template docker-compose env files
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ base_conf_dir }}/{{ item }}.env"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+  loop:
+    - executor
+    - mariadb
+    - scheduler
+    - web
+
+- name: template docker-compose.yaml
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ base_conf_dir }}/docker-compose.yaml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644

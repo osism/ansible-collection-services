@@ -1,0 +1,6 @@
+---
+- name: Restart homer service
+  become: true
+  service:
+    name: "{{ homer_service_name }}"
+    state: restarted

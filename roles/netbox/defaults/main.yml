@@ -27,7 +27,7 @@ netbox_port: 8121
 
 netbox_userid: 101
 
-netbox_tag: latest
+netbox_tag: v3.0-ldap
 netbox_image: "{{ docker_registry_netbox }}/netbox/netbox:{{ netbox_tag }}"
 
 netbox_secret_key: 00000000-0000-0000-0000-000000000000
@@ -39,6 +39,8 @@ netbox_superuser_api_token: "0000000000000000000000000000000000000000"
 
 netbox_user_name: dragon
 netbox_user_api_token: "1111111111111111111111111111111111111111"
+
+netbox_metrics: "True"
 
 netbox_initializers:
   - device_roles
@@ -52,7 +54,7 @@ netbox_initializers:
 ##########################
 # postgres
 
-postgres_tag: 13-alpine
+postgres_tag: 14-alpine
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 netbox_postgres_password: password

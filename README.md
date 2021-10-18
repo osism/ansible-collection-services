@@ -13,7 +13,7 @@ The following Ansible roles are included in this collection.
 | fail2ban                 | ![Test role fail2ban](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20fail2ban/badge.svg) |
 | falco                    |                                                                                                                        |
 | hddtemp                  | ![Test role hddtemp](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20hddtemp/badge.svg)   |
-| heimdall                 |                                                                                                                        |
+| homer                    |                                                                                                                        |
 | jenkins                  |                                                                                                                        |
 | keycloak                 |                                                                                                                        |
 | manager                  |                                                                                                                        |
@@ -31,5 +31,4 @@ The following Ansible roles are included in this collection.
 | rundeck                  |                                                                                                                        |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)     |
 | virtualbmc               |                                                                                                                        |
-| zabbix                   |                                                                                                                        |
-| zabbix_agent             |                                                                                                                        |
+| zuul                     |                                                                                                                        |
