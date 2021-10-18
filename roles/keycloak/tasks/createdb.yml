@@ -12,7 +12,8 @@
   run_once: True
   delegate_to: "{{ groups['keycloak'][0] }}"
   when:
-    - not use_preconfigured_databases | bool
+    - not keycloak_use_preconfigured_databases | bool
+
 - name: Creating keycloak database user and setting permissions
   become: true
   kolla_toolbox:
@@ -30,4 +31,4 @@
   run_once: True
   delegate_to: "{{ groups['keycloak'][0] }}"
   when:
-    - not use_preconfigured_databases | bool
+    - not keycloak_use_preconfigured_databases | bool
