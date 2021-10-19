@@ -1,0 +1,19 @@
+---
+##########################
+# packages
+
+tailscale_package_name: tailscale
+
+##########################
+# repository
+
+tailscale_configure_repository: true
+
+tailscale_debian_repository_arch: amd64
+tailscale_debian_repository_key: https://pkgs.tailscale.com/stable/ubuntu/focal.gpg
+tailscale_debian_repository: "deb [ arch={{ tailscale_debian_repository_arch }} ] https://pkgs.tailscale.com/stable/ubuntu focal main"
+
+##########################
+# tailscale
+
+tailscale_authkey: ""

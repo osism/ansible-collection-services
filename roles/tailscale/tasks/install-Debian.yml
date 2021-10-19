@@ -1,0 +1,42 @@
+---
+- name: Wait for apt lock
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+
+- name: Install apt-transport-https package
+  become: true
+  apt:
+    name: apt-transport-https
+    state: present
+  when: tailscale_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  become: true
+  apt_key:
+    url: "{{ tailscale_debian_repository_key }}"
+  when: tailscale_configure_repository|bool
+
+- name: Add repository
+  become: true
+  apt_repository:
+    repo: "{{ tailscale_debian_repository }}"
+    state: present
+    filename: tailscale
+    update_cache: true
+    mode: 0600
+  when: tailscale_configure_repository|bool
+
+- name: Wait for apt lock
+  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+
+- name: Install tailscale package
+  become: true
+  apt:
+    name: "{{ tailscale_package_name }}"
+    state: present
