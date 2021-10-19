@@ -1,0 +1,7 @@
+---
+- name: Include distribution specific install tasks
+  include: "install-{{ ansible_os_family }}.yml"
+
+- name: Include service tasks
+  include_tasks: service.yml
+  tags: service
