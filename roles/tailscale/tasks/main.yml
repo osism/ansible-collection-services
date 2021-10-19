@@ -1,7 +1,23 @@
 ---
 - name: Include distribution specific install tasks
   include: "install-{{ ansible_os_family }}.yml"
+  tags: install
 
 - name: Include service tasks
   include_tasks: service.yml
   tags: service
+
+- name: Enable ipv4 forwarding
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+  when: tailscale_advertise_routes|length > 0
+
+- name: Register machine
+  become: true
+  command: "tailscale up --authkey {{ tailscale_authkey }} --advertise-routes '{{ tailscale_advertise_routes }}'"
+  when: tailscale_authkey|length > 0
