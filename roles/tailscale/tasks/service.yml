@@ -1,1 +1,7 @@
 ---
+- name: Start/enable tailscaled service
+  become: true
+  service:
+    name: "{{ tailscaled_service_name }}"
+    state: started
+    enabled: true
