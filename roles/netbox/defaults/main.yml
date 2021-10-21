@@ -50,6 +50,7 @@ netbox_initializers:
   - sites
   - tags
   - users
+  - object_permissions
 
 ##########################
 # postgres
