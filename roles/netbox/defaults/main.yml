@@ -32,7 +32,7 @@ netbox_image: "{{ docker_registry_netbox }}/netbox/netbox:{{ netbox_tag }}"
 
 netbox_secret_key: 00000000-0000-0000-0000-000000000000
 
-netbox_superuser_name: netbox
+netbox_superuser_name: admin
 netbox_superuser_email: netbox@osism.local
 netbox_superuser_password: password
 netbox_superuser_api_token: "0000000000000000000000000000000000000000"
