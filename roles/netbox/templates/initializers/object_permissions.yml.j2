@@ -1,0 +1,11 @@
+read_write_all:
+  enabled: true
+  description: 'Read/Write for All Objects'
+  object_types: all
+  actions:
+    - add
+    - change
+    - delete
+    - view
+  users:
+    - {{ netbox_user_name }}
