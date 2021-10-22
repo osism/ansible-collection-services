@@ -50,6 +50,7 @@ netbox_initializers:
   - sites
   - tags
   - users
+  - groups
   - object_permissions
 
 ##########################
