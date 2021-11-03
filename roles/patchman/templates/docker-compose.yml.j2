@@ -35,6 +35,9 @@ services:
 
 volumes:
   postgres:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
 
 networks:
  default:
