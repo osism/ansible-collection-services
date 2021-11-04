@@ -14,3 +14,4 @@
     name: "{{ keycloak_service_name }}"
     state: started
     enabled: true
+  register: keycloak_service
