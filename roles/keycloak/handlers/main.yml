@@ -4,3 +4,4 @@
   service:
     name: "{{ keycloak_service_name }}"
     state: restarted
+  when: not keycloak_service.changed
