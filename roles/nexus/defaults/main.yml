@@ -1,0 +1,27 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+docker_registry_nexus: "{{ docker_registry }}"
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# nexus
+
+nexus_docker_compose_directory: /opt/nexus
+
+nexus_host: 127.0.0.1
+nexus_port: 8190
+
+nexus_tag: 3.36.0
+nexus_image: "{{ docker_registry_nexus }}/sonatype/nexus3:{{ nexus_tag }}"
+
+nexus_network: 172.31.101.32/28
+
+nexus_service_name: "docker-compose@nexus"
