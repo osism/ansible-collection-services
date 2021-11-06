@@ -20,6 +20,7 @@ The following Ansible roles are included in this collection.
 | minikube                 |                                                                                                                          |
 | netbox                   |                                                                                                                          |
 | netdata                  | ![Test role netdata](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20netdata/badge.svg)     |
+| nexus                    |                                                                                                                          |
 | openldap                 |                                                                                                                          |
 | openstack_health_monitor |                                                                                                                          |
 | openstackclient          |                                                                                                                          |

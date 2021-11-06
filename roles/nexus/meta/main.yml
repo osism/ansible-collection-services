@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Christian Berendt
+  description: Role osism.services.nexus
+  company: OSISM GmbH
+  license: Apache License 2.0
+  min_ansible_version: 2.10.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags:
+    - system
+dependencies: []

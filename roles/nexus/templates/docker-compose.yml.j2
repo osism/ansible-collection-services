@@ -1,0 +1,27 @@
+---
+version: '3'
+
+services:
+  nexus:
+    container_name: nexus
+    restart: unless-stopped
+    image: "{{ nexus_image }}"
+    ports:
+      - "{{ nexus_host }}:{{ nexus_port }}:8081"
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+    healthcheck:
+      test: curl --silent --fail localhost:8081
+    volumes:
+      - "datanexus:/nexus-data"
+
+volumes:
+  data:
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet: {{ nexus_network }}
