@@ -1,0 +1,7 @@
+---
+- name: Restart nexus service
+  become: true
+  service:
+    name: "{{ nexus_service_name }}"
+    state: restarted
+  when: not nexus_service.changed
