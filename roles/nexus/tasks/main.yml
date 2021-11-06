@@ -17,6 +17,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
+  notify: Restart nexus service
 
 - name: Start/enable nexus service
   become: true
@@ -24,3 +25,4 @@
     name: "{{ nexus_service_name }}"
     state: started
     enabled: true
+  register: nexus_service

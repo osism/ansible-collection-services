@@ -8,6 +8,15 @@ services:
     image: "{{ nexus_image }}"
     ports:
       - "{{ nexus_host }}:{{ nexus_port }}:8081"
+      - "{{ nexus_host }}:{{ nexus_port + 1 }}:{{ nexus_port + 1 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 2 }}:{{ nexus_port + 2 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 3 }}:{{ nexus_port + 3 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 4 }}:{{ nexus_port + 4 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 5 }}:{{ nexus_port + 5 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 6 }}:{{ nexus_port + 6 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 7 }}:{{ nexus_port + 7 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 8 }}:{{ nexus_port + 8 }}"
+      - "{{ nexus_host }}:{{ nexus_port + 9 }}:{{ nexus_port + 9 }}"
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
     healthcheck:
