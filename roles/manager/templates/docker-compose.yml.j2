@@ -160,7 +160,7 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/inventory:ro"
-      - "interface:/interface:ro"
+      - "interface:/interface"
       - "awx_configuration:/configuration"
       - "awx_logs:/ansible/logs"
       - "receptor:/var/run/receptor"
