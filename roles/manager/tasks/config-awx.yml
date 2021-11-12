@@ -33,6 +33,7 @@
     - nginx.conf
     - receptor.conf
     - settings.py
+    - supervisord.conf
 
 - name: Copy secret files
   copy:

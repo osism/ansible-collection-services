@@ -156,6 +156,7 @@ services:
       - "{{ manager_configuration_directory }}/provision-instance.sh:/usr/local/bin/provision-instance.sh"
       - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
       - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
+      - "{{ manager_configuration_directory }}/supervisord.conf:/etc/supervisord.conf"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/inventory:ro"
