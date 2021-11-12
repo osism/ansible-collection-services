@@ -104,9 +104,8 @@ services:
 {% endif %}
 {% if awx_enable|bool %}
   receptor:
-    container_name: "{{ receptor_container_name }}"
     image: "{{ receptor_image }}"
-    command: receptor
+    command: receptor --config /etc/receptor/receptor.conf
     restart: unless-stopped
     depends_on:
       - awx
