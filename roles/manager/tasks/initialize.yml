@@ -1,4 +1,11 @@
 ---
+- name: Flush handlers
+  meta: flush_handlers
+
 - name: Include vault initialize tasks
   include_tasks: initialize-vault.yml
   when: vault_enable|bool
+
+- name: Include awx initialize tasks
+  include_tasks: initialize-awx.yml
+  when: awx_enable|bool

@@ -1,4 +1,15 @@
 ---
+- name: Copy AWX helper scripts
+  copy:
+    src: "awx/{{ item }}"
+    dest: "{{ manager_configuration_directory }}/{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - create-admin-user.sh
+    - provision-instance.sh
+
 - name: Copy AWX environment files
   template:
     src: "env/{{ item }}.env.j2"
@@ -20,6 +31,7 @@
   loop:
     - credentials.py
     - nginx.conf
+    - receptor.conf
     - settings.py
 
 - name: Copy secret files
