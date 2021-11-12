@@ -196,7 +196,7 @@ awx_image: "{{ docker_registry_awx }}/ansible/awx:{{ awx_tag }}"
 
 # receptor
 
-receptor_tag: 1.0.0
+receptor_tag: devel
 receptor_image: "{{ docker_registry_receptor }}/ansible/receptor:{{ receptor_tag }}"
 
 # awxclient
