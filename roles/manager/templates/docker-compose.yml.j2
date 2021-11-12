@@ -103,6 +103,19 @@ services:
 {% endif %}
 {% endif %}
 {% if awx_enable|bool %}
+  receptor:
+    container_name: "{{ receptor_container_name }}"
+    image: "{{ receptor_image }}"
+    command: receptor
+    restart: unless-stopped
+    depends_on:
+      - awx
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
+      - "receptor:/var/run/receptor"
   awxclient:
     container_name: "{{ awxclient_container_name }}"
     image: "{{ awxclient_image }}"
@@ -125,7 +138,6 @@ services:
       - TOWER_USERNAME
   awx:
     image: "{{ awx_image }}"
-    command: /run.sh
     restart: unless-stopped
     hostname: awx
     user: root
@@ -139,9 +151,11 @@ services:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - "{{ manager_configuration_directory }}/awx.env:/etc/tower/conf.d/environment.sh"
+      - "{{ manager_configuration_directory }}/create-admin-user.sh:/usr/local/bin/create-admin-user.sh"
       - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
       - "{{ manager_configuration_directory }}/nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "{{ manager_configuration_directory }}/provision-instance.sh:/usr/local/bin/provision-instance.sh"
+      - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
       - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
@@ -149,9 +163,8 @@ services:
       - "interface:/interface:ro"
       - "awx_configuration:/configuration"
       - "awx_logs:/ansible/logs"
+      - "receptor:/var/run/receptor"
       - "awx_share:/share"
-    environment:
-      WAIT_HOSTS: redis:6379, postgres:5432, vault:8200
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/awx.env"
@@ -165,9 +178,7 @@ services:
 {% if netbox_enable|bool %}
       - NETBOX_TOKEN
 {% endif %}
-      - TOWER_PASSWORD
       - TOWER_SECRET_KEY
-      - TOWER_USERNAME
     ports:
       - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
       - "{{ awx_server_host }}:{{ awx_broadcast_websocket_port }}:8013"
@@ -221,6 +232,7 @@ volumes:
   awx_configuration:
   awx_logs:
   awx_share:
+  receptor:
 {% if vault_enable|bool %}
   vault:
 {% endif %}

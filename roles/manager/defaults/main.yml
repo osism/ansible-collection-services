@@ -8,9 +8,11 @@ docker_registry_service: "{{ docker_registry }}"
 
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
 docker_registry_awx: "{{ docker_registry_ansible }}"
+docker_registry_awxclient: "{{ docker_registry_ansible }}"
 docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
 docker_registry_postgres: "{{ docker_registry_service }}"
+docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
 docker_registry_vault: "{{ docker_registry_service }}"
 
@@ -189,8 +191,13 @@ awx_server_port: 8052
 
 awx_broadcast_websocket_port: 8013
 
-awx_tag: latest
-awx_image: "{{ docker_registry_awx }}/osism/manager:{{ awx_tag }}"
+awx_tag: 19.4.0
+awx_image: "{{ docker_registry_awx }}/ansible/awx:{{ awx_tag }}"
+
+# receptor
+
+receptor_tag: 1.0.0
+receptor_image: "{{ docker_registry_receptor }}/ansible/receptor:{{ receptor_tag }}"
 
 # awxclient
 
@@ -198,8 +205,8 @@ awxclient_container_name: awxclient
 
 awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
 
-awxclient_tag: 19.1.0
-awxclient_image: "{{ docker_registry_awx }}/osism/awxclient:{{ awxclient_tag }}"
+awxclient_tag: 19.4.0
+awxclient_image: "{{ docker_registry_awxclient }}/osism/awxclient:{{ awxclient_tag }}"
 
 awx_group_queues: tower
 
@@ -210,7 +217,7 @@ awx_configuration_defaults:
   BROADCAST_WEBSOCKET_PROTOCOL: http
   BROADCAST_WEBSOCKET_VERIFY_CERT: false
   DEBUG: false
-  PROJECTS_ROOT: /opt/ansible
+  PROJECTS_ROOT: /interface
   USE_X_FORWARDED_HOST: true
   USE_X_FORWARDED_PORT: true
 
