@@ -45,9 +45,7 @@ services:
 {% endif %}
     depends_on:
       - inventory_reconciler
-{% if redis_enable|bool %}
       - redis
-{% endif %}
 {% if ara_enable|bool %}
       - ara-server
 {% endif %}
@@ -58,7 +56,6 @@ services:
     image: "{{ service.image }}"
 {% endif %}
 {% endfor %}
-{% if redis_enable|bool %}
   redis:
     restart: unless-stopped
     image: "{{ redis_image }}"
@@ -71,7 +68,6 @@ services:
       default:
         aliases:
           - cache
-{% endif %}
 {% if ara_enable|bool %}
   ara-server:
     restart: unless-stopped
@@ -242,9 +238,7 @@ volumes:
 {% if ara_enable|bool and ara_server_database_type == 'mysql' %}
   mariadb:
 {% endif %}
-{% if redis_enable|bool %}
   redis:
-{% endif %}
   share:
 
 {% if postgres_enable|bool or awx_enable|bool or netbox_enable|bool %}
