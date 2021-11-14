@@ -11,6 +11,7 @@ docker_registry_awx: "{{ docker_registry_ansible }}"
 docker_registry_awxclient: "{{ docker_registry_ansible }}"
 docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
+docker_registry_osism: "{{ docker_registry_ansible }}"
 docker_registry_postgres: "{{ docker_registry_service }}"
 docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
@@ -171,6 +172,17 @@ postgres_tag: 14-alpine
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 postgres_password: password
+
+##########################
+# celery
+
+celery_enable: false
+
+osism_tag: latest
+osism_image: "{{ docker_registry_osism }}/osism/osism:{{ osism_tag }}"
+
+flower_host: "{{ ansible_default_ipv4.address }}"
+flower_port: 5555
 
 ##########################
 # awx
