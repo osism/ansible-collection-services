@@ -26,7 +26,11 @@ services:
 {% if ara_enable|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
+{% if celery_enable|bool %}
+    command: osism worker osism-ansible
+{% else %}
     command: sleep infinity
+{% endif %}
     volumes:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
@@ -54,8 +58,19 @@ services:
   {{ service.name }}:
     <<: *ansible
     image: "{{ service.image }}"
+{% if celery_enable|bool %}
+    command: osism worker {{ service.name }}
+{% endif %}
 {% endif %}
 {% endfor %}
+{% if celery_enable|bool %}
+  flower:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism flower
+    ports:
+      - "{{ flower_server_host }}:{{ flower_server_port }}:5555"
+{% endif %}
   redis:
     restart: unless-stopped
     image: "{{ redis_image }}"
