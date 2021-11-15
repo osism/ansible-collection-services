@@ -69,7 +69,7 @@ services:
     image: "{{ osism_image }}"
     command: osism flower
     ports:
-      - "{{ flower_server_host }}:{{ flower_server_port }}:5555"
+      - "{{ flower_host }}:{{ flower_port }}:5555"
 {% endif %}
   redis:
     restart: unless-stopped
