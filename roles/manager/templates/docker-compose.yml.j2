@@ -64,6 +64,10 @@ services:
 {% endif %}
 {% endfor %}
 {% if celery_enable|bool %}
+  beat:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism beat
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
