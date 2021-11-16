@@ -14,7 +14,7 @@
   async: 1800
   poll: 0
   register: command_sleeper
-  when: (not result.stat.exists or
+  when: (not result.stat.exists or patchman_update_force|bool or
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_update_valid_time|int)))
 
 - name: Safe time of the last patchman-update run
@@ -22,7 +22,7 @@
     path: "{{ patchman_update_statfile }}"
     state: touch
     mode: 0600
-  when: (not result.stat.exists or
+  when: (not result.stat.exists or patchman_update_force|bool or
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_update_valid_time|int)))
 
 - name: Wait for patchman-update command to complete
@@ -32,5 +32,5 @@
   until: job_result.finished
   retries: 60
   delay: 30
-  when: (not result.stat.exists or
+  when: (not result.stat.exists or patchman_update_force|bool or
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_update_valid_time|int)))
