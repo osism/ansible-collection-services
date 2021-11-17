@@ -8,6 +8,7 @@ services:
     tmpfs:
       - /inventory.pre:uid=45000,gid=45000
     volumes:
+      - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
     healthcheck:
