@@ -4,6 +4,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install apt-transport-https package
   become: true
@@ -33,6 +34,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: "Install {{ falco_package_name }} package"
   become: true

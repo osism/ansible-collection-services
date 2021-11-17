@@ -14,6 +14,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install apt-transport-https package
   apt:
@@ -71,6 +72,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
@@ -91,6 +93,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install docker-cli package
   apt:
@@ -103,6 +106,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install docker package
   apt:
@@ -123,6 +127,7 @@
       loop:
         - lock
         - lock-frontend
+      changed_when: false
 
     - name: Install python3 docker package
       apt:
@@ -139,6 +144,7 @@
       loop:
         - lock
         - lock-frontend
+      changed_when: false
 
     - name: Remove python docker packages (install python bindings from pip)
       apt:
@@ -160,6 +166,7 @@
       loop:
         - lock
         - lock-frontend
+      changed_when: false
 
     - name: Install python3-pip package (install python bindings from pip)
       apt:
@@ -181,6 +188,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install packages required by docker login
   apt:
