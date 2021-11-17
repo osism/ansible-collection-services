@@ -4,6 +4,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install auditd package
   become: true
@@ -16,6 +17,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install audispd-plugins package
   become: true

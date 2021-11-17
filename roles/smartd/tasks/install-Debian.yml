@@ -4,6 +4,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install smartmontools package
   become: true

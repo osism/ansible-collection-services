@@ -4,6 +4,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install apt-transport-https package
   apt:
@@ -32,6 +33,7 @@
   loop:
     - lock
     - lock-frontend
+  changed_when: false
 
 - name: Install required packages
   apt:
