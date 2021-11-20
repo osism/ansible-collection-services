@@ -54,6 +54,12 @@ services:
 {% if ara_enable|bool %}
       - ara-server
 {% endif %}
+{% if netbox_enable|bool %}
+      - netbox
+{% endif %}
+{% if vault_enable|bool %}
+      - vault
+{% endif %}
 {% for service in ansible_services %}
 {% if service.enable|bool %}
   {{ service.name }}:
@@ -200,6 +206,7 @@ services:
       - "{{ awx_server_host }}:{{ awx_broadcast_websocket_port }}:8013"
     healthcheck:
       test: curl --silent --fail http://localhost:8052/api/v2
+{% endif %}
 {% if vault_enable|bool %}
   vault:
     image: "{{ vault_image }}"
@@ -221,7 +228,6 @@ services:
       # 1 - error
       # 2 - sealed
       test: vault status -address http://127.0.0.1:8200
-{% endif %}
 {% endif %}
 {% if postgres_enable|bool %}
   postgres:
@@ -249,10 +255,10 @@ volumes:
   awx_logs:
   awx_share:
   receptor:
+{% endif %}
 {% if vault_enable|bool %}
   vault_file:
   vault_logs:
-{% endif %}
 {% endif %}
   cache:
   logs:
