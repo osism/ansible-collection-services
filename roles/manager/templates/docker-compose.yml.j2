@@ -207,13 +207,14 @@ services:
 {% if vault_enable|bool %}
   vault:
     image: "{{ vault_image }}"
-    command: server -config=/vault/config -dev -dev-root-token-id={{ vault_token }} -dev-listen-address=0.0.0.0:8200
+    command: server -config=/etc/vault.hcl
     restart: unless-stopped
     ports:
       - "{{ vault_host }}:{{ vault_port }}:8200"
     env_file:
       - "{{ manager_configuration_directory }}/vault.env"
     volumes:
+      - "{{ manager_configuration_directory }}/vault.hcl:/etc/vault.hcl:ro"
       - vault_file:/vault/file
       - vault_logs:/vault/logs
     cap_add:
