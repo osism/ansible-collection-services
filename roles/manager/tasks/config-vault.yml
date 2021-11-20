@@ -6,3 +6,11 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+
+- name: Copy Vault configuration file
+  template:
+    src: "vault.hcl.j2"
+    dest: "{{ manager_configuration_directory }}/vault.hcl"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
