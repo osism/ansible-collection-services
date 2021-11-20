@@ -257,10 +257,9 @@ vault_tag: latest
 vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
 
 vault_config:
-  # NOTE: during the TP the service runs in-memory
-  #  backend:
-  #    file:
-  #      path: /vault/file
+  backend:
+    file:
+    path: /vault/file
   default_lease_ttl: 168h
   max_lease_ttl: 720h
 vault_token: 00000000-0000-0000-0000-000000000000

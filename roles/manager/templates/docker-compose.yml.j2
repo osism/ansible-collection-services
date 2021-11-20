@@ -209,9 +209,9 @@ services:
       - "{{ vault_host }}:{{ vault_port }}:8200"
     env_file:
       - "{{ manager_configuration_directory }}/vault.env"
-# NOTE: during the TP the service runs in-memory
-#    volumes:
-#      - vault:/vault/file
+    volumes:
+      - vault_file:/vault/file
+      - vault_logs:/vault/logs
     cap_add:
       - IPC_LOCK
     healthcheck:
@@ -250,7 +250,8 @@ volumes:
   awx_share:
   receptor:
 {% if vault_enable|bool %}
-  vault:
+  vault_file:
+  vault_logs:
 {% endif %}
 {% endif %}
   cache:
