@@ -24,7 +24,7 @@
 
 - name: Include docker-compose cli plugin install tasks
   include: install-docker-compose.yml
-  when: docker_compose|bool
+  when: docker_compose_plugin|bool
 
 - name: Include service tasks
   include: service.yml
