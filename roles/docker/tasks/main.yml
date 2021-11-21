@@ -22,6 +22,10 @@
   include: install-open-policy-agent.yml
   when: docker_policies|bool
 
+- name: Include docker-compose cli plugin install tasks
+  include: install-docker-compose.yml
+  when: docker_compose|bool
+
 - name: Include service tasks
   include: service.yml
 

@@ -6,6 +6,7 @@ docker_debug: "false"
 docker_experimental: "false"
 docker_live_restore: "true"
 docker_user: "{{ operator_user | default('dragon') }}"
+docker_group: "{{ operator_group | default('dragon') }}"
 
 ##########################
 # restart
@@ -81,6 +82,12 @@ docker_pip_extra_args: ""
 # NOTE: This "5:" must be prepended starting with version 18.09.
 #       Check available version under Ubuntu with apt-cache madison docker-ce.
 docker_version: "5:20.10.6"
+
+##########################
+# compose
+
+docker_compose_version: "v2.0.1"
+docker_compose_plugin: true
 
 ##########################
 # registry
