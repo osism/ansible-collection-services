@@ -16,6 +16,7 @@ The following Ansible roles are included in this collection.
 | homer                    |                                                                                                                          |
 | jenkins                  |                                                                                                                          |
 | keycloak                 |                                                                                                                          |
+| lldpd                    |                                                                                                                          |
 | manager                  |                                                                                                                          |
 | minikube                 |                                                                                                                          |
 | netbox                   |                                                                                                                          |
