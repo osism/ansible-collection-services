@@ -23,6 +23,7 @@ services:
       test: curl --silent --fail localhost:8081
     volumes:
       - "data:/nexus-data"
+      - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
 
 volumes:
   data:
