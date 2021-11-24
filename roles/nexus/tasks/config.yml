@@ -9,7 +9,7 @@
     mode: 0755
   with_items:
     - "{{ nexus_docker_compose_directory }}"
-    - "{{ netbox_configuration_directory }}"
+    - "{{ nexus_configuration_directory }}"
 
 - name: Copy configuration files
   template:
