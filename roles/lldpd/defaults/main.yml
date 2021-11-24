@@ -1,0 +1,10 @@
+---
+##########################
+# packages
+
+lldpd_package_name: lldpd
+
+##########################
+# services
+
+lldpd_service_name: lldpd
