@@ -48,7 +48,8 @@
     container: "{{ nexus_container_name }}"
     command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/run.sh {{ item }}'"
   loop:
-    - ubuntu-focal
+    - ubuntu-archive
+    - ubuntu-docker
 
 - name: Set osism.nexus.status fact
   include_role:
