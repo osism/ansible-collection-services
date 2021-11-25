@@ -25,4 +25,5 @@ nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
 nexus_network: 172.31.101.32/28
 
+nexus_container_name: nexus
 nexus_service_name: "docker-compose@nexus"

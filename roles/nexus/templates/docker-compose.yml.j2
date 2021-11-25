@@ -3,7 +3,7 @@ version: '3'
 
 services:
   nexus:
-    container_name: nexus
+    container_name: "{{ nexus_container_name }}"
     restart: unless-stopped
     image: "{{ nexus_image }}"
     ports:
