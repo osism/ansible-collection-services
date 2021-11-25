@@ -6,3 +6,8 @@
 - name: Include service tasks
   include_tasks: service.yml
   tags: service
+
+- name: Include initialize tasks
+  include_tasks: initialize.yml
+  tags: initialize
+  when: not ansible_local.osism.nexus.status|default("False")|bool

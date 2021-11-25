@@ -1,0 +1,60 @@
+---
+- name: Wait for nexus service
+  wait_for:
+    host: "{{ nexus_host }}"
+    port: "{{ nexus_port }}"
+
+- name: Get admin password
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: cat /nexus-data/admin.password
+  register: result
+
+- name: Set admin password
+  set_fact:
+    nexus_admin_password: "{{ result.stdout }}"
+
+- name: Provision scripts
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/provision.sh /scripts/{{ item }}'"
+  loop:
+    - anonymous.json
+    - cleanup.json
+    - docker-hub.json
+    - docker-quay.json
+    - ubuntu-focal.json
+
+- name: Allow anonymous access
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/enable-anonymous.sh'"
+
+- name: Cleanup default repositories
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/run.sh cleanup'"
+
+- name: Create docker repositories
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/run.sh {{ item }}'"
+  loop:
+    - docker-hub
+    - docker-quay
+
+- name: Create apt repositories
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/run.sh {{ item }}'"
+  loop:
+    - ubuntu-focal
+
+- name: Set osism.nexus.status fact
+  include_role:
+    name: osism.commons.state
+  vars:
+    state_name: osism
+    state_section: nexus
+    state_option: status
+    state_value: "True"
