@@ -11,8 +11,17 @@ services:
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
+{% if celery_enable|bool %}
+    healthcheck:
+      test: pgrep celery
+    environment:
+      - CELERY=1
+{% else %}
     healthcheck:
       test: pgrep crond
+    environment:
+      - CELERY=0
+{% endif %}
 {% if netbox_enable|bool %}
     secrets:
       - NETBOX_TOKEN
@@ -29,8 +38,14 @@ services:
 {% endif %}
 {% if celery_enable|bool %}
     command: osism worker osism-ansible
+    environment:
+      - CELERY=1
+    healthcheck:
+      test: pgrep celery
 {% else %}
     command: sleep infinity
+    environment:
+      - CELERY=0
 {% endif %}
     volumes:
       - /etc/hosts:/etc/hosts:ro
@@ -64,6 +79,10 @@ services:
     image: "{{ service.image }}"
 {% if celery_enable|bool %}
     command: osism worker {{ service.name }}
+    healthcheck:
+      test: pgrep celery
+    environment:
+      - CELERY=1
 {% endif %}
 {% endif %}
 {% endfor %}
