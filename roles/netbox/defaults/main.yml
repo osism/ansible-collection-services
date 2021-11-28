@@ -53,6 +53,9 @@ netbox_initializers:
   - groups
   - object_permissions
 
+netbox_plugins:
+  - nextbox_ui_plugin
+
 ##########################
 # postgres
 
