@@ -3,7 +3,6 @@
   community.docker.docker_container_exec:
     container: "{{ vault_container_name }}"
     command: sh -c 'VAULT_ADDR=http://localhost:8200 vault operator init -format yaml'
-  run_once: True
   register: result
 
 - name: Set vault_key_shares fact
@@ -19,8 +18,6 @@
   copy:
     content: "{{ vault_key_shares|to_nice_yaml }}"
     dest: "{{ vault_key_shares_path }}"
-  delegate_to: localhost
-  run_once: True
   when: vault_write_key_shares|bool
 
 - name: Set osism.vault.status fact
