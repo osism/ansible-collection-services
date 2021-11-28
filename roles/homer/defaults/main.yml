@@ -44,3 +44,4 @@ homer_url_patchman: "http://{{ patchman_host|default(ansible_default_ipv4.addres
 homer_url_phpmyadmin: "http://{{ phpmyadmin_host|default(ansible_default_ipv4.address) }}:{{ phpmyadmin_port|default(8110) }}"
 homer_url_prometheus: "http://{{ kolla_internal_vip_address }}:9090"
 homer_url_rabbitmq: "http://{{ kolla_internal_vip_address }}:15672"
+homer_url_vault: "http://{{ vault_host|default(ansible_default_ipv4.address) }}:{{ vault_port|default(8200) }}"
