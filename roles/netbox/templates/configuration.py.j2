@@ -17,6 +17,12 @@ def read_secret(secret_name):
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+PLUGINS = [
+{% for plugin in netbox_plugins %}
+    '{{ plugin }}',
+{% endfor %}
+]
+
 #########################
 #                       #
 #   Required settings   #
