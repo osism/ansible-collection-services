@@ -258,6 +258,11 @@ vault_port: 8200
 vault_tag: latest
 vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
 
+vault_output_key_shares: false
+vault_write_key_shares: false
+
+vault_key_shares_path: /share/vault_key_shares.yml
+
 ##########################
 # wrapper
 

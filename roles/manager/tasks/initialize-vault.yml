@@ -13,6 +13,15 @@
 - name: Output vault key shares
   debug:
     var: vault_key_shares
+  when: vault_output_key_shares|bool
+
+- name: Write vault key shares
+  copy:
+    content: "{{ vault_key_shares|to_nice_yaml }}"
+    dest: "{{ vault_key_shares_path }}"
+  delegate_to: localhost
+  run_once: True
+  when: vault_write_key_shares|bool
 
 - name: Set osism.vault.status fact
   include_role:
