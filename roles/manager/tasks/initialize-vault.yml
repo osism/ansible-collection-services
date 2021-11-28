@@ -1,1 +1,24 @@
 ---
+- name: Initialize vault
+  community.docker.docker_container_exec:
+    container: "{{ vault_container_name }}"
+    command: sh -c 'VAULT_ADDR=http://localhost:8200 vault operator init -format yaml'
+  run_once: True
+  register: result
+
+- name: Set vault_key_shares fact
+  set_fact:
+    vault_key_shares: "{{ result.stdout | from_yaml }}"
+
+- name: Output vault key shares
+  debug:
+    var: vault_key_shares
+
+- name: Set osism.vault.status fact
+  include_role:
+    name: osism.commons.state
+  vars:
+    state_name: osism
+    state_section: vault
+    state_option: status
+    state_value: "True"

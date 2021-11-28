@@ -245,6 +245,8 @@ awx_postgres_databasename: "{{ awx_postgres_username }}"
 
 # vault
 
+vault_container_name: manager_vault_1
+
 # possible choices: [vault, ansible, none]
 awx_vault_type: ansible
 
