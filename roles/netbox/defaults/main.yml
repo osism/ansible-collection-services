@@ -54,6 +54,7 @@ netbox_initializers:
   - object_permissions
 
 netbox_plugins:
+  - netbox_bgp
   - nextbox_ui_plugin
 
 ##########################
