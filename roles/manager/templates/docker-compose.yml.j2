@@ -91,12 +91,16 @@ services:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism beat
+    healthcheck:
+      test: pgrep celery
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism flower
     ports:
       - "{{ flower_host }}:{{ flower_port }}:5555"
+    healthcheck:
+      test: pgrep celery
 {% endif %}
   redis:
     restart: unless-stopped
