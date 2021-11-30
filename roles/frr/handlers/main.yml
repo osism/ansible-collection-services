@@ -1,0 +1,6 @@
+---
+- name: Restart frr service
+  become: true
+  service:
+    name: "{{ frr_service_name }}"
+    state: restarted
