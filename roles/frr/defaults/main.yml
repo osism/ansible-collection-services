@@ -1,0 +1,17 @@
+---
+frr_package_name: frr
+frr_service_name: frr
+
+frr_sysctl:
+  - name: net.ipv4.ip_forward
+    value: 1
+  - name: net.ipv4.conf.all.send_redirects
+    value: 0
+  - name: net.ipv4.conf.all.accept_redirects
+    value: 0
+  - name: net.ipv4.fib_multipath_hash_policy
+    value: 1
+  - name: net.ipv4.conf.default.ignore_routes_with_linkdown
+    value: 1
+  - name: net.ipv4.conf.all.rp_filter
+    value: 2
