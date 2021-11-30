@@ -27,3 +27,11 @@ nexus_network: 172.31.101.32/28
 
 nexus_container_name: nexus
 nexus_service_name: "docker-compose@nexus"
+
+nexus_provision_scripts:
+  - anonymous.json
+  - cleanup.json
+  - docker-hub.json
+  - docker-quay.json
+  - ubuntu-archive.json
+  - ubuntu-docker.json

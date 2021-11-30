@@ -18,12 +18,7 @@
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/provision.sh /scripts/{{ item }}'"
-  loop:
-    - anonymous.json
-    - cleanup.json
-    - docker-hub.json
-    - docker-quay.json
-    - ubuntu-archive.json
+  loop: "{{ nexus_provision_scripts }}"
 
 - name: Allow anonymous access
   community.docker.docker_container_exec:
