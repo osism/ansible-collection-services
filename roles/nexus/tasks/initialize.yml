@@ -23,7 +23,7 @@
     - cleanup.json
     - docker-hub.json
     - docker-quay.json
-    - ubuntu-focal.json
+    - ubuntu-archive.json
 
 - name: Allow anonymous access
   community.docker.docker_container_exec:
