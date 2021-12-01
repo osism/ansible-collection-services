@@ -22,7 +22,7 @@ if [[ ! -x "$(command -v ansible-playbook)" ]]; then
 
         virtualenv -p python3 $VENV_PATH
         source $VENV_PATH/bin/activate
-        pip3 install --no-cache-dir "$ANSIBLE_VERSION"
+        pip3 install --no-cache-dir "$ANSIBLE_VERSION" netaddr
     else
         source $VENV_PATH/bin/activate
     fi
