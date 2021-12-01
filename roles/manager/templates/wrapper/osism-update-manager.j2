@@ -4,6 +4,7 @@
 
 ANSIBLE_USER=${ANSIBLE_USER:-dragon}
 ANSIBLE_VERSION=${ANSIBLE_VERSION:-ansible>=2.10,<2.11}
+NETADDR_VERSION=${NETADDR_VERSION:-netaddr==0.8.0}
 INSTALL_ANSIBLE_ROLES=${INSTALL_ANSIBLE_ROLES:-true}
 MANAGER_VERSION=${MANAGER_VERSION:-main}
 PLAYBOOK=${PLAYBOOK:-playbook-manager.yml}
@@ -22,7 +23,7 @@ if [[ ! -x "$(command -v ansible-playbook)" ]]; then
 
         virtualenv -p python3 $VENV_PATH
         source $VENV_PATH/bin/activate
-        pip3 install --no-cache-dir "$ANSIBLE_VERSION" netaddr
+        pip3 install --no-cache-dir "$ANSIBLE_VERSION" "$NETADDR_VERSION"
     else
         source $VENV_PATH/bin/activate
     fi
