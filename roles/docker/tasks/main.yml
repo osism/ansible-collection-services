@@ -18,6 +18,10 @@
 - name: Include config tasks
   include: config.yml
 
+- name: Include zun config tasks
+  include: config-zun.yml
+  when: docker_zun|bool
+
 - name: Include open policy agent install tasks
   include: install-open-policy-agent.yml
   when: docker_policies|bool
