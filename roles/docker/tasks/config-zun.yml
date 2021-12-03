@@ -4,7 +4,7 @@
 - name: Ensuring CNI config directory exist
   become: true
   file:
-    path: "{{ zun_cni_config_dir }}"
+    path: "{{ docker_cni_config_dir }}"
     state: "directory"
     mode: "0770"
     owner: "{{ config_owner_user|default('root') }}"
