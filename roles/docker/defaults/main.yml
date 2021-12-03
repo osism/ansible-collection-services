@@ -33,8 +33,10 @@ docker_log_opts:
 ##########################
 # hosts
 
-docker_hosts:
+docker_hosts_defaults:
   - "unix:///var/run/docker.sock"
+docker_hosts_extra: []
+docker_hosts: "{{ docker_hosts_defaults + docker_hosts_extra }}"
 
 ##########################
 # services
@@ -188,9 +190,11 @@ docker_static_policy_files:
 # zun
 
 docker_zun: false
-docker_zun_options: -H tcp://{{ api_interface_address | default('api' | osism.services.kolla_address) | osism.services.put_address_in_context('url') }}:2375
-docker_zun_config:
-  cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ 'api' | osism.servies.kolla_address(host) | osism.services.put_address_in_context('url') }}:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
+
+docker_zun_hosts:
+  - tcp://{{ api_interface_address | default('api' | osism.services.kolla_address) | osism.services.put_address_in_context('url') }}:2375
+docker_zun_opts:
+  cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ 'api' | osism.services.kolla_address(host) | osism.services.put_address_in_context('url') }}:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
 docker_zun_cni_version: 0.3.1
 docker_cni_config_dir: /etc/cni/net.d

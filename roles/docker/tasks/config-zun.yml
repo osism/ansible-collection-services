@@ -1,6 +1,18 @@
 ---
 # This file is based on kolla-ansible baremetal role
 
+- name: Merge zun config
+  set_fact:
+    docker_opts: "{{ docker_opts | combine(docker_zun_opts) }}"
+  when:
+    - "'zun-compute' in group_names"
+
+- name: Merge zun hosts config
+  set_fact:
+    docker_hosts: "{{ docker_hosts + docker_zun_hosts  }}"
+  when:
+    - "'zun-compute' in group_names"
+
 - name: Ensuring CNI config directory exist
   become: true
   file:

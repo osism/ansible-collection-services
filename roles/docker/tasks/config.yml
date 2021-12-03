@@ -1,4 +1,10 @@
 ---
+- name: Include zun config tasks
+  include: config-zun.yml
+  when:
+    - docker_zun|bool
+    - "'zun-compute' in group_names"
+
 - name: Create plugins directory
   file:
     path: /etc/docker/plugins
