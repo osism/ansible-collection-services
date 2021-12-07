@@ -10,6 +10,8 @@ services:
       - "{{ traefik_host }}:{{ traefik_port }}:8080"
       - "{{ traefik_host }}:{{ traefik_port_https }}:443"
       - "{{ traefik_host }}:{{ traefik_port_http }}:80"
+    env_file:
+      - "{{ traefik_configuration_directory }}/traefik.env"
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "{{ traefik_configuration_directory }}/osism.yml:/etc/traefik/osism.yml:ro"

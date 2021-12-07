@@ -21,6 +21,7 @@
     group: "{{ operator_group }}"
   loop:
     - traefik.yml
+    - traefik.env
 
 - name: Copy certificate cert files
   copy:
