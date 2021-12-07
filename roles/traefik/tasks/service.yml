@@ -1,0 +1,17 @@
+---
+- name: Copy docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ traefik_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart traefik service
+
+- name: Start/enable traefik service
+  become: true
+  service:
+    name: "{{ traefik_service_name }}"
+    state: started
+    enabled: true
+  register: traefik_service
