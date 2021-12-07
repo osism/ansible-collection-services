@@ -1,6 +1,11 @@
+{% raw %}
+---
 providers:
   docker:
-    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
 
 api:
   insecure: true
+  dashboard: true
+{% endraw %}

@@ -3,7 +3,7 @@
 # docker
 
 docker_registry: index.docker.io
-docker_registry_nexus: "{{ docker_registry }}"
+docker_registry_traefik: "{{ docker_registry }}"
 
 ##########################
 # operator user
@@ -30,3 +30,6 @@ traefik_network: 172.31.101.48/28
 
 traefik_container_name: traefik
 traefik_service_name: "docker-compose@traefik"
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
