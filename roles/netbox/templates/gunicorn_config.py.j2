@@ -6,6 +6,6 @@ errorlog = '-'
 accesslog = '-'
 capture_output = False
 loglevel = 'debug'
-{% if netbox_traefik|book %}
+{% if netbox_traefik|bool %}
 forwarded_allow_ips = '*'
-{% endfor %}
+{% endif %}
