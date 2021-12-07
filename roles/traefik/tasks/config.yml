@@ -9,6 +9,7 @@
     mode: 0755
   with_items:
     - "{{ traefik_docker_compose_directory }}"
+    - "{{ traefik_certificates_directory }}"
     - "{{ traefik_configuration_directory }}"
 
 - name: Copy configuration files
@@ -20,3 +21,21 @@
     group: "{{ operator_group }}"
   loop:
     - traefik.yml
+
+- name: Copy certificate cert files
+  copy:
+    src: "{{ configuration_directory }}/environments/manager/certificates/{{ item }}.cert"
+    dest: "{{ traefik_certificates_directory }}/{{ item }}.cert"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ traefik_certificates }}"
+
+- name: Copy certificate key files
+  copy:
+    src: "{{ configuration_directory }}/environments/manager/certificates/{{ item }}.key"
+    dest: "{{ traefik_certificates_directory }}/{{ item }}.key"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ traefik_certificates }}"
