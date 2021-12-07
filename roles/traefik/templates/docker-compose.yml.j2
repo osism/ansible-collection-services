@@ -1,0 +1,29 @@
+---
+version: '3'
+
+services:
+  traefik:
+    container_name: "{{ traefik_container_name }}"
+    restart: unless-stopped
+    image: "{{ traefik_image }}"
+    ports:
+      - "{{ traefik_host }}:{{ traefik_port }}:8080"
+      - "{{ traefik_host }}:{{ traefik_port_https }}:443"
+      - "{{ traefik_host }}:{{ traefik_port_http }}:80"
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "{{ traefik_configuration_directory }}/traefik.yml:/etc/traefik/traefik.yml:ro"
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: curl --silent --fail localhost:8080
+
+volumes:
+  data:
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet: {{ traefik_network }}

@@ -1,0 +1,22 @@
+---
+- name: Create required directories
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  with_items:
+    - "{{ traefik_docker_compose_directory }}"
+    - "{{ traefik_configuration_directory }}"
+
+- name: Copy configuration files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ traefik_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - traefik.yml

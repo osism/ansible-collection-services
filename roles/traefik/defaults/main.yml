@@ -1,0 +1,32 @@
+---
+##########################
+# docker
+
+docker_registry: index.docker.io
+docker_registry_nexus: "{{ docker_registry }}"
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# traefik
+
+traefik_docker_compose_directory: /opt/traefik
+traefik_configuration_directory: /opt/traefik/configuration
+
+traefik_host: 127.0.0.1
+traefik_port: 8122
+
+traefik_port_http: 80
+traefik_port_https: 443
+
+traefik_tag: v2.5.4
+traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"
+
+traefik_network: 172.31.101.48/28
+
+traefik_container_name: traefik
+traefik_service_name: "docker-compose@traefik"
