@@ -18,6 +18,9 @@ services:
 {% if traefik_certificates|length > 0 %}
       - "{{ traefik_certificates_directory }}:/etc/traefik/certificates:ro"
 {% endif %}
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
 
 networks:
  default:
@@ -26,5 +29,5 @@ networks:
      driver: default
      config:
        - subnet: {{ traefik_network }}
- traefik:
-   {{ traefik_external_network_name }}: true
+ {{ traefik_external_network_name }}:
+   external: true
