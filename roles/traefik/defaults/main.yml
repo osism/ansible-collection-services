@@ -12,9 +12,15 @@ operator_user: dragon
 operator_group: "{{ operator_user }}"
 
 ##########################
+# configuration
+
+configuration_directory: /opt/configuration
+
+##########################
 # traefik
 
 traefik_docker_compose_directory: /opt/traefik
+traefik_certificates_directory: /opt/traefik/certificates
 traefik_configuration_directory: /opt/traefik/configuration
 
 traefik_host: 127.0.0.1
@@ -22,6 +28,8 @@ traefik_port: 8122
 
 traefik_port_http: 80
 traefik_port_https: 443
+
+traefik_certificates: []
 
 traefik_tag: v2.5.4
 traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"

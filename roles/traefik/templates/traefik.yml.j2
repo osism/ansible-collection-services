@@ -1,4 +1,3 @@
-{% raw %}
 ---
 providers:
   docker:
@@ -8,4 +7,19 @@ providers:
 api:
   insecure: true
   dashboard: true
-{% endraw %}
+
+entryPoints:
+  http:
+    address: ":80"
+
+  https:
+    address: ":443"
+
+{% if traefik_certificates|length >0 %}
+tls:
+  certificates:
+{% for certificate in traefik_certificates %}
+    - certFile: /etc/traefik/certificates/{{ certificate }}.cert
+      keyFile: /etc/traefik/certificates/{{ certificate }}.key
+{% endfor %}
+{% endif %}
