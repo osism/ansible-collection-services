@@ -51,6 +51,10 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       - "traefik.http.routers.netbox.rule=PathPrefix(`/{{ netbox_traefik_path_prefix }}/`)"
+{% if netbox_traefik_host|length > 0 %}
+      - "traefik.http.routers.netbox.rule=Host(`{{ netbox_traefik_host }}`)"
+{% endif %}
+      - "traefik.http.routers.netbox.rule=PathPrefix(`/{{ netbox_traefik_path_prefix }}/`)"
       - "traefik.http.services.netbox.loadbalancer.server.port=8080"
       - "traefik.http.middlewares.netbox-replace-static-prefix.replacepathregex.regex=^/{{ netbox_traefik_path_prefix }}(/static/.*)"
       - "traefik.http.middlewares.netbox-replace-static-prefix.replacepathregex.replacement=$$1"
