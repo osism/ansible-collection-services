@@ -33,16 +33,37 @@ if [[ $INSTALL_ANSIBLE_ROLES == "true" ]]; then
     ansible-galaxy collection install git+https://github.com/osism/ansible-collection-services,$MANAGER_VERSION
 fi
 
-ansible-playbook \
-    --private-key /opt/ansible/secrets/id_rsa.operator \
-    -i {{ configuration_directory }}/inventory \
-    -e @{{ configuration_directory }}/environments/images.yml \
-    -e @{{ configuration_directory }}/environments/configuration.yml \
-    -e @{{ configuration_directory }}/environments/secrets.yml \
-    -e @images.yml \
-    -e @configuration.yml \
-    -e @secrets.yml \
-    -u $ANSIBLE_USER \
-    $PLAYBOOK "$@"
+if [[ $playbook == "playbook-netbox.yml" || $playbook == "playbook-traefik.yml" ]]; then
+
+    ansible-playbook \
+        --private-key /opt/ansible/secrets/id_rsa.operator \
+        -i {{ configuration_directory }}/inventory \
+        -e @{{ configuration_directory }}/environments/infrastructure/images.yml \
+        -e @{{ configuration_directory }}/environments/infrastructure/configuration.yml \
+        -e @{{ configuration_directory }}/environments/infrastructure/secrets.yml \
+        -e @{{ configuration_directory }}/environments/images.yml \
+        -e @{{ configuration_directory }}/environments/configuration.yml \
+        -e @{{ configuration_directory }}/environments/secrets.yml \
+        -e @images.yml \
+        -e @configuration.yml \
+        -e @secrets.yml \
+        -u $ANSIBLE_USER \
+        $PLAYBOOK "$@"
+
+else
+
+    ansible-playbook \
+        --private-key /opt/ansible/secrets/id_rsa.operator \
+        -i {{ configuration_directory }}/inventory \
+        -e @{{ configuration_directory }}/environments/images.yml \
+        -e @{{ configuration_directory }}/environments/configuration.yml \
+        -e @{{ configuration_directory }}/environments/secrets.yml \
+        -e @images.yml \
+        -e @configuration.yml \
+        -e @secrets.yml \
+        -u $ANSIBLE_USER \
+        $PLAYBOOK "$@"
+
+fi
 
 popd > /dev/null
