@@ -15,11 +15,11 @@ entryPoints:
   https:
     address: ":443"
 
-{% if traefik_certificates|length >0 %}
+{% if traefik_tls_certs.keys() | length >0 %}
 tls:
   certificates:
-{% for certificate in traefik_certificates %}
-    - certFile: /etc/traefik/certificates/{{ certificate }}.cert
-      keyFile: /etc/traefik/certificates/{{ certificate }}.key
+{% for certificate_name in traefik_tls_certs.keys() %}
+    - certFile: /etc/traefik/certificates/{{ certificate_name }}.cert
+      keyFile: /etc/traefik/certificates/{{ certificate_name }}.key
 {% endfor %}
 {% endif %}
