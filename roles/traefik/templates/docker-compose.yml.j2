@@ -17,7 +17,7 @@ services:
       - "{{ traefik_configuration_directory }}/osism.yml:/etc/traefik/osism.yml:ro"
       - "{{ traefik_configuration_directory }}/traefik.yml:/etc/traefik/traefik.yml:ro"
       - /var/run/docker.sock:/var/run/docker.sock
-{% if traefik_certificates|length > 0 %}
+{% if traefik_certificates.keys() | length >0 %}
       - "{{ traefik_certificates_directory }}:/etc/traefik/certificates:ro"
 {% endif %}
     networks:
