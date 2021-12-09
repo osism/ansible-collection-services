@@ -25,18 +25,18 @@
 
 - name: Copy certificate cert files
   copy:
-    content: "{{ item.value }}"
+    content: "{{ item.value.cert }}"
     dest: "{{ traefik_certificates_directory }}/{{ item.key }}.cert"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  loop: "{{ traefik_tls_certs | dict2items }}"
+  loop: "{{ traefik_certificates | dict2items }}"
 
 - name: Copy certificate key files
   copy:
-    content: "{{ item.value }}"
+    content: "{{ item.value.key }}"
     dest: "{{ traefik_certificates_directory }}/{{ item.key }}.key"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  loop: "{{ traefik_tls_keys | dict2items }}"
+  loop: "{{ traefik_certificates | dict2items }}"
