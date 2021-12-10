@@ -1,6 +1,6 @@
 ---
 - name: Restart openldap service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ openldap_service_name }}"
     state: restarted
