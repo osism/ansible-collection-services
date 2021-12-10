@@ -1,6 +1,6 @@
 ---
 - name: Get home directory of docker user
-  shell: |
+  ansible.builtin.shell: |
     set -o pipefail
     getent passwd {{ docker_user }} | cut -d: -f6
   args:
@@ -9,7 +9,7 @@
   register: docker_home
 
 - name: Create cli-plugins directory
-  file:
+  ansible.builtin.file:
     path: "{{ docker_home.stdout }}/.docker/cli-plugins"
     state: directory
     owner: "{{ docker_user }}"
@@ -17,7 +17,7 @@
     mode: 0755
 
 - name: Copy docker-compose cli plugin
-  copy:
+  ansible.builtin.copy:
     src: "docker-compose-{{ docker_compose_version }}/docker-compose-linux-x86_64.bin"
     dest: "{{ docker_home.stdout }}/.docker/cli-plugins/docker-compose"
     owner: "{{ docker_user }}"
