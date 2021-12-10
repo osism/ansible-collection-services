@@ -7,7 +7,7 @@
   when: netbox_traefik|bool
 
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ netbox_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -17,7 +17,7 @@
 
 - name: Start/enable netbox service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ netbox_service_name }}"
     state: started
     enabled: true
