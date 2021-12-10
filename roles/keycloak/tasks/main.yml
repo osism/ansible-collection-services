@@ -1,12 +1,12 @@
 ---
 - name: Include config tasks
-  include_tasks: config.yml
+  ansible.builtin.include_tasks: config.yml
   tags: config
 
 - name: Include create database tasks
-  include: "create-database.yml"
+  ansible.builtin.include: "create-database.yml"
   when: keycloak_galera_backend_enable|bool
 
 - name: Include service tasks
-  include_tasks: service.yml
+  ansible.builtin.include_tasks: service.yml
   tags: service
