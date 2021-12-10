@@ -1,6 +1,6 @@
 ---
 - name: "Restart {{ falco_service_name }} service"
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ falco_service_name }}"
     state: restarted
