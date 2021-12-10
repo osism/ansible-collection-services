@@ -1,6 +1,6 @@
 ---
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -8,7 +8,7 @@
 
 - name: Install required packages (client)
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ required_packages_cockpit }}"
     state: present
   when: configure_cockpit|bool

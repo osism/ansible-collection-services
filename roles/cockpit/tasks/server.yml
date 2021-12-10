@@ -1,10 +1,10 @@
 ---
 - name: Include distribution specific install tasks
-  include_tasks: "install-server-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-server-{{ ansible_os_family }}.yml"
 
 - name: Create systemd overlay directory
   become: true
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/cockpit.socket.d
     state: directory
     owner: root
@@ -13,7 +13,7 @@
 
 - name: Copy systemd overlay file
   become: true
-  template:
+  ansible.builtin.template:
     src: listen.conf.j2
     dest: /etc/systemd/system/cockpit.socket.d/listen.conf
     owner: root
@@ -23,7 +23,7 @@
 
 - name: Copy configuration file
   become: true
-  copy:
+  ansible.builtin.copy:
     src: cockpit.conf
     dest: /etc/cockpit/cockpit.conf
     owner: root
@@ -33,7 +33,7 @@
 
 - name: Start/enable required services
   become: true
-  systemd:
+  ansible.builtin.systemd:
     enabled: true
     state: started
     daemon_reload: true
@@ -44,7 +44,7 @@
 
 - name: Copy machine files
   become: true
-  template:
+  ansible.builtin.template:
     src: machine.json.j2
     dest: "/etc/cockpit/machines.d/05-osism-{{ item }}.json"
     owner: root
