@@ -1,6 +1,6 @@
 ---
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ manager_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -10,7 +10,7 @@
 
 - name: Start/enable manager service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ manager_service_name }}"
     state: started
     enabled: true

@@ -1,7 +1,7 @@
 ---
 - name: Copy private ssh keys
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.value }}"
     dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
     owner: "{{ operator_user }}"
@@ -10,7 +10,7 @@
   no_log: true
 
 - name: Copy ansible environment file
-  template:
+  ansible.builtin.template:
     src: env/ansible.env.j2
     dest: "{{ manager_configuration_directory }}/ansible.env"
     mode: 0640

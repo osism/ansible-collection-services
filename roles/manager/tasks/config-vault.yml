@@ -1,6 +1,6 @@
 ---
 - name: Copy Vault environment file
-  template:
+  ansible.builtin.template:
     src: "env/vault.env.j2"
     dest: "{{ manager_configuration_directory }}/vault.env"
     mode: 0640
@@ -8,7 +8,7 @@
     group: "{{ operator_group }}"
 
 - name: Copy Vault configuration file
-  template:
+  ansible.builtin.template:
     src: "vault.hcl.j2"
     dest: "{{ manager_configuration_directory }}/vault.hcl"
     mode: 0644

@@ -6,22 +6,22 @@
   register: result
 
 - name: Set vault_key_shares fact
-  set_fact:
+  ansible.builtin.set_fact:
     vault_key_shares: "{{ result.stdout | from_yaml }}"
 
 - name: Output vault key shares
-  debug:
+  ansible.builtin.debug:
     var: vault_key_shares
   when: vault_output_key_shares|bool
 
 - name: Write vault key shares
-  copy:
+  ansible.builtin.copy:
     content: "{{ vault_key_shares|to_nice_yaml }}"
     dest: "{{ vault_key_shares_path }}"
   when: vault_write_key_shares|bool
 
 - name: Set osism.vault.status fact
-  include_role:
+  ansible.builtin.include_role:
     name: osism.commons.state
   vars:
     state_name: osism

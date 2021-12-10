@@ -1,6 +1,6 @@
 ---
 - name: Copy postgres environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
     mode: 0640
@@ -10,7 +10,7 @@
     - postgres
 
 - name: Copy secret files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.secret }}"
     dest: "{{ manager_secrets_directory }}/{{ item.filename }}"
     mode: 0644
@@ -23,7 +23,7 @@
 
 - name: Create docker-entrypoint-initdb.d directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d"
     state: directory
     owner: "{{ operator_user }}"
@@ -31,7 +31,7 @@
     mode: 0755
 
 - name: Create init-awx-database.sh script
-  copy:
+  ansible.builtin.copy:
     content: |
       #!/bin/bash
       set -e

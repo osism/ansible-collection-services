@@ -1,6 +1,6 @@
 ---
 - name: Copy secret files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.secret }}"
     dest: "{{ manager_secrets_directory }}/{{ item.filename }}"
     mode: 0644
