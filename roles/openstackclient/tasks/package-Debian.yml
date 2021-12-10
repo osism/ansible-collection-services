@@ -1,14 +1,14 @@
 ---
 - name: Add repository key
   become: true
-  apt_key:
+  ansible.builtin.apt_key:
     keyserver: keyserver.ubuntu.com
     id: "{{ openstackclient_debian_repository_key }}"
   when: openstackclient_configure_repository|bool
 
 - name: Add repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ openstackclient_debian_repository }}"
     state: present
     update_cache: true
@@ -16,7 +16,7 @@
   when: openstackclient_configure_repository|bool
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -24,6 +24,6 @@
 
 - name: Install required packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ openstackclient_debian_packages }}"
     state: present
