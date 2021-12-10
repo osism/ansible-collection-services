@@ -1,6 +1,6 @@
 ---
 - name: Wait for nexus service
-  wait_for:
+  ansible.builtin.wait_for:
     host: "{{ nexus_host }}"
     port: "{{ nexus_port }}"
 
@@ -11,7 +11,7 @@
   register: result
 
 - name: Set admin password
-  set_fact:
+  ansible.builtin.set_fact:
     nexus_admin_password: "{{ result.stdout }}"
 
 - name: Provision scripts
@@ -47,7 +47,7 @@
     - ubuntu-docker
 
 - name: Set osism.nexus.status fact
-  include_role:
+  ansible.builtin.include_role:
     name: osism.commons.state
   vars:
     state_name: osism
