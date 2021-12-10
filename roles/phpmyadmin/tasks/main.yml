@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -11,7 +11,7 @@
     - "{{ phpmyadmin_docker_compose_directory }}"
 
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ phpmyadmin_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -20,7 +20,7 @@
 
 - name: Start/enable phpmyadmin service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ phpmyadmin_service_name }}"
     state: started
     enabled: true
