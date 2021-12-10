@@ -1,6 +1,6 @@
 ---
 - name: template zookeeper zoo.cfg
-  template:
+  ansible.builtin.template:
     src: zoo.cfg.j2
     dest: "{{ component_conf_dirs.zookeeper }}/zoo.cfg"
     owner: "{{ operator_user }}"
@@ -8,7 +8,7 @@
     mode: 0644
 
 - name: temaplte zuul web wait script
-  template:
+  ansible.builtin.template:
     src: wait-to-start-gearman.sh.j2
     dest: "{{ component_conf_dirs.web }}/wait-to-start-gearman.sh"
     owner: "{{ operator_user }}"
@@ -16,7 +16,7 @@
     mode: 0744
 
 - name: template zuul scheduler wait script
-  template:
+  ansible.builtin.template:
     src: wait-to-start.sh.j2
     dest: "{{ component_conf_dirs.scheduler }}/wait-to-start.sh"
     owner: "{{ operator_user }}"
@@ -24,7 +24,7 @@
     mode: 0744
 
 - name: tempalte zuul zuul.conf
-  template:
+  ansible.builtin.template:
     src: zuul.conf.j2
     dest: "{{ component_conf_dirs.zuul }}/zuul.conf"
     owner: "{{ operator_user }}"
@@ -32,7 +32,7 @@
     mode: 0644
 
 - name: template zuul main.yaml
-  template:
+  ansible.builtin.template:
     src: main.yaml.j2
     dest: "{{ component_conf_dirs.zuul }}/main.yaml"
     owner: "{{ operator_user }}"
@@ -41,7 +41,7 @@
   notify: smart_reload_scheduler
 
 - name: template nodepool-launcher nodepool.yaml
-  template:
+  ansible.builtin.template:
     src: nodepool.yaml.j2
     dest: "{{ component_conf_dirs.nodepool_launcher }}/nodepool.yaml"
     owner: "{{ operator_user }}"
@@ -49,7 +49,7 @@
     mode: 0644
 
 - name: template docker-compose env files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ base_conf_dir }}/{{ item }}.env"
     owner: "{{ operator_user }}"
@@ -62,7 +62,7 @@
     - web
 
 - name: template docker-compose.yaml
-  template:
+  ansible.builtin.template:
     src: docker-compose.yaml.j2
     dest: "{{ base_conf_dir }}/docker-compose.yaml"
     owner: "{{ operator_user }}"

@@ -6,7 +6,7 @@
 # by the owner. the files in this directy will have read
 # permissions for all others too.
 - name: create base config directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ base_conf_dir }}"
     owner: "{{ operator_user }}"
@@ -14,7 +14,7 @@
     mode: 0744
 
 - name: create component config directories
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item['value'] }}"
     owner: "{{ operator_user }}"
@@ -23,13 +23,13 @@
   loop: "{{ component_conf_dirs | dict2items }}"
 
 - name: include copy tasks
-  include_tasks: copy_tasks.yml
+  ansible.builtin.include_tasks: copy_tasks.yml
 
 - name: include template tasks
-  include_tasks: template_tasks.yml
+  ansible.builtin.include_tasks: template_tasks.yml
 
 - name: include generation of certificates and keys
-  include_tasks: generate_certs_and_keys.yml
+  ansible.builtin.include_tasks: generate_certs_and_keys.yml
 
 - name: start zuul
   community.docker.docker_compose:
