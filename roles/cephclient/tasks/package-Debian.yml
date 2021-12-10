@@ -1,13 +1,13 @@
 ---
 - name: Add repository key
   become: true
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ cephclient_debian_repository_key }}"
   when: cephclient_configure_repository|bool
 
 - name: Add repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ cephclient_debian_repository }}"
     state: present
     update_cache: true
@@ -15,7 +15,7 @@
   when: cephclient_configure_repository|bool
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -23,13 +23,13 @@
 
 - name: Install required packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ cephclient_debian_packages }}"
     state: present
 
 - name: Copy configuration files
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
@@ -41,7 +41,7 @@
 
 - name: Copy keyring file
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "{{ cephclient_keyring }}"
     dest: "/etc/ceph/ceph.{{ cephclient_keyring_name }}.keyring"
     owner: root
