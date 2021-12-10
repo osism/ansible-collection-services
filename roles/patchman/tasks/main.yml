@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -12,7 +12,7 @@
     - "{{ patchman_docker_compose_directory }}"
 
 - name: Copy environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ patchman_configuration_directory }}/{{ item }}.env"
     mode: 0644
@@ -23,7 +23,7 @@
     - postgres
 
 - name: Copy local_settings.py configuration file
-  template:
+  ansible.builtin.template:
     src: local_settings.py.j2
     dest: "{{ patchman_configuration_directory }}/local_settings.py"
     mode: 0644
@@ -32,7 +32,7 @@
 
 - name: Copy patchman-update script
   become: true
-  template:
+  ansible.builtin.template:
     src: "patchman-update.j2"
     dest: /usr/local/bin/patchman-update
     mode: 0755
@@ -40,7 +40,7 @@
     group: root
 
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ patchman_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -49,14 +49,14 @@
 
 - name: Start/enable patchman service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ patchman_service_name }}"
     state: started
     enabled: true
 
 - name: Create patchman cronjob
   become: true
-  cron:
+  ansible.builtin.cron:
     name: "run patchman update"
     minute: "{{ patchman_cron_minute }}"
     hour: "{{ patchman_cron_hour }}"
@@ -66,5 +66,5 @@
     user: "{{ patchman_cron_user }}"
 
 - name: Include update tasks
-  include_tasks: update.yml
+  ansible.builtin.include_tasks: update.yml
   when: patchman_update|bool
