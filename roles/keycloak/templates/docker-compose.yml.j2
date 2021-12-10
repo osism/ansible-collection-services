@@ -13,10 +13,13 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
-      - "{{ keycloak_host }}:{{ keycloak_port }}:8080"
+      - "{{ keycloak_host }}:{{ keycloak_port }}"
+    JGROUPS_DISCOVERY_PROTOCOL: JDBC_PING
+    JGROUPS_DISCOVERY_EXTERNAL_IP: {{ internal_interface }}
+{% if not keycloak_galera_backend_enable |bool %}
     depends_on:
       - postgres
-{% if not keycloak_galera_backend_enable |bool %}
+
   postgres:
     container_name: "{{ keycloak_container_name }}_postgres"
     image: "{{ postgres_image }}"
