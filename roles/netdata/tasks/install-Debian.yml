@@ -1,6 +1,6 @@
 ---
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -8,7 +8,7 @@
 
 - name: Install apt-transport-https package
   become: true
-  apt:
+  ansible.builtin.apt:
     name: apt-transport-https
     state: present
   when: netdata_configure_repository|bool
@@ -16,13 +16,13 @@
 
 - name: Add repository gpg key
   become: true
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ netdata_debian_repository_key }}"
   when: netdata_configure_repository|bool
 
 - name: Add repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ netdata_debian_repository }}"
     state: present
     filename: netdata
@@ -31,7 +31,7 @@
   when: netdata_configure_repository|bool
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -39,14 +39,14 @@
 
 - name: "Install {{ netdata_package_name }} package"
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ netdata_package_name }}"
     state: latest
   notify: "Restart {{ netdata_service_name }} service"
 
 - name: "Start/enable {{ netdata_service_name }} service"
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ netdata_service_name }}"
     state: started
     enabled: true
