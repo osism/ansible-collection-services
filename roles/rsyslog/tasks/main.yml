@@ -1,10 +1,10 @@
 ---
 - name: Include distribution specific install tasks
-  include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Copy rsyslog.conf configuration file
   become: true
-  template:
+  ansible.builtin.template:
     src: rsyslog.conf.j2
     dest: /etc/rsyslog.conf
     mode: 0644
@@ -14,12 +14,12 @@
 
 - name: Start/enable rsyslog service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ rsyslog_service_name }}"
     state: started
     enabled: true
 
 - name: Include fluentd tasks
-  include: fluentd.yml
+  ansible.builtin.include: fluentd.yml
   tags: fluentd
   when: rsyslog_fluentd|bool
