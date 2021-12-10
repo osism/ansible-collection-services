@@ -1,10 +1,10 @@
 ---
 - name: Include distribution specific install tasks
-  include: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include: "install-{{ ansible_os_family }}.yml"
   tags: install
 
 - name: Include service tasks
-  include_tasks: service.yml
+  ansible.builtin.include_tasks: service.yml
   tags: service
 
 - name: Enable ipv4 forwarding
@@ -19,5 +19,5 @@
 
 - name: Register machine
   become: true
-  command: "tailscale up --authkey {{ tailscale_authkey }} --advertise-routes '{{ tailscale_advertise_routes }}'"
+  ansible.builtin.command: "tailscale up --authkey {{ tailscale_authkey }} --advertise-routes '{{ tailscale_advertise_routes }}'"
   when: tailscale_authkey|length > 0
