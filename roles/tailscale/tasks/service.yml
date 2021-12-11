@@ -1,7 +1,7 @@
 ---
 - name: Start/enable tailscaled service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ tailscaled_service_name }}"
     state: started
     enabled: true
