@@ -67,6 +67,7 @@ required_packages_manager:
 ##########################
 # netbox integration
 
+enable_netbox: "{{ netbox_enable }}"
 netbox_enable: false
 netbox_api_url: ""
 netbox_api_token: ""
@@ -87,12 +88,12 @@ ansible_services_defaults:
     container_name: "{{ ceph_ansible_container_name }}"
     tag: "{{ ceph_ansible_tag }}"
     image: "{{ ceph_ansible_image }}"
-    enable: "{{ ceph_ansible_enable }}"
+    enable: "{{ enable_ceph_ansible }}"
   - name: kolla-ansible
     container_name: "{{ kolla_ansible_container_name }}"
     tag: "{{ kolla_ansible_tag }}"
     image: "{{ kolla_ansible_image }}"
-    enable: "{{ kolla_ansible_enable }}"
+    enable: "{{ enable_kolla_ansible }}"
 ansible_services_extra: []
 ansible_services: "{{ ansible_services_defaults + ansible_services_extra }}"
 
@@ -107,6 +108,7 @@ osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism
 ##########################
 # ceph-ansible
 
+enable_ceph_ansible: "{{ ceph_ansible_enable }}"
 ceph_ansible_enable: true
 
 ceph_ansible_container_name: manager_ceph-ansible_1
@@ -117,6 +119,7 @@ ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_an
 ##########################
 # kolla-ansible
 
+enable_kolla_ansible: "{{ kolla_ansible_enable }}"
 kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
@@ -133,6 +136,7 @@ redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
 ##########################
 # ara
 
+enable_ara: "{{ ara_enable }}"
 ara_enable: true
 
 ara_username: ara
@@ -166,6 +170,7 @@ mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
 ##########################
 # postgres
 
+enable_postgres: "{{ postgres_enable }}"
 postgres_enable: "{{ awx_enable|bool }}"
 
 postgres_tag: 14-alpine
@@ -176,6 +181,7 @@ postgres_password: password
 ##########################
 # celery
 
+enable_celery: "{{ celery_enable }}"
 celery_enable: false
 
 osism_tag: latest
@@ -187,6 +193,7 @@ flower_port: 5555
 ##########################
 # awx
 
+enable_awx: "{{ awx_enable }}"
 awx_enable: false
 
 awx_mailaddress: "{{ operator_user }}@osism.test"
@@ -250,6 +257,7 @@ vault_container_name: manager_vault_1
 # possible choices: [vault, ansible, none]
 awx_vault_type: ansible
 
+enable_vault: "{{ vault_enable }}"
 vault_enable: "{{ awx_vault_type == 'vault' }}"
 
 vault_host: "{{ ansible_default_ipv4.address }}"
