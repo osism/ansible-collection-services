@@ -1,6 +1,6 @@
 ---
 - name: Restart openstackclient service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ openstackclient_service_name }}"
     state: restarted
