@@ -1,6 +1,6 @@
 ---
 - name: Restart netbox service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ netbox_service_name }}"
     state: restarted

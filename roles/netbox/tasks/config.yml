@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -13,9 +13,9 @@
     - "{{ netbox_secrets_directory }}"
 
 - name: Include postgres config tasks
-  include_tasks: config-postgres.yml
+  ansible.builtin.include_tasks: config-postgres.yml
   tags: postgres
 
 - name: Include config tasks
-  include_tasks: config-netbox.yml
+  ansible.builtin.include_tasks: config-netbox.yml
   tags: netbox

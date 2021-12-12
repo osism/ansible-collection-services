@@ -1,7 +1,7 @@
 ---
 - name: Create directories required by netbox
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -12,7 +12,7 @@
     - "{{ netbox_configuration_directory }}/startup-scripts"
 
 - name: Copy netbox environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ netbox_configuration_directory }}/{{ item }}.env"
     mode: 0640
@@ -22,7 +22,7 @@
     - netbox
 
 - name: Copy netbox configuration files
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "{{ netbox_configuration_directory }}/{{ item }}"
     mode: 0644
@@ -33,7 +33,7 @@
     - gunicorn_config.py
 
 - name: Copy secret files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.secret }}"
     dest: "{{ netbox_secrets_directory }}/{{ item.filename }}"
     mode: 0644
@@ -49,7 +49,7 @@
   no_log: true
 
 - name: Deploy initializers for netbox
-  template:
+  ansible.builtin.template:
     src: "initializers/{{ item }}.yml.j2"
     dest: "{{ netbox_configuration_directory }}/initializers/{{ item }}.yml"
     mode: 0644
@@ -59,7 +59,7 @@
 
 # NOTE: Workaround until scripts are available upstream
 - name: Deploy startup scripts for netbox
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ netbox_configuration_directory }}/startup-scripts/{{ item|basename }}"
     mode: 0644

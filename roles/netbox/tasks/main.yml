@@ -1,8 +1,8 @@
 ---
 - name: Include config tasks
-  include_tasks: config.yml
+  ansible.builtin.include_tasks: config.yml
   tags: config
 
 - name: Include service tasks
-  include_tasks: service.yml
+  ansible.builtin.include_tasks: service.yml
   tags: service
