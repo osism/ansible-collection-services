@@ -1,33 +1,33 @@
 ---
 - name: Gather variables for each operating system
-  include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Stop/disable timesyncd service
   become: true
-  service:
+  ansible.builtin.service:
     name: systemd-timesyncd
     state: stopped
     enabled: false
   when: ansible_os_family == "Debian"
 
 - name: Include distribution specific install tasks
-  include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Start/enable chrony
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ chrony_service_name }}"
     state: started
     enabled: true
 
 - name: Check if configuration file exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ chrony_conf_file }}"
   register: chrony_conf_check
 
 - name: Copy configuration file
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ chrony_conf_file }}"
     mode: 0644
