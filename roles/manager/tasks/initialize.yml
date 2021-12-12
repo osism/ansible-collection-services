@@ -1,13 +1,13 @@
 ---
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Include vault initialize tasks
-  include_tasks: initialize-vault.yml
+  ansible.builtin.include_tasks: initialize-vault.yml
   when:
     - enable_vault|bool
     - not ansible_local.osism.vault.status|default("False")|bool
 
 - name: Include awx initialize tasks
-  include_tasks: initialize-awx.yml
+  ansible.builtin.include_tasks: initialize-awx.yml
   when: enable_awx|bool

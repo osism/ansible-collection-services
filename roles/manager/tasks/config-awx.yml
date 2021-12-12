@@ -1,6 +1,6 @@
 ---
 - name: Copy AWX helper scripts
-  copy:
+  ansible.builtin.copy:
     src: "awx/{{ item }}"
     dest: "{{ manager_configuration_directory }}/{{ item }}"
     mode: 0755
@@ -11,7 +11,7 @@
     - provision-instance.sh
 
 - name: Copy AWX environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
     mode: 0640
@@ -22,7 +22,7 @@
     - awxclient
 
 - name: Copy AWX configuration files
-  template:
+  ansible.builtin.template:
     src: "awx/{{ item }}.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}"
     mode: 0644
@@ -36,7 +36,7 @@
     - supervisord.conf
 
 - name: Copy secret files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.secret }}"
     dest: "{{ manager_secrets_directory }}/{{ item.filename }}"
     mode: 0644

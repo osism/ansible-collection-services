@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -16,34 +16,34 @@
     - "{{ manager_secrets_directory }}"
 
 - name: Include ara config tasks
-  include_tasks: config-ara.yml
+  ansible.builtin.include_tasks: config-ara.yml
   tags: ara
   when: enable_ara|bool
 
 - name: Include postgres config tasks
-  include_tasks: config-postgres.yml
+  ansible.builtin.include_tasks: config-postgres.yml
   tags: postgres
   when: enable_postgres|bool
 
 - name: Include awx config tasks
-  include_tasks: config-awx.yml
+  ansible.builtin.include_tasks: config-awx.yml
   tags: awx
   when: enable_awx|bool
 
 - name: Include vault config tasks
-  include_tasks: config-vault.yml
+  ansible.builtin.include_tasks: config-vault.yml
   tags: vault
   when: enable_vault|bool
 
 - name: Include ansible config tasks
-  include_tasks: config-ansible.yml
+  ansible.builtin.include_tasks: config-ansible.yml
   tags: ansible
 
 - name: Include netbox config tasks
-  include_tasks: config-netbox.yml
+  ansible.builtin.include_tasks: config-netbox.yml
   tags: netbox
   when: enable_netbox|bool
 
 - name: Include wrapper config tasks
-  include_tasks: config-wrapper.yml
+  ansible.builtin.include_tasks: config-wrapper.yml
   tags: wrapper
