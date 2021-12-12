@@ -1,0 +1,10 @@
+---
+# NOTE: required by the watchdog service
+- name: Set fs.inotify.max_user_watches
+  become: true
+  ansible.posix.sysctl:
+    name: fs.inotify.max_user_watches
+    value: '32768'
+    sysctl_set: true
+    state: present
+    reload: true
