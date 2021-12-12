@@ -1,10 +1,10 @@
 ---
 - name: Include distribution specific install tasks
-  include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Copy auditd.conf configuration files
   become: true
-  template:
+  ansible.builtin.template:
     src: auditd.conf.j2
     dest: /etc/audit/audit.conf
     mode: 0640
@@ -12,7 +12,7 @@
 
 - name: Adjust auditd/audispd configurations
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ item.config }}"
     regexp: '^#?{{ item.parameter }}\s*='
     line: "{{ item.parameter }} = {{ item.value }}"
@@ -22,7 +22,7 @@
 
 - name: Deploy rules for auditd
   become: true
-  template:
+  ansible.builtin.template:
     src: "rules/{{ item }}.j2"
     dest: "{{ auditd_rules_path }}/{{ item }}"
     owner: root
@@ -34,20 +34,20 @@
 
 - name: Start/enable auditd service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ auditd_service_name }}"
     state: started
     enabled: true
 
 - name: List existing rules files
   become: true
-  command: "find {{ auditd_rules_path }} -type f -printf '%f\n'"
+  ansible.builtin.command: "find {{ auditd_rules_path }} -type f -printf '%f\n'"
   changed_when: false
   register: auditd_existing_rules
 
 - name: Remove unmanaged rules files
   become: true
-  file:
+  ansible.builtin.file:
     dest: "{{ auditd_rules_path }}/{{ item }}"
     state: absent
   when:
