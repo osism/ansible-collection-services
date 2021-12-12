@@ -46,4 +46,4 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0755
-  when: awx_enable|bool
+  when: enable_awx|bool

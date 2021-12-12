@@ -1,13 +1,13 @@
 ---
 - name: Include config tasks
-  include_tasks: config.yml
+  ansible.builtin.include_tasks: config.yml
   tags: config
 
 - name: Include service tasks
-  include_tasks: service.yml
+  ansible.builtin.include_tasks: service.yml
   tags: service
 
 - name: Include initialize tasks
-  include_tasks: initialize.yml
+  ansible.builtin.include_tasks: initialize.yml
   tags: initialize
   when: not ansible_local.osism.nexus.status|default("False")|bool

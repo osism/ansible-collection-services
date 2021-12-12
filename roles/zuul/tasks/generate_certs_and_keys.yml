@@ -1,12 +1,12 @@
 ---
 - name: generate ssh keypair for nodepool to worker node communication
-  command: "ssh-keygen -q -f {{ component_conf_dirs.ssh_keys }}/nodepool -N
+  ansible.builtin.command: "ssh-keygen -q -f {{ component_conf_dirs.ssh_keys }}/nodepool -N
     '' -t rsa -m PEM -C zuul-nodepool-worker-key"
   args:
     creates: "{{ component_conf_dirs.ssh_keys }}/nodepool"
 
 - name: ensure key protection
-  file:
+  ansible.builtin.file:
     path: "{{ item['path'] }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
@@ -18,13 +18,13 @@
       mode: "0644"
 
 - name: generate zookeeper certificates
-  command: "{{ component_conf_dirs.certs }}/zk-ca.sh
+  ansible.builtin.command: "{{ component_conf_dirs.certs }}/zk-ca.sh
     {{ component_conf_dirs.certs }} {{ zookeeper_fqdn }}"
   args:
     creates: "{{ component_conf_dirs.certs }}/certs"
 
 - name: ensure correct permission settings
-  file:
+  ansible.builtin.file:
     path: "{{ base_conf_dir }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"

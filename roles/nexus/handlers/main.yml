@@ -1,7 +1,7 @@
 ---
 - name: Restart nexus service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ nexus_service_name }}"
     state: restarted
   when: not nexus_service.changed

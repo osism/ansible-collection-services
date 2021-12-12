@@ -1,6 +1,6 @@
 ---
 - name: Copy rundeck environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ rundeck_configuration_directory }}/{{ item }}.env"
     mode: 0640

@@ -11,7 +11,7 @@ services:
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
     healthcheck:
       test: pgrep celery
     environment:
@@ -22,7 +22,7 @@ services:
     environment:
       - CELERY=0
 {% endif %}
-{% if netbox_enable|bool %}
+{% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
     env_file:
@@ -33,10 +33,10 @@ services:
     image: "{{ osism_ansible_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
     command: osism worker osism-ansible
     environment:
       - CELERY=1
@@ -59,17 +59,17 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
-{% if netbox_enable|bool %}
+{% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
     depends_on:
       - inventory_reconciler
       - redis
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
       - ara-server
 {% endif %}
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
       - vault
 {% endif %}
 {% for service in ansible_services %}
@@ -77,7 +77,7 @@ services:
   {{ service.name }}:
     <<: *ansible
     image: "{{ service.image }}"
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
     command: osism worker {{ service.name }}
     healthcheck:
       test: pgrep celery
@@ -86,7 +86,7 @@ services:
 {% endif %}
 {% endif %}
 {% endfor %}
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -114,7 +114,7 @@ services:
       default:
         aliases:
           - cache
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -144,7 +144,7 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% endif %}
-{% if awx_enable|bool %}
+{% if enable_awx|bool %}
   receptor:
     image: "{{ receptor_image }}"
     command: receptor --config /etc/receptor/receptor.conf
@@ -171,7 +171,7 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/awxclient.env"
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
     secrets:
@@ -185,7 +185,7 @@ services:
     depends_on:
       - postgres
       - redis
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
       - vault
 {% endif %}
     volumes:
@@ -210,14 +210,14 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/awx.env"
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
     privileged: true
     security_opt:
       - apparmor:unconfined
     secrets:
-{% if netbox_enable|bool %}
+{% if enable_netbox|bool %}
       - NETBOX_TOKEN
 {% endif %}
       - TOWER_SECRET_KEY
@@ -227,7 +227,7 @@ services:
     healthcheck:
       test: curl --silent --fail http://localhost:8052/api/v2
 {% endif %}
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
   vault:
     image: "{{ vault_image }}"
     command: server -config=/etc/vault.hcl
@@ -250,7 +250,7 @@ services:
       # 2 - sealed
       test: vault status -address http://127.0.0.1:8200
 {% endif %}
-{% if postgres_enable|bool %}
+{% if enable_postgres|bool %}
   postgres:
     image: "{{ postgres_image }}"
     restart: unless-stopped
@@ -268,30 +268,30 @@ services:
 volumes:
   inventory_reconciler:
   interface:
-{% if postgres_enable|bool %}
+{% if enable_postgres|bool %}
   postgres:
 {% endif %}
-{% if awx_enable|bool %}
+{% if enable_awx|bool %}
   awx_configuration:
   awx_logs:
   awx_share:
   receptor:
 {% endif %}
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
   vault_file:
   vault_logs:
 {% endif %}
   cache:
   logs:
-{% if ara_enable|bool and ara_server_database_type == 'mysql' %}
+{% if enable_ara|bool and ara_server_database_type == 'mysql' %}
   mariadb:
 {% endif %}
   redis:
   share:
 
-{% if postgres_enable|bool or awx_enable|bool or netbox_enable|bool %}
+{% if enable_postgres|bool or enable_awx|bool or enable_netbox|bool %}
 secrets:
-{% if awx_enable|bool %}
+{% if enable_awx|bool %}
   TOWER_PASSWORD:
     file: {{ manager_secrets_directory }}/TOWER_PASSWORD
   TOWER_USERNAME:
@@ -299,11 +299,11 @@ secrets:
   TOWER_SECRET_KEY:
     file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
 {% endif %}
-{% if netbox_enable|bool %}
+{% if enable_netbox|bool %}
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
 {% endif %}
-{% if postgres_enable|bool %}
+{% if enable_postgres|bool %}
   POSTGRES_PASSWORD:
     file: {{ manager_secrets_directory }}/POSTGRES_PASSWORD
 {% endif %}

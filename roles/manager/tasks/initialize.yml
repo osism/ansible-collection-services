@@ -5,9 +5,9 @@
 - name: Include vault initialize tasks
   ansible.builtin.include_tasks: initialize-vault.yml
   when:
-    - vault_enable|bool
+    - enable_vault|bool
     - not ansible_local.osism.vault.status|default("False")|bool
 
 - name: Include awx initialize tasks
   ansible.builtin.include_tasks: initialize-awx.yml
-  when: awx_enable|bool
+  when: enable_awx|bool

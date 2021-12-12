@@ -1,6 +1,6 @@
 ---
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -8,7 +8,7 @@
 
 - name: Install apt-transport-https package
   become: true
-  apt:
+  ansible.builtin.apt:
     name: apt-transport-https
     state: present
   when: falco_configure_repository|bool
@@ -16,13 +16,13 @@
 
 - name: Add repository gpg key
   become: true
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ falco_debian_repository_key }}"
   when: falco_configure_repository|bool
 
 - name: Add repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ falco_debian_repository }}"
     state: present
     filename: falco
@@ -30,7 +30,7 @@
   when: falco_configure_repository|bool
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -38,24 +38,24 @@
 
 - name: "Install {{ falco_package_name }} package"
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ falco_package_name }}"
     state: latest
   notify: "Restart {{ falco_service_name }} service"
 
 - name: Check if /var/run/reboot-required exist
-  stat:
+  ansible.builtin.stat:
     path: /var/run/reboot-required
   register: result
 
 - name: Print message if /var/run/reboot-required exist
-  debug:
+  ansible.builtin.debug:
     msg: "Reboot of {{ inventory_hostname }} required to get the latest kernel running"
   when: result.stat.islnk is defined
 
 - name: Persist falco kernel module via modules-load.d
   become: true
-  copy:
+  ansible.builtin.copy:
     content: falco
     dest: /etc/modules-load.d/falco.conf
     owner: root
@@ -64,13 +64,13 @@
 
 - name: Load falco kernel module
   become: true
-  modprobe:
+  community.general.modprobe:
     name: falco
     state: present
 
 - name: "Start/enable {{ falco_service_name }} service"
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ falco_service_name }}"
     state: started
     enabled: true
