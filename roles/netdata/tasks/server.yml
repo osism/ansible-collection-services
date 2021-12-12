@@ -1,7 +1,7 @@
 ---
 - name: Set sysctl vm.max_map_count parameter
   become: true
-  sysctl:
+  ansible.posix.sysctl:
     name: vm.max_map_count
     value: "{{ netdata_sys_vm_max_map_count }}"
     state: present

@@ -1,9 +1,9 @@
 ---
 - name: Include distribution specific install tasks
-  include: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include: "install-{{ ansible_os_family }}.yml"
 
 - name: Include config tasks
-  include: config.yml
+  ansible.builtin.include: config.yml
 
 - name: Include host type specific tasks
-  include: "{{ netdata_host_type }}.yml"
+  ansible.builtin.include: "{{ netdata_host_type }}.yml"
