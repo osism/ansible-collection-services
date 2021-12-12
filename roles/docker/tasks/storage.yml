@@ -1,6 +1,6 @@
 ---
 - name: Create filesystem on storage block device
-  filesystem:
+  community.general.filesystem:
     dev: "{{ docker_storage_block_device }}"
     fstype: "{{ docker_storage_filesystem }}"
     force: "{{ docker_storage_force }}"
@@ -8,7 +8,7 @@
   ignore_errors: true
 
 - name: Create docker directory
-  file:
+  ansible.builtin.file:
     path: /var/lib/docker
     state: directory
     owner: root
@@ -19,7 +19,7 @@
     - skip_ansible_lint
 
 - name: Mount storage block device to docker directory
-  mount:
+  ansible.posix.mount:
     path: /var/lib/docker
     src: "{{ docker_storage_block_device }}"
     fstype: "{{ docker_storage_filesystem }}"

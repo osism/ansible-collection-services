@@ -2,20 +2,20 @@
 # This file is based on kolla-ansible baremetal role
 
 - name: Merge zun config
-  set_fact:
+  ansible.builtin.set_fact:
     docker_opts: "{{ docker_opts | combine(docker_zun_opts) }}"
   when:
     - "'zun-compute' in group_names"
 
 - name: Merge zun hosts config
-  set_fact:
+  ansible.builtin.set_fact:
     docker_hosts: "{{ docker_hosts + docker_zun_hosts  }}"
   when:
     - "'zun-compute' in group_names"
 
 - name: Ensuring CNI config directory exist
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ docker_cni_config_dir }}"
     state: "directory"
     mode: "0770"
@@ -24,7 +24,7 @@
 
 - name: Copying CNI config file
   become: true
-  template:
+  ansible.builtin.template:
     src: "10-zun-cni.conf.j2"
     dest: "{{ docker_cni_config_dir }}/10-zun-cni.conf"
     mode: "0660"
@@ -34,7 +34,7 @@
 
 - name: Ensuring CNI bin directory exist
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ docker_cni_bin_dir }}"
     state: "directory"
     mode: "0770"
@@ -43,14 +43,14 @@
 
 - name: Copy zun-cni script
   become: true
-  template:
+  ansible.builtin.template:
     src: "zun-cni.j2"
     dest: "{{ docker_cni_bin_dir }}/zun-cni"
     mode: "0775"
 
 - name: Copying over containerd config
   become: true
-  template:
+  ansible.builtin.template:
     src: "containerd_config.toml.j2"
     dest: "/etc/containerd/config.toml"
     mode: "0660"
@@ -58,7 +58,7 @@
 
 - name: Restart containerd
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ containerd_service_name }}"
     state: restarted
   when: docker_cni_configured.changed or containerd_configured.changed

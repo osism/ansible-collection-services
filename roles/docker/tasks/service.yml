@@ -1,13 +1,13 @@
 ---
 - name: Start/enable service
-  service:
+  ansible.builtin.service:
     name: "{{ docker_service_name }}"
     state: started
     enabled: true
   become: true
 
 - name: Start/enable docker socket service
-  service:
+  ansible.builtin.service:
     name: "{{ docker_service_name }}.socket"
     state: started
     enabled: true
@@ -15,7 +15,7 @@
   become: true
 
 - name: Start/enable containerd service
-  service:
+  ansible.builtin.service:
     name: "{{ containerd_service_name }}"
     state: started
     enabled: true
