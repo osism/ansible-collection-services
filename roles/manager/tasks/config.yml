@@ -44,6 +44,11 @@
   tags: netbox
   when: enable_netbox|bool
 
+- name: Include celery config tasks
+  ansible.builtin.include_tasks: config-celery.yml
+  tags: celery
+  when: enable_celery|bool
+
 - name: Include wrapper config tasks
   ansible.builtin.include_tasks: config-wrapper.yml
   tags: wrapper

@@ -87,6 +87,12 @@ services:
 {% endif %}
 {% endfor %}
 {% if enable_celery|bool %}
+  watchdog:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism watchdog
+    volumes:
+      - "{{ configuration_directory }}:/opt/configuration:ro"
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
