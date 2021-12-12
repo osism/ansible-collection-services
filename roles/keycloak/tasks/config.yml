@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -13,7 +13,7 @@
     - "{{ keycloak_docker_compose_directory }}"
 
 - name: Copy keycloak environment file
-  template:
+  ansible.builtin.template:
     src: env/keycloak.env.j2
     dest: "{{ keycloak_configuration_directory }}/keycloak.env"
     mode: 0640
@@ -21,7 +21,7 @@
     group: "{{ operator_group }}"
 
 - name: Copy postgres environment file
-  template:
+  ansible.builtin.template:
     src: env/postgres.env.j2
     dest: "{{ keycloak_configuration_directory }}/postgres.env"
     mode: 0640
@@ -30,7 +30,7 @@
   when: not keycloak_galera_backend_enable|bool
 
 - name: Copy secret files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.secret }}"
     dest: "{{ keycloak_secrets_directory }}/{{ item.filename }}"
     mode: 0644
