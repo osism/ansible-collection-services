@@ -43,15 +43,16 @@ netbox_user_api_token: "1111111111111111111111111111111111111111"
 netbox_metrics: "True"
 
 netbox_initializers:
+  - custom_fields
   - device_roles
   - device_types
+  - groups
   - manufacturers
+  - object_permissions
   - prefix_vlan_roles
   - sites
   - tags
   - users
-  - groups
-  - object_permissions
 
 netbox_plugins:
   - netbox_bgp
