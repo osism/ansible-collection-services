@@ -54,10 +54,10 @@ netbox_initializers:
   - tags
   - users
 
-netbox_plugins:
-  - netbox_bgp
-  - netbox_dns
-  - nextbox_ui_plugin
+netbox_plugins: []
+#   - netbox_bgp
+#   - netbox_dns
+#   - nextbox_ui_plugin
 
 ##########################
 # postgres
