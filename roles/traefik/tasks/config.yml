@@ -22,6 +22,7 @@
   loop:
     - traefik.yml
     - traefik.env
+    - certificates.yml
 
 - name: Copy certificate cert files
   copy:
