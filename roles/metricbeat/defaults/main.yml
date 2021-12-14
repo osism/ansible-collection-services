@@ -1,0 +1,29 @@
+---
+# defaults for elasticsearch:
+
+elasticsearch_publickey_url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+elasticsearch_repository: https://artifacts.elastic.co/packages/7.x/apt
+
+# defaults for metricbeat:
+
+# reload settings
+reload_enabled: false
+reload_period: 10s
+
+# dashboard
+setup_dashboards_enabled: true
+
+# kibana
+kibana_host: 127.0.0.1
+kibana_port: 5601
+kibana_protocol: http
+kibana_ssl: false
+kibana_username: ""
+kibana_password: ""
+
+# elasticsearch
+elastic_host: 127.0.0.1
+elastic_port: 9200
+elastic_protocol: https
+elastic_username: ""
+elastic_password: ""
