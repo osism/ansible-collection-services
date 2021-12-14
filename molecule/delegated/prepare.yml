@@ -1,8 +1,7 @@
 ---
 - name: Prepare
   hosts: all
-
   tasks:
     - name: Include required prepare tasks
-      include_tasks:
+      ansible.builtin.include_tasks:
         file: "prepare/{{ molecule_role }}.yml"

@@ -1,12 +1,11 @@
 ---
 - name: Converge
   hosts: all
-
   tasks:
     - name: Include required variables
-      include_vars:
+      ansible.builtin.include_vars:
         file: "vars/{{ molecule_role }}.yml"
 
     - name: "Include {{ molecule_role }} role"
-      include_role:
+      ansible.builtin.include_role:
         name: "{{ molecule_role }}"

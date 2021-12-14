@@ -1,8 +1,7 @@
 ---
 - name: Verify
   hosts: all
-
   tasks:
     - name: Include required verify tasks
-      include_tasks:
+      ansible.builtin.include_tasks:
         file: "verify/{{ molecule_role }}.yml"
