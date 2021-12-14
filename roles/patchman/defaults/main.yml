@@ -26,6 +26,7 @@ patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }
 
 patchman_container_name: patchman
 
+docker_network_mtu: 1500
 patchman_network: 172.31.100.80/28
 
 patchman_service_name: "docker-compose@patchman"

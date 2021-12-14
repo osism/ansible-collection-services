@@ -23,6 +23,7 @@ phpmyadmin_port: 8110
 phpmyadmin_tag: 4.9
 phpmyadmin_image: "{{ docker_registry_phpmyadmin }}/phpmyadmin/phpmyadmin:{{ phpmyadmin_tag }}"
 
+docker_network_mtu: 1500
 phpmyadmin_network: 172.31.100.32/28
 
 phpmyadmin_service_name: "docker-compose@phpmyadmin"

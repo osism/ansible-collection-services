@@ -38,6 +38,7 @@ traefik_certificates: {}
 traefik_tag: v2.5.4
 traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"
 
+docker_network_mtu: 1500
 traefik_network: 172.31.101.48/28
 
 traefik_container_name: traefik

@@ -19,6 +19,7 @@ openldap_configuration_directory: /opt/openldap/configuration
 openldap_secrets_directory: /opt/openldap/secrets
 openldap_docker_compose_directory: /opt/openldap
 
+docker_network_mtu: 1500
 openldap_network: 172.31.100.240/28
 openldap_container_name: openldap
 openldap_service_name: "docker-compose@openldap"
