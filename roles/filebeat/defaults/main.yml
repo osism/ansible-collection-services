@@ -1,0 +1,31 @@
+---
+# defaults for elasticsearch:
+
+elasticsearch_publickey_url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+elasticsearch_repository: https://artifacts.elastic.co/packages/7.x/apt
+
+# defaults for filebeat:
+
+# filebeat global options
+inputs_reload_enabled: false
+inputs_reload_period: 10s
+modules_reload_enabled: false
+modules_reload_period: 10s
+
+# dashboard
+setup_dashboard_enabled: true
+
+# kibana
+kibana_host: 127.0.0.1
+kibana_port: 5601
+kibana_protocol: http
+kibana_ssl: false
+kibana_username: ""
+kibana_password: ""
+
+# elasticsearch
+elastic_host: 127.0.0.1
+elastic_port: 9200
+elastic_protocol: http
+elastic_username: ""
+elastic_password: ""
