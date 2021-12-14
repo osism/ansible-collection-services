@@ -1,0 +1,53 @@
+---
+- name: Add elasticsearch public key
+  become: true
+  ansible.builtin.apt_key:
+    url: "{{ elasticsearch_publickey_url }}"
+    state: present
+
+- name: Wait for apt lock
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  changed_when: false
+
+- name: Install apt-transport-https
+  become: true
+  ansible.builtin.apt:
+    name: apt-transport-https
+    update_cache: true
+
+- name: Add elasticsearch repository definitions
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb {{ elasticsearch_repository }} stable main"
+    state: present
+
+- name: Wait for apt lock
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  changed_when: false
+
+- name: Install filebeat
+  become: true
+  ansible.builtin.apt:
+    name: filebeat
+    update_cache: true
+
+- name: Update configuration
+  become: true
+  ansible.builtin.template:
+    src: filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    mode: 0640
+  notify: restart filebeat
+
+- name: Start/enable filebeat service
+  become: true
+  ansible.builtin.service:
+    name: filebeat
+    state: started
+    enabled: true
