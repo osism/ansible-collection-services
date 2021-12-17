@@ -4,6 +4,7 @@
 
 docker_registry: index.docker.io
 docker_registry_traefik: "{{ docker_registry }}"
+docker_registry_traefik_keepalived: quay.io
 
 ##########################
 # operator user
@@ -23,7 +24,10 @@ traefik_docker_compose_directory: /opt/traefik
 traefik_certificates_directory: /opt/traefik/certificates
 traefik_configuration_directory: /opt/traefik/configuration
 
-traefik_host: 127.0.0.1
+traefik_interface: eth0
+traefik_interface_address: "{{ 'traefik_interface' | kolla_address }}"
+
+traefik_host: "{{ traefik_interface_address }}"
 traefik_port: 8122
 
 traefik_port_http: 80
@@ -47,3 +51,20 @@ traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
 
 traefik_pilot_dashboard: false
+
+##########################
+# traefik
+
+enable_traefik_keepalived: false
+
+traefik_keepalived_container_name: traefik_keepalived
+
+traefik_keepalived_tag: wallaby
+traefik_keepalived_image: "{{ docker_registry_traefik_keepalived }}/osism/keepalived:{{ traefik_keepalived_tag }}"
+
+traefik_keepalived_interface: eth0
+traefik_keepalived_interface_address: "{{ 'traefik_keepalived' | kolla_address }}"
+traefik_keepalived_password: password
+traefik_keepalived_traffic_mode: multicast
+traefik_keepalived_vip_address: 127.0.0.2
+traefik_keepalived_virtual_router_id: 1

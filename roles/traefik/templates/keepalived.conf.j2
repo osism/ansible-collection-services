@@ -1,0 +1,38 @@
+vrrp_script check_alive {
+    script "/check_alive.sh"
+    interval 2
+    fall 2
+    rise 10
+}
+
+vrrp_instance kolla_internal_vip_{{ traefik_keepalived_virtual_router_id }} {
+    state BACKUP
+    nopreempt
+    interface {{ traefik_keepalived_interface }}
+    virtual_router_id {{ traefik_keepalived_virtual_router_id }}
+    priority {{ groups['traefik'].index(inventory_hostname) + 1 }}
+    advert_int 1
+{% if traefik_keepalived_traffic_mode == 'unicast' %}
+    unicast_src_ip {{ traefik_keepalived_interface_address }}
+{% if groups['traefik'] | length > 1 %}
+    unicast_peer {
+{% for host in groups['traefik'] %}
+{% set ip_addr = 'traefik_keepalived' | kolla_address(host) %}
+{% if ip_addr != traefik_keepalived_interface_address %}
+        {{ ip_addr }}
+{% endif %}
+{% endfor %}
+    }
+{% endif %}
+{% endif %}
+    virtual_ipaddress {
+        {{ traefik_keepalived_vip_address }} dev {{ traefik_keepalived_interface }}
+    }
+    authentication {
+        auth_type PASS
+        auth_pass {{ traefik_keepalived_password }}
+    }
+    track_script {
+        check_alive
+    }
+}

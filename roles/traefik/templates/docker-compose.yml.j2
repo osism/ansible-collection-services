@@ -2,6 +2,18 @@
 version: '3'
 
 services:
+{% if enable_traefik_keepalived|bool %}
+  keepalived:
+    container_name: "{{ traefik_keepalived_container_name }}"
+    restart: unless-stopped
+    image: "{{ traefik_keepalived_image }}"
+    command: dumb-init --single-child -- kolla_start
+    privileged: true
+    network_mode: host
+    volumes:
+      - "{{ traefik_configuration_directory }}/keepalived.conf:/keepalived.conf:ro"
+      - "{{ traefik_configuration_directory }}/keepalived.json:/var/lib/kolla/config_files/config.json:ro"
+{% endif %}
   traefik:
     container_name: "{{ traefik_container_name }}"
     restart: unless-stopped

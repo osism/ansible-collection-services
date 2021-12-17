@@ -41,3 +41,8 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop: "{{ traefik_certificates | dict2items }}"
+
+- name: Include keepalived config tasks
+  ansible.builtin.include_tasks: config-keepalived.yml
+  tags: keepalived
+  when: enable_traefik_keepalived|bool

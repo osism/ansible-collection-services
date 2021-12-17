@@ -1,0 +1,11 @@
+---
+- name: Copy keepalived configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ traefik_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - keepalived.conf
+    - keepalived.json
