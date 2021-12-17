@@ -35,3 +35,9 @@ nexus_provision_scripts:
   - docker-quay.json
   - ubuntu-archive.json
   - ubuntu-docker.json
+
+##########################
+# traefik
+
+enable_nexus_traefik: false
+traefik_external_network_name: traefik
