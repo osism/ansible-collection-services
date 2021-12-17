@@ -1,9 +1,4 @@
 ---
-- name: Wait for nexus service
-  ansible.builtin.wait_for:
-    host: "{{ nexus_host }}"
-    port: "{{ nexus_port }}"
-
 - name: Get admin password
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
