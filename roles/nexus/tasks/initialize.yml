@@ -1,9 +1,13 @@
 ---
+# NOTE: The file does not exist directly. Accordingly, the task fails at first.
 - name: Get admin password
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: cat /nexus-data/admin.password
   register: result
+  retries: 10
+  delay: 20
+  until: result.rc == 0
 
 - name: Set admin password
   ansible.builtin.set_fact:
