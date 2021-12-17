@@ -31,6 +31,8 @@ services:
       - "data:/nexus-data"
       - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
 {% if enable_nexus_traefik|bool %}
+    env_file:
+      - "{{ nexus_configuration_directory }}/nexus.env"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
