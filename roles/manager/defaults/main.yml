@@ -17,6 +17,7 @@ docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
 docker_registry_vault: "{{ docker_registry_service }}"
 
+docker_network_mtu: 1500
 manager_network: 172.31.101.0/28
 
 manager_service_name: "docker-compose@manager"

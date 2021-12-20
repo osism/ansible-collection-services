@@ -23,6 +23,7 @@ nexus_port: 8190
 nexus_tag: 3.36.0
 nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
+docker_network_mtu: 1500
 nexus_network: 172.31.101.32/28
 
 nexus_container_name: nexus

@@ -51,4 +51,5 @@ openstack_health_monitor_image: "{{ docker_registry_openstack_health_monitor }}/
 
 openstack_health_monitor_container_name: openstack_health_monitor
 
+docker_network_mtu: 1500
 openstack_health_monitor_network: 172.31.100.160/28
