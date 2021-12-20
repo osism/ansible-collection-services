@@ -13,4 +13,4 @@ journald_RuntimeMaxFileSize: 100M
 ##########################
 # services
 
-journald_service_name: journald
+journald_service_name: systemd-journald
