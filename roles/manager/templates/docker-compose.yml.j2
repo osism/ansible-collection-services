@@ -87,6 +87,14 @@ services:
 {% endif %}
 {% endfor %}
 {% if enable_celery|bool %}
+{% if enable_netbox|bool %}
+  netbox:
+    restart: unless-stopped
+    image: "{{ osism_netbox_image }}"
+    command: osism netbox
+    volumes:
+      - "{{ configuration_directory }}/netbox:/netbox:ro"
+{% endif %}
   watchdog:
     restart: unless-stopped
     image: "{{ osism_image }}"
