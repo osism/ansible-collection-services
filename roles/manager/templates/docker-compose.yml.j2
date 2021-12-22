@@ -94,6 +94,10 @@ services:
     command: osism netbox
     volumes:
       - "{{ configuration_directory }}/netbox:/netbox:ro"
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
 {% endif %}
   watchdog:
     restart: unless-stopped
