@@ -91,7 +91,7 @@ services:
   netbox:
     restart: unless-stopped
     image: "{{ osism_netbox_image }}"
-    command: osism netbox
+    command: osism worker netbox
     volumes:
       - "{{ configuration_directory }}/netbox:/netbox:ro"
     secrets:
