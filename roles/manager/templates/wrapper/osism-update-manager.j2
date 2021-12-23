@@ -30,7 +30,7 @@ if [[ ! -x "$(command -v ansible-playbook)" ]]; then
 fi
 
 if [[ $INSTALL_ANSIBLE_ROLES == "true" ]]; then
-    ansible-galaxy collection install git+https://github.com/osism/ansible-collection-services,$MANAGER_VERSION
+    ansible-galaxy collection install -f git+https://github.com/osism/ansible-collection-services,$MANAGER_VERSION
 fi
 
 if [[ $playbook == "playbook-netbox.yml" || $playbook == "playbook-traefik.yml" ]]; then
