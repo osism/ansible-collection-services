@@ -13,7 +13,7 @@
     force_basic_auth: true
     body: "{{ args | to_json }}"
     validate_certs: false
-  when: enable_nexus_traefik|bool
+  when: nexus_traefik|bool
 
 - name: Calling script {{ script_name }}
   ansible.builtin.uri:
@@ -26,4 +26,4 @@
     status_code: 200,204
     force_basic_auth: true
     body: "{{ args | to_json }}"
-  when: not enable_nexus_traefik|bool
+  when: not nexus_traefik|bool
