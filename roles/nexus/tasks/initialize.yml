@@ -10,7 +10,7 @@
   until: result.rc == 0
 
 - name: Set admin password
-  ansible.builtin.include: call_script.yml
+  ansible.builtin.include: call-script.yml
   vars:
     nexus_admin_password: "{{ result.stdout }}"
     script_name: update-admin-password
