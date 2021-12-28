@@ -41,4 +41,13 @@ nexus_provision_scripts:
 # traefik
 
 enable_nexus_traefik: false
+
+nexus_traefik_path_prefix: nexus
+nexus_traefik_host: ""
+
 traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
+
+traefik_host: 127.0.0.1
+traefik_port_http: 80
+traefik_port_https: 443
