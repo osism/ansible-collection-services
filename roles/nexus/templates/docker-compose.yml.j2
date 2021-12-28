@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     image: "{{ nexus_image }}"
     ports:
-{% if not enable_nexus_traefik|bool %}
+{% if not nexus_traefik|bool %}
       - "{{ nexus_host }}:{{ nexus_port }}:8081"
 {% endif %}
       - "{{ nexus_host }}:{{ nexus_port + 1 }}:{{ nexus_port + 1 }}"
@@ -22,7 +22,7 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
     healthcheck:
-{% if enable_nexus_traefik|bool %}
+{% if nexus_traefik|bool %}
       test: curl --silent --fail localhost:8081/nexus
 {% else %}
       test: curl --silent --fail localhost:8081
@@ -30,7 +30,7 @@ services:
     volumes:
       - "data:/nexus-data"
       - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
-{% if enable_nexus_traefik|bool %}
+{% if nexus_traefik|bool %}
     env_file:
       - "{{ nexus_configuration_directory }}/nexus.env"
     labels:
@@ -67,7 +67,7 @@ networks:
       driver: default
       config:
         - subnet: {{ nexus_network }}
-{% if enable_nexus_traefik|bool %}
+{% if nexus_traefik|bool %}
   {{ traefik_external_network_name }}:
     external: true
 {% endif %}

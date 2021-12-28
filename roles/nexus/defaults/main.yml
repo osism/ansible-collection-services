@@ -61,7 +61,7 @@ nexus_proxy_exclude_hosts:
 ##########################
 # traefik
 
-enable_nexus_traefik: false
+nexus_traefik: false
 
 nexus_traefik_path_prefix: nexus
 nexus_traefik_host: ""

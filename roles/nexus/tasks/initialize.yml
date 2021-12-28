@@ -9,6 +9,12 @@
   delay: 20
   until: result.rc == 0
 
+- name: Provision scripts
+  community.docker.docker_container_exec:
+    container: "{{ nexus_container_name }}"
+    command: "/bin/bash -c 'NEXUS_PASSWORD={{ result.stdout }} /scripts/provision.sh /scripts/{{ item }}'"
+  loop: "{{ nexus_provision_scripts }}"
+
 - name: Set admin password
   ansible.builtin.include: call-script.yml
   vars:
@@ -16,12 +22,6 @@
     script_name: update-admin-password
     args:
       new_password: "{{ nexus_admin_password }}"
-
-- name: Provision scripts
-  community.docker.docker_container_exec:
-    container: "{{ nexus_container_name }}"
-    command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/provision.sh /scripts/{{ item }}'"
-  loop: "{{ nexus_provision_scripts }}"
 
 - name: Allow anonymous access
   community.docker.docker_container_exec:
