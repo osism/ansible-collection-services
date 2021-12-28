@@ -1,6 +1,6 @@
 ---
 # NOTE: The file does not exist directly. Accordingly, the task fails at first.
-- name: Get admin password
+- name: Get setup admin password
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: cat /nexus-data/admin.password
@@ -10,8 +10,12 @@
   until: result.rc == 0
 
 - name: Set admin password
-  ansible.builtin.set_fact:
+  ansible.builtin.include: call_script.yml
+  vars:
     nexus_admin_password: "{{ result.stdout }}"
+    script_name: update-admin-password
+    args:
+      new_password: "{{ nexus_admin_password }}"
 
 - name: Provision scripts
   community.docker.docker_container_exec:
@@ -44,6 +48,24 @@
   loop:
     - ubuntu-archive
     - ubuntu-docker
+
+# NOTE: https://github.com/savoirfairelinux/ansible-nexus3-oss
+- name: Setup proxy
+  ansible.builtin.include: call-script.yml
+  vars:
+    script_name: setup-proxy
+    args:
+      with_http_proxy: "{{ nexus_with_http_proxy }}"
+      http_proxy_host: "{{ nexus_http_proxy_host }}"
+      http_proxy_port: "{{ nexus_http_proxy_port }}"
+      http_proxy_username: "{{ nexus_http_proxy_username }}"
+      http_proxy_password: "{{ nexus_http_proxy_password }}"
+      with_https_proxy: "{{ nexus_with_https_proxy }}"
+      https_proxy_host: "{{ nexus_https_proxy_host }}"
+      https_proxy_port: "{{ nexus_https_proxy_port }}"
+      https_proxy_username: "{{ nexus_https_proxy_username }}"
+      https_proxy_password: "{{ nexus_https_proxy_password }}"
+      proxy_exclude_hosts: "{{ nexus_proxy_exclude_hosts }}"
 
 - name: Set osism.nexus.status fact
   ansible.builtin.include_role:
