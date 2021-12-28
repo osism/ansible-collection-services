@@ -4,7 +4,7 @@
 # nexus-args=${jetty.etc}/jetty.xml,${jetty.etc}/jetty-http.xml,${jetty.etc}/jetty-requestlog.xml
 
 {% if enable_nexus_traefik|bool %}
-nexus-context-path=/nexus
+nexus-context-path=/{{ nexus_traefik_path_prefix }}
 {% endif %}
 
 # Nexus section
