@@ -36,6 +36,27 @@ nexus_provision_scripts:
   - docker-quay.json
   - ubuntu-archive.json
   - ubuntu-docker.json
+  - update-admin-password.json
+  - setup-proxy.json
+
+nexus_admin_username: admin
+nexus_admin_password: password
+
+# NOTE: https://github.com/savoirfairelinux/ansible-nexus3-oss
+nexus_with_http_proxy: false
+nexus_http_proxy_host: "proxy.example.com"
+nexus_http_proxy_port: 8080
+nexus_http_proxy_username: ""
+nexus_http_proxy_password: ""
+nexus_with_https_proxy: false
+nexus_https_proxy_host: "proxy.example.com"
+nexus_https_proxy_port: 8080
+nexus_https_proxy_username: ""
+nexus_https_proxy_password: ""
+nexus_proxy_exclude_hosts:
+  - "localhost"
+  - "127.*"
+  - "[::1]"
 
 ##########################
 # traefik
