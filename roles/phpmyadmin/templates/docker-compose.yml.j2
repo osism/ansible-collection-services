@@ -36,7 +36,7 @@ services:
       - "traefik.http.routers.phpmyadmin-secure.rule=Host(`{{ phpmyadmin_traefik_host }}`) && PathPrefix(`/{{ phpmyadmin_traefik_path_prefix }}/`)"
 {% else %}
       - "traefik.http.routers.phpmyadmin-secure.rule=PathPrefix(`/{{ phpmyadmin_traefik_path_prefix }}/`)"
-      - "traefik.http.routers.phpmyadmin-secure.middlewares=phpmyadmin-replace-static-prefix@docker"
+      - "traefik.http.routers.phpmyadmin-secure.middlewares=phpmyadmin-replace-prefix@docker"
 {% endif %}
     networks:
       - default
