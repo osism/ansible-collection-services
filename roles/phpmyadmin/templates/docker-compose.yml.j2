@@ -8,12 +8,40 @@ services:
     image: "{{ phpmyadmin_image }}"
     environment:
       PMA_HOST: "{{ phpmyadmin_database_host }}"
+{% if not phpmyadmin_traefik|bool %}
     ports:
       - "{{ phpmyadmin_host }}:{{ phpmyadmin_port }}:80"
+{% endif %}
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
     healthcheck:
       test: curl --silent --fail localhost:80
+{% if phpmyadmin_traefik|bool %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.phpmyadmin-replace-prefix.replacepathregex.regex=^/{{ phpmyadmin_traefik_path_prefix }}(/.*)"
+      - "traefik.http.middlewares.phpmyadmin-replace-prefix.replacepathregex.replacement=$$1"
+      - "traefik.http.routers.phpmyadmin.entrypoints=http"
+{% if phpmyadmin_traefik_host|length > 0 %}
+      - "traefik.http.routers.phpmyadmin.rule=Host(`{{ phpmyadmin_traefik_host }}`) && PathPrefix(`/{{ phpmyadmin_traefik_path_prefix }}/`)"
+{% else %}
+      - "traefik.http.routers.phpmyadmin.rule=PathPrefix(`/{{ phpmyadmin_traefik_path_prefix }}/`)"
+{% endif %}
+      - "traefik.http.routers.phpmyadmin.middlewares=phpmyadmin-replace-prefix@docker"
+      - "traefik.http.routers.phpmyadmin-secure.entrypoints=https"
+      - "traefik.http.routers.phpmyadmin-secure.tls=true"
+{% if phpmyadmin_traefik_host|length > 0 %}
+      - "traefik.http.routers.phpmyadmin-secure.rule=Host(`{{ phpmyadmin_traefik_host }}`) && PathPrefix(`/{{ phpmyadmin_traefik_path_prefix }}/`)"
+{% else %}
+      - "traefik.http.routers.phpmyadmin-secure.rule=PathPrefix(`/{{ phpmyadmin_traefik_path_prefix }}/`)"
+      - "traefik.http.routers.phpmyadmin-secure.middlewares=phpmyadmin-replace-static-prefix@docker"
+{% endif %}
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
 
 networks:
   default:
@@ -24,3 +52,7 @@ networks:
       driver: default
       config:
         - subnet:  {{ phpmyadmin_network }}
+{% if nexus_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}
