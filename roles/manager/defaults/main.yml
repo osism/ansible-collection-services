@@ -146,6 +146,11 @@ ara_password: password
 
 # ara server
 
+ara_server_traefik: false
+
+ara_server_traefik_path_prefix: ara
+ara_server_traefik_host: ""
+
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
@@ -297,3 +302,10 @@ wrapper_scripts:
   - osism-state
   - osism-update-manager
   - osism-validate
+
+
+##########################
+# traefik
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
