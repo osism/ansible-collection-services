@@ -112,10 +112,10 @@ services:
     healthcheck:
       test: pgrep celery
   osismclient:
-    container_name: "osismclient"
+    container_name: osismclient
     restart: unless-stopped
     image: "{{ osism_image }}"
-    command: sleep infinitiy
+    command: sleep infinity
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
