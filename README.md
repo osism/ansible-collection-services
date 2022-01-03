@@ -19,7 +19,7 @@ The following Ansible roles are included in this collection.
 | jenkins                  |                                                                                                                          |
 | journald                 | ![Test role journald](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20journald/badge.svg)   |
 | keycloak                 |                                                                                                                          |
-| lldpd                    |                                                                                                                          |
+| lldpd                    | ![Test role lldpd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20lldpd/badge.svg)         |
 | manager                  |                                                                                                                          |
 | minikube                 |                                                                                                                          |
 | netbox                   |                                                                                                                          |
