@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_rundeck: index.docker.io
 docker_registry_postgres: index.docker.io
 
@@ -18,7 +20,6 @@ rundeck_configuration_directory: /opt/rundeck/configuration
 rundeck_secrets_directory: /opt/rundeck/secrets
 rundeck_docker_compose_directory: /opt/rundeck
 
-docker_network_mtu: 1500
 rundeck_network: 172.31.100.192/28
 rundeck_service_name: "docker-compose@rundeck"
 

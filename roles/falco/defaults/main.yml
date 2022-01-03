@@ -24,6 +24,3 @@ falco_debian_repository_arch: amd64
 falco_debian_repository_key: https://falco.org/repo/falcosecurity-3672BA8F.asc
 
 falco_debian_repository: "deb [ arch={{ falco_debian_repository_arch }} ] https://dl.bintray.com/falcosecurity/deb stable main"
-
-##########################
-# parameters

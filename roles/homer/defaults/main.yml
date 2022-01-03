@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_homer: quay.io
 
 ##########################
@@ -24,7 +26,6 @@ homer_image: "{{ docker_registry_homer }}/osism/homer:{{ homer_tag }}"
 
 homer_container_name: homer
 
-docker_network_mtu: 1500
 homer_network: 172.31.100.208/28
 
 homer_service_name: "docker-compose@homer"

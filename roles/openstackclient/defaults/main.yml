@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_openstackclient: quay.io
 
 ##########################
@@ -28,7 +30,6 @@ openstackclient_image: "{{ docker_registry_openstackclient }}/osism/openstackcli
 
 openstackclient_container_name: openstackclient
 
-docker_network_mtu: 1500
 openstackclient_network: 172.31.100.16/28
 
 openstackclient_service_name: "docker-compose@openstackclient"

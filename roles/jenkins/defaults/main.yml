@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_jenkins: quay.io
 
 ##########################
@@ -22,7 +24,6 @@ jenkins_image: "{{ docker_registry_jenkins }}/osism/jenkins:{{ jenkins_tag }}"
 jenkins_host: 127.0.0.1
 jenkins_port: 4441
 
-docker_network_mtu: 1500
 jenkins_network: 172.31.100.224/28
 
 jenkins_password: password

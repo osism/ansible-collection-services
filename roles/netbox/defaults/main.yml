@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_netbox: quay.io
 docker_registry_postgres: index.docker.io
 docker_registry_redis: index.docker.io
@@ -19,7 +21,6 @@ netbox_configuration_directory: /opt/netbox/configuration
 netbox_secrets_directory: /opt/netbox/secrets
 netbox_docker_compose_directory: /opt/netbox
 
-docker_network_mtu: 1500
 netbox_network: 172.31.100.176/28
 netbox_service_name: "docker-compose@netbox"
 

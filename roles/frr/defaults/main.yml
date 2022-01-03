@@ -2,7 +2,7 @@
 frr_package_name: frr
 frr_service_name: frr
 
-frr_sysctl:
+frr_sysctl_defaults:
   - name: net.ipv4.ip_forward
     value: 1
   - name: net.ipv4.conf.all.send_redirects
@@ -15,3 +15,5 @@ frr_sysctl:
     value: 1
   - name: net.ipv4.conf.all.rp_filter
     value: 2
+frr_sysctl_extra: []
+frr_sysctl: "{{ frr_sysctl_defaults + frr_sysctl_extra }}"

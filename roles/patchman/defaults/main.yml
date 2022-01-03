@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_patchman: quay.io
 docker_registry_postgres: index.docker.io
 docker_registry_memcached: index.docker.io
@@ -26,7 +28,6 @@ patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }
 
 patchman_container_name: patchman
 
-docker_network_mtu: 1500
 patchman_network: 172.31.100.80/28
 
 patchman_service_name: "docker-compose@patchman"

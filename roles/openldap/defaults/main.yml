@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_openldap: quay.io
 docker_registry_udm_rest: quay.io
 docker_registry_umc: quay.io
@@ -19,7 +21,6 @@ openldap_configuration_directory: /opt/openldap/configuration
 openldap_secrets_directory: /opt/openldap/secrets
 openldap_docker_compose_directory: /opt/openldap
 
-docker_network_mtu: 1500
 openldap_network: 172.31.100.240/28
 openldap_container_name: openldap
 openldap_service_name: "docker-compose@openldap"
