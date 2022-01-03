@@ -17,16 +17,21 @@
   with_items: "{{ clamav_configuration }}"
   notify: Restart clamav daemon service
 
-- name: Start/enable clamav daemon service
-  become: true
-  ansible.builtin.service:
-    name: "{{ clamav_daemon_service_name }}"
-    state: started
-    enabled: true
+- name: Include initialize tasks
+  ansible.builtin.include_tasks: initialize.yml
+  tags: initialize
+  when: not ansible_local.osism.clamav.status|default("False")|bool
 
 - name: Start/enable clamav freshclam service
   become: true
   ansible.builtin.service:
     name: "{{ clamav_freshclam_service_name }}"
+    state: started
+    enabled: true
+
+- name: Start/enable clamav daemon service
+  become: true
+  ansible.builtin.service:
+    name: "{{ clamav_daemon_service_name }}"
     state: started
     enabled: true
