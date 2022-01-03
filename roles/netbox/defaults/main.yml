@@ -56,10 +56,13 @@ netbox_initializers:
   - tags
   - users
 
-netbox_plugins: []
+netbox_plugins_defaults:
+  - netbox_plugin_osism
+netbox_plugins_extra: []
 #   - netbox_bgp
 #   - netbox_dns
 #   - nextbox_ui_plugin
+netbox_plugins: "{{ netbox_plugins_defaults + netbox_plugins_extra }}"
 
 ##########################
 # postgres
