@@ -30,7 +30,7 @@
     group: "{{ operator_group }}"
   loop:
     - configuration.py
-    - gunicorn_config.py
+    - nginx-unit.json
 
 - name: Copy secret files
   ansible.builtin.copy:
