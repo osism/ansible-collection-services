@@ -1,0 +1,6 @@
+---
+- name: Restart clamav daemon service
+  become: true
+  ansible.builtin.service:
+    name: "{{ clamav_daemon_service_name }}"
+    state: restarted

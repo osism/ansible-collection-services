@@ -1,10 +1,12 @@
 ---
-clamav_packages:
+clamav_package_names:
   - clamav
   - clamav-base
   - clamav-daemon
   - clamav-freshclam
-clamav_daemon_localsocket: /var/run/clamav/clamd.ctl
-clamav_daemon_config: /etc/clamav/clamd.conf
-clamav_service: 'clamav-daemon'
-clamav_freshclam_service: 'clamav-freshclam'
+
+clamav_localsocket: /var/run/clamav/clamd.ctl
+clamav_configuration_path: /etc/clamav/clamd.conf
+
+clamav_daemon_service_name: clamav-daemon
+clamav_freshclam_service_name: clamav-freshclam

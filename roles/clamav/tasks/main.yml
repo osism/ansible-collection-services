@@ -1,58 +1,32 @@
 ---
-# tasks file for clamav
-- name: Include OS-Specific variables
+- name: Gather variables for each operating system
   ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
 
-- name: ensure clamav is installed
-  become: true
-  ansible.builtin.package:
-    name: "{{ clamav_packages }}"
-    state: present
+- name: Include distribution specific install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
-- name: update cache Debian
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-  when: ansible_os_family == 'Debian'
-
-- name: update cache RedHat
-  become: true
-  ansible.builtin.dnf:
-    update_cache: true
-  when: ansible_os_family == 'RedHat'
-
-- name: ensure that freshclam service isn´t already running
-  become: true
-  ansible.builtin.systemd:
-    name: "{{ clamav_freshclam_service }}"
-    state: stopped
-
-- name: run freshclam command
-  become: true
-  ansible.builtin.command:
-    cmd: freshclam
-
-- name: change configuration for ClamAV service
+- name: Upate configuration
   become: true
   ansible.builtin.lineinfile:
-    path: "{{ clamav_daemon_config }}"
+    path: "{{ clamav_configuration_path }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line | default('') }}"
     state: "{{ item.state | default('present') }}"
     mode: 0644
     create: true
-  with_items: "{{ clamav_daemon_config_changes }}"
+  with_items: "{{ clamav_configuration }}"
+  notify: Restart clamav daemon service
 
-- name: ensure clamav service is running
+- name: Start/enable clamav daemon service
   become: true
   ansible.builtin.service:
-    name: "{{ clamav_service }}"
+    name: "{{ clamav_daemon_service_name }}"
     state: started
     enabled: true
 
-- name: ensure freshclam service is running
+- name: Start/enable clamav freshclam service
   become: true
   ansible.builtin.service:
-    name: "{{ clamav_freshclam_service }}"
+    name: "{{ clamav_freshclam_service_name }}"
     state: started
     enabled: true
