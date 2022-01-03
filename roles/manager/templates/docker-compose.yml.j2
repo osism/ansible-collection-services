@@ -111,6 +111,11 @@ services:
     command: osism beat
     healthcheck:
       test: pgrep celery
+  osismclient:
+    container_name: "osismclient"
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: sleep infinitiy
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
