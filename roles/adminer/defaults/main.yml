@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry: index.docker.io
 docker_registry_adminer: "{{ docker_registry }}"
 
@@ -23,7 +25,6 @@ adminer_port: 8111
 adminer_tag: 4.7
 adminer_image: "{{ docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
 
-docker_network_mtu: 1500
 adminer_network: 172.31.100.64/28
 
 adminer_service_name: "docker-compose@adminer"

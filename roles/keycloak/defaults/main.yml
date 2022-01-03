@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_keycloak: quay.io
 docker_registry_postgres: index.docker.io
 
@@ -18,7 +20,6 @@ keycloak_configuration_directory: /opt/keycloak/configuration
 keycloak_secrets_directory: /opt/keycloak/secrets
 keycloak_docker_compose_directory: /opt/keycloak
 
-docker_network_mtu: 1500
 keycloak_network: 172.31.100.144/28
 keycloak_container_name: keycloak
 keycloak_service_name: "docker-compose@keycloak"

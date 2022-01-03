@@ -14,8 +14,11 @@ auditd_config:
 # rules
 
 auditd_rules_path: /etc/audit/rules.d
-auditd_rules_files:
+
+auditd_rules_files_defaults:
   - 20-neo23x0.rules
+auditd_rules_files_extra: []
+auditd_rules_files: "{{ auditd_rules_files_defaults + auditd_rules_files_extra }}"
 
 ##########################
 # packages
