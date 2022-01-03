@@ -35,18 +35,21 @@ services:
       - redis
     volumes:
       - "{{ netbox_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
-      - "{{ netbox_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
+      - "{{ netbox_configuration_directory }}/nginx-unit.json:/etc/unit/nginx-unit.json:ro"
       - "{{ netbox_configuration_directory }}/initializers:/opt/netbox/initializers:ro"
       # NOTE: Workaround until script is available upstream
       - "{{ netbox_configuration_directory }}/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
     secrets:
       - NETBOX_POSTGRES_PASSWORD
       - NETBOX_SECRET_KEY
+{% if not netbox_traefik|bool %}
     ports:
       - "{{ netbox_host }}:{{ netbox_port }}:8080"
     healthcheck:
       test: curl -s -k http://127.0.0.1:8080/metrics
-{% if netbox_traefik|bool %}
+{% else %}
+    healthcheck:
+      test: curl -s -k http://127.0.0.1:8080/netbox/metrics
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
