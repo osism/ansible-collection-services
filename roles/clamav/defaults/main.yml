@@ -1,7 +1,8 @@
 ---
-# defaults file for clamav
-clamav_daemon_config_changes:
+clamav_configuration_defaults:
   - regexp: '^.*Example$'
     state: absent
   - regexp: '^.*LocalSocket .*$'
-    line: 'LocalSocket {{ clamav_daemon_localsocket }}'
+    line: 'LocalSocket {{ clamav_localsocket }}'
+clamav_configuration_extra: []
+clamav_configuration: "{{ clamav_configuration_defaults + clamav_configuration_extra }}"
