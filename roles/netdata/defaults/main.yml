@@ -37,6 +37,8 @@ netdata_api_key: 00000000-0000-0000-0000-000000000000
 netdata_api_host: 127.0.0.1
 netdata_api_port: 19999
 
+netdata_hostname: "{{ inventory_hostname_short }}"
+
 # client
 
 netdata_update_every: 5
