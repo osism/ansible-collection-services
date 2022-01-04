@@ -23,6 +23,16 @@ PLUGINS = [
 {% endfor %}
 ]
 
+PLUGINS_CONFIG = {
+{% for k, v in netbox_plugins_config.items() %}
+    '{{ k }}': {
+{% for k2, v2 in v.items() %}
+        '{{ k2 }}': '{{ v2 }}',
+{% endfor %}
+    }
+{% endfor %}
+}
+
 #########################
 #                       #
 #   Required settings   #
