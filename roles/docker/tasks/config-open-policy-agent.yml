@@ -8,14 +8,14 @@
     mode: 0750
   become: true
 
-- name: Copy static policy files
-  ansible.builtin.copy:
-    src: "policies/{{ item }}"
+- name: Copy policy files
+  ansible.builtin.template:
+    src: "policies/{{ item }}.j2"
     dest: "/etc/docker/policies/{{ item }}"
     owner: root
     group: root
     mode: 0640
-  loop: "{{ docker_static_policy_files }}"
+  loop: "{{ docker_policy_files }}"
   become: true
   notify: Reload docker service
 
@@ -29,7 +29,7 @@
   ansible.builtin.file:
     dest: "/etc/docker/policies/{{ item }}"
     state: absent
-  when: item not in docker_static_policy_files
+  when: item not in docker_policy_files
   loop: "{{ existing_policy_files.stdout_lines | default([]) }}"
   become: true
   notify: Reload docker service
