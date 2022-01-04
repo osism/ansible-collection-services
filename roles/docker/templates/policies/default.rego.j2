@@ -10,12 +10,13 @@ allow {
 }
 
 deny {
-    unknown_image_registry
+    unknown_container_image_registry
 }
 
-unknown_image_registry {
+unknown_container_image_registry {
     splitted := split(input.Body.Image, "/")
-    not startswith(input.Body.Image, "index.docker.io");
-    not startswith(input.Body.Image, "quay.io");
+{% for registry in docker_policy_allowed_registries %}
+    not startswith(input.Body.Image, "{{ registry }}");
+{% endfor %}
     count(splitted) > 2
 }

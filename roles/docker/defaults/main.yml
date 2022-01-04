@@ -183,10 +183,22 @@ docker_policies: false
 docker_open_policy_agent_tag: "0.8"
 docker_open_policy_agent_image: "{{ docker_registry_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_open_policy_agent_tag }}"
 
-docker_authorization_plugins:
+docker_authorization_plugins_defaults:
   - "{{ docker_open_policy_agent_image }}"
-docker_static_policy_files:
+docker_authorization_plugins_extra: []
+
+docker_authorization_plugins: "{{ docker_authorization_plugins_defaults + docker_authorization_plugins_extra }}"
+
+docker_policy_files_defaults:
   - default.rego
+docker_policy_files_extra: []
+docker_policy_files: "{{ docker_policy_files_defaults + docker_policy_files_extra }}"
+
+docker_policy_allowed_registries_defaults:
+  - index.docker.io
+  - quay.io
+docker_policy_allowed_registries_extra: []
+docker_policy_allowed_registries: "{{ docker_policy_allowed_registries_defaults + docker_policy_allowed_registries_extra + docker_insecure_registries}}"
 
 ##########################
 # zun
