@@ -94,9 +94,11 @@ docker_compose_plugin: true
 ##########################
 # registry
 
-docker_registry: index.docker.io
 # docker_registry_password:
 # docker_registry_username:
+
+docker_registry: index.docker.io
+docker_registry_openpolicyagent: "{{ docker_registry }}"
 
 docker_insecure_registries: []
 docker_registry_mirrors: []
@@ -178,8 +180,8 @@ docker_dragonfly: false
 
 docker_policies: false
 
-docker_open_policy_agent_tag: "0.7"
-docker_open_policy_agent_image: "{{ docker_registry}}/openpolicyagent/opa-docker-authz-v2:{{ docker_open_policy_agent_tag }}"
+docker_open_policy_agent_tag: "0.8"
+docker_open_policy_agent_image: "{{ docker_registry_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_open_policy_agent_tag }}"
 
 docker_authorization_plugins:
   - "{{ docker_open_policy_agent_image }}"
