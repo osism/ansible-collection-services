@@ -9,6 +9,8 @@ name: Test role smartd
       - 'molecule/delegated/*'
       - 'molecule/smartd/**'
       - 'roles/smartd/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-smartd.yml'

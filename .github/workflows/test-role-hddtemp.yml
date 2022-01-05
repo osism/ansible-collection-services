@@ -9,6 +9,8 @@ name: Test role hddtemp
       - 'molecule/default/*'
       - 'molecule/hddtemp/**'
       - 'roles/hddtemp/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-hddtemp.yml'

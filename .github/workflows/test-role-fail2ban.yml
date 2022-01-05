@@ -9,6 +9,8 @@ name: Test role fail2ban
       - 'molecule/delegated/*'
       - 'molecule/fail2ban/**'
       - 'roles/fail2ban/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-fail2ban.yml'

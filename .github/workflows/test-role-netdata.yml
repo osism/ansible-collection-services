@@ -9,6 +9,8 @@ name: Test role netdata
       - 'molecule/delegated/*'
       - 'molecule/netdata/**'
       - 'roles/netdata/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-netdata.yml'
