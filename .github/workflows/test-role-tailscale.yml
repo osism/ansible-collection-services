@@ -9,6 +9,8 @@ name: Test role tailscale
       - 'molecule/delegated/*'
       - 'molecule/tailscale/**'
       - 'roles/tailscale/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-tailscale.yml'

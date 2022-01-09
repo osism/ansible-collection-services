@@ -9,6 +9,8 @@ name: Test role rsyslog
       - 'molecule/delegated/*'
       - 'molecule/rsyslog/**'
       - 'roles/rsyslog/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-rsyslog.yml'

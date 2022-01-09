@@ -9,6 +9,8 @@ name: Test role chrony
       - 'molecule/default/*'
       - 'molecule/chrony/**'
       - 'roles/chrony/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-chrony.yml'

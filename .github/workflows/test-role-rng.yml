@@ -9,6 +9,8 @@ name: Test role rng
       - 'molecule/default/*'
       - 'molecule/rng/**'
       - 'roles/rng/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-rng.yml'

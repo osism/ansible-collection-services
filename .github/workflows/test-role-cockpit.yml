@@ -9,6 +9,8 @@ name: Test role cockpit
       - 'molecule/delegated/*'
       - 'molecule/cockpit/**'
       - 'roles/cockpit/**'
+    branches:
+      - main
   pull_request:
     paths:
       - '.github/workflows/test-role-cockpit.yml'
