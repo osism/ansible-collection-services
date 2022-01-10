@@ -42,6 +42,15 @@ netbox_superuser_api_token: "0000000000000000000000000000000000000000"
 netbox_user_name: dragon
 netbox_user_api_token: "1111111111111111111111111111111111111111"
 
+netbox_ldap_enable: false
+netbox_ldap_server_uri: "ldap://localhost:389"
+netbox_ldap_bind_dn: ""
+netbox_ldap_bind_password: ""
+netbox_ldap_user_search_attr: "sAMAccountName"
+netbox_ldap_user_search_basedn: ""
+netbox_ldap_group_search_class: "group"
+netbox_ldap_group_search_basedn: ""
+
 netbox_metrics: "True"
 
 netbox_initializers:
