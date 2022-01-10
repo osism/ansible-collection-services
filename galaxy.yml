@@ -8,6 +8,7 @@ authors:
 description: OSISM service roles
 license_file: LICENSE
 tags:
+  - osism
   - system
 dependencies: {}
 repository: https://github.com/osism/ansible-collection-services.git
