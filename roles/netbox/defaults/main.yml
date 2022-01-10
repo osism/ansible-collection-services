@@ -51,6 +51,10 @@ netbox_ldap_user_search_basedn: ""
 netbox_ldap_group_search_class: "group"
 netbox_ldap_group_search_basedn: ""
 
+netbox_ldap_group_type: "GroupOfNamesType"
+netbox_ldap_mirror_groups: false
+netbox_ldap_find_group_perms: true
+
 netbox_metrics: "True"
 
 netbox_initializers:
