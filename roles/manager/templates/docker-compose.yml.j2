@@ -167,6 +167,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
       - "traefik.http.services.ara-server.loadbalancer.server.port=8000"
+      - "traefik.http.middlewares.ara-server-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.ara-server-replace-prefix.replacepathregex.regex=^/{{ ara_server_traefik_path_prefix }}(/.*)"
       - "traefik.http.middlewares.ara-server-replace-prefix.replacepathregex.replacement=$$1"
       - "traefik.http.routers.ara-server.entrypoints=http"
@@ -175,7 +176,7 @@ services:
 {% else %}
       - "traefik.http.routers.ara-server.rule=PathPrefix(`/{{ ara_server_traefik_path_prefix }}/`)"
 {% endif %}
-      - "traefik.http.routers.ara-server.middlewares=ara-server-replace-prefix@docker"
+      - "traefik.http.routers.ara-server.middlewares=ara-server-redirect-to-https@docker, ara-server-replace-prefix@docker"
       - "traefik.http.routers.ara-server-secure.entrypoints=https"
       - "traefik.http.routers.ara-server-secure.tls=true"
 {% if ara_server_traefik_host|length > 0 %}
