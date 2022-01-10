@@ -13,6 +13,7 @@ galaxy_info:
         - focal
 
   galaxy_tags:
+    - osism
     - system
 
 dependencies: []
