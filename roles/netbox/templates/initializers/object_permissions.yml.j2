@@ -1,6 +1,6 @@
 read_write_all:
   enabled: true
-  description: 'Read/Write for All Objects'
+  description: 'Read/Write/View all objects'
   object_types: all
   actions:
     - add
@@ -9,3 +9,11 @@ read_write_all:
     - view
   groups:
     - writers
+view_all:
+  enabled: true
+  description: 'View all objects'
+  object_types: all
+  actions:
+    - view
+  groups:
+    - viewers
