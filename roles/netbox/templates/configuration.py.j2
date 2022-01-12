@@ -220,3 +220,10 @@ TIME_FORMAT = os.environ.get('TIME_FORMAT', 'g:i a')
 SHORT_TIME_FORMAT = os.environ.get('SHORT_TIME_FORMAT', 'H:i:s')
 DATETIME_FORMAT = os.environ.get('DATETIME_FORMAT', 'N j, Y g:i a')
 SHORT_DATETIME_FORMAT = os.environ.get('SHORT_DATETIME_FORMAT', 'Y-m-d H:i')
+
+# Remote authentication support
+REMOTE_AUTH_ENABLED = os.environ.get('REMOTE_AUTH_ENABLED', 'False').lower() == 'true'
+REMOTE_AUTH_BACKEND = os.environ.get('REMOTE_AUTH_BACKEND', 'netbox.authentication.LDAPBackend')
+REMOTE_AUTH_HEADER = os.environ.get('REMOTE_AUTH_HEADER', 'HTTP_REMOTE_USER')
+REMOTE_AUTH_AUTO_CREATE_USER = os.environ.get('REMOTE_AUTH_AUTO_CREATE_USER', 'True').lower() == 'true'
+REMOTE_AUTH_DEFAULT_GROUPS = list(filter(None, os.environ.get('REMOTE_AUTH_DEFAULT_GROUPS', '').split(' ')))
