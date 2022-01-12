@@ -13,7 +13,7 @@ docker_network_mtu: 1500
 docker_registry_virtualbmc: quay.io
 
 ##########################
-# rundeck
+# virtualbmc
 
 virtualbmc_configuration_directory: /opt/virtualbmc/configuration
 virtualbmc_docker_compose_directory: /opt/virtualbmc

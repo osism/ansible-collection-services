@@ -1,0 +1,16 @@
+---
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ dnsdist_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart dnsdist service
+
+- name: Start/enable dnsdist service
+  become: true
+  ansible.builtin.service:
+    name: "{{ dnsdist_service_name }}"
+    state: started
+    enabled: true

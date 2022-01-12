@@ -1,0 +1,25 @@
+---
+version: '3.5'
+
+services:
+  dnsdist:
+    image: "{{ dnsdist_image }}"
+    container_name: "{{ dnsdist_container_name }}"
+    restart: unless-stopped
+    command: ["--disable-syslog", "--uid", "dnsdist", "--gid", "dnsdist", "--verbose", "--supervised"]
+    ports:
+      - "{{ dnsdist_host }}:{{ dnsdist_port }}:53"
+      - "{{ dnsdist_host }}:{{ dnsdist_port }}:53/udp"
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "{{ dnsdist_configuration_directory }}/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ dnsdist_network }}
