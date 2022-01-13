@@ -150,6 +150,5 @@ netbox_init_groups:
   netbox-readers:
     users: []
 
-netbox_init_users:
-  "{{ netbox_user_name }}":
-    api_token: "{{ netbox_user_api_token }}"
+netbox_init_users_template: "{'{{ netbox_user_name }}': {'api_token': '{{ netbox_user_api_token }}'}}"
+netbox_init_users: "{{ netbox_init_users_template }}"
