@@ -1,3 +1,2 @@
 ---
-{{ netbox_user_name }}:
-  api_token: "{{ netbox_user_api_token }}"
+{{ netbox_init_users | to_nice_yaml(indent=2) }}
