@@ -118,3 +118,38 @@ netbox_traefik_host: ""
 
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
+
+##############
+# initializers
+
+netbox_init_object_permissions:
+  read_write_all:
+    enabled: true
+    description: 'Read/Write all objects'
+    object_types: all
+    actions:
+      - add
+      - change
+      - delete
+      - view
+    groups:
+      - netbox-writers
+  read_all:
+    enabled: true
+    description: 'Read all objects'
+    object_types: all
+    actions:
+      - view
+    groups:
+      - netbox-readers
+
+netbox_init_groups:
+  netbox-writers:
+    users:
+      - "{{ netbox_user_name }}"
+  netbox-readers:
+    users: []
+
+netbox_init_users:
+  "{{ netbox_user_name }}":
+    api_token: "{{ netbox_user_api_token }}"

@@ -1,19 +1,2 @@
-read_write_all:
-  enabled: true
-  description: 'Read/Write/View all objects'
-  object_types: all
-  actions:
-    - add
-    - change
-    - delete
-    - view
-  groups:
-    - writers
-view_all:
-  enabled: true
-  description: 'View all objects'
-  object_types: all
-  actions:
-    - view
-  groups:
-    - viewers
+---
+{{ netbox_init_object_permissions | to_nice_yaml(indent=2) }}
