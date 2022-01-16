@@ -36,6 +36,7 @@ cache_directory: /opt/ansible/cache
 configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs
 secrets_directory: /opt/ansible/secrets
+state_directory: /opt/state
 
 manager_docker_compose_directory: /opt/manager
 manager_configuration_directory: /opt/manager/configuration
