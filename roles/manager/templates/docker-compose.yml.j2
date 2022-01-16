@@ -94,6 +94,7 @@ services:
     command: osism worker netbox
     volumes:
       - "{{ configuration_directory }}/netbox:/netbox:ro"
+      - "{{ state_directory }}/netbox:/state:rw"
     secrets:
       - NETBOX_TOKEN
     env_file:

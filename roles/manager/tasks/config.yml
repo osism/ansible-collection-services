@@ -10,10 +10,11 @@
   loop:
     - "{{ ansible_directory }}"
     - "{{ archive_directory }}"
-    - "{{ secrets_directory }}"
-    - "{{ manager_docker_compose_directory }}"
     - "{{ manager_configuration_directory }}"
+    - "{{ manager_docker_compose_directory }}"
     - "{{ manager_secrets_directory }}"
+    - "{{ secrets_directory }}"
+    - "{{ state_directory }}"
 
 - name: Include ara config tasks
   ansible.builtin.include_tasks: config-ara.yml
