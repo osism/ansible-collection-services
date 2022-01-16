@@ -56,6 +56,7 @@ services:
       - "share:/share"
       - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ state_directory }}/netbox:/state:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
