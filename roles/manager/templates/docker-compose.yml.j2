@@ -8,6 +8,7 @@ services:
     tmpfs:
       - /inventory.pre:uid=45000,gid=45000
     volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
@@ -48,9 +49,10 @@ services:
       - CELERY=0
 {% endif %}
     volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/etc/timezone:/etc/timezone:ro"
       - "cache:{{ cache_directory }}"
       - "logs:{{ logs_directory }}"
       - "share:/share"
@@ -94,6 +96,7 @@ services:
     image: "{{ osism_netbox_image }}"
     command: osism worker netbox
     volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ configuration_directory }}/netbox:/netbox:ro"
       - "{{ state_directory }}/netbox:/state:rw"
     secrets:
