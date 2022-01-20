@@ -18,3 +18,13 @@ configuration_template:
   weight: 0
   on_objects:
     - dcim.models.Device
+
+deployment_playbook:
+  type: text
+  label: Deployment playbook
+  default: ""
+  description: Deploy playbook for a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
