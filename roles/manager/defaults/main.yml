@@ -292,7 +292,7 @@ vault_key_shares_path: "{{ manager_secrets_directory }}/vault_key_shares.yml"
 ##########################
 # wrapper
 
-wrapper_scripts:
+manager_wrapper_scripts:
   - osism
   - osism-ansible
   - osism-awx

@@ -7,4 +7,4 @@
     mode: 0755
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  loop: "{{ wrapper_scripts }}"
+  loop: "{{ manager_wrapper_scripts }}"
