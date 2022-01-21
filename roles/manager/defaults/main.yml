@@ -311,6 +311,11 @@ wrapper_scripts:
   - osism-update-manager
   - osism-validate
 
+##########################
+# environment
+
+manager_environment_extra: {}
+#   REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
 
 ##########################
 # traefik
