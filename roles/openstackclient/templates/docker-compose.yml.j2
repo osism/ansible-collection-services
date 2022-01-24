@@ -11,6 +11,7 @@ services:
       - "{{ openstackclient_configuration_directory }}:/configuration:ro"
       - "{{ openstackclient_data_directory }}:/data:ro"
       - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
 
 networks:
   default:
