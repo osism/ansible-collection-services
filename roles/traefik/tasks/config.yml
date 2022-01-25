@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -13,7 +13,7 @@
     - "{{ traefik_configuration_directory }}"
 
 - name: Copy configuration files
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "{{ traefik_configuration_directory }}/{{ item }}"
     mode: 0644
@@ -25,7 +25,7 @@
     - certificates.yml
 
 - name: Copy certificate cert files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.value.cert }}"
     dest: "{{ traefik_certificates_directory }}/{{ item.key }}.cert"
     mode: 0644
@@ -34,7 +34,7 @@
   loop: "{{ traefik_certificates | dict2items }}"
 
 - name: Copy certificate key files
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.value.key }}"
     dest: "{{ traefik_certificates_directory }}/{{ item.key }}.key"
     mode: 0644

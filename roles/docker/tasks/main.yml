@@ -5,29 +5,29 @@
   when: ansible_os_family != "Debian"
 
 - name: Include storage tasks
-  ansible.builtin.include: storage.yml
+  ansible.builtin.include_tasks: storage.yml
   when: docker_configure_storage_block_device|bool
 
 - name: Include kata install tasks
-  ansible.builtin.include: "install-kata-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-kata-{{ ansible_os_family }}.yml"
   when: docker_kata_install|bool
 
 - name: Include docker install tasks
-  ansible.builtin.include: "install-docker-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-docker-{{ ansible_os_family }}.yml"
 
 - name: Include config tasks
-  ansible.builtin.include: config.yml
+  ansible.builtin.include_tasks: config.yml
 
 - name: Include open policy agent install tasks
-  ansible.builtin.include: install-open-policy-agent.yml
+  ansible.builtin.include_tasks: install-open-policy-agent.yml
   when: docker_policies|bool
 
 - name: Include docker-compose cli plugin install tasks
-  ansible.builtin.include: install-docker-compose.yml
+  ansible.builtin.include_tasks: install-docker-compose.yml
   when: docker_compose_plugin|bool
 
 - name: Include service tasks
-  ansible.builtin.include: service.yml
+  ansible.builtin.include_tasks: service.yml
 
 - name: Include bootstrap tasks
-  ansible.builtin.include: bootstrap.yml
+  ansible.builtin.include_tasks: bootstrap.yml

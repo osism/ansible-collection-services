@@ -6,7 +6,7 @@
       - subnet: "{{ traefik_external_network_cidr }}"
 
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ traefik_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -16,7 +16,7 @@
 
 - name: Start/enable traefik service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ traefik_service_name }}"
     state: started
     enabled: true

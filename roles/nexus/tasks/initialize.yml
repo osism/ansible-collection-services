@@ -11,7 +11,7 @@
   no_log: true
 
 - name: Set setup admin password
-  set_fact:
+  ansible.builtin.set_fact:
     current_nexus_admin_password: "{{ result.stdout }}"
   no_log: true
 
@@ -22,18 +22,18 @@
   loop: "{{ nexus_provision_scripts }}"
 
 - name: Provision scripts included in this ansible role
-  include_tasks: declare-script.yml
+  ansible.builtin.include_tasks: declare-script.yml
   loop: "{{ nexus_provision_groovy_scripts }}"
 
 - name: Set admin password
-  ansible.builtin.include: call-script.yml
+  ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: update_admin_password
     args:
       new_password: "{{ nexus_admin_password }}"
 
 - name: Set new admin password
-  set_fact:
+  ansible.builtin.set_fact:
     current_nexus_admin_password: "{{ nexus_admin_password }}"
   no_log: true
 
@@ -48,7 +48,7 @@
     command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/run.sh cleanup'"
 
 - name: Setup http proxy
-  ansible.builtin.include: call-script.yml
+  ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: setup_http_proxy
     args:
@@ -65,7 +65,7 @@
       proxy_exclude_hosts: "{{ nexus_proxy_exclude_hosts }}"
 
 - name: Setup realms
-  ansible.builtin.include: call-script.yml
+  ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: setup_realms
     args:
@@ -74,7 +74,7 @@
 - name: Process definitions for docker
   block:
     - name: Apply defaults to docker proxy repos
-      set_fact:
+      ansible.builtin.set_fact:
         nexus_repos_docker_proxy: >-
           {%- set result=[] -%}
           {%- for repo in nexus_repos_docker_proxy -%}
@@ -83,7 +83,7 @@
           {{ result | to_json | from_json }}
 
     - name: Add docker repositories to global repos list
-      set_fact:
+      ansible.builtin.set_fact:
         _nexus_repos_global_list: >-
           {{
             _nexus_repos_global_list | default([])
@@ -94,7 +94,7 @@
 - name: Process definitions for apt repositories
   block:
     - name: Apply defaults to apt proxy repos
-      set_fact:
+      ansible.builtin.set_fact:
         nexus_repos_apt_proxy: >-
           {%- set result=[] -%}
           {%- for repo in nexus_repos_apt_proxy -%}
@@ -102,7 +102,7 @@
           {%- endfor -%}
           {{ result | to_json | from_json }}
     - name: Add apt repositories to global repos list
-      set_fact:
+      ansible.builtin.set_fact:
         _nexus_repos_global_list: >-
           {{
             _nexus_repos_global_list | default([])
@@ -111,7 +111,7 @@
           }}
 
 - name: Create configured repositories
-  include_tasks: call-script.yml
+  ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: create_repos_from_list
     args: "{{ _nexus_repos_global_list }}"
