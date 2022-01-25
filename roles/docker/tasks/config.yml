@@ -1,6 +1,6 @@
 ---
 - name: Include zun config tasks
-  ansible.builtin.include: config-zun.yml
+  ansible.builtin.include_tasks: config-zun.yml
   when:
     - docker_zun|bool
     - "'zun-compute' in group_names"

@@ -14,7 +14,7 @@
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Setup cockpit server
-  ansible.builtin.include: server.yml
+  ansible.builtin.include_tasks: server.yml
   when:
     - configure_cockpit_server|bool
     - cockpit_groupname_server in group_names

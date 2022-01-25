@@ -1,11 +1,11 @@
 ---
 - name: Set nexus url
-  set_fact:
+  ansible.builtin.set_fact:
     declare_script_nexus_url: "https://{{ traefik_host }}:{{ traefik_port_https }}/{{ nexus_traefik_path_prefix }}/service/rest/v1"
   when: nexus_traefik|bool
 
 - name: Set nexus url
-  set_fact:
+  ansible.builtin.set_fact:
     declare_script_nexus_url: "http://{{ nexus_host }}:{{ nexus_port }}/service/rest/v1"
   when: not nexus_traefik|bool
 

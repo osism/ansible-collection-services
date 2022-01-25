@@ -1,6 +1,6 @@
 ---
 - name: Include install tasks
-  ansible.builtin.include: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
   tags: install
 
 - name: Include config tasks
@@ -12,5 +12,5 @@
   tags: service
 
 - name: Include initialize tasks
-  ansible.builtin.include: initialize.yml
+  ansible.builtin.include_tasks: initialize.yml
   tags: initialize

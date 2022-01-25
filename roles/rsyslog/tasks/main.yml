@@ -20,6 +20,6 @@
     enabled: true
 
 - name: Include fluentd tasks
-  ansible.builtin.include: fluentd.yml
+  ansible.builtin.include_tasks: fluentd.yml
   tags: fluentd
   when: rsyslog_fluentd|bool
