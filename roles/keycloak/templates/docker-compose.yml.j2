@@ -4,7 +4,11 @@ version: '3.5'
 services:
   keycloak:
     container_name: "{{ keycloak_container_name }}"
+{% if not keycloak_traefik|bool %}
     image: "{{ keycloak_image }}"
+{% else %}
+    image: "{{ keycloak_for_traefik_image }}"
+{% endif %}
     restart: unless-stopped
     env_file:
       - "{{ keycloak_configuration_directory }}/keycloak.env"
@@ -12,8 +16,33 @@ services:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+{% if not keycloak_traefik|bool %}
     ports:
       - "{{ keycloak_host }}:{{ keycloak_port }}:8080"
+{% else %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.keycloak-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.keycloak.entrypoints=http"
+{% if keycloak_traefik_host|length > 0 %}
+      - "traefik.http.routers.keycloak.rule=Host(`{{ keycloak_traefik_host }}`) && PathPrefix(`/{{ keycloak_traefik_path_prefix }}/`)"
+{% else %}
+      - "traefik.http.routers.keycloak.rule=PathPrefix(`/{{ keycloak_traefik_path_prefix }}/`)"
+{% endif %}
+      - "traefik.http.routers.keycloak.middlewares=keycloak-redirect-to-https@docker"
+      - "traefik.http.routers.keycloak-secure.entrypoints=https"
+      - "traefik.http.routers.keycloak-secure.tls=true"
+{% if keycloak_traefik_host|length > 0 %}
+      - "traefik.http.routers.keycloak-secure.rule=Host(`{{ keycloak_traefik_host }}`) && PathPrefix(`/{{ keycloak_traefik_path_prefix }}/`)"
+{% else %}
+      - "traefik.http.routers.keycloak-secure.rule=PathPrefix(`/{{ keycloak_traefik_path_prefix }}/`)"
+{% endif %}
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
     depends_on:
       - postgres
 {% if not keycloak_galera_backend_enable |bool %}
@@ -47,3 +76,7 @@ networks:
       driver: default
       config:
         - subnet:  {{ keycloak_network }}
+{% if keycloak_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}
