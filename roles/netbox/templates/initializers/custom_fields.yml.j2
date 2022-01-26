@@ -1,4 +1,14 @@
 ---
+device_type:
+  type: text
+  label: Device type
+  default: ""
+  description: Type of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
 device_state:
   type: text
   label: Device state
@@ -14,6 +24,16 @@ configuration_template:
   label: Configuration template
   default: ""
   description: Configuration template of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+deployment_type:
+  type: text
+  label: Deployment type
+  default: ""
+  description: Deployment type for a device
   required: false
   weight: 0
   on_objects:
