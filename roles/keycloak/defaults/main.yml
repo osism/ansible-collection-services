@@ -29,6 +29,7 @@ keycloak_port: 8170
 
 keycloak_tag: latest
 keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
+keycloak_for_traefik_image: "{{ docker_registry_keycloak }}/osism/keycloak:{{ keycloak_tag }}"
 
 keycloak_username: admin
 keycloak_password: password
@@ -48,3 +49,14 @@ keycloak_postgres_databasename: keycloak
 
 keycloak_galera_backend_enable: false
 keycloak_use_preconfigured_databases: false
+
+##########################
+# traefik
+
+keycloak_traefik: false
+
+keycloak_traefik_path_prefix: keycloak
+keycloak_traefik_host: ""
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
