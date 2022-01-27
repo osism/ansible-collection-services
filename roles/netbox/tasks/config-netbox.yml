@@ -31,6 +31,7 @@
   loop:
     - configuration.py
     - nginx-unit.json
+  notify: Restart netbox service
 
 - name: Copy secret files
   ansible.builtin.copy:
@@ -56,6 +57,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop: "{{ netbox_initializers }}"
+  notify: Restart netbox service
 
 # NOTE: Workaround until scripts are available upstream
 - name: Deploy startup scripts for netbox
