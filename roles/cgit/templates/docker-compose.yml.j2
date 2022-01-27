@@ -1,0 +1,56 @@
+---
+version: '3'
+
+services:
+  cgit:
+    container_name: cgit
+    restart: unless-stopped
+    image: "{{ cgit_image }}"
+{% if not cgit_traefik|bool %}
+    ports:
+      - "{{ cgit_host }}:{{ cgit_port }}:80"
+{% endif %}
+    volumes:
+      - "{{ cgit_configuration_directory }}/cgitrc:/etc/cgitrc:ro"
+      - "{{ cgit_configuration_directory }}/httpd-cgit.conf:/etc/httpd/conf.d/httpd-cgit.conf:ro"
+{% for name, path in cgit_repositories.items() %}
+      - "{{ path }}:/repositories/{{ name }}:ro"
+{% endfor %}
+{% if cgit_traefik|bool %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.services.cgit.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.cgit-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.cgit.entrypoints=http"
+{% if cgit_traefik_host|length > 0 %}
+      - "traefik.http.routers.cgit.rule=Host(`{{ cgit_traefik_host }}`) && PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
+{% else %}
+      - "traefik.http.routers.cgit.rule=PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
+{% endif %}
+      - "traefik.http.routers.cgit.middlewares=cgit-redirect-to-https@docker"
+      - "traefik.http.routers.cgit-secure.entrypoints=https"
+      - "traefik.http.routers.cgit-secure.tls=true"
+{% if cgit_traefik_host|length > 0 %}
+      - "traefik.http.routers.cgit-secure.rule=Host(`{{ cgit_traefik_host }}`) && PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
+{% else %}
+      - "traefik.http.routers.cgit-secure.rule=PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
+{% endif %}
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ cgit_network }}
+{% if cgit_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}

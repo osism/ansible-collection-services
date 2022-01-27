@@ -8,6 +8,7 @@ The following Ansible roles are included in this collection.
 | auditd                   | ![Test role auditd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20auditd/badge.svg)       |
 | bird                     |                                                                                                                          |
 | cephclient               |                                                                                                                          |
+| cgit                     |                                                                                                                          |
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg)       |
 | clamav                   | ![Test role clamav](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20clamav/badge.svg)       |
 | cockpit                  | ![Test role cockpit](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20cockpit/badge.svg)     |
