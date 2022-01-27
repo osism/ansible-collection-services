@@ -27,7 +27,7 @@ services:
     secrets:
       - NETBOX_TOKEN
     env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
   osism-ansible: &ansible
     restart: unless-stopped
@@ -63,6 +63,8 @@ services:
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
 {% if enable_netbox|bool %}
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
     secrets:
       - NETBOX_TOKEN
 {% endif %}
@@ -102,7 +104,7 @@ services:
     secrets:
       - NETBOX_TOKEN
     env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
   watchdog:
     restart: unless-stopped
@@ -118,6 +120,12 @@ services:
       - "{{ osism_api_host }}:{{ osism_api_port }}:8000"
     healthcheck:
       test: pgrep uvicorn
+{% if enable_netbox|bool %}
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
