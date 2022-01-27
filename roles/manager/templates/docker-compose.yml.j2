@@ -34,6 +34,9 @@ services:
     image: "{{ osism_ansible_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
+{% if enable_netbox|bool %}
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
 {% if enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
@@ -63,8 +66,6 @@ services:
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
 {% if enable_netbox|bool %}
-    env_file:
-      - "{{ manager_configuration_directory }}/netbox.env"
     secrets:
       - NETBOX_TOKEN
 {% endif %}
