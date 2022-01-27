@@ -1,0 +1,24 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  loop:
+    - "{{ cgit_docker_compose_directory }}"
+    - "{{ cgit_configuration_directory }}"
+
+- name: Copy configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ cgit_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - cgitrc
+    - httpd-cgit.conf
+  notify: Restart cgit service

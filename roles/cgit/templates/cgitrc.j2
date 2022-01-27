@@ -1,0 +1,18 @@
+cache-scanrc-ttl=1
+
+{% if cgit_traefik|bool %}
+css=/cgit/cgit-data/cgit.css
+logo=/cgit/cgit-data/cgit.png
+favicon=/cgit/cgit-data/favicon.ico
+{% else %}
+css=/cgit-data/cgit.css
+logo=/cgit-data/cgit.png
+favicon=/cgit-data/favicon.ico
+{% endif %}
+
+{% for repository in cgit_repositories %}
+# repository: {{ repository }}
+repo.url={{ repository }}
+repo.path=/repositories/{{ repository }}
+repo.desc={{ repository }}
+{% endfor %}

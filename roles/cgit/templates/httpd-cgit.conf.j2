@@ -1,0 +1,35 @@
+# set server name to start httpd from docker
+ServerName cgit
+
+DocumentRoot "/var/www"
+<Directory "/var/www">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+# cgid module is required to run the cgit binary
+LoadModule cgid_module lib/httpd/modules/mod_cgid.so
+<IfModule cgid_module>
+	ScriptSock /var/run/cgid.sock
+</IfModule>
+
+# Path to cgit stylesheet, graphics
+{% if cgit_traefik|bool %}
+Alias /cgit/cgit-data /usr/share/cgit
+{% else %}
+Alias /cgit-data /usr/share/cgit
+{% endif %}
+<Directory "/usr/share/cgit">
+    AllowOverride None
+    Options None
+    Require all granted
+</Directory>
+
+# Path to cgit binary
+ScriptAlias /cgit /usr/libexec/cgit/cgi-bin/cgit
+<Directory "/usr/libexec/cgit/cgi-bin">
+    AllowOverride None
+    Options None
+    Require all granted
+</Directory>
