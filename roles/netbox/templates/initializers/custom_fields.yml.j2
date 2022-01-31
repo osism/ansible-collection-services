@@ -1,9 +1,9 @@
 ---
-device_type:
+configuration_template:
   type: text
-  label: Device type
+  label: Configuration template
   default: ""
-  description: Type of a device
+  description: Configuration template of a device
   required: false
   weight: 0
   on_objects:
@@ -19,21 +19,21 @@ device_state:
   on_objects:
     - dcim.models.Device
 
-configuration_template:
+device_transition:
   type: text
-  label: Configuration template
-  default: ""
-  description: Configuration template of a device
+  label: Device transition
+  default: "0"
+  description: Action/transition just performed
   required: false
   weight: 0
   on_objects:
     - dcim.models.Device
 
-deployment_type:
+device_type:
   type: text
-  label: Deployment type
+  label: Device type
   default: ""
-  description: Deployment type for a device
+  description: Type of a device
   required: false
   weight: 0
   on_objects:
@@ -44,6 +44,16 @@ deployment_parameters:
   label: Deployment parameters
   default: ""
   description: Extra parameters for the deployment
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+deployment_type:
+  type: text
+  label: Deployment type
+  default: ""
+  description: Deployment type for a device
   required: false
   weight: 0
   on_objects:
