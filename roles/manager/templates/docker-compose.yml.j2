@@ -133,11 +133,23 @@ services:
     command: osism beat
     healthcheck:
       test: pgrep celery
+{% if enable_netbox|bool %}
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
   osismclient:
     container_name: osismclient
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: sleep infinity
+{% if enable_netbox|bool %}
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
