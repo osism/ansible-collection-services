@@ -58,3 +58,33 @@ deployment_type:
   weight: 0
   on_objects:
     - dcim.models.Device
+
+maintenance:
+  type: boolean
+  label: Maintenance
+  default: false
+  description: Maintenance
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+provisioning_state:
+  type: text
+  label: Provisioning state
+  default: ""
+  description: Provisioning state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+power_state:
+  type: text
+  label: Power state
+  default: ""
+  description: Power state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
