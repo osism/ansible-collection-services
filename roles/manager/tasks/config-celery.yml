@@ -8,3 +8,13 @@
     sysctl_set: true
     state: present
     reload: true
+
+- name: Copy celery configuration files
+  ansible.builtin.template:
+    src: "celery/{{ item }}.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - listener.conf

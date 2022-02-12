@@ -106,6 +106,12 @@ services:
       - NETBOX_TOKEN
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
+  listener:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism service listener
+    volumes:
+      - "{{ manager_configuration_directory }}/listener.conf:/etc/listener.conf:ro"
 {% endif %}
   watchdog:
     restart: unless-stopped
