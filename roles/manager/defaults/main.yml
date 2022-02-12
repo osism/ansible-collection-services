@@ -318,6 +318,13 @@ manager_environment_extra: {}
 #   REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
 
 ##########################
+# listener
+
+manager_listener_transport_url: "rabbit://openstack:password@127.0.0.1:5672/"
+manager_listener_driver: messagingv2
+manager_listener_topics: notifications
+
+##########################
 # traefik
 
 traefik_external_network_name: traefik
