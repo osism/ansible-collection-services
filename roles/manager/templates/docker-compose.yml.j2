@@ -110,7 +110,7 @@ services:
   watchdog:
     restart: unless-stopped
     image: "{{ osism_image }}"
-    command: osism watchdog
+    command: osism service watchdog
     volumes:
       - "{{ configuration_directory }}:/opt/configuration:ro"
   api:
@@ -130,7 +130,7 @@ services:
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
-    command: osism beat
+    command: osism service beat
     healthcheck:
       test: pgrep celery
 {% if enable_netbox|bool %}
@@ -153,7 +153,7 @@ services:
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
-    command: osism flower
+    command: osism service flower
     ports:
       - "{{ flower_host }}:{{ flower_port }}:5555"
     healthcheck:
