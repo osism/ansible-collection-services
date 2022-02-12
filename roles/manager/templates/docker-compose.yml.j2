@@ -110,8 +110,8 @@ services:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism service listener
-    volumes:
-      - "{{ manager_configuration_directory }}/listener.conf:/etc/listener.conf:ro"
+    env_file:
+      - "{{ manager_configuration_directory }}/listener.env"
 {% endif %}
   watchdog:
     restart: unless-stopped

@@ -320,9 +320,7 @@ manager_environment_extra: {}
 ##########################
 # listener
 
-manager_listener_transport_url: "rabbit://openstack:password@127.0.0.1:5672/"
-manager_listener_driver: messagingv2
-manager_listener_topics: notifications
+manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
 
 ##########################
 # traefik

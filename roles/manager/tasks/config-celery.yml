@@ -9,12 +9,12 @@
     state: present
     reload: true
 
-- name: Copy celery configuration files
+- name: Copy celery environment files
   ansible.builtin.template:
-    src: "celery/{{ item }}.j2"
-    dest: "{{ manager_configuration_directory }}/{{ item }}"
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
-    - listener.conf
+    - listener
