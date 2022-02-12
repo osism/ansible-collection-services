@@ -110,8 +110,11 @@ services:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism service listener
+    secrets:
+      - NETBOX_TOKEN
     env_file:
       - "{{ manager_configuration_directory }}/listener.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
   watchdog:
     restart: unless-stopped
