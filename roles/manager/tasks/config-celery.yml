@@ -18,3 +18,4 @@
     group: "{{ operator_group }}"
   loop:
     - listener
+    - openstack
