@@ -323,6 +323,16 @@ manager_environment_extra: {}
 manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
 
 ##########################
+# openstack
+
+manager_openstack_os_project_domain_name: Default
+manager_openstack_os_user_domain_name: Default
+manager_openstack_os_project_name: admin
+manager_openstack_os_username: admin
+manager_openstack_os_password: password
+manager_openstack_os_auth_url: http://localhost:5000/v3
+
+##########################
 # traefik
 
 traefik_external_network_name: traefik
