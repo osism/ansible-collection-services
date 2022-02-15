@@ -23,7 +23,7 @@ docker_network_mtu: 1500
 ##########################
 # generic
 
-manager_network: 172.31.101.0/28
+manager_network: 172.31.101.0/27
 
 manager_service_name: "docker-compose@manager"
 
