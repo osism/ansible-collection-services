@@ -59,6 +59,16 @@ deployment_type:
   on_objects:
     - dcim.models.Device
 
+deployment_state:
+  type: text
+  label: Deployment state
+  default: ""
+  description: Deployment state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
 maintenance:
   type: boolean
   label: Maintenance
