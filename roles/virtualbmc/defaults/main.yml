@@ -18,7 +18,7 @@ docker_registry_virtualbmc: quay.io
 virtualbmc_configuration_directory: /opt/virtualbmc/configuration
 virtualbmc_docker_compose_directory: /opt/virtualbmc
 
-virtualbmc_network: 172.31.101.16/28
+virtualbmc_network: 172.31.101.128/28
 virtualbmc_service_name: "docker-compose@virtualbmc"
 
 virtualbmc_host: 127.0.0.1
