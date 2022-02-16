@@ -118,3 +118,13 @@ network_interface_name:
   weight: 0
   on_objects:
     - dcim.models.Interface
+
+ironic_state:
+  type: text
+  label: Ironic state
+  default: unregistered
+  description: Is the device available in Ironic
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
