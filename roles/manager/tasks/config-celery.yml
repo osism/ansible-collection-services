@@ -17,5 +17,31 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
+    - conductor
     - listener
     - openstack
+
+- name: Check for conductor.yml
+  delegate_to: localhost
+  stat:
+    path: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+  register: result
+
+- name: Copy conductor configuration file
+  ansible.builtin.copy:
+    src: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+    dest: "{{ manager_configuration_directory }}/conductor.yml"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: result.stat.exists
+
+- name: Copy empty conductor configuration file
+  ansible.builtin.copy:
+    content: |
+      ---
+    dest: "{{ manager_configuration_directory }}/conductor.yml"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: not result.stat.exists
