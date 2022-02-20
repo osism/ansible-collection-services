@@ -118,6 +118,7 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/conductor.env"
       - "{{ manager_configuration_directory }}/netbox.env"
+      - "{{ manager_configuration_directory }}/openstack.env"
   listener:
     restart: unless-stopped
     image: "{{ osism_image }}"
