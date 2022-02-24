@@ -1,4 +1,24 @@
 ---
+deployment_enabled:
+  type: boolean
+  label: Deployment enabled
+  default: false
+  description: Deployment enabled
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+ironic_enabled:
+  type: boolean
+  label: Ironic enabled
+  default: false
+  description: Ironic enabled
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
 configuration_template:
   type: text
   label: Configuration template
