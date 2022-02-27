@@ -7,7 +7,3 @@
   when:
     - enable_vault|bool
     - not ansible_local.osism.vault.status|default("False")|bool
-
-- name: Include awx initialize tasks
-  ansible.builtin.include_tasks: initialize-awx.yml
-  when: enable_awx|bool

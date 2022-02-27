@@ -265,89 +265,6 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% endif %}
-{% if enable_awx|bool %}
-  receptor:
-    image: "{{ receptor_image }}"
-    command: receptor --config /etc/receptor/receptor.conf
-    restart: unless-stopped
-    depends_on:
-      - awx
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
-      - "receptor:/var/run/receptor"
-  awxclient:
-    container_name: "{{ awxclient_container_name }}"
-    image: "{{ awxclient_image }}"
-    command: sleep infinity
-    restart: unless-stopped
-    depends_on:
-      - awx
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-    env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
-      - "{{ manager_configuration_directory }}/awxclient.env"
-{% if enable_ara|bool %}
-      - "{{ manager_configuration_directory }}/ara.env"
-{% endif %}
-    secrets:
-      - TOWER_PASSWORD
-      - TOWER_USERNAME
-  awx:
-    image: "{{ awx_image }}"
-    restart: unless-stopped
-    hostname: awx
-    user: root
-    depends_on:
-      - postgres
-      - redis
-{% if enable_vault|bool %}
-      - vault
-{% endif %}
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ manager_configuration_directory }}/create-admin-user.sh:/usr/local/bin/create-admin-user.sh"
-      - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
-      - "{{ manager_configuration_directory }}/nginx.conf:/etc/nginx/nginx.conf:ro"
-      - "{{ manager_configuration_directory }}/provision-instance.sh:/usr/local/bin/provision-instance.sh"
-      - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
-      - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
-      - "{{ manager_configuration_directory }}/supervisord.conf:/etc/supervisord.conf"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
-      - "{{ secrets_directory }}:/ansible/secrets:ro"
-      - "inventory_reconciler:/inventory:ro"
-      - "interface:/interface"
-      - "awx_configuration:/configuration"
-      - "awx_logs:/ansible/logs"
-      - "receptor:/var/run/receptor"
-      - "awx_share:/share"
-    env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
-      - "{{ manager_configuration_directory }}/awx.env"
-{% if enable_ara|bool %}
-      - "{{ manager_configuration_directory }}/ara.env"
-{% endif %}
-    privileged: true
-    security_opt:
-      - apparmor:unconfined
-    secrets:
-{% if enable_netbox|bool %}
-      - NETBOX_TOKEN
-{% endif %}
-      - TOWER_SECRET_KEY
-    ports:
-      - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
-      - "{{ awx_server_host }}:{{ awx_broadcast_websocket_port }}:8013"
-    healthcheck:
-      test: curl --silent --fail http://localhost:8052/api/v2
-{% endif %}
 {% if enable_vault|bool %}
   vault:
     image: "{{ vault_image }}"
@@ -371,33 +288,10 @@ services:
       # 2 - sealed
       test: vault status -address http://127.0.0.1:8200
 {% endif %}
-{% if enable_postgres|bool %}
-  postgres:
-    image: "{{ postgres_image }}"
-    restart: unless-stopped
-    env_file:
-      - "{{ manager_configuration_directory }}/postgres.env"
-    volumes:
-      - "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
-      - postgres:/var/lib/postgresql/data
-    secrets:
-      - POSTGRES_PASSWORD
-    healthcheck:
-      test: pg_isready -U postgres
-{% endif %}
 
 volumes:
   inventory_reconciler:
   interface:
-{% if enable_postgres|bool %}
-  postgres:
-{% endif %}
-{% if enable_awx|bool %}
-  awx_configuration:
-  awx_logs:
-  awx_share:
-  receptor:
-{% endif %}
 {% if enable_vault|bool %}
   vault_file:
   vault_logs:
@@ -410,24 +304,10 @@ volumes:
   redis:
   share:
 
-{% if enable_postgres|bool or enable_awx|bool or enable_netbox|bool %}
-secrets:
-{% if enable_awx|bool %}
-  TOWER_PASSWORD:
-    file: {{ manager_secrets_directory }}/TOWER_PASSWORD
-  TOWER_USERNAME:
-    file: {{ manager_secrets_directory }}/TOWER_USERNAME
-  TOWER_SECRET_KEY:
-    file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
-{% endif %}
 {% if enable_netbox|bool %}
+secrets:
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
-{% endif %}
-{% if enable_postgres|bool %}
-  POSTGRES_PASSWORD:
-    file: {{ manager_secrets_directory }}/POSTGRES_PASSWORD
-{% endif %}
 {% endif %}
 
 networks:
