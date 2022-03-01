@@ -21,16 +21,6 @@
   tags: ara
   when: enable_ara|bool
 
-- name: Include postgres config tasks
-  ansible.builtin.include_tasks: config-postgres.yml
-  tags: postgres
-  when: enable_postgres|bool
-
-- name: Include awx config tasks
-  ansible.builtin.include_tasks: config-awx.yml
-  tags: awx
-  when: enable_awx|bool
-
 - name: Include vault config tasks
   ansible.builtin.include_tasks: config-vault.yml
   tags: vault

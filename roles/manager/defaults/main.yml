@@ -7,13 +7,10 @@ docker_registry_ansible: quay.io
 docker_registry_service: "{{ docker_registry }}"
 
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
-docker_registry_awx: "{{ docker_registry_ansible }}"
-docker_registry_awxclient: "{{ docker_registry_ansible }}"
 docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
 docker_registry_osism: "{{ docker_registry_ansible }}"
 docker_registry_osism_netbox: "{{ docker_registry_ansible }}"
-docker_registry_postgres: "{{ docker_registry_service }}"
 docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
 docker_registry_vault: "{{ docker_registry_service }}"
@@ -180,17 +177,6 @@ mariadb_tag: 10.5
 mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
-# postgres
-
-enable_postgres: "{{ postgres_enable }}"
-postgres_enable: "{{ awx_enable|bool }}"
-
-postgres_tag: 14-alpine
-postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
-
-postgres_password: password
-
-##########################
 # celery
 
 enable_celery: "{{ celery_enable }}"
@@ -209,74 +195,12 @@ osism_api_host: "{{ ansible_default_ipv4.address }}"
 osism_api_port: 8000
 
 ##########################
-# awx
-
-enable_awx: "{{ awx_enable }}"
-awx_enable: false
-
-awx_mailaddress: "{{ operator_user }}@osism.test"
-awx_password: password
-awx_username: "{{ operator_user }}"
-
-awx_broadcast_websocket_secret: secret
-awx_secret_key: 22222222-2222-2222-2222-222222222222
-
-awx_server_host: "{{ ansible_default_ipv4.address }}"
-awx_server_port: 8052
-
-awx_broadcast_websocket_port: 8013
-
-awx_tag: 19.4.0
-awx_image: "{{ docker_registry_awx }}/ansible/awx:{{ awx_tag }}"
-
-# receptor
-
-receptor_tag: devel
-receptor_image: "{{ docker_registry_receptor }}/ansible/receptor:{{ receptor_tag }}"
-
-# awxclient
-
-awxclient_container_name: awxclient
-
-awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
-
-awxclient_tag: 19.4.0
-awxclient_image: "{{ docker_registry_awxclient }}/osism/awxclient:{{ awxclient_tag }}"
-
-awx_group_queues: tower
-
-awx_configuration_defaults:
-  ANSIBLE_FACT_CACHE_TIMEOUT: 3600
-  AWX_REBUILD_SMART_MEMBERSHIP: true
-  BROADCAST_WEBSOCKET_PORT: 8013
-  BROADCAST_WEBSOCKET_PROTOCOL: http
-  BROADCAST_WEBSOCKET_VERIFY_CERT: false
-  DEBUG: false
-  PROJECTS_ROOT: /interface
-  USE_X_FORWARDED_HOST: true
-  USE_X_FORWARDED_PORT: true
-
-# NOTE: See https://github.com/ansible/awx/blob/devel/awx/settings/defaults.py
-#       for all available configuration parameters.
-awx_configuration_extra: {}
-
-awx_configuration: "{{ awx_configuration_defaults|combine(awx_configuration_extra) }}"
-
-# postgres
-
-awx_postgres_username: awx
-awx_postgres_password: password
-awx_postgres_databasename: "{{ awx_postgres_username }}"
-
 # vault
 
 vault_container_name: manager_vault_1
 
-# possible choices: [vault, ansible, none]
-awx_vault_type: ansible
-
 enable_vault: "{{ vault_enable }}"
-vault_enable: "{{ awx_vault_type == 'vault' }}"
+vault_enable: true
 
 vault_host: "{{ ansible_default_ipv4.address }}"
 vault_port: 8200
@@ -295,7 +219,6 @@ vault_key_shares_path: "{{ manager_secrets_directory }}/vault_key_shares.yml"
 manager_wrapper_scripts:
   - osism
   - osism-ansible
-  - osism-awx
   - osism-ceph
   - osism-custom
   - osism-generic
