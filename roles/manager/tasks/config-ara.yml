@@ -8,7 +8,6 @@
     group: "{{ operator_group }}"
   loop:
     - ara
-    - ara-server
 
 - name: Copy MariaDB environment file
   ansible.builtin.template:
@@ -18,3 +17,13 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   when: ara_server_database_type == "mysql"
+
+- name: Copy ARA configuration file
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - ara-server.yml

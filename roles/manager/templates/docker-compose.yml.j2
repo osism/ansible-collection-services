@@ -211,12 +211,12 @@ services:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
     env_file:
-      - "{{ manager_configuration_directory }}/ara-server.env"
       - "{{ manager_configuration_directory }}/ara.env"
     volumes:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - "{{ manager_configuration_directory }}/ara-server.yml:/var/lib/ara-server/ara-server.yml:ro"
 {% if not ara_server_traefik|bool %}
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:8000"

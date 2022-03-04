@@ -156,8 +156,7 @@ ara_server_traefik_host: ""
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
-ara_workers: 5
-ara_worker_class: sync
+ara_server_secret_key: SUPERSECRETKEY
 
 ara_server_tag: 1.5.4
 ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
