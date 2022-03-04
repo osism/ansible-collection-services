@@ -17,6 +17,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
       - "traefik.http.middlewares.homer-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.homer-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.homer.entrypoints=http"
       - "traefik.http.routers.homer.rule=Host(`{{ homer_host }}`)"
       - "traefik.http.routers.homer.middlewares=homer-redirect-to-https@docker"
