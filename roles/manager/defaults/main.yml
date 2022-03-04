@@ -199,8 +199,7 @@ osism_api_port: 8000
 
 vault_container_name: manager_vault_1
 
-enable_vault: "{{ vault_enable }}"
-vault_enable: true
+enable_vault: false
 
 vault_host: "{{ ansible_default_ipv4.address }}"
 vault_port: 8200
