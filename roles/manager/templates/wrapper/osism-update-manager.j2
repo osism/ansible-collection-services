@@ -6,6 +6,7 @@ ANSIBLE_USER=${ANSIBLE_USER:-dragon}
 ANSIBLE_VERSION=${ANSIBLE_VERSION:-ansible==5.2.0}
 NETADDR_VERSION=${NETADDR_VERSION:-netaddr==0.8.0}
 INSTALL_ANSIBLE_ROLES=${INSTALL_ANSIBLE_ROLES:-true}
+ANSIBLE_COLLECTION_SERVICES_VERSION=${ANSIBLE_COLLECTION_SERVICES_VERSION:-main}
 MANAGER_VERSION=${MANAGER_VERSION:-main}
 PLAYBOOK=${PLAYBOOK:-playbook-manager.yml}
 VENV_PATH=${VENV_PATH:-.venv}
@@ -30,7 +31,7 @@ if [[ ! -x "$(command -v ansible-playbook)" ]]; then
 fi
 
 if [[ $INSTALL_ANSIBLE_ROLES == "true" ]]; then
-    ansible-galaxy collection install -f git+https://github.com/osism/ansible-collection-services,$MANAGER_VERSION
+    ansible-galaxy collection install -f git+https://github.com/osism/ansible-collection-services,$ANSIBLE_COLLECTION_SERVICES_VERSION
 fi
 
 if [[ $playbook == "playbook-netbox.yml" || $playbook == "playbook-traefik.yml" ]]; then
