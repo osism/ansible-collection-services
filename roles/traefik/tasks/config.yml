@@ -32,6 +32,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop: "{{ traefik_certificates | dict2items }}"
+  no_log: true
 
 - name: Copy certificate key files
   ansible.builtin.copy:
