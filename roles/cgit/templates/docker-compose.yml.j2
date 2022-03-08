@@ -20,22 +20,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
-      - "traefik.http.services.cgit.loadbalancer.server.port=80"
       - "traefik.http.middlewares.cgit-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.cgit.entrypoints=http"
-{% if cgit_traefik_host|length > 0 %}
-      - "traefik.http.routers.cgit.rule=Host(`{{ cgit_traefik_host }}`) && PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
-{% else %}
-      - "traefik.http.routers.cgit.rule=PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
-{% endif %}
+      - "traefik.http.routers.cgit.rule=Host(`{{ cgit_host }}`)"
       - "traefik.http.routers.cgit.middlewares=cgit-redirect-to-https@docker"
+      - "traefik.http.routers.cgit-secure.loadbalancer.server.port=80"
       - "traefik.http.routers.cgit-secure.entrypoints=https"
       - "traefik.http.routers.cgit-secure.tls=true"
-{% if cgit_traefik_host|length > 0 %}
-      - "traefik.http.routers.cgit-secure.rule=Host(`{{ cgit_traefik_host }}`) && PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
-{% else %}
-      - "traefik.http.routers.cgit-secure.rule=PathPrefix(`/{{ cgit_traefik_path_prefix }}/`)"
-{% endif %}
+      - "traefik.http.routers.cgit-secure.rule=Host(`{{ cgit_host }}`)"
     networks:
       - default
       - {{ traefik_external_network_name }}

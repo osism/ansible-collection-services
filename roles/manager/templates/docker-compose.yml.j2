@@ -235,7 +235,6 @@ services:
       - "traefik.http.routers.ara-server-secure.tls=true"
       - "traefik.http.services.ara-server-secure.loadbalancer.server.port=8000" 
       - "traefik.http.routers.ara-server-secure.rule=Host(`{{ ara_server_host }}`)"
-      - "traefik.http.routers.ara-server-secure.middlewares=ara-server-replace-prefix@docker"
     networks:
       - default
       - {{ traefik_external_network_name }}

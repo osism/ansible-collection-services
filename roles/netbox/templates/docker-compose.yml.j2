@@ -42,36 +42,23 @@ services:
     secrets:
       - NETBOX_POSTGRES_PASSWORD
       - NETBOX_SECRET_KEY
+    healthcheck:
+      test: curl -s -k http://127.0.0.1:8080/metrics
 {% if not netbox_traefik|bool %}
     ports:
       - "{{ netbox_host }}:{{ netbox_port }}:8080"
-    healthcheck:
-      test: curl -s -k http://127.0.0.1:8080/metrics
 {% else %}
-    healthcheck:
-      test: curl -s -k http://127.0.0.1:8080/netbox/metrics
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
       - "traefik.http.middlewares.netbox-redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.netbox-replace-static-prefix.replacepathregex.regex=^/{{ netbox_traefik_path_prefix }}(/static/.*)"
-      - "traefik.http.middlewares.netbox-replace-static-prefix.replacepathregex.replacement=$$1"
-      - "traefik.http.services.netbox.loadbalancer.server.port=8080"
       - "traefik.http.routers.netbox.entrypoints=http"
-{% if netbox_traefik_host|length > 0 %}
-      - "traefik.http.routers.netbox.rule=Host(`{{ netbox_traefik_host }}`) && PathPrefix(`/{{ netbox_traefik_path_prefix }}/`)"
-{% else %}
-      - "traefik.http.routers.netbox.rule=PathPrefix(`/{{ netbox_traefik_path_prefix }}/`)"
-{% endif %}
-      - "traefik.http.routers.netbox.middlewares=netbox-redirect-to-https@docker, netbox-replace-static-prefix@docker"
+      - "traefik.http.routers.netbox.rule=Host(`{{ netbox_host }}`)"
+      - "traefik.http.routers.netbox.middlewares=netbox-redirect-to-https@docker"
+      - "traefik.http.routers.netbox-secure.loadbalancer.server.port=8080"
       - "traefik.http.routers.netbox-secure.entrypoints=https"
       - "traefik.http.routers.netbox-secure.tls=true"
-{% if netbox_traefik_host|length > 0 %}
-      - "traefik.http.routers.netbox-secure.rule=Host(`{{ netbox_traefik_host }}`) && PathPrefix(`/{{ netbox_traefik_path_prefix }}/`)"
-{% else %}
-      - "traefik.http.routers.netbox-secure.rule=PathPrefix(`/{{ netbox_traefik_path_prefix }}/`)"
-{% endif %}
-      - "traefik.http.routers.netbox-secure.middlewares=netbox-replace-static-prefix@docker"
+      - "traefik.http.routers.netbox-secure.rule=Host(`{{ netbox_host }}`)"
     networks:
       - default
       - {{ traefik_external_network_name }}
