@@ -55,7 +55,7 @@ services:
       - "traefik.http.routers.netbox.entrypoints=http"
       - "traefik.http.routers.netbox.rule=Host(`{{ netbox_host }}`)"
       - "traefik.http.routers.netbox.middlewares=netbox-redirect-to-https@docker"
-      - "traefik.http.routers.netbox-secure.loadbalancer.server.port=8080"
+      - "traefik.http.services.netbox-secure.loadbalancer.server.port=8080"
       - "traefik.http.routers.netbox-secure.entrypoints=https"
       - "traefik.http.routers.netbox-secure.tls=true"
       - "traefik.http.routers.netbox-secure.rule=Host(`{{ netbox_host }}`)"

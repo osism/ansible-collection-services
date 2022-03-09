@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.cgit.entrypoints=http"
       - "traefik.http.routers.cgit.rule=Host(`{{ cgit_host }}`)"
       - "traefik.http.routers.cgit.middlewares=cgit-redirect-to-https@docker"
-      - "traefik.http.routers.cgit-secure.loadbalancer.server.port=80"
+      - "traefik.http.services.cgit-secure.loadbalancer.server.port=80"
       - "traefik.http.routers.cgit-secure.entrypoints=https"
       - "traefik.http.routers.cgit-secure.tls=true"
       - "traefik.http.routers.cgit-secure.rule=Host(`{{ cgit_host }}`)"
