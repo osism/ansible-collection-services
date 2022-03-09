@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.phpmyadmin.entrypoints=http"
       - "traefik.http.routers.phpmyadmin.rule=Host(`{{ phpmyadmin_host }}`)"
       - "traefik.http.routers.phpmyadmin.middlewares=phpmyadmin-redirect-to-https@docker"
-      - "traefik.http.routers.phpmyadmin-secure.loadbalancer.server.port=80"
+      - "traefik.http.services.phpmyadmin-secure.loadbalancer.server.port=80"
       - "traefik.http.routers.phpmyadmin-secure.entrypoints=https"
       - "traefik.http.routers.phpmyadmin-secure.tls=true"
       - "traefik.http.routers.phpmyadmin-secure.rule=Host(`{{ phpmyadmin_host }}`)"
