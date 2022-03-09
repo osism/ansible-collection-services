@@ -22,11 +22,7 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
     healthcheck:
-{% if nexus_traefik|bool %}
-      test: curl --silent --fail localhost:8081/nexus
-{% else %}
       test: curl --silent --fail localhost:8081
-{% endif %}
     volumes:
       - "data:/nexus-data"
       - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
@@ -36,22 +32,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
-      - "traefik.http.services.nexus.loadbalancer.server.port=8081"
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.nexus.entrypoints=http"
-{% if nexus_traefik_host|length > 0 %}
-      - "traefik.http.routers.nexus.rule=Host(`{{ nexus_traefik_host }}`) && PathPrefix(`/{{ nexus_traefik_path_prefix }}/`)"
-{% else %}
-      - "traefik.http.routers.nexus.rule=PathPrefix(`/{{ nexus_traefik_path_prefix }}/`)"
-{% endif %}
+      - "traefik.http.routers.nexus.rule=Host(`{{ nexus_host }}`)"
       - "traefik.http.routers.nexus.middlewares=nexus-redirect-to-https@docker"
+      - "traefik.http.routers.nexus-secure.loadbalancer.server.port=8081"
       - "traefik.http.routers.nexus-secure.entrypoints=https"
       - "traefik.http.routers.nexus-secure.tls=true"
-{% if nexus_traefik_host|length > 0 %}
-      - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_traefik_host }}`) && PathPrefix(`/{{ nexus_traefik_path_prefix }}/`)"
-{% else %}
-      - "traefik.http.routers.nexus-secure.rule=PathPrefix(`/{{ nexus_traefik_path_prefix }}/`)"
-{% endif %}
+      - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_host }}`)"
     networks:
       - default
       - {{ traefik_external_network_name }}
