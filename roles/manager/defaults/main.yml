@@ -190,6 +190,7 @@ osism_netbox_image: "{{ docker_registry_osism_netbox }}/osism/osism-netbox:{{ os
 
 flower_host: "{{ ansible_default_ipv4.address }}"
 flower_port: 5555
+flower_traefik: false
 
 osism_api_host: "{{ ansible_default_ipv4.address }}"
 osism_api_port: 8000
