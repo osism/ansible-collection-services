@@ -189,10 +189,28 @@ services:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism service flower
+{% if not flower_traefik|bool %}
     ports:
       - "{{ flower_host }}:{{ flower_port }}:5555"
+{% endif %}
     healthcheck:
       test: pgrep celery
+{% if flower_traefik|bool %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.middlewares.flower-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.flower.entrypoints=http"
+      - "traefik.http.routers.flower.rule=Host(`{{ flower_host }}`)"
+      - "traefik.http.routers.flower.middlewares=flower-redirect-to-https@docker"
+      - "traefik.http.routers.flower-secure.entrypoints=https"
+      - "traefik.http.routers.flower-secure.tls=true"
+      - "traefik.http.routers.flower-secure.rule=Host(`{{ flower_host }}`)"
+      - "traefik.http.services.flower-secure.loadbalancer.server.port=5555"
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
 {% endif %}
   redis:
     restart: unless-stopped
