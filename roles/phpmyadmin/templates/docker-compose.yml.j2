@@ -21,6 +21,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
       - "traefik.http.middlewares.phpmyadmin-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.phpmyadmin-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.phpmyadmin.entrypoints=http"
       - "traefik.http.routers.phpmyadmin.rule=Host(`{{ phpmyadmin_host }}`)"
       - "traefik.http.routers.phpmyadmin.middlewares=phpmyadmin-redirect-to-https@docker"

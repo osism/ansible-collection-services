@@ -33,6 +33,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_external_network_name }}"
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.nexus.entrypoints=http"
       - "traefik.http.routers.nexus.rule=Host(`{{ nexus_host }}`)"
       - "traefik.http.routers.nexus.middlewares=nexus-redirect-to-https@docker"
