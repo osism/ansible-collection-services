@@ -29,7 +29,6 @@ keycloak_port: 8170
 
 keycloak_tag: latest
 keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
-keycloak_for_traefik_image: "{{ docker_registry_keycloak }}/osism/keycloak:{{ keycloak_tag }}"
 
 keycloak_username: admin
 keycloak_password: password
