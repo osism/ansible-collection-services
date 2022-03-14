@@ -6,6 +6,8 @@ services:
     container_name: "{{ keycloak_container_name }}"
     image: "{{ keycloak_image }}"
     restart: unless-stopped
+    # NOTE: Use start-dev here as long as the Keycloak integration is in technical preview
+    command: --verbose start-dev –-hostname-strict=false
     env_file:
       - "{{ keycloak_configuration_directory }}/keycloak.env"
     volumes:
