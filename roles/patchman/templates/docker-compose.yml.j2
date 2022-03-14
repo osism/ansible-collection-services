@@ -13,13 +13,32 @@ services:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+{% if not patchman_traefik|bool %}
     ports:
       - "{{ patchman_host }}:{{ patchman_port }}:8000"
+{% endif %}
     depends_on:
       - postgres
       - memcached
     healthcheck:
       test: curl --silent --fail --basic --user $$PATCHMAN_USERNAME:$$PATCHMAN_PASSWORD http://localhost:8000
+{% if patchman_traefik|bool %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.middlewares.patchman-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.patchman-redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.routers.patchman.entrypoints=http"
+      - "traefik.http.routers.patchman.rule=Host(`{{ patchman_host }}`)"
+      - "traefik.http.routers.patchman.middlewares=patchman-redirect-to-https@docker"
+      - "traefik.http.services.patchman-secure.loadbalancer.server.port=8000"
+      - "traefik.http.routers.patchman-secure.entrypoints=https"
+      - "traefik.http.routers.patchman-secure.tls=true"
+      - "traefik.http.routers.patchman-secure.rule=Host(`{{ patchman_host }}`)"
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
   postgres:
     container_name: "{{ patchman_container_name }}_postgres"
     image: "{{ postgres_image }}"
@@ -48,3 +67,7 @@ networks:
       driver: default
       config:
         - subnet:  {{ patchman_network }}
+{% if patchman_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}
