@@ -1,7 +1,7 @@
 zuul
 ====
 
-Ansible role to setup zuul on a single-node installation with docker-compose.
+Ansible role to set up zuul on a single-node installation with docker-compose.
 
 Requirements
 ------------
@@ -31,86 +31,8 @@ Including an example of how to use your role (for instance, with variables passe
          - name: setup zuul role
            role: zuul
 
-Enable debugging
-----------------
-
-If you don't know why something is not working as expected, you can enable logging by 
-putting this content into a file called log.conf next to your zuul.conf:
-```ini
-[loggers]
-keys=root,zuul
-
-[handlers]
-keys=console
-
-[formatters]
-keys=simple
-
-[logger_root]
-level=DEBUG
-handlers=console
-
-[logger_zuul]
-level=DEBUG
-handlers=console
-qualname=zuul
-propagate=0
-
-[handler_console]
-level=DEBUG
-class=StreamHandler
-formatter=simple
-args=(sys.stdout,)
-
-[handler_debug]
-level=DEBUG
-class=logging.handlers.TimedRotatingFileHandler
-formatter=simple
-args=('/var/log/zuul/debug.log', 'midnight', 1, 30,)
-
-[handler_normal]
-level=INFO
-class=logging.handlers.TimedRotatingFileHandler
-formatter=simple
-args=('/var/log/zuul/zuul.log', 'midnight', 1, 30,)
-
-[formatter_simple]
-format=%(asctime)s %(levelname)s %(name)s: %(message)s
-datefmt=
-```
-
-Enable this by extending your zuul.conf in the right places:
-```
-[gearman]
-log_config=/etc/zuul/log.conf
-
-[gearman_server]
-log_config=/etc/zuul/log.conf
-
-[zookeeper]
-log_config=/etc/zuul/log.conf
-
-[scheduler]
-log_config=/etc/zuul/log.conf
-
-[connection "githubzuulapp"]
-log_config=/etc/zuul/log.conf
-
-[executor]
-log_config=/etc/zuul/log.conf
-```
-
-After a restart of the affected components you should now be able to see DEBUG messages in the container logs.
-
 Troubleshooting
 ---------------
-
-**Your pipelines are running but retry and fail?**
-Try to SSH into your worker nodes. If this is not working, check the node from inside.
-The *.ssh* folder and the *authorized_keys* file need to be owned by the user you are connecting with (mostlikely root).
-Check if the *authorized_keys* file needs to contain the public key of the nodepool_launcher called *nodepool.pub*.
-If you are wondering why this worker once and not any more, keep in mind that worker nodes are based on *docker build images*.
-You need to trow it away before you redeploy, otherwise the pubkey of the initial deployment is used.
 
 **Your git repos are not displayed?**
 Have you thought of naming your repos with the prefix of your organization? *release* should be *osism/release* for example.

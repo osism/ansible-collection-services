@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 # Copyright 2020 Red Hat, Inc
+# Copyright 2022 OSISM GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -19,20 +20,20 @@
 CAROOT=$1
 SERVER=$2
 
-SUBJECT='/C=US/ST=California/L=Oakland/O=Company Name/OU=Org'
+SUBJECT='/C=DE/ST=BW/L=Stuttgart/O=OSISM GmbH/OU=Zuul'
 TOOLSDIR=$(dirname $0)
 ABSTOOLSDIR=$(cd $TOOLSDIR ;pwd)
 CONFIG="-config $ABSTOOLSDIR/openssl.cnf"
 
 make_ca() {
-    mkdir $CAROOT/demoCA
-    mkdir $CAROOT/demoCA/reqs
-    mkdir $CAROOT/demoCA/newcerts
-    mkdir $CAROOT/demoCA/crl
-    mkdir $CAROOT/demoCA/private
-    chmod 700 $CAROOT/demoCA/private
-    touch $CAROOT/demoCA/index.txt
-    touch $CAROOT/demoCA/index.txt.attr
+    mkdir $CAROOT/CA
+    mkdir $CAROOT/CA/reqs
+    mkdir $CAROOT/CA/newcerts
+    mkdir $CAROOT/CA/crl
+    mkdir $CAROOT/CA/private
+    chmod 700 $CAROOT/CA/private
+    touch $CAROOT/CA/index.txt
+    touch $CAROOT/CA/index.txt.attr
     mkdir $CAROOT/certs
     mkdir $CAROOT/keys
     mkdir $CAROOT/keystores
@@ -40,31 +41,31 @@ make_ca() {
     chmod 700 $CAROOT/keystores
 
     openssl req $CONFIG -new -nodes -subj "$SUBJECT/CN=caroot" \
-            -keyout $CAROOT/demoCA/private/cakey.pem \
-            -out $CAROOT/demoCA/reqs/careq.pem
+            -keyout $CAROOT/CA/private/cakey.pem \
+            -out $CAROOT/CA/reqs/careq.pem
     openssl ca $CONFIG -create_serial -days 3560 -batch -selfsign -extensions v3_ca \
-            -out $CAROOT/demoCA/cacert.pem \
-            -keyfile $CAROOT/demoCA/private/cakey.pem \
-            -infiles $CAROOT/demoCA/reqs/careq.pem
-    cp $CAROOT/demoCA/cacert.pem $CAROOT/certs
+            -out $CAROOT/CA/cacert.pem \
+            -keyfile $CAROOT/CA/private/cakey.pem \
+            -infiles $CAROOT/CA/reqs/careq.pem
+    cp $CAROOT/CA/cacert.pem $CAROOT/certs
 }
 
 make_client() {
     openssl req $CONFIG -new -nodes -subj "$SUBJECT/CN=client" \
             -keyout $CAROOT/keys/clientkey.pem \
-            -out $CAROOT/demoCA/reqs/clientreq.pem
+            -out $CAROOT/CA/reqs/clientreq.pem
     openssl ca $CONFIG -batch -policy policy_anything -days 3560 \
             -out $CAROOT/certs/client.pem \
-            -infiles $CAROOT/demoCA/reqs/clientreq.pem
+            -infiles $CAROOT/CA/reqs/clientreq.pem
 }
 
 make_server() {
     openssl req $CONFIG -new -nodes -subj "$SUBJECT/CN=$SERVER" \
             -keyout $CAROOT/keys/${SERVER}key.pem \
-            -out $CAROOT/demoCA/reqs/${SERVER}req.pem
+            -out $CAROOT/CA/reqs/${SERVER}req.pem
     openssl ca $CONFIG -batch -policy policy_anything -days 3560 \
             -out $CAROOT/certs/$SERVER.pem \
-            -infiles $CAROOT/demoCA/reqs/${SERVER}req.pem
+            -infiles $CAROOT/CA/reqs/${SERVER}req.pem
     cat $CAROOT/certs/$SERVER.pem $CAROOT/keys/${SERVER}key.pem \
         > $CAROOT/keystores/$SERVER.pem
 }
@@ -87,7 +88,7 @@ fi
 cd $CAROOT
 CAROOT=`pwd`
 
-if [ ! -d "$CAROOT/demoCA" ]; then
+if [ ! -d "$CAROOT/CA" ]; then
     echo 'Generate CA'
     make_ca
     echo 'Generate client certificate'

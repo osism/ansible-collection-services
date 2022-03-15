@@ -6,6 +6,9 @@ zookeeper-tls:
   key: /var/certs/keys/clientkey.pem
   ca: /var/certs/certs/cacert.pem
 
+build-log-dir: /srv/nodepool/builds
+images-dir: /srv/nodepool/images
+
 {{ nodepool_labels|to_nice_yaml(indent=2) }}
 
 {{ nodepool_providers|to_nice_yaml(indent=2) }}

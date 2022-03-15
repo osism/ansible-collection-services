@@ -3,7 +3,7 @@
 
 # unfortunately zookeeper can only read certificates with group
 # permissions. therefore the base directory can only be entered
-# by the owner. the files in this directy will have read
+# by the owner. the files in this directory will have read
 # permissions for all others too.
 - name: create base config directory
   ansible.builtin.file:
@@ -11,7 +11,7 @@
     path: "{{ base_conf_dir }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-    mode: 0744
+    mode: 0755
 
 - name: create component config directories
   ansible.builtin.file:
@@ -19,8 +19,33 @@
     path: "{{ item['value'] }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-    mode: 0744
+    mode: 0755
   loop: "{{ component_conf_dirs | dict2items }}"
+
+- name: create log directory
+  ansible.builtin.file:
+    state: directory
+    path: /var/log/zuul
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_user }}"
+    mode: 0755
+  become: true
+
+- name: create nodepool directories
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_user }}"
+    mode: 0755
+  become: true
+  loop:
+    - /srv/dib_cache
+    - /srv/dib_tmp
+    - /srv/nodepool
+    - /srv/nodepool/builds
+    - /srv/nodepool/elements
+    - /srv/nodepool/images
 
 - name: include copy tasks
   ansible.builtin.include_tasks: copy_tasks.yml

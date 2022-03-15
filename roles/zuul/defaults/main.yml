@@ -5,12 +5,13 @@
 # Generic
 ###############################################################################
 
-operator_user: dragon
+operator_user: ubuntu
 operator_group: "{{ operator_user }}"
 zuul_host: "{{ inventory_hostname }}"
-zookeeper_fqdn: "zookeeper_1.osism"
+zookeeper_fqdn: "zookeeper01.example.org"
 base_conf_dir: /opt/zuul
 component_conf_dirs:
+  nodepool_builder: "{{ base_conf_dir }}/nodepool_builder_configuration"
   nodepool_launcher: "{{ base_conf_dir }}/nodepool_launcher_configuration"
   zookeeper: "{{ base_conf_dir }}/zookeeper_configuration"
   zuul: "{{ base_conf_dir }}/zuul_configuration"
@@ -64,12 +65,17 @@ port_list:
   nodepool_launcher: 8022
   log_server: 8000
 
+nodepool_tag: "5.0.0"
+zookeeper_tag: "3.7.0"
+zuul_tag: "5.0.0"
+
 image_list:
-  nodepool_launcher: "{{ docker_registry }}/zuul/nodepool-launcher:4.1.0"
-  zuul_executor: "{{ docker_registry }}/zuul/zuul-executor:4.5.1"
-  zuul_web: "{{ docker_registry }}/zuul/zuul-web:4.5.1"
-  zuul_scheduler: "{{ docker_registry }}/zuul/zuul-scheduler:4.5.1"
-  zookeeper: "{{ docker_registry }}/zookeeper:3.7.0"
+  nodepool_builder: "{{ docker_registry }}/zuul/nodepool-builder:{{ nodepool_tag }}"
+  nodepool_launcher: "{{ docker_registry }}/zuul/nodepool-launcher:{{ nodepool_tag }}"
+  zuul_executor: "{{ docker_registry }}/zuul/zuul-executor:{{ zuul_tag }}"
+  zuul_web: "{{ docker_registry }}/zuul/zuul-web:{{ zuul_tag }}"
+  zuul_scheduler: "{{ docker_registry }}/zuul/zuul-scheduler:{{ zuul_tag }}"
+  zookeeper: "{{ docker_registry }}/zookeeper:{{ zookeeper_tag }}"
   mariadb: "{{ docker_registry }}/mariadb:latest"
   log_server: "{{ docker_registry }}/httpd:alpine"
 
@@ -82,15 +88,12 @@ database:
 container_name:
   mariadb: "zuul_mariadb"
   zookeeper: "zuul_zookeeper"
+  nodepool_builder: "zuul_nodepool_builder"
   nodepool_launcher: "zuul_nodepool_launcher"
+  zuul_executor: "zuul_executor"
   zuul_scheduler: "zuul_scheduler"
   zuul_web: "zuul_web"
-  zuul_executor: "zuul_executor"
   log_server: "zuul_log_server"
-  worker_node_list:
-    - "zuul_worker_node_1"
-# Do not forget to add the to the nodepool list below
-
 
 ###############################################################################
 # Nodepool
@@ -102,13 +105,3 @@ nodepool_labels:
 
 nodepool_providers:
   providers:  # we need this sub-key. limitation of to_nice_yaml library
-    - name: docker-containers
-      driver: static
-      pools:
-        - name: docker-compose containers
-          nodes:
-            - name: zuul_worker_node_1
-              labels: ubuntu-focal  # make sure nodepool_labels has this
-              host-key-checking: false
-              python-path: /usr/bin/python3
-              username: root
