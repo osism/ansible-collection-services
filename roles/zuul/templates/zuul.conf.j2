@@ -1,9 +1,3 @@
-[gearman]
-server=zuul_scheduler
-
-[gearman_server]
-start=true
-
 [zookeeper]
 hosts=zuul_zookeeper:2281
 tls_cert=/var/certs/certs/client.pem
@@ -15,6 +9,7 @@ password=%(ZUUL_MARIADB_PASSWORD)s
 
 [scheduler]
 tenant_config=/etc/zuul/main.yaml
+log_config=/etc/zuul/logging.conf
 {% for i in connections|dict2items %}
 
 [connection "{{ i['key'] }}"]
@@ -30,8 +25,10 @@ dburi=mysql+pymysql://%(ZUUL_MARIADB_USERNAME)s:%(ZUUL_MARIADB_PASSWORD)s@{{ con
 listen_address=0.0.0.0
 port={{ port_list.web }}
 root=http://{{ zuul_host }}:{{ port_list.web }}
+log_config=/etc/zuul/web-logging.conf
 
 [executor]
 private_key_file=/var/ssh/nodepool
 default_username=root
 trusted_rw_paths=/srv/static/logs
+log_config=/etc/zuul/executor-logging.conf

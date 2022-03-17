@@ -1,20 +1,15 @@
 ---
-- name: generate ssh keypair for nodepool to worker node communication
-  ansible.builtin.command: "ssh-keygen -q -f {{ component_conf_dirs.ssh_keys }}/nodepool -N
-    '' -t rsa -m PEM -C zuul-nodepool-worker-key"
-  args:
-    creates: "{{ component_conf_dirs.ssh_keys }}/nodepool"
-
-- name: ensure key protection
-  ansible.builtin.file:
-    path: "{{ item['path'] }}"
+- name: copy ssh keypair for nodepool/zuul to worker node communication
+  ansible.builtin.copy:
+    src: "{{ item['path'] }}"
+    dest: "{{ component_conf_dirs.ssh_keys }}/{{ item['path'] }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: "{{ item['mode'] }}"
   loop:
-    - path: "{{ component_conf_dirs.ssh_keys }}/nodepool"
+    - path: "nodepool"
       mode: "0600"
-    - path: "{{ component_conf_dirs.ssh_keys }}/nodepool.pub"
+    - path: "nodepool.pub"
       mode: "0644"
 
 - name: generate zookeeper certificates
@@ -25,7 +20,7 @@
 
 - name: ensure correct permission settings
   ansible.builtin.file:
-    path: "{{ base_conf_dir }}"
+    path: "{{ component_conf_dirs.certs }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: u=rwX,g=rX,o=rX

@@ -12,14 +12,32 @@ services:
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "{{ component_conf_dirs.zookeeper }}/zoo.cfg:/conf/zoo.cfg:z"
     command: zkServer.sh start-foreground
+  nodepool_builder:
+    container_name: "{{ container_name.nodepool_builder }}"
+    command: "/usr/local/bin/nodepool-builder -f -l /etc/nodepool/logging.conf"
+    depends_on:
+      - zookeeper
+    image: {{ image_list.nodepool_builder }}
+    privileged: true
+    volumes:
+      - "{{ component_conf_dirs.nodepool_builder }}:/etc/nodepool/:z"
+      - "{{ component_conf_dirs.certs }}:/var/certs:z"
+      - "/srv/dib_cache:/srv/dib_cache:rw"
+      - "/srv/dib_tmp:/srv/dib_tmp:rw"
+      - "/srv/nodepool:/srv/nodepool"
+      - "/etc/openstack:/etc/openstack:ro"
+      - "/var/log/nodepool:/var/log/nodepool:rw"
   nodepool_launcher:
     container_name: "{{ container_name.nodepool_launcher }}"
+    command: "/usr/local/bin/nodepool-launcher -f -l /etc/nodepool/logging.conf"
     depends_on:
       - zookeeper
     image: {{ image_list.nodepool_launcher }}
     volumes:
       - "{{ component_conf_dirs.nodepool_launcher }}:/etc/nodepool/:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
+      - "/etc/openstack:/etc/openstack:ro"
+      - "/var/log/nodepool:/var/log/nodepool:rw"
     ports:
       - "{{ port_list.nodepool_launcher }}:8022"
   zuul_scheduler:
@@ -35,9 +53,9 @@ services:
       - "{{ component_conf_dirs.ssh_keys }}:/var/ssh:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "{{ component_conf_dirs.scheduler }}/wait-to-start.sh:/wait-to-start.sh:ro"
+      - "/var/log/zuul:/var/log/zuul"
   zuul_web:
     container_name: "{{ container_name.zuul_web }}"
-    command: "sh -c '/wait-to-start-gearman.sh && zuul-web -f'"
     depends_on:
       - zuul_scheduler
       - mariadb
@@ -48,7 +66,7 @@ services:
     volumes:
       - "{{ component_conf_dirs.zuul }}:/etc/zuul/:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
-      - "{{ component_conf_dirs.web }}/wait-to-start-gearman.sh:/wait-to-start-gearman.sh:ro"
+      - "/var/log/zuul:/var/log/zuul"
   zuul_executor:
     container_name: "{{ container_name.zuul_executor }}"
     privileged: true
@@ -61,6 +79,7 @@ services:
       - "{{ component_conf_dirs.ssh_keys }}:/var/ssh:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "log_server:/srv/static/logs:z"
+      - "/var/log/zuul:/var/log/zuul"
   log_server:
     container_name: "{{ container_name.log_server }}"
     build:
@@ -70,13 +89,6 @@ services:
       - "{{ port_list.log_server }}:80"
     volumes:
       - "log_server:/usr/local/apache2/htdocs:z"
-{% for worker_node in container_name.worker_node_list %}
-  {{ worker_node }}:
-    container_name: "{{ worker_node }}"
-    build:
-      dockerfile: worker_node_Dockerfile
-      context: {{ component_conf_dirs.ssh_keys }}
-{% endfor %}
 
 volumes:
   log_server:
