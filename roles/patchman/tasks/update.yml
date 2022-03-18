@@ -1,8 +1,11 @@
 ---
 - name: Wait for patchman service
-  ansible.builtin.wait_for:
-    host: "{{ patchman_host }}"
-    port: "{{ patchman_port }}"
+  ansible.builtin.uri:
+    url: "{{ patchman_server_url }}"
+    status_code: [200, 301]
+    validate_certs: false
+  retries: 60
+  delay: 5
 
 - name: Get time of the last patchman-update run
   ansible.builtin.stat:
