@@ -22,6 +22,7 @@ patchman_docker_compose_directory: /opt/patchman
 
 patchman_host: 127.0.0.1
 patchman_port: 8150
+patchman_server_url: "http://{{ patchman_host }}:{{ patchman_port }}"
 
 patchman_tag: latest
 patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }}"
