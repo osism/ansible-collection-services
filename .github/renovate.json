@@ -2,5 +2,17 @@
   "extends": [
     "github>osism/renovate-config",
     "github>osism/renovate-config:ansibleCollection"
+  ],
+  "regexManagers":[
+    {
+      "fileMatch":[
+        "^roles\\/manager\\/templates\\/wrapper\\/osism-update-manager.j2$"
+      ],
+      "matchStrings":[
+        "-(?<depName>ansible)==(?<currentValue>.*?)\\}",
+        "-(?<depName>netaddr)==(?<currentValue>.*?)\\}"
+      ],
+      "datasourceTemplate":"pypi"
+    }
   ]
 }
