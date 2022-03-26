@@ -22,7 +22,8 @@ phpmyadmin_host: 127.0.0.1
 phpmyadmin_database_host: 127.0.0.1
 phpmyadmin_port: 8110
 
-phpmyadmin_tag: 4.9
+# renovate: datasource=docker depName=phpmyadmin/phpmyadmin
+phpmyadmin_tag: '4.9'
 phpmyadmin_image: "{{ docker_registry_phpmyadmin }}/phpmyadmin/phpmyadmin:{{ phpmyadmin_tag }}"
 
 phpmyadmin_network: 172.31.100.32/28

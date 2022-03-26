@@ -117,7 +117,7 @@ ceph_ansible_enable: true
 
 ceph_ansible_container_name: manager_ceph-ansible_1
 
-ceph_ansible_tag: nautilus
+ceph_ansible_tag: pacific
 ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
@@ -128,13 +128,14 @@ kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
-kolla_ansible_tag: victoria
+kolla_ansible_tag: xena
 kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
 # redis
 
-redis_tag: 6-alpine
+# renovate: datasource=docker depName=redis
+redis_tag: '6-alpine'
 redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
 
 ##########################
@@ -159,7 +160,8 @@ ara_server_port: 8120
 ara_workers: 5
 ara_worker_class: sync
 
-ara_server_tag: 1.5.4
+# renovate: datasource=docker depName=quay.io/osism/ara-server
+ara_server_tag: '1.5.4'
 ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
@@ -173,7 +175,8 @@ ara_server_mariadb_username: ara
 ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
-mariadb_tag: 10.5
+# renovate: datasource=docker depName=mariadb
+mariadb_tag: '10.5'
 mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
@@ -205,7 +208,8 @@ enable_vault: false
 vault_host: "{{ ansible_default_ipv4.address }}"
 vault_port: 8200
 
-vault_tag: latest
+# renovate: datasource=docker depName=hashicorp/vault
+vault_tag: '1.10.0'
 vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
 
 vault_output_key_shares: false

@@ -22,7 +22,8 @@ adminer_host: 127.0.0.1
 adminer_database_host: 127.0.0.1
 adminer_port: 8111
 
-adminer_tag: 4.7
+# renovate: datasource=docker depName=adminer
+adminer_tag: '4.7'
 adminer_image: "{{ docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
 
 adminer_network: 172.31.100.64/28

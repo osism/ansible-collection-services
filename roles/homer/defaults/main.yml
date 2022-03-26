@@ -21,7 +21,8 @@ homer_docker_compose_directory: /opt/homer
 homer_host: 127.0.0.1
 homer_port: 8080
 
-homer_tag: 21.09.2
+# renovate: datasource=docker depName=quay.io/osism/homer
+homer_tag: '21.09.2'
 homer_image: "{{ docker_registry_homer }}/osism/homer:{{ homer_tag }}"
 
 homer_container_name: homer

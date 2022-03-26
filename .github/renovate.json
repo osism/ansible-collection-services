@@ -13,6 +13,22 @@
         "-(?<depName>netaddr)==(?<currentValue>.*?)\\}"
       ],
       "datasourceTemplate":"pypi"
+    },
+    {
+      "fileMatch":[
+        "^roles\\/adminer\\/defaults\\/main.yml$",
+        "^roles\\/dnsdist\\/defaults\\/main.yml$",
+        "^roles\\/homer\\/defaults\\/main.yml$",
+        "^roles\\/manager\\/defaults\\/main.yml$",
+        "^roles\\/netbox\\/defaults\\/main.yml$",
+        "^roles\\/nexus\\/defaults\\/main.yml$",
+        "^roles\\/phpmyadmin\\/defaults\\/main.yml$",
+        "^roles\\/traeefik\\/defaults\\/main.yml$",
+        "^roles\\/virtualbmc\\/defaults\\/main.yml$"
+      ],
+      "matchStrings":[
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_tag: '(?<currentValue>.*?)'"
+     ]
     }
   ]
 }

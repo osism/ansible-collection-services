@@ -32,7 +32,8 @@ netbox_osism_api_port: 8000
 
 netbox_userid: 101
 
-netbox_tag: v3.0.9-ldap
+# renovate: datasource=docker depName=quay.io/osism/netbox
+netbox_tag: 'v3.0.9-ldap'
 netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
 
 netbox_secret_key: 00000000-0000-0000-0000-000000000000
@@ -103,7 +104,8 @@ netbox_plugins_config:
 ##########################
 # postgres
 
-postgres_tag: 14-alpine
+# renovate: datasource=docker depName=postgres
+postgres_tag: '14-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 netbox_postgres_password: password
@@ -113,7 +115,8 @@ netbox_postgres_databasename: netbox
 ##########################
 # redis
 
-redis_tag: 6-alpine
+# renovate: datasource=docker depName=redis
+redis_tag: '6-alpine'
 redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
 
 ##########################
