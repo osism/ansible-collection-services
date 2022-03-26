@@ -43,7 +43,7 @@ networks:
       driver: default
       config:
         - subnet:  {{ phpmyadmin_network }}
-{% if nexus_traefik|bool %}
+{% if phpmyadmin_traefik|bool %}
   {{ traefik_external_network_name }}:
     external: true
 {% endif %}
