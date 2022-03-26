@@ -176,7 +176,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 # renovate: datasource=docker depName=mariadb
-mariadb_tag: '10.5'
+mariadb_tag: '10.8'
 mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
