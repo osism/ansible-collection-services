@@ -24,7 +24,8 @@ patchman_host: 127.0.0.1
 patchman_port: 8150
 patchman_server_url: "http://{{ patchman_host }}:{{ patchman_port }}"
 
-patchman_tag: latest
+# renovate: datasource=docker depName=quay.io/osism/patchman
+patchman_tag: '2.0.3'
 patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }}"
 
 patchman_container_name: patchman
