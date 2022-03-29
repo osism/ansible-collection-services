@@ -54,7 +54,8 @@ patchman_update_valid_time: 86400
 ##########################
 # postgres
 
-postgres_tag: 13-alpine
+# renovate: datasource=docker depName=postgres
+postgres_tag: '14.2-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 patchman_postgres_username: patchman
@@ -64,7 +65,8 @@ patchman_postgres_databasename: "{{ patchman_postgres_username }}"
 ##########################
 # memcached
 
-patchman_memcached_tag: alpine
+# renovate: datasource=docker depName=memcached
+patchman_memcached_tag: '1.6.14-alpine'
 patchman_memcached_image: "{{ docker_registry_memcached }}/library/memcached:{{ patchman_memcached_tag }}"
 
 ##########################
