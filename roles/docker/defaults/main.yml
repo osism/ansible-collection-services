@@ -180,11 +180,11 @@ docker_dragonfly: false
 
 docker_policies: false
 
-docker_open_policy_agent_tag: "0.8"
-docker_open_policy_agent_image: "{{ docker_registry_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_open_policy_agent_tag }}"
+docker_openpolicyagent_tag: "0.8"
+docker_openpolicyagent_image: "{{ docker_registry_docker_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_openpolicyagent_tag }}"
 
 docker_authorization_plugins_defaults:
-  - "{{ docker_open_policy_agent_image }}"
+  - "{{ docker_openpolicyagent_image }}"
 docker_authorization_plugins_extra: []
 
 docker_authorization_plugins: "{{ docker_authorization_plugins_defaults + docker_authorization_plugins_extra }}"
