@@ -38,8 +38,6 @@ services:
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "/etc/openstack:/etc/openstack:ro"
       - "/var/log/nodepool:/var/log/nodepool:rw"
-    ports:
-      - "{{ port_list.nodepool_launcher }}:8022"
   zuul_scheduler:
     container_name: "{{ container_name.zuul_scheduler }}"
     depends_on:
@@ -60,7 +58,7 @@ services:
       - zuul_scheduler
       - mariadb
     ports:
-      - "{{ port_list.web }}:9000"
+      - "9000:9000"
     image: {{ image_list.zuul_web }}
     env_file: "{{ base_conf_dir }}/web.env"
     volumes:
@@ -82,12 +80,12 @@ services:
       - "/var/log/zuul:/var/log/zuul"
   log_server:
     container_name: "{{ container_name.log_server }}"
-    build:
-      dockerfile: log_server_Dockerfile
-      context: {{ component_conf_dirs.log_server }}
+    image: httpd:alpine
     ports:
-      - "{{ port_list.log_server }}:80"
+      - "80:80"
+      - "443:443"
     volumes:
+      - "{{ component_conf_dirs.log_server }}:/usr/local/apache2/conf:ro"
       - "log_server:/usr/local/apache2/htdocs:z"
 
 volumes:

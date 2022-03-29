@@ -1,151 +1,39 @@
-#
-# This is the main Apache HTTP server configuration file.  It contains the
-# configuration directives that give the server its instructions.
-# See <URL:http://httpd.apache.org/docs/2.4/> for detailed information.
-# In particular, see
-# <URL:http://httpd.apache.org/docs/2.4/mod/directives.html>
-# for a discussion of each configuration directive.
-#
-# Do NOT simply read the instructions in here without understanding
-# what they do.  They're here only as hints or reminders.  If you are unsure
-# consult the online docs. You have been warned.
-#
-# Configuration and logfile names: If the filenames you specify for many
-# of the server's control files begin with "/" (or "drive:/" for Win32), the
-# server will use that explicit path.  If the filenames do *not* begin
-# with "/", the value of ServerRoot is prepended -- so "logs/access_log"
-# with ServerRoot set to "/usr/local/apache2" will be interpreted by the
-# server as "/usr/local/apache2/logs/access_log", whereas "/logs/access_log"
-# will be interpreted as '/logs/access_log'.
-
-#
-# ServerRoot: The top of the directory tree under which the server's
-# configuration, error, and log files are kept.
-#
-# Do not add a slash at the end of the directory path.  If you point
-# ServerRoot at a non-local disk, be sure to specify a local disk on the
-# Mutex directive, if file-based mutexes are used.  If you wish to share the
-# same ServerRoot for multiple httpd daemons, you will need to change at
-# least PidFile.
-#
 ServerRoot "/usr/local/apache2"
 
-#
-# Mutex: Allows you to set the mutex mechanism and mutex file directory
-# for individual mutexes, or change the global defaults
-#
-# Uncomment and change the directory if mutexes are file-based and the default
-# mutex file directory is not on a local disk or is not appropriate for some
-# other reason.
-#
-# Mutex default:logs
-
-#
-# Listen: Allows you to bind Apache to specific IP addresses and/or
-# ports, instead of the default. See also the <VirtualHost>
-# directive.
-#
-# Change this to Listen on specific IP addresses as shown below to
-# prevent Apache from glomming onto all bound IP addresses.
-#
-#Listen 12.34.56.78:80
 Listen 80
+Listen 443
 
-#
-# Dynamic Shared Object (DSO) Support
-#
-# To be able to use the functionality of a module which was built as a DSO you
-# have to place corresponding `LoadModule' lines at this location so the
-# directives contained in it are actually available _before_ they are used.
-# Statically compiled modules (those listed by `httpd -l') do not need
-# to be loaded here.
-#
-# Example:
-# LoadModule foo_module modules/mod_foo.so
-#
 LoadModule mpm_event_module modules/mod_mpm_event.so
-#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
-#LoadModule mpm_worker_module modules/mod_mpm_worker.so
 LoadModule authn_file_module modules/mod_authn_file.so
-#LoadModule authn_dbm_module modules/mod_authn_dbm.so
-#LoadModule authn_anon_module modules/mod_authn_anon.so
-#LoadModule authn_dbd_module modules/mod_authn_dbd.so
-#LoadModule authn_socache_module modules/mod_authn_socache.so
 LoadModule authn_core_module modules/mod_authn_core.so
 LoadModule authz_host_module modules/mod_authz_host.so
 LoadModule authz_groupfile_module modules/mod_authz_groupfile.so
 LoadModule authz_user_module modules/mod_authz_user.so
-#LoadModule authz_dbm_module modules/mod_authz_dbm.so
-#LoadModule authz_owner_module modules/mod_authz_owner.so
-#LoadModule authz_dbd_module modules/mod_authz_dbd.so
 LoadModule authz_core_module modules/mod_authz_core.so
-#LoadModule authnz_ldap_module modules/mod_authnz_ldap.so
-#LoadModule authnz_fcgi_module modules/mod_authnz_fcgi.so
 LoadModule access_compat_module modules/mod_access_compat.so
 LoadModule auth_basic_module modules/mod_auth_basic.so
-#LoadModule auth_form_module modules/mod_auth_form.so
-#LoadModule auth_digest_module modules/mod_auth_digest.so
-#LoadModule allowmethods_module modules/mod_allowmethods.so
-#LoadModule isapi_module modules/mod_isapi.so
-#LoadModule file_cache_module modules/mod_file_cache.so
-#LoadModule cache_module modules/mod_cache.so
-#LoadModule cache_disk_module modules/mod_cache_disk.so
-#LoadModule cache_socache_module modules/mod_cache_socache.so
-#LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
-#LoadModule socache_dbm_module modules/mod_socache_dbm.so
-#LoadModule socache_memcache_module modules/mod_socache_memcache.so
-#LoadModule watchdog_module modules/mod_watchdog.so
-#LoadModule macro_module modules/mod_macro.so
-#LoadModule dbd_module modules/mod_dbd.so
-#LoadModule bucketeer_module modules/mod_bucketeer.so
-#LoadModule dumpio_module modules/mod_dumpio.so
-#LoadModule echo_module modules/mod_echo.so
-#LoadModule example_hooks_module modules/mod_example_hooks.so
-#LoadModule case_filter_module modules/mod_case_filter.so
-#LoadModule case_filter_in_module modules/mod_case_filter_in.so
-#LoadModule example_ipc_module modules/mod_example_ipc.so
-#LoadModule buffer_module modules/mod_buffer.so
-#LoadModule data_module modules/mod_data.so
-#LoadModule ratelimit_module modules/mod_ratelimit.so
+LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
 LoadModule reqtimeout_module modules/mod_reqtimeout.so
-#LoadModule ext_filter_module modules/mod_ext_filter.so
-#LoadModule request_module modules/mod_request.so
-#LoadModule include_module modules/mod_include.so
 LoadModule filter_module modules/mod_filter.so
-#LoadModule reflector_module modules/mod_reflector.so
-#LoadModule substitute_module modules/mod_substitute.so
-#LoadModule sed_module modules/mod_sed.so
-#LoadModule charset_lite_module modules/mod_charset_lite.so
-#LoadModule deflate_module modules/mod_deflate.so
-#LoadModule xml2enc_module modules/mod_xml2enc.so
 #LoadModule proxy_html_module modules/mod_proxy_html.so
 LoadModule mime_module modules/mod_mime.so
-#LoadModule ldap_module modules/mod_ldap.so
 LoadModule log_config_module modules/mod_log_config.so
 #LoadModule log_debug_module modules/mod_log_debug.so
 #LoadModule log_forensic_module modules/mod_log_forensic.so
-#LoadModule logio_module modules/mod_logio.so
-#LoadModule lua_module modules/mod_lua.so
 LoadModule env_module modules/mod_env.so
-#LoadModule mime_magic_module modules/mod_mime_magic.so
-#LoadModule cern_meta_module modules/mod_cern_meta.so
-#LoadModule expires_module modules/mod_expires.so
 LoadModule headers_module modules/mod_headers.so
-#LoadModule ident_module modules/mod_ident.so
-#LoadModule usertrack_module modules/mod_usertrack.so
-#LoadModule unique_id_module modules/mod_unique_id.so
 LoadModule setenvif_module modules/mod_setenvif.so
 LoadModule version_module modules/mod_version.so
 #LoadModule remoteip_module modules/mod_remoteip.so
-#LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_module modules/mod_proxy.so
 #LoadModule proxy_connect_module modules/mod_proxy_connect.so
 #LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
-#LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
 #LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so
 #LoadModule proxy_scgi_module modules/mod_proxy_scgi.so
 #LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
 #LoadModule proxy_fdpass_module modules/mod_proxy_fdpass.so
-#LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 #LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
 #LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
 #LoadModule proxy_express_module modules/mod_proxy_express.so
@@ -154,14 +42,7 @@ LoadModule version_module modules/mod_version.so
 #LoadModule session_cookie_module modules/mod_session_cookie.so
 #LoadModule session_crypto_module modules/mod_session_crypto.so
 #LoadModule session_dbd_module modules/mod_session_dbd.so
-#LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
-#LoadModule slotmem_plain_module modules/mod_slotmem_plain.so
-#LoadModule ssl_module modules/mod_ssl.so
-#LoadModule optional_hook_export_module modules/mod_optional_hook_export.so
-#LoadModule optional_hook_import_module modules/mod_optional_hook_import.so
-#LoadModule optional_fn_import_module modules/mod_optional_fn_import.so
-#LoadModule optional_fn_export_module modules/mod_optional_fn_export.so
-#LoadModule dialup_module modules/mod_dialup.so
+LoadModule ssl_module modules/mod_ssl.so
 #LoadModule http2_module modules/mod_http2.so
 #LoadModule proxy_http2_module modules/mod_proxy_http2.so
 #LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
@@ -171,29 +52,13 @@ LoadModule version_module modules/mod_version.so
 LoadModule unixd_module modules/mod_unixd.so
 #LoadModule heartbeat_module modules/mod_heartbeat.so
 #LoadModule heartmonitor_module modules/mod_heartmonitor.so
-#LoadModule dav_module modules/mod_dav.so
 LoadModule status_module modules/mod_status.so
 LoadModule autoindex_module modules/mod_autoindex.so
-#LoadModule asis_module modules/mod_asis.so
-#LoadModule info_module modules/mod_info.so
-#LoadModule suexec_module modules/mod_suexec.so
-<IfModule !mpm_prefork_module>
-        #LoadModule cgid_module modules/mod_cgid.so
-</IfModule>
-<IfModule mpm_prefork_module>
-        #LoadModule cgi_module modules/mod_cgi.so
-</IfModule>
-#LoadModule dav_fs_module modules/mod_dav_fs.so
-#LoadModule dav_lock_module modules/mod_dav_lock.so
 #LoadModule vhost_alias_module modules/mod_vhost_alias.so
 #LoadModule negotiation_module modules/mod_negotiation.so
 LoadModule dir_module modules/mod_dir.so
-#LoadModule imagemap_module modules/mod_imagemap.so
-#LoadModule actions_module modules/mod_actions.so
-#LoadModule speling_module modules/mod_speling.so
-#LoadModule userdir_module modules/mod_userdir.so
 LoadModule alias_module modules/mod_alias.so
-#LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule rewrite_module modules/mod_rewrite.so
 
 <IfModule unixd_module>
 #
@@ -209,33 +74,8 @@ Group daemon
 
 </IfModule>
 
-# 'Main' server configuration
-#
-# The directives in this section set up the values used by the 'main'
-# server, which responds to any requests that aren't handled by a
-# <VirtualHost> definition.  These values also provide defaults for
-# any <VirtualHost> containers you may define later in the file.
-#
-# All of these directives may appear inside <VirtualHost> containers,
-# in which case these default settings will be overridden for the
-# virtual host being defined.
-#
-
-#
-# ServerAdmin: Your address, where problems with the server should be
-# e-mailed.  This address appears on some server-generated pages, such
-# as error documents.  e.g. admin@your-domain.com
-#
-ServerAdmin you@example.com
-
-#
-# ServerName gives the name and port that the server uses to identify itself.
-# This can often be determined automatically, but we recommend you specify
-# it explicitly to prevent problems during startup.
-#
-# If your host doesn't have a registered DNS name, enter its IP address here.
-#
-#ServerName www.example.com:80
+ServerAdmin {{ zuul_webserver_admin }}
+ServerName {{ zuul_logserver_fqdn }}
 
 #
 # Deny access to the entirety of your server's filesystem. You must
@@ -247,56 +87,17 @@ ServerAdmin you@example.com
     Require all denied
 </Directory>
 
-#
-# Note that from this point forward you must specifically allow
-# particular features to be enabled - so if something's not working as
-# you might expect, make sure that you have specifically enabled it
-# below.
-#
-
-#
-# DocumentRoot: The directory out of which you will serve your
-# documents. By default, all requests are taken from this directory, but
-# symbolic links and aliases may be used to point to other locations.
-#
 DocumentRoot "/usr/local/apache2/htdocs"
 <Directory "/usr/local/apache2/htdocs">
-    #
-    # Possible values for the Options directive are "None", "All",
-    # or any combination of:
-    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
-    #
-    # Note that "MultiViews" must be named *explicitly* --- "Options All"
-    # doesn't give it to you.
-    #
-    # The Options directive is both complicated and important.  Please see
-    # http://httpd.apache.org/docs/2.4/mod/core.html#options
-    # for more information.
-    #
     Options Indexes FollowSymLinks
-
-    #
-    # AllowOverride controls what directives may be placed in .htaccess files.
-    # It can be "All", "None", or any combination of the keywords:
-    #   AllowOverride FileInfo AuthConfig Limit
-    #
     AllowOverride None
-
-    #
-    # Controls who can get stuff from this server.
-    #
     Require all granted
 
     Header set Access-Control-Allow-Origin "*"
 </Directory>
 
-#
-# DirectoryIndex: sets the file that Apache will serve if a directory
-# is requested.
-#
-<IfModule dir_module>
-    DirectoryIndex index.html
-</IfModule>
+IndexOptions FancyIndexing HTMLTable VersionSort FoldersFirst NameWidth=*
+DirectoryIndex index.html
 
 #
 # The following lines prevent .htaccess and .htpasswd files from being
@@ -501,32 +302,8 @@ LogLevel warn
 # the server, or you may simply copy their contents here and change as
 # necessary.
 
-# Server-pool management (MPM specific)
-#Include conf/extra/httpd-mpm.conf
-
-# Multi-language error messages
-#Include conf/extra/httpd-multilang-errordoc.conf
-
-# Fancy directory listings
-#Include conf/extra/httpd-autoindex.conf
-
-# Language settings
-#Include conf/extra/httpd-languages.conf
-
-# User home directories
-#Include conf/extra/httpd-userdir.conf
-
-# Real-time info on requests and configuration
-#Include conf/extra/httpd-info.conf
-
 # Virtual hosts
 #Include conf/extra/httpd-vhosts.conf
-
-# Local access to the Apache HTTP Server Manual
-#Include conf/extra/httpd-manual.conf
-
-# Distributed authoring and versioning (WebDAV)
-#Include conf/extra/httpd-dav.conf
 
 # Various default settings
 #Include conf/extra/httpd-default.conf
@@ -538,6 +315,126 @@ Include conf/extra/proxy-html.conf
 
 # Secure (SSL/TLS) connections
 #Include conf/extra/httpd-ssl.conf
+#
+# This is the Apache server configuration file providing SSL support.
+# It contains the configuration directives to instruct the server how to
+# serve pages over an https connection. For detailed information about these
+# directives see <URL:http://httpd.apache.org/docs/2.4/mod/mod_ssl.html>
+#
+# Do NOT simply read the instructions in here without understanding
+# what they do.  They're here only as hints or reminders.  If you are unsure
+# consult the online docs. You have been warned.
+#
+# Required modules: mod_log_config, mod_setenvif, mod_ssl,
+#          socache_shmcb_module (for default value of SSLSessionCache)
+
+##
+##  SSL Global Context
+##
+##  All SSL configuration in this context applies both to
+##  the main server and all SSL-enabled virtual hosts.
+##
+
+SSLCipherSuite HIGH:!SSLv3:!kRSA
+SSLProxyCipherSuite HIGH:!SSLv3:!kRSA
+
+#   User agents such as web browsers are not configured for the user's
+#   own preference of either security or performance, therefore this
+#   must be the prerogative of the web server administrator who manages
+#   cpu load versus confidentiality, so enforce the server's cipher order.
+SSLHonorCipherOrder on
+
+#   SSL Protocol support:
+#   List the protocol versions which clients are allowed to connect with.
+#   Disable SSLv3 by default (cf. RFC 7525 3.1.1).  TLSv1 (1.0) should be
+#   disabled as quickly as practical.  By the end of 2016, only the TLSv1.2
+#   protocol or later should remain in use.
+SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+SSLProxyProtocol all -SSLv3 -TLSv1 -TLSv1.1
+
+#   Inter-Process Session Cache:
+#   Configure the SSL Session Cache: First the mechanism
+#   to use and second the expiring timeout (in seconds).
+#SSLSessionCache         "dbm:/usr/local/apache2/logs/ssl_scache"
+SSLSessionCache        "shmcb:/usr/local/apache2/logs/ssl_scache(512000)"
+SSLSessionCacheTimeout  300
+
+#   OCSP Stapling (requires OpenSSL 0.9.8h or later)
+#
+#   This feature is disabled by default and requires at least
+#   the two directives SSLUseStapling and SSLStaplingCache.
+#   Refer to the documentation on OCSP Stapling in the SSL/TLS
+#   How-To for more information.
+#
+#   Enable stapling for all SSL-enabled servers:
+SSLUseStapling On
+
+#   Define a relatively small cache for OCSP Stapling using
+#   the same mechanism that is used for the SSL session cache
+#   above.  If stapling is used with more than a few certificates,
+#   the size may need to be increased.  (AH01929 will be logged.)
+SSLStaplingCache "shmcb:/usr/local/apache2/logs/ssl_stapling(32768)"
+
+##
+## SSL Virtual Host Context
+##
+
+<VirtualHost _default_:80>
+RewriteEngine On
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+
+<VirtualHost _default_:443>
+
+#   General setup for the virtual host
+DocumentRoot "/usr/local/apache2/htdocs"
+ServerName {{ zuul_logserver_fqdn }}
+ServerAdmin {{ zuul_webserver_admin }}
+ErrorLog /proc/self/fd/2
+TransferLog /proc/self/fd/1
+
+SSLEngine on
+
+#   Server Certificate:
+#   Point SSLCertificateFile at a PEM encoded certificate.  If
+#   the certificate is encrypted, then you will be prompted for a
+#   pass phrase.  Note that a kill -HUP will prompt again.  Keep
+#   in mind that if you have both an RSA and a DSA certificate you
+#   can configure both in parallel (to also allow the use of DSA
+#   ciphers, etc.)
+#   Some ECC cipher suites (http://www.ietf.org/rfc/rfc4492.txt)
+#   require an ECC certificate which can also be configured in
+#   parallel.
+SSLCertificateFile "/usr/local/apache2/conf/server.crt"
+
+#   TLS-SRP mutual authentication:
+#   Enable TLS-SRP and set the path to the OpenSSL SRP verifier
+#   file (containing login information for SRP user accounts).
+#   Requires OpenSSL 1.0.1 or newer. See the mod_ssl FAQ for
+#   detailed instructions on creating this file. Example:
+#   "openssl srp -srpvfile /usr/local/apache2/conf/passwd.srpv -add username"
+#SSLSRPVerifierFile "/usr/local/apache2/conf/passwd.srpv"
+
+#   Per-Server Logging:
+#   The home of a custom SSL log file. Use this when you want a
+#   compact non-error SSL logfile on a virtual host basis.
+CustomLog /proc/self/fd/1 \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+ServerName {{ zuul_webserver_fqdn }}
+ServerAdmin {{ zuul_webserver_admin }}
+ErrorLog /proc/self/fd/2
+TransferLog /proc/self/fd/1
+
+RewriteEngine on
+RewriteRule ^/api/tenant/(.*)/console-stream ws://zuul_web:9000/api/tenant/$1/console-stream [P,L]
+RewriteRule ^/(.*)$ http://zuul_web:9000/$1 [P,L]
+
+</VirtualHost>
 #
 # Note: The following must must be present to support
 #       starting without SSL on platforms with no /dev/random equivalent
