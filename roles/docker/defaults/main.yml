@@ -224,3 +224,10 @@ containerd_grpc_gid: 42463
 
 # https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
 docker_opts: {}
+
+##########################
+# facts
+
+docker_fact_files:
+  - docker_containers
+  - docker_images

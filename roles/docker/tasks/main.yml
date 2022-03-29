@@ -31,3 +31,6 @@
 
 - name: Include bootstrap tasks
   ansible.builtin.include_tasks: bootstrap.yml
+
+- name: Include facts tasks
+  ansible.builtin.include_tasks: facts.yml
