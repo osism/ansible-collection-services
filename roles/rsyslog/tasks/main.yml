@@ -23,3 +23,7 @@
   ansible.builtin.include_tasks: fluentd.yml
   tags: fluentd
   when: rsyslog_fluentd|bool
+
+- name: Include additional log server tasks
+  ansible.builtin.include_tasks: additional-log-server.yml
+  when: rsyslog_additional_host is defined and rsyslog_additional_host|length > 0
