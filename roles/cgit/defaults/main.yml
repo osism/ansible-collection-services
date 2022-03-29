@@ -4,8 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry: index.docker.io
-docker_registry_cgit: "{{ docker_registry }}"
+docker_registry_cgit: quay.io
 
 ##########################
 # operator user
@@ -22,8 +21,9 @@ cgit_configuration_directory: /opt/cgit/configuration
 cgit_host: 127.0.0.1
 cgit_port: 8210
 
-cgit_tag: latest
-cgit_image: "{{ docker_registry_cgit }}/clearlinux/cgit:{{ cgit_tag }}"
+# renovate: datasource=docker depName=quay.io/osism/cgit
+cgit_tag: '1.2.3'
+cgit_image: "{{ docker_registry_cgit }}/osism/cgit:{{ cgit_tag }}"
 
 cgit_network: 172.31.101.112/28
 
