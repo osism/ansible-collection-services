@@ -11,7 +11,7 @@
 - name: Copy docker fact files
   become: true
   ansible.builtin.copy:
-    src: "{{ item }}.fact"
+    src: "facts/{{ item }}.fact"
     dest: "/etc/ansible/facts.d/{{ item }}.fact"
     owner: root
     group: root
