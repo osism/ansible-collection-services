@@ -98,7 +98,7 @@ docker_compose_plugin: true
 # docker_registry_username:
 
 docker_registry: index.docker.io
-docker_registry_openpolicyagent: "{{ docker_registry }}"
+docker_registry_docker_openpolicyagent: "{{ docker_registry }}"
 
 docker_insecure_registries: []
 docker_registry_mirrors: []
