@@ -125,9 +125,12 @@ docker_configure_proxy: false
 
 docker_proxy_http: "http://proxy.tld:8080"
 docker_proxy_https: "{{ docker_proxy_http }}"
-docker_proxy_no_proxy:
+
+docker_proxy_no_proxy_default:
   - localhost
   - 127.0.0.1
+docker_proxy_no_proxy_extra: []
+docker_proxy_no_proxy: "{{ docker_proxy_no_proxy_default + docker_proxy_no_proxy_extra }}"
 
 ##########################
 # repository
