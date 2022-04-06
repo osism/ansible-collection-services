@@ -47,18 +47,18 @@
     - file: openssl.cnf
       mode: "0644"
 
-- name: copy log server config
+- name: copy log server mime types
   ansible.builtin.copy:
-    src: httpd.conf
-    dest: "{{ component_conf_dirs.log_server }}/httpd.conf"
+    src: mime.types
+    dest: "{{ component_conf_dirs.log_server }}/mime.types"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0644
 
-- name: copy log server dockerfile
+- name: copy log server certificate
   ansible.builtin.copy:
-    src: log_server_Dockerfile
-    dest: "{{ component_conf_dirs.log_server }}/log_server_Dockerfile"
+    src: server.crt
+    dest: "{{ component_conf_dirs.log_server }}/server.crt"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-    mode: 0644
+    mode: 0600

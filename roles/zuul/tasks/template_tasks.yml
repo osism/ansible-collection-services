@@ -48,6 +48,14 @@
     group: "{{ operator_group }}"
     mode: 0644
 
+- name: template log server config
+  ansible.builtin.template:
+    src: httpd.conf.j2
+    dest: "{{ component_conf_dirs.log_server }}/httpd.conf"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+
 - name: template docker-compose env files
   ansible.builtin.template:
     src: "env/{{ item }}.env.j2"

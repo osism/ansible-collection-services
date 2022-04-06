@@ -23,8 +23,8 @@ dburi=mysql+pymysql://%(ZUUL_MARIADB_USERNAME)s:%(ZUUL_MARIADB_PASSWORD)s@{{ con
 
 [web]
 listen_address=0.0.0.0
-port={{ port_list.web }}
-root=http://{{ zuul_host }}:{{ port_list.web }}
+port=9000
+root=https://{{ zuul_webserver_fqdn }}
 log_config=/etc/zuul/web-logging.conf
 
 [executor]
