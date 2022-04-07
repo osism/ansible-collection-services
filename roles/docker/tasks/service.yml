@@ -1,23 +1,23 @@
 ---
 - name: Start/enable service
+  become: true
   ansible.builtin.service:
     name: "{{ docker_service_name }}"
     state: started
     enabled: true
-  become: true
 
 - name: Start/enable docker socket service
+  become: true
   ansible.builtin.service:
     name: "{{ docker_service_name }}.socket"
     state: started
     enabled: true
   when: ansible_os_family == 'Debian'
-  become: true
 
 - name: Start/enable containerd service
+  become: true
   ansible.builtin.service:
     name: "{{ containerd_service_name }}"
     state: started
     enabled: true
   when: ansible_os_family == 'Debian'
-  become: true

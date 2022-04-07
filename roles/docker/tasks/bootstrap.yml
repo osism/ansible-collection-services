@@ -3,11 +3,11 @@
   meta: flush_handlers
 
 - name: Add user to docker group
+  become: true
   ansible.builtin.user:
     name: "{{ docker_user }}"
     groups: docker
     append: true
-  become: true
 
 # NOTE: use paramiko connection to force a re-login
 

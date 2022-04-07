@@ -1,14 +1,15 @@
 ---
 - name: Create policies directory
+  become: true
   ansible.builtin.file:
     path: /etc/docker/policies
     state: directory
     owner: root
     group: root
     mode: 0750
-  become: true
 
 - name: Copy policy files
+  become: true
   ansible.builtin.template:
     src: "policies/{{ item }}.j2"
     dest: "/etc/docker/policies/{{ item }}"
@@ -16,22 +17,21 @@
     group: root
     mode: 0640
   loop: "{{ docker_policy_files }}"
-  become: true
   notify: Reload docker service
 
 - name: List existing policy files
+  become: true
   ansible.builtin.command: "find /etc/docker/policies/ -type f -printf '%f\n'"
   changed_when: false
   register: existing_policy_files
-  become: true
 
 - name: Remove unmanaged policy files
+  become: true
   ansible.builtin.file:
     dest: "/etc/docker/policies/{{ item }}"
     state: absent
   when: item not in docker_policy_files
   loop: "{{ existing_policy_files.stdout_lines | default([]) }}"
-  become: true
   notify: Reload docker service
 
 - name: Create .docker directory
