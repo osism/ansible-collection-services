@@ -33,7 +33,7 @@
     },
     {
       "fileMatch":[
-        "^roles\\/docker\\/defaults\\/main.yml$",
+        "^roles\\/docker\\/defaults\\/main.yml$"
       ],
       "matchStrings":[
         "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?docker_version: '5:(?<currentValue>.*?)'"
