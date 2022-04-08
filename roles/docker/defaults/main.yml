@@ -84,12 +84,12 @@ docker_pip_extra_args: ""
 # NOTE: This "5:" must be prepended starting with version 18.09.
 #       Check available version under Ubuntu with apt-cache madison docker-ce.
 # renovate: datasource=docker depName=docker
-docker_version: "5:20.10.6"
+docker_version: '5:20.10.6'
 
 ##########################
 # compose
 
-docker_compose_version: "v2.0.1"
+docker_compose_version: 'v2.0.1'
 docker_compose_plugin: true
 
 ##########################
@@ -159,7 +159,7 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 docker_default_runtime: runc
 
 docker_kata_install: false
-docker_kata_version: 1.11
+docker_kata_version: '1.11'
 docker_kata_packages:
   - kata-runtime
   - kata-proxy
@@ -184,7 +184,7 @@ docker_dragonfly: false
 
 docker_policies: false
 
-docker_openpolicyagent_tag: "0.8"
+docker_openpolicyagent_tag: '0.8'
 docker_openpolicyagent_image: "{{ docker_registry_docker_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_openpolicyagent_tag }}"
 
 docker_authorization_plugins_defaults:
@@ -214,7 +214,7 @@ docker_zun_hosts:
 docker_zun_opts:
   cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ 'api' | osism.services.kolla_address(host) | osism.services.put_address_in_context('url') }}:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
-docker_zun_cni_version: 0.3.1
+docker_zun_cni_version: '0.3.1'
 docker_cni_config_dir: /etc/cni/net.d
 docker_cni_bin_dir: /opt/cni/bin
 
