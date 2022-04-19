@@ -23,7 +23,7 @@
 
 - name: Check for conductor.yml
   delegate_to: localhost
-  stat:
+  ansible.builtin.stat:
     path: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
   register: result
 
