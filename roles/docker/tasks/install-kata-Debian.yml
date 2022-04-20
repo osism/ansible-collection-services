@@ -7,26 +7,26 @@
   changed_when: false
 
 - name: Install apt-transport-https package
+  become: true
   ansible.builtin.apt:
     name: apt-transport-https
     state: present
   when: docker_kata_configure_repository|bool
-  become: true
 
 - name: Add repository gpg key
+  become: true
   ansible.builtin.apt_key:
     url: "{{ docker_kata_debian_repository_key }}"
   when: docker_kata_configure_repository|bool
-  become: true
 
 - name: Add repository
+  become: true
   ansible.builtin.apt_repository:
     repo: "{{ docker_kata_debian_repository }}"
     state: present
     filename: kata
     update_cache: true
   when: docker_kata_configure_repository|bool
-  become: true
 
 - name: Wait for apt lock
   ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
@@ -36,7 +36,7 @@
   changed_when: false
 
 - name: Install required packages
+  become: true
   ansible.builtin.apt:
     name: "{{ docker_kata_packages }}"
     state: present
-  become: true

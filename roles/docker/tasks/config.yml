@@ -6,24 +6,25 @@
     - "'zun-compute' in group_names"
 
 - name: Create plugins directory
+  become: true
   ansible.builtin.file:
     path: /etc/docker/plugins
     state: directory
     owner: root
     group: root
     mode: 0755
-  become: true
 
 - name: Create systemd overlay directory
+  become: true
   ansible.builtin.file:
     path: "/etc/systemd/system/{{ docker_service_name }}.service.d"
     state: directory
     owner: root
     group: root
     mode: 0755
-  become: true
 
 - name: Copy systemd overlay file
+  become: true
   ansible.builtin.template:
     src: overlay.conf.j2
     dest: "/etc/systemd/system/{{ docker_service_name }}.service.d/overlay.conf"
@@ -31,25 +32,25 @@
     group: root
     mode: 0644
   register: systemd_overlay_template
-  become: true
   notify: Restart docker service
 
 - name: Reload systemd daemon if systemd overlay file is changed
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
   when: systemd_overlay_template is changed
-  become: true
 
 - name: Copy limits configuration file
+  become: true
   ansible.builtin.copy:
     src: limits.conf
     dest: /etc/security/limits.d/docker.conf
     owner: root
     group: root
     mode: 0644
-  become: true
 
 - name: Copy daemon.json configuration file
+  become: true
   ansible.builtin.template:
     src: daemon.json.j2
     dest: /etc/docker/daemon.json
@@ -57,7 +58,6 @@
     group: root
     mode: 0644
   notify: Restart docker service
-  become: true
 
 - name: Include open policy agent tasks
   ansible.builtin.include_tasks: config-open-policy-agent.yml

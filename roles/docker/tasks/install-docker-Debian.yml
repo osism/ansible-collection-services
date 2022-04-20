@@ -17,30 +17,31 @@
   changed_when: false
 
 - name: Install apt-transport-https package
+  become: true
   ansible.builtin.apt:
     name: apt-transport-https
     state: present
-  become: true
   when: docker_configure_repository|bool
   changed_when: false
 
 - name: Add repository gpg key
+  become: true
   ansible.builtin.apt_key:
     url: "{{ docker_debian_repository_key }}"
-  become: true
   when: docker_configure_repository|bool
 
 - name: Add repository
+  become: true
   ansible.builtin.apt_repository:
     repo: "{{ docker_debian_repository }}"
     state: present
     filename: docker
     update_cache: true
     mode: 0644
-  become: true
   when: docker_configure_repository|bool
 
 - name: Pin package version
+  become: true
   ansible.builtin.copy:
     content: |
       Package: {{ docker_package_name }}
@@ -48,9 +49,9 @@
       Pin-Priority: 1001
     dest: /etc/apt/preferences.d/docker
     mode: 0644
-  become: true
 
 - name: Pin cli package version
+  become: true
   ansible.builtin.copy:
     content: |
       Package: {{ docker_package_name }}-cli
@@ -58,13 +59,12 @@
       Pin-Priority: 1001
     dest: /etc/apt/preferences.d/docker-cli
     mode: 0644
-  become: true
 
 - name: Unlock containerd package
+  become: true
   ansible.builtin.dpkg_selections:
     name: "{{ containerd_package_name }}"
     selection: install
-  become: true
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
@@ -76,16 +76,16 @@
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
+  become: true  # noqa 403
   ansible.builtin.apt:
     name: "{{ containerd_package_name }}"
     state: latest
-  become: true  # noqa 403
 
 - name: Lock containerd package
+  become: true
   ansible.builtin.dpkg_selections:
     name: "{{ containerd_package_name }}"
     selection: hold
-  become: true
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
@@ -96,10 +96,10 @@
   changed_when: false
 
 - name: Install docker-cli package
+  become: true
   ansible.builtin.apt:
     name: "{{ docker_cli_package_name }}={{ docker_version }}*"
     state: present
-  become: true
 
 - name: Wait for apt lock
   ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
@@ -109,12 +109,13 @@
   changed_when: false
 
 - name: Install docker package
+  become: true
   ansible.builtin.apt:
     name: "{{ docker_package_name }}={{ docker_version }}*"
     state: present
-  become: true
 
 - name: Install python bindings with apt
+  become: true
   block:
     - name: Unblock installation of python docker packages
       ansible.builtin.file:
@@ -134,10 +135,10 @@
         name: "{{ docker_python3_package_name }}"
         state: present
 
-  become: true
   when: not docker_python_install_from_pip|bool
 
 - name: Install python bindings with pip
+  become: true
   block:
     - name: Wait for apt lock
       ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
@@ -180,7 +181,6 @@
         executable: pip3
         state: present
 
-  become: true
   when: docker_python_install_from_pip|bool
 
 - name: Wait for apt lock
@@ -191,10 +191,10 @@
   changed_when: false
 
 - name: Install packages required by docker login
+  become: true
   ansible.builtin.apt:
     name: ["gnupg2", "pass"]
     state: present
-  become: true
   when:
     - docker_registry_username is defined and docker_registry_username|string|length > 0
     - docker_registry_password is defined and docker_registry_password|string|length > 0
