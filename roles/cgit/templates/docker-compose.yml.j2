@@ -29,6 +29,9 @@ services:
       - "traefik.http.routers.cgit-secure.entrypoints=https"
       - "traefik.http.routers.cgit-secure.tls=true"
       - "traefik.http.routers.cgit-secure.rule=Host(`{{ cgit_host }}`)"
+      - "traefik.http.routers.cgit-secure.middlewares=custom_repath"
+      - "traefik.http.middlewares.custom_repath.replacepathregex.regex=^/$$"
+      - "traefik.http.middlewares.custom_repath.replacepathregex.replacement=/cgit/"
     networks:
       - default
       - {{ traefik_external_network_name }}
