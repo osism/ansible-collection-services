@@ -105,7 +105,7 @@ netbox_plugins_config:
 # postgres
 
 # renovate: datasource=docker depName=postgres
-postgres_tag: '14-alpine'
+postgres_tag: '14.2-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 netbox_postgres_password: password
@@ -116,7 +116,7 @@ netbox_postgres_databasename: netbox
 # redis
 
 # renovate: datasource=docker depName=redis
-redis_tag: '6-alpine'
+redis_tag: '6.2.6-alpine'
 redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
 
 ##########################
