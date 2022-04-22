@@ -214,7 +214,7 @@ services:
 {% endif %}
   redis:
     restart: unless-stopped
-    image: "{{ redis_image }}"
+    image: "{{ manager_redis_image }}"
     command: redis-server --appendonly yes
     volumes:
       - "redis:/data"
@@ -263,7 +263,7 @@ services:
       - mariadb
   mariadb:
     restart: unless-stopped
-    image: "{{ mariadb_image }}"
+    image: "{{ ara_server_mariadb_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/mariadb.env"
     volumes:

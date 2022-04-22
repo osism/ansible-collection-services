@@ -17,7 +17,7 @@ services:
 
   redis:
     restart: unless-stopped
-    image: "{{ redis_image }}"
+    image: "{{ netbox_redis_image }}"
     command: redis-server --appendonly yes
     volumes:
       - "redis:/data"
