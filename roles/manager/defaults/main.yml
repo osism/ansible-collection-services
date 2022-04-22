@@ -135,7 +135,7 @@ kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla
 # redis
 
 # renovate: datasource=docker depName=redis
-manager_redis_tag: '6-alpine'
+manager_redis_tag: '6.2.6-alpine'
 manager_redis_image: "{{ docker_registry_redis }}/library/redis:{{ manager_redis_tag }}"
 
 ##########################
@@ -176,7 +176,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 # renovate: datasource=docker depName=mariadb
-ara_server_mariadb_tag: '10.8'
+ara_server_mariadb_tag: '10.8.2'
 ara_server_mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ ara_server_mariadb_tag }}"
 
 ##########################
