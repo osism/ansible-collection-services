@@ -1,0 +1,11 @@
+---
+- name: This family is not supported
+  ansible.builtin.fail:
+    msg: "This family, {{ ansible_os_family }}, is not supported yet."
+  when: ansible_os_family != "Debian"
+
+- name: Include install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Include config tasks
+  ansible.builtin.include_tasks: config.yml

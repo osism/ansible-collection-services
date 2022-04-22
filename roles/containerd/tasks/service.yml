@@ -1,0 +1,8 @@
+---
+- name: Start/enable containerd service
+  become: true
+  ansible.builtin.service:
+    name: "{{ containerd_service_name }}"
+    state: started
+    enabled: true
+  when: ansible_os_family == 'Debian'

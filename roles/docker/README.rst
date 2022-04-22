@@ -391,3 +391,9 @@ Extra options for Docker.
              - docker_images
 
 Fact files for Docker images and containers.
+
+.. zuul:rolevar:: docker_manage_containerd
+   :default: true
+
+Manage the containerd service with this role. Alternatively, osism.service.containerd
+can be used for this.
