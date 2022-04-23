@@ -1,5 +1,5 @@
 ---
-version: '3.5'
+version: '3.8'
 
 services:
   inventory_reconciler:
@@ -106,6 +106,8 @@ services:
       - NETBOX_TOKEN
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
+    deploy:
+      replicas: {{ manager_netbox_replicas }}
   conductor:
     restart: unless-stopped
     image: "{{ osism_image }}"
