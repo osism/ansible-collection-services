@@ -104,7 +104,7 @@ ansible_services: "{{ ansible_services_defaults + ansible_services_extra }}"
 ##########################
 # osism-ansible
 
-osism_ansible_container_name: manager_osism-ansible_1
+osism_ansible_container_name: osism-ansible
 
 osism_ansible_tag: latest
 osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
@@ -115,7 +115,7 @@ osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism
 enable_ceph_ansible: "{{ ceph_ansible_enable }}"
 ceph_ansible_enable: true
 
-ceph_ansible_container_name: manager_ceph-ansible_1
+ceph_ansible_container_name: ceph-ansible
 
 ceph_ansible_tag: pacific
 ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
@@ -126,7 +126,7 @@ ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_an
 enable_kolla_ansible: "{{ kolla_ansible_enable }}"
 kolla_ansible_enable: true
 
-kolla_ansible_container_name: manager_kolla-ansible_1
+kolla_ansible_container_name: kolla-ansible
 
 kolla_ansible_tag: xena
 kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
@@ -201,7 +201,7 @@ osism_api_port: 8000
 ##########################
 # vault
 
-vault_container_name: manager_vault_1
+vault_container_name: vault
 
 enable_vault: false
 

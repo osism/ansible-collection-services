@@ -30,6 +30,7 @@ services:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
   osism-ansible: &ansible
+    container_name: "{{ osism_ansible_container_name }}"
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
     env_file:
@@ -82,6 +83,7 @@ services:
 {% if service.enable|bool %}
   {{ service.name }}:
     <<: *ansible
+    container_name: "{{ service.container_name }}"
     image: "{{ service.image }}"
 {% if enable_celery|bool %}
     command: osism worker {{ service.name }}
@@ -275,6 +277,7 @@ services:
 {% endif %}
 {% if enable_vault|bool %}
   vault:
+    container_name: "{{ vault_container_name }}"
     image: "{{ vault_image }}"
     command: server -config=/etc/vault.hcl
     restart: unless-stopped
