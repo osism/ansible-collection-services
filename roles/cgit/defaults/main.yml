@@ -31,6 +31,7 @@ cgit_service_name: "docker-compose@cgit"
 
 cgit_repositories_defaults:
   configuration: /opt/configuration/.git
+  inventory: /var/lib/docker/volumes/manager_inventory_reconciler/_data/.git
   netbox: /opt/state/netbox/.git
 cgit_repositories_extra: {}
 cgit_repositories: "{{ cgit_repositories_defaults|combine(cgit_repositories_extra) }}"
