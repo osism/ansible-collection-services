@@ -264,3 +264,8 @@ manager_openstack_os_auth_url: http://localhost:5000/v3
 
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
+
+##########################
+# replicas
+
+manager_netbox_replicas: 1
