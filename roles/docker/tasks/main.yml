@@ -22,10 +22,6 @@
   ansible.builtin.include_tasks: install-open-policy-agent.yml
   when: docker_policies|bool
 
-- name: Include docker-compose cli plugin install tasks
-  ansible.builtin.include_tasks: install-docker-compose.yml
-  when: docker_compose_plugin|bool
-
 - name: Include service tasks
   ansible.builtin.include_tasks: service.yml
 

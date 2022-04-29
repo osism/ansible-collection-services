@@ -87,12 +87,6 @@ docker_pip_extra_args: ""
 docker_version: '5:20.10.14'
 
 ##########################
-# compose
-
-docker_compose_version: 'v2.0.1'
-docker_compose_plugin: true
-
-##########################
 # registry
 
 # docker_registry_password:
