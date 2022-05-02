@@ -64,6 +64,8 @@ nexus_proxy_exclude_hosts:
   - "localhost"
   - "127.*"
   - "[::1]"
+nexus_security_ssl_url: "/service/rest/v1/security/ssl"
+nexus_security_truststore_url: "/service/rest/v1/security/ssl/truststore"
 
 nexus_docker_bearer_token_realm: true
 
