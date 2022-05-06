@@ -1,0 +1,8 @@
+---
+- project:
+    check:
+      jobs:
+        - build-sphinx-docs
+    gate:
+      jobs:
+        - build-sphinx-docs
