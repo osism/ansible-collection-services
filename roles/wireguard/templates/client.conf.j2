@@ -1,0 +1,10 @@
+[Interface]
+MTU = {{ wireguard_mtu }}
+PrivateKey = {{ private_key_client['content']|b64decode }}
+Address = {{ wireguard_client_address }}
+
+[Peer]
+PublicKey = {{ public_key_server['content']|b64decode }}
+PresharedKey = {{ preshared_key['content']|b64decode }}
+AllowedIPs = {{ wireguard_allowed_client_ips }}
+Endpoint = {{ wireguard_endpoint }}
