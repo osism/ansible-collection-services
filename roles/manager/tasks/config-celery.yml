@@ -21,14 +21,16 @@
     - listener
     - openstack
 
+# NOTE: Since we deploy the manager, we use the conductor.yml directly from the manager.
+
 - name: Check for conductor.yml
-  delegate_to: localhost
   ansible.builtin.stat:
     path: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
   register: result
 
 - name: Copy conductor configuration file
   ansible.builtin.copy:
+    remote_src: true
     src: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
     dest: "{{ manager_configuration_directory }}/conductor.yml"
     mode: 0644
