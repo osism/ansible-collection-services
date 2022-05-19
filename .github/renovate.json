@@ -24,7 +24,7 @@
         "^roles\\/netbox\\/defaults\\/main.yml$",
         "^roles\\/nexus\\/defaults\\/main.yml$",
         "^roles\\/phpmyadmin\\/defaults\\/main.yml$",
-        "^roles\\/traeefik\\/defaults\\/main.yml$",
+        "^roles\\/traefik\\/defaults\\/main.yml$",
         "^roles\\/virtualbmc\\/defaults\\/main.yml$"
       ],
       "matchStrings":[
