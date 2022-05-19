@@ -39,6 +39,24 @@
     update_cache: true
     mode: 0644
   when: docker_configure_repository|bool
+  register: result_add_repository
+
+- name: Wait for apt lock
+  become: true
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  changed_when: false
+  when: not result_add_repository.changed
+
+# NOTE: make sure that the package cache is up to date so that newer Docker versions will be available in any case
+- name: Update package cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+  when: not result_add_repository.changed
 
 - name: Pin package version
   become: true
