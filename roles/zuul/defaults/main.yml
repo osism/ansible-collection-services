@@ -63,9 +63,9 @@ tenants:
 
 docker_registry: index.docker.io
 
-nodepool_tag: "5.0.0"
+nodepool_tag: "6.0.0"
 zookeeper_tag: "3.7.0"
-zuul_tag: "5.2.2"
+zuul_tag: "6.0.0"
 
 image_list:
   nodepool_builder: "{{ docker_registry }}/zuul/nodepool-builder:{{ nodepool_tag }}"
