@@ -104,6 +104,7 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ configuration_directory }}/netbox:/netbox:ro"
       - "{{ state_directory }}/netbox:/state:rw"
+      - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
     secrets:
       - NETBOX_TOKEN
     env_file:
@@ -140,6 +141,7 @@ services:
     command: osism worker openstack
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
     secrets:
       - NETBOX_TOKEN
     env_file:
