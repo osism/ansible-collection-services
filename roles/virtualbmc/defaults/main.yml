@@ -15,6 +15,8 @@ docker_registry_virtualbmc: quay.io
 ##########################
 # virtualbmc
 
+virtualbmc_container_name: virtualbmc
+
 virtualbmc_configuration_directory: /opt/virtualbmc/configuration
 virtualbmc_docker_compose_directory: /opt/virtualbmc
 

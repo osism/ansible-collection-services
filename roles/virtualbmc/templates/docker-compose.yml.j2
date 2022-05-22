@@ -4,6 +4,7 @@ version: '3.5'
 services:
   virtualbmc:
     image: "{{ virtualbmc_image }}"
+    container_name: "{{ virtualbmc_container_name }}"
     restart: unless-stopped
     entrypoint: vbmcd --foreground
     ports:
