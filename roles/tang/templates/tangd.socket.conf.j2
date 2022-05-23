@@ -1,0 +1,21 @@
+[Unit]
+Description=Tang Server socket
+Requires=tangd-keygen.service
+Requires=tangd-update.service
+Requires=tangd-update.path
+After=tangd-keygen.service
+After=tangd-update.service
+
+[Socket]
+{%- if tang_server_port is string %}
+
+ListenStream={{ tang_server_port }}
+{%- else %}
+
+ListenStream=80
+{% endif %}
+
+Accept=true
+
+[Install]
+WantedBy=multi-user.target

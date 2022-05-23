@@ -1,0 +1,6 @@
+---
+- name: Install tang packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ tang_packages }}"
+    state: present

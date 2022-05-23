@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Mathias Fechner
+  description: Role osism.commons.tang
+  company: OSISM GmbH
+  license: Apache License 2.0
+  min_ansible_version: 2.10.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+    - name: EL
+      versions:
+        - 8
+  galaxy_tags:
+    - osism
+    - system
+dependencies: []
