@@ -8,7 +8,7 @@
 
 - name: Set nexus url
   ansible.builtin.set_fact:
-    call_script_netxus_url: "http://{{ nexus_host }}:{{ nexus_port }}/service/rest/v1"
+    call_script_nexus_url: "http://{{ nexus_host }}:{{ nexus_port }}/service/rest/v1"
   when: not nexus_traefik|bool
 
 - name: Wait for nexus
