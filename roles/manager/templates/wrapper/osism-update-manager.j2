@@ -34,7 +34,7 @@ if [[ $INSTALL_ANSIBLE_ROLES == "true" ]]; then
     ansible-galaxy collection install -f git+https://github.com/osism/ansible-playbooks-manager,$ANSIBLE_PLAYBOOKS_MANAGER_VERSION
 fi
 
-if [[ $playbook == "playbook-netbox.yml" || $playbook == "playbook-traefik.yml" ]]; then
+if [[ $PLAYBOOK== "netbox" || $PLAYBOOK == "traefik" ]]; then
 
     ansible-playbook \
         --private-key /opt/ansible/secrets/id_rsa.operator \
