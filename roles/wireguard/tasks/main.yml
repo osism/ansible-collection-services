@@ -1,0 +1,100 @@
+---
+- name: Install wireguard package
+  become: true
+  ansible.builtin.apt:
+    name: wireguard
+    state: present
+
+- name: Create public and private key - client
+  become: true
+  ansible.builtin.shell: |
+    set -o pipefail
+    umask 077
+    wg genkey | tee /etc/wireguard/client.key | wg pubkey > /etc/wireguard/client.pub
+  args:
+    creates: /etc/wireguard/client.key
+    executable: /bin/bash
+
+- name: Create public and private key - server
+  become: true
+  ansible.builtin.shell: |
+    set -o pipefail
+    umask 077
+    wg genkey | tee /etc/wireguard/server.key | wg pubkey > /etc/wireguard/server.pub
+  args:
+    creates: /etc/wireguard/server.key
+    executable: /bin/bash
+
+- name: Create preshared key
+  become: true
+  ansible.builtin.shell: umask 077; wg genpsk > /etc/wireguard/osism.psk
+  args:
+    creates: /etc/wireguard/osism.psk
+
+- name: Get preshared key
+  become: true
+  ansible.builtin.slurp:
+    src: /etc/wireguard/osism.psk
+  register: preshared_key
+
+- name: Get public key - client
+  become: true
+  ansible.builtin.slurp:
+    src: /etc/wireguard/client.pub
+  register: public_key_client
+
+- name: Get private key - client
+  become: true
+  ansible.builtin.slurp:
+    src: /etc/wireguard/client.key
+  register: private_key_client
+
+- name: Get public key - server
+  become: true
+  ansible.builtin.slurp:
+    src: /etc/wireguard/server.pub
+  register: public_key_server
+
+- name: Get private key - server
+  become: true
+  ansible.builtin.slurp:
+    src: /etc/wireguard/server.key
+  register: private_key_server
+
+- name: Get home directory of operator user
+  become: true
+  ansible.builtin.shell: |
+    set -o pipefail
+    getent passwd {{ operator_user }} | cut -d: -f6
+  args:
+    executable: /bin/bash
+  changed_when: false
+  register: operator_home
+
+- name: Copy wireguard-client.conf configuration file
+  ansible.builtin.template:
+    src: client.conf.j2
+    dest: "{{ operator_home.stdout }}/wireguard-client.conf"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0600
+
+- name: Copy wg0.conf configuration file
+  become: true
+  ansible.builtin.template:
+    src: server.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify: Restart wg0 service
+
+# NOTE: Errors are ignored because the kernel module may not be available
+#       after initial installation until after a reboot.
+- name: Start/enable wg-quick@wg0.service service
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ wireguard_service_name }}"
+    state: started
+    enabled: true
+  failed_when: false

@@ -1,0 +1,11 @@
+[Interface]
+Address = {{ wireguard_server_address }}
+ListenPort = {{ wireguard_listen_port }}
+PrivateKey = {{ private_key_server['content']|b64decode }}
+PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT
+
+[Peer]
+PublicKey = {{ public_key_client['content']|b64decode }}
+PresharedKey = {{ preshared_key['content']|b64decode }}
+AllowedIPs = {{ wireguard_allowed_server_ips }}
