@@ -12,6 +12,16 @@ NETADDR_VERSION=${NETADDR_VERSION:-netaddr==0.8.0}
 PLAYBOOK=${PLAYBOOK:-manager}
 VENV_PATH=${VENV_PATH:-.venv}
 
+CONTAINER=${CONTAINER:-false}
+CONTAINER_IMAGE=${CONTAINER_IMAGE:-osism/seed}
+CONTAINER_REGISTRY=${CONTAINER_REGISTRY:-quay.io}
+CONTAINER_TAG=${CONTAINER_TAG:-latest}
+
+if [[ $CONTAINER == "true" ]]; then
+    docker run --rm -v {{ configuration_directory }}:/opt/configuration:ro -it $CONTAINER_REGISTRY/$CONTAINER_IMAGE:$CONTAINER_TAG $PLAYBOOK
+    exit 0
+fi
+
 pushd {{ configuration_directory }}/environments/manager > /dev/null
 
 if [[ ! -x "$(command -v ansible-playbook)" ]]; then
