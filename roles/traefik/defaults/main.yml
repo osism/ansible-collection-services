@@ -50,3 +50,5 @@ traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
 
 traefik_pilot_dashboard: false
+
+traefik_log_level: "INFO"
