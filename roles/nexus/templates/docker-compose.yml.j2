@@ -35,12 +35,12 @@ services:
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.nexus.entrypoints=http"
-      - "traefik.http.routers.nexus.rule=Host(`{{ nexus_host }}`)"
+      - "traefik.http.routers.nexus.rule=Host(`{{ nexus_traefik_host }}`)"
       - "traefik.http.routers.nexus.middlewares=nexus-redirect-to-https@docker"
       - "traefik.http.services.nexus-secure.loadbalancer.server.port=8081"
       - "traefik.http.routers.nexus-secure.entrypoints=https"
       - "traefik.http.routers.nexus-secure.tls=true"
-      - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_host }}`)"
+      - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_traefik_host }}`)"
     networks:
       - default
       - {{ traefik_external_network_name }}
