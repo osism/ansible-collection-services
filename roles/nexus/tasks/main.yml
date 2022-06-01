@@ -11,3 +11,8 @@
   ansible.builtin.include_tasks: initialize.yml
   tags: initialize
   when: not ansible_local.osism.nexus.status|default("False")|bool
+
+- name: Import customer certifications
+  ansible.builtin.include_tasks: import-certs.yml
+  when: nexus_truststore_cert_urls is defined and nexus_truststore_cert_urls|length > 0 and nexus_api_url is defined
+  with_items: "{{ nexus_truststore_cert_urls }}"

@@ -1,0 +1,27 @@
+---
+- name: Get PEM of URL
+  ansible.builtin.uri:
+    method: GET
+    url: "{{ nexus_api_url }}{{ nexus_security_ssl_url }}?host={{ item }}&port=443"
+    user: "{{ nexus_admin_username }}"
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    status_code: 200
+    headers:
+      accept: application/json
+    body_format: json
+  no_log: true
+  register: certpem
+
+- name: Import PEM of URL
+  ansible.builtin.uri:
+    method: POST
+    url: "{{ nexus_api_url }}{{ nexus_security_truststore_url }}"
+    user: "{{ nexus_admin_username }}"
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    status_code: 201,409
+    headers:
+      accept: application/json
+    body_format: json
+    body: "{{ certpem.json.pem }}"
