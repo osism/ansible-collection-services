@@ -22,7 +22,7 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
     healthcheck:
-      test: curl --silent --fail localhost:8081
+      test: curl --silent --fail localhost:8081/nexus/
     volumes:
       - "data:/nexus-data"
       - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
