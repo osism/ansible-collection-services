@@ -3,7 +3,7 @@
 
 - name: Set nexus url
   ansible.builtin.set_fact:
-    call_script_nexus_url: "https://{{ traefik_host }}:{{ traefik_port_https }}/{{ nexus_traefik_path_prefix }}/service/rest/v1"
+    call_script_nexus_url: "https://{{ nexus_traefik_host }}:{{ traefik_port_https }}/{{ nexus_traefik_path_prefix }}/service/rest/v1"
   when: nexus_traefik|bool
 
 - name: Set nexus url
