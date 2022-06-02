@@ -188,9 +188,24 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{% endif %}
     env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+{% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
+{% if enable_ara|bool %}
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "cache:{{ cache_directory }}"
+      - "inventory_reconciler:/ansible/inventory:ro"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
