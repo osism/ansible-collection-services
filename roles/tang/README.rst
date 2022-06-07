@@ -1,3 +1,6 @@
+This ansible role install Tang.
+Tang server for binding data to network presence.
+
 **Role Variables**
 
 .. zuul:rolevar:: tang_service_name
