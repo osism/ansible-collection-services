@@ -23,22 +23,22 @@
   loop: "{{ component_conf_dirs | dict2items }}"
 
 - name: create log directory
+  become: true
   ansible.builtin.file:
     state: directory
     path: /var/log/zuul
     owner: "{{ zuul_user }}"
     group: "{{ zuul_user }}"
     mode: 0755
-  become: true
 
 - name: create nodepool directories
+  become: true
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     owner: "{{ zuul_user }}"
     group: "{{ zuul_user }}"
     mode: 0755
-  become: true
   loop:
     - /srv/dib_cache
     - /srv/dib_tmp
