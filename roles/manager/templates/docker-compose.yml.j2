@@ -66,6 +66,7 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
+      - "/lib/systemd/system:/lib/systemd/system"
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
