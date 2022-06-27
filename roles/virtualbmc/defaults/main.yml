@@ -27,5 +27,5 @@ virtualbmc_host: 127.0.0.1
 virtualbmc_port: 6230-6239
 
 # renovate: datasource=docker depName=quay.io/osism/virtualbmc
-virtualbmc_tag: '2.2.1'
+virtualbmc_tag: '2.2.2'
 virtualbmc_image: "{{ docker_registry_virtualbmc }}/osism/virtualbmc:{{ virtualbmc_tag }}"
