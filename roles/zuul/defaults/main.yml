@@ -63,19 +63,20 @@ tenants:
 
 docker_registry: index.docker.io
 
-nodepool_tag: "6.0.0"
-zookeeper_tag: "3.7.0"
+zuul_nodepool_tag: "6.0.0"
+zuul_zookeeper_tag: "3.7.0"
 zuul_tag: "6.0.0"
+zuul_mariadb_tag: "10.6"
+zuul_log_server_tag: "alpine"
 
-image_list:
-  nodepool_builder: "{{ docker_registry }}/zuul/nodepool-builder:{{ nodepool_tag }}"
-  nodepool_launcher: "{{ docker_registry }}/zuul/nodepool-launcher:{{ nodepool_tag }}"
-  zuul_executor: "{{ docker_registry }}/zuul/zuul-executor:{{ zuul_tag }}"
-  zuul_web: "{{ docker_registry }}/zuul/zuul-web:{{ zuul_tag }}"
-  zuul_scheduler: "{{ docker_registry }}/zuul/zuul-scheduler:{{ zuul_tag }}"
-  zookeeper: "{{ docker_registry }}/zookeeper:{{ zookeeper_tag }}"
-  mariadb: "{{ docker_registry }}/mariadb:latest"
-  log_server: "{{ docker_registry }}/httpd:alpine"
+zuul_nodepool_builder_image: "{{ docker_registry }}/zuul/nodepool-builder:{{ zuul_nodepool_tag }}"
+zuul_nodepool_launcher_image: "{{ docker_registry }}/zuul/nodepool-launcher:{{ zuul_nodepool_tag }}"
+zuul_executor_image: "{{ docker_registry }}/zuul/zuul-executor:{{ zuul_tag }}"
+zuul_web_image: "{{ docker_registry }}/zuul/zuul-web:{{ zuul_tag }}"
+zuul_scheduler_image: "{{ docker_registry }}/zuul/zuul-scheduler:{{ zuul_tag }}"
+zuul_zookeeper_image: "{{ docker_registry }}/zookeeper:{{ zuul_zookeeper_tag }}"
+zuul_mariadb_image: "{{ docker_registry }}/mariadb:{{ zuul_mariadb_tag }}"
+zuul_log_server_image: "{{ docker_registry }}/httpd:{{ zuul_log_server_tag }}"
 
 database:
   user_name: zuul
