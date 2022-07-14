@@ -1,0 +1,22 @@
+---
+version: '3'
+
+services:
+  squid:
+    container_name: "{{ squid_container_name }}"
+    restart: unless-stopped
+    image: "{{ squid_image }}"
+    ports:
+      - "{{ squid_host }}:{{ squid_port }}:3128"
+    volumes:
+      - "{{ squid_configuration_directory }}/conf.d:/etc/squid/conf.d:ro"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet: {{ squid_network }}

@@ -1,0 +1,42 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+docker_registry_squid: index.docker.io
+
+##########################
+# squid
+
+squid_configuration_directory: /opt/squid/configuration
+squid_docker_compose_directory: /opt/squid
+
+squid_network: 172.31.101.144/28
+squid_service_name: "docker-compose@squid"
+
+squid_host: 127.0.0.1
+squid_port: 3128
+
+squid_tag: 5.2-22.04_beta  # don't get fooled by "beta". this is actually production ready
+squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
+squid_container_name: squid
+
+squid_allowed_addresses:
+  - harbor.services.osism.tech
+  - index.docker.io
+  - quay.io
+  - minio.services.osism.tech
+  - archive.ubuntu.com
+  - download.docker.com
+  - packagecloud.io
+  - github.com
+  - galaxy.ansible.com
+  - pypi.org
+  - .opendev.org
