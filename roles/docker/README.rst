@@ -114,18 +114,15 @@ Package name of the docker-cli.
 
 The name of the package for Containerd.
 
-.. code-block:: yaml
+.. note::
 
-    --------------------------------------------------------------------------------
-    * Note:                                                                        *
-    * By default this role uses the packages from Docker itself. Therefore the     *
-    * packages of Ubuntu must not be installed.                                    *
-    * To use the packages of Ubuntu the following parameters have to be adjusted.  *
-    * The repository of Docker should then also not be included                    *
-    * docker_package_name: docker.io                                               *
-    * containerd_package_name: containerd                                          *
-    * docker_packages_fail: []                                                     *
-    --------------------------------------------------------------------------------
+   By default this role uses the packages from Docker itself. Therefore the
+   packages of Ubuntu must not be installed.
+   To use the packages of Ubuntu the following parameters have to be adjusted.
+   The repository of Docker should then also not be included
+   docker_package_name: docker.io
+   containerd_package_name: containerd
+   docker_packages_fail: []
 
 .. zuul:rolevar:: docker_packages_fail
    :default: - containerd
@@ -302,13 +299,10 @@ the repository key and the repository itselfs.
 
 Architecture from the target system.
 
-.. code-block:: yaml
+.. note::
 
-    ----------------------------------------------------------------------------
-    * Note:                                                                    *
-    * The focal repository for Kata is not yet available. Until then,          *
-    * we will use the Bionic repository for Focal.                             *
-    ----------------------------------------------------------------------------
+   The focal repository for Kata is not yet available. Until then,
+   we will use the Bionic repository for Focal.
 
 .. zuul:rolevar:: docker_kata_configure_repository
    :default: true
