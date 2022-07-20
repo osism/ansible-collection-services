@@ -1,0 +1,40 @@
+---
+# tasks file for squid
+
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ squid_configuration_directory }}"
+    - "{{ squid_configuration_directory }}/conf.d"
+    - "{{ squid_docker_compose_directory }}"
+
+- name: Copy config.yml configuration file
+  ansible.builtin.template:
+    src: osism_allow_list.conf.j2
+    dest: "{{ squid_configuration_directory }}/conf.d/osism_allow_list.conf"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  notify: Restart squid service
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ squid_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart squid service
+
+- name: Start/enable squid service
+  become: true
+  ansible.builtin.service:
+    name: "{{ squid_service_name }}"
+    state: started
+    enabled: true
