@@ -1,4 +1,4 @@
-{% for address in allowed_addresses %}
+{% for address in squid_allowed_addresses %}
 acl whitelist dstdomain {{ address }}
 {% endfor %}
 http_access allow whitelist
