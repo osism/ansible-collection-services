@@ -1,0 +1,23 @@
+---
+exclude_paths:
+  - .github/playbook-publish-collection.yml
+mock_modules:
+  - scan_services
+use_default_rules: true
+rulesdir:
+  - ./.ansible-lint-rules/
+warn_list:
+  - var-naming
+  - package-latest
+  - osism-fqcn
+  - no-handler
+  - package-latest
+  - risky-file-permissions
+  - no-changed-when
+  - ignore-errors
+skip_list:
+  - parser-error  # AnsibleParserError.
+  - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
+  - schema
+  - yaml
+  - fqcn-builtins
