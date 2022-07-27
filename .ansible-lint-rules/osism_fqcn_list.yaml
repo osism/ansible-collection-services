@@ -213,6 +213,7 @@ community.general:
   - community.general.unixy
   - community.general.yaml
   - community.general.chroot
+  - community.general.filesystem
   - community.general.funcd
   - community.general.iocage
   - community.general.jail
@@ -466,9 +467,5 @@ openstack.cloud:
   - openstack.cloud.volume_snapshot_info
   - openstack.cloud.openstack
 
-other:
-  - scan_services
-  - hashivault_secret
-  - hashivault_secret_engine
-  - hashivault_auth_method
-  - hashivault_policy
+kolla:
+  - kolla_toolbox

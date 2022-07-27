@@ -10,6 +10,7 @@
     url: "{{ minikube_package_url }}"
     dest: "{{ tmpfile.path }}"
     force: true
+    mode: 0644
 
 - name: Install minikube package
   become: true
