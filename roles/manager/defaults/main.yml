@@ -250,6 +250,11 @@ manager_environment_extra: {}
 manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
 
 ##########################
+# service integrations
+
+manager_enable_bifrost: false
+
+##########################
 # openstack
 
 manager_openstack_os_project_domain_name: Default
