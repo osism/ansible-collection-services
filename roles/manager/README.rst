@@ -607,3 +607,8 @@ Define how many replicas from Netbox will be installed.
    :default: false
 
 Enable bifrost integration.
+
+.. zuul:rolevar:: manager_enable_ironic
+   :default: true
+
+Enable ironic integration.
