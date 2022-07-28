@@ -600,3 +600,10 @@ The Traefik network segment for external traffic.
    :default: 1
 
 Define how many replicas from Netbox will be installed.
+
+**Service integrations**
+
+.. zuul:rolevar:: manager_enable_bifrost
+   :default: false
+
+Enable bifrost integration.
