@@ -253,6 +253,7 @@ manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
 # service integrations
 
 manager_enable_bifrost: false
+manager_enable_ironic: true
 
 ##########################
 # openstack
