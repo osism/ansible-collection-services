@@ -142,6 +142,7 @@ services:
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
+      - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
     secrets:
       - NETBOX_TOKEN
     env_file:
