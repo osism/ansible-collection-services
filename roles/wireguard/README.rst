@@ -27,6 +27,11 @@ Maximum Transfer Unit for wireguard. Please look which MTU fits for your system.
 
 The client address in the VPN.
 
+.. zuul:rolevar:: wireguard_client_configuration_file
+   :default: wireguard-client.conf
+
+The name of the client configuration file in the operator home directory.
+
 .. zuul:rolevar:: wireguard_allowed_client_ips
    :default: 192.168.16.0/20, 192.168.48.0/20, 192.168.96.0/20, 192.168.112.0/20
 

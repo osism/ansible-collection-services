@@ -4,6 +4,7 @@ operator_group: "{{ operator_user }}"
 
 wireguard_mtu: 1360
 wireguard_client_address: 192.168.48.4/24
+wireguard_client_configuration_file: wireguard-client.conf
 wireguard_allowed_client_ips: 192.168.16.0/20, 192.168.48.0/20, 192.168.96.0/20, 192.168.112.0/20
 
 wireguard_server_address: 192.168.48.5/20

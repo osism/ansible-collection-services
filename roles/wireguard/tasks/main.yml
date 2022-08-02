@@ -74,7 +74,7 @@
 - name: Copy wireguard-client.conf configuration file
   ansible.builtin.template:
     src: client.conf.j2
-    dest: "{{ operator_home.stdout }}/wireguard-client.conf"
+    dest: "{{ operator_home.stdout }}/{{ wireguard_client_configuration_file }}"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0600
