@@ -18,6 +18,7 @@
   ansible.builtin.copy:
     content: "{{ vault_key_shares|to_nice_yaml }}"
     dest: "{{ vault_key_shares_path }}"
+    mode: 0600
   when: vault_write_key_shares|bool
 
 - name: Set osism.vault.status fact

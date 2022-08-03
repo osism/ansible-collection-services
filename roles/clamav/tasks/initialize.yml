@@ -10,6 +10,7 @@
   become: true
   ansible.builtin.command:
     cmd: /usr/bin/freshclam
+  changed_when: true
 
 - name: Set osism.clamav.status fact
   ansible.builtin.include_role:
