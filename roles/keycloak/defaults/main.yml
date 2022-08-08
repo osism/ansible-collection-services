@@ -27,7 +27,8 @@ keycloak_service_name: "docker-compose@keycloak"
 keycloak_host: 127.0.0.1
 keycloak_port: 8170
 
-keycloak_tag: legacy
+# renovate: datasource=docker depName=quay.io/keycloak/keycloak
+keycloak_tag: 19.0.1-legacy
 keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
 
 keycloak_username: admin
