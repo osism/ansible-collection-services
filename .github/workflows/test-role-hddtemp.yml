@@ -6,7 +6,7 @@ name: Test role hddtemp
   push:
     paths:
       - '.github/workflows/test-role-hddtemp.yml'
-      - 'molecule/default/*'
+      - 'molecule/delegated/*'
       - 'molecule/hddtemp/**'
       - 'roles/hddtemp/**'
     branches:
@@ -14,7 +14,7 @@ name: Test role hddtemp
   pull_request:
     paths:
       - '.github/workflows/test-role-hddtemp.yml'
-      - 'molecule/default/*'
+      - 'molecule/delegated/*'
       - 'molecule/hddtemp/**'
       - 'roles/hddtemp/**'
 
@@ -31,7 +31,7 @@ jobs:
       matrix:
         ansible-version: ['6.2.0']
         python-version: ['3.8']
-        docker-image: ['ubuntu:20.04']
+        docker-image: ['ubuntu:20.04', 'ubuntu:22.04']
 
     steps:
       - name: Checkout
@@ -49,15 +49,15 @@ jobs:
       #       work here. Hence this workaround.
       - name: Prepare molecule.yml
         run: |
-          sed -i "s/\${DOCKER_IMAGE}/${{ matrix.docker-image }}/g" molecule/default/molecule.yml
-          sed -i "s/\${ANSIBLE_ROLE}/${{ env.ANSIBLE_ROLE }}/g" molecule/default/molecule.yml
+          sed -i "s/\${DOCKER_IMAGE}/${{ matrix.docker-image }}/g" molecule/delegated/molecule.yml
+          sed -i "s/\${ANSIBLE_ROLE}/${{ env.ANSIBLE_ROLE }}/g" molecule/delegated/molecule.yml
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install -r molecule/requirements.txt
           python3 -m pip install ansible~=${{ matrix.ansible-version }}
       - name: Run molecule
-        run: molecule test -s default
+        run: molecule test -s delegated
       - name: Cleanup molecule
-        run: molecule destroy -s default
+        run: molecule destroy -s delegated
         if: ${{ always() }}
