@@ -1,5 +1,7 @@
 # Ansible collection osism.services
 
+Documentation: https://docs.osism.tech/ansible-collection-services/
+
 The following Ansible roles are included in this collection.
 
 | Rolename                 | Test                                                                                                                     |
