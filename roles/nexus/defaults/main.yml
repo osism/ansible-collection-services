@@ -4,8 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry: index.docker.io
-docker_registry_nexus: "{{ docker_registry }}"
+docker_registry_nexus: quay.io
 
 ##########################
 # operator user
