@@ -1,4 +1,8 @@
 ---
+- name: Include distribution spacific vars
+  ansible.builtin.include_vars: jammy.yml
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "22"
+
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 

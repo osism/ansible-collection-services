@@ -5,10 +5,11 @@ auditd_syslog: false
 ##########################
 # configuration
 
+auditd_plugin_path: /etc/audisp/plugins.d
 auditd_config:
   - parameter: active
     value: "{{ 'yes' if auditd_syslog|bool else 'no' }}"
-    config: /etc/audisp/plugins.d/syslog.conf
+    config: "{{ auditd_plugin_path }}/syslog.conf"
 
 ##########################
 # rules
