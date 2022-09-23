@@ -154,22 +154,6 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 
 docker_default_runtime: runc
 
-docker_kata_install: false
-docker_kata_version: '1.11'
-docker_kata_packages:
-  - kata-runtime
-  - kata-proxy
-  - kata-shim
-
-docker_kata_configure_repository: true
-docker_kata_debian_repository_arch: amd64
-
-# NOTE: The focal repository for Kata is not yet available. Until then,
-# we will use the Bionic repository for Focal.
-
-docker_kata_debian_repository_key: "http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_{{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/Release.key"
-docker_kata_debian_repository: "deb [ arch={{ docker_kata_debian_repository_arch }} ] http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_{{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/ /"
-
 ##########################
 # dragonfly
 

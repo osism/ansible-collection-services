@@ -271,66 +271,6 @@ Name of the Docker debian repository.
 
 Container-execution-runtime which should be used.
 
-.. zuul:rolevar:: docker_kata_install
-   :default: false
-
-If Docker should be configured comparable to Kata containers.
-
-.. zuul:rolevar:: docker_kata_version
-   :default: 1.11
-
-The Version of Kata.
-
-.. zuul:rolevar:: docker_kata_packages
-   :default: - kata-runtime
-             - kata-proxy
-             - kata-shim
-
-Required packages for Kata.
-
-.. zuul:rolevar:: docker_kata_configure_repository
-   :default: true
-
-Configure the system for installing Kata. Install dependencies, add
-the repository key and the repository itselfs.
-
-.. zuul:rolevar:: docker_kata_debian_repository_arch
-   :default: amd64
-
-Architecture from the target system.
-
-.. note::
-
-   The focal repository for Kata is not yet available. Until then,
-   we will use the Bionic repository for Focal.
-
-.. zuul:rolevar:: docker_kata_configure_repository
-   :default: true
-
-Configure the system for installing Docker_kata. Install dependencies, add
-the repository key and the repository itselfs.
-
-.. zuul:rolevar:: docker_kata_debian_repository_arch
-   :default: amd64
-
-Architecture from the target system.
-
-.. zuul:rolevar:: docker_kata_debian_repository_key
-   :default: http://download.opensuse.org/repositories/home:/katacontainers:/
-             releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_
-             {{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}
-             /Release.key
-
-The url from which you will get the package.
-
-.. zuul:rolevar:: docker_kata_debian_repository
-   :default: deb [ arch={{ docker_kata_debian_repository_arch }} ]
-             http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-
-             {{ docker_kata_version }}/xUbuntu_
-             {{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/ /
-
-Name of the Docker_kata debian repository.
-
 .. zuul:rolevar:: docker_dragonfly
    :default: false
 
