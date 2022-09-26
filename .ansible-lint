@@ -8,6 +8,9 @@ mock_modules:
 use_default_rules: true
 rulesdir:
   - ./.ansible-lint-rules/
+warn_list:
+  - name[casing]
+  - template-instead-of-copy
 skip_list:
   - parser-error  # AnsibleParserError.
   - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
@@ -18,3 +21,4 @@ skip_list:
   - ignore-errors
   - package-latest
   - var-naming
+  - name[template]
