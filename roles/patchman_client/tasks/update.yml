@@ -13,7 +13,7 @@
   register: result
 
 - name: Run patchman-client
-  ansible.builtin.command: /usr/local/bin/patchman-client  # noqa 301
+  ansible.builtin.command: /usr/local/bin/patchman-client  # noqa no-changed-when
   when: (not result.stat.exists or patchman_client_update_force or
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_client_update_valid_time|int)))
 

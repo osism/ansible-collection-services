@@ -1,8 +1,8 @@
 ---
 - name: Copy private ssh keys
   become: true
-  ansible.builtin.copy:
-    content: "{{ item.value }}"
+  ansible.builtin.template:
+    src: config-ssh-key.j2
     dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
     owner: "{{ operator_user }}"
     mode: 0600

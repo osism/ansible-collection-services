@@ -41,8 +41,8 @@
       dest: umc/web/ucr
 
 - name: Copy secret files
-  ansible.builtin.copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: config-secret.j2
     dest: "{{ openldap_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"

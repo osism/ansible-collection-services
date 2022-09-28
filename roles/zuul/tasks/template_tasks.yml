@@ -1,5 +1,5 @@
 ---
-- name: template zookeeper zoo.cfg
+- name: Template zookeeper zoo.cfg
   ansible.builtin.template:
     src: zoo.cfg.j2
     dest: "{{ component_conf_dirs.zookeeper }}/zoo.cfg"
@@ -7,7 +7,7 @@
     group: "{{ operator_group }}"
     mode: 0644
 
-- name: template zuul scheduler wait script
+- name: Template zuul scheduler wait script
   ansible.builtin.template:
     src: wait-to-start.sh.j2
     dest: "{{ component_conf_dirs.scheduler }}/wait-to-start.sh"
@@ -15,7 +15,7 @@
     group: "{{ operator_group }}"
     mode: 0755
 
-- name: template zuul zuul.conf
+- name: Template zuul zuul.conf
   ansible.builtin.template:
     src: zuul.conf.j2
     dest: "{{ component_conf_dirs.zuul }}/zuul.conf"
@@ -23,16 +23,16 @@
     group: "{{ operator_group }}"
     mode: 0644
 
-- name: template zuul main.yaml
+- name: Template zuul main.yaml
   ansible.builtin.template:
     src: main.yaml.j2
     dest: "{{ component_conf_dirs.zuul }}/main.yaml"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0644
-  notify: smart_reload_scheduler
+  notify: Smart reload scheduler
 
-- name: template nodepool-builder nodepool.yaml
+- name: Template nodepool-builder nodepool.yaml
   ansible.builtin.template:
     src: nodepool.yaml.j2
     dest: "{{ component_conf_dirs.nodepool_builder }}/nodepool.yaml"
@@ -40,7 +40,7 @@
     group: "{{ operator_group }}"
     mode: 0644
 
-- name: template nodepool-launcher nodepool.yaml
+- name: Template nodepool-launcher nodepool.yaml
   ansible.builtin.template:
     src: nodepool.yaml.j2
     dest: "{{ component_conf_dirs.nodepool_launcher }}/nodepool.yaml"
@@ -48,7 +48,7 @@
     group: "{{ operator_group }}"
     mode: 0644
 
-- name: template log server config
+- name: Template log server config
   ansible.builtin.template:
     src: httpd.conf.j2
     dest: "{{ component_conf_dirs.log_server }}/httpd.conf"
@@ -56,7 +56,7 @@
     group: "{{ operator_group }}"
     mode: 0644
 
-- name: template docker-compose env files
+- name: Template docker-compose env files
   ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ base_conf_dir }}/{{ item }}.env"
@@ -69,7 +69,7 @@
     - scheduler
     - web
 
-- name: template docker-compose.yaml
+- name: Template docker-compose.yaml
   ansible.builtin.template:
     src: docker-compose.yaml.j2
     dest: "{{ base_conf_dir }}/docker-compose.yaml"

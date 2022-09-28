@@ -10,8 +10,8 @@
     - postgres
 
 - name: Copy secret files
-  ansible.builtin.copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: config-postgres-secret.j2
     dest: "{{ netbox_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"
@@ -31,17 +31,8 @@
     mode: 0755
 
 - name: Create init-netbox-database.sh script
-  ansible.builtin.copy:
-    content: |
-      #!/bin/bash
-      set -e
-
-      psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-          CREATE USER {{ netbox_postgres_username }} WITH PASSWORD '{{ netbox_postgres_password }}';
-          CREATE DATABASE {{ netbox_postgres_databasename }};
-          GRANT ALL PRIVILEGES ON DATABASE {{ netbox_postgres_databasename }} TO {{ netbox_postgres_username }};
-          ALTER DATABASE {{ netbox_postgres_databasename }} OWNER TO {{ netbox_postgres_username }};
-      EOSQL
+  ansible.builtin.template:
+    src: config-netbox-database.j2
     dest: "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d/init-netbox-database.sh"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"

@@ -5,7 +5,7 @@
 # permissions. therefore the base directory can only be entered
 # by the owner. the files in this directory will have read
 # permissions for all others too.
-- name: create base config directory
+- name: Create base config directory
   ansible.builtin.file:
     state: directory
     path: "{{ base_conf_dir }}"
@@ -13,7 +13,7 @@
     group: "{{ operator_group }}"
     mode: 0755
 
-- name: create component config directories
+- name: Create component config directories
   ansible.builtin.file:
     state: directory
     path: "{{ item['value'] }}"
@@ -22,7 +22,7 @@
     mode: 0755
   loop: "{{ component_conf_dirs | dict2items }}"
 
-- name: create log directory
+- name: Create log directory
   become: true
   ansible.builtin.file:
     state: directory
@@ -31,7 +31,7 @@
     group: "{{ zuul_user }}"
     mode: 0755
 
-- name: create nodepool directories
+- name: Create nodepool directories
   become: true
   ansible.builtin.file:
     state: directory
@@ -47,16 +47,16 @@
     - /srv/nodepool/elements
     - /srv/nodepool/images
 
-- name: include copy tasks
+- name: Include copy tasks
   ansible.builtin.include_tasks: copy_tasks.yml
 
-- name: include template tasks
+- name: Include template tasks
   ansible.builtin.include_tasks: template_tasks.yml
 
-- name: include generation of certificates and keys
+- name: Include generation of certificates and keys
   ansible.builtin.include_tasks: generate_certs_and_keys.yml
 
-- name: start zuul
+- name: Start zuul
   community.docker.docker_compose:
     project_src: "{{ base_conf_dir }}"
     project_name: zuul

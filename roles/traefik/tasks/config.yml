@@ -25,8 +25,8 @@
     - certificates.yml
 
 - name: Copy certificate cert files
-  ansible.builtin.copy:
-    content: "{{ item.value.cert }}"
+  ansible.builtin.template:
+    src: traefik-cert.j2
     dest: "{{ traefik_certificates_directory }}/{{ item.key }}.cert"
     mode: 0644
     owner: "{{ operator_user }}"
@@ -35,8 +35,8 @@
   no_log: true
 
 - name: Copy certificate key files
-  ansible.builtin.copy:
-    content: "{{ item.value.key }}"
+  ansible.builtin.template:
+    src: traefik-key.j2
     dest: "{{ traefik_certificates_directory }}/{{ item.key }}.key"
     mode: 0644
     owner: "{{ operator_user }}"

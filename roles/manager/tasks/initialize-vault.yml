@@ -15,8 +15,8 @@
   when: vault_output_key_shares|bool
 
 - name: Write vault key shares
-  ansible.builtin.copy:
-    content: "{{ vault_key_shares|to_nice_yaml }}"
+  ansible.builtin.template:
+    src: config-vault-key.j2
     dest: "{{ vault_key_shares_path }}"
     mode: 0600
   when: vault_write_key_shares|bool

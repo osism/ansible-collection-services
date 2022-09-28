@@ -1,7 +1,7 @@
 ---
 - name: Copy secret files
-  ansible.builtin.copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: config-netbox-secret.j2
     dest: "{{ manager_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"
