@@ -15,7 +15,7 @@
   register: result
 
 - name: Run patchman-update
-  ansible.builtin.command: /usr/local/bin/patchman-update  # noqa 301
+  ansible.builtin.command: /usr/local/bin/patchman-update  # noqa no-changed-when
   async: 1800
   poll: 0
   register: command_sleeper

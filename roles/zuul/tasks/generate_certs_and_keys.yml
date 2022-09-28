@@ -1,5 +1,5 @@
 ---
-- name: copy ssh keypair for nodepool/zuul to worker node communication
+- name: Copy ssh keypair for nodepool/zuul to worker node communication
   ansible.builtin.copy:
     src: "{{ item['path'] }}"
     dest: "{{ component_conf_dirs.ssh_keys }}/{{ item['path'] }}"
@@ -12,13 +12,13 @@
     - path: "nodepool.pub"
       mode: "0644"
 
-- name: generate zookeeper certificates
+- name: Generate zookeeper certificates
   ansible.builtin.command: "{{ component_conf_dirs.certs }}/zk-ca.sh
     {{ component_conf_dirs.certs }} {{ zookeeper_fqdn }}"
   args:
     creates: "{{ component_conf_dirs.certs }}/certs"
 
-- name: ensure correct permission settings
+- name: Ensure correct permission settings
   ansible.builtin.file:
     path: "{{ component_conf_dirs.certs }}"
     owner: "{{ operator_user }}"

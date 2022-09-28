@@ -30,8 +30,8 @@
   when: not keycloak_galera_backend_enable|bool
 
 - name: Copy secret files
-  ansible.builtin.copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: secret-config.j2
     dest: "{{ keycloak_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"
