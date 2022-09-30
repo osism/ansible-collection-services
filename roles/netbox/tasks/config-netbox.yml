@@ -34,7 +34,7 @@
   notify: Restart netbox service
 
 - name: Copy secret files
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: config-netbox-secret.j2
     dest: "{{ netbox_secrets_directory }}/{{ item.filename }}"
     mode: 0644
