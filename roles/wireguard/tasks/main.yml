@@ -2,19 +2,9 @@
 - name: Install wireguard package
   become: true
   ansible.builtin.apt:
-    name: wireguard
+    name: wireguard-tools
     state: present
     lock_timeout: "{{ apt_lock_timeout|default(300) }}"
-
-- name: Create public and private key - client
-  become: true
-  ansible.builtin.shell: |
-    set -o pipefail
-    umask 077
-    wg genkey | tee /etc/wireguard/client.key | wg pubkey > /etc/wireguard/client.pub
-  args:
-    creates: /etc/wireguard/client.key
-    executable: /bin/bash
 
 - name: Create public and private key - server
   become: true
@@ -36,49 +26,21 @@
   become: true
   ansible.builtin.slurp:
     src: /etc/wireguard/osism.psk
-  register: preshared_key
-
-- name: Get public key - client
-  become: true
-  ansible.builtin.slurp:
-    src: /etc/wireguard/client.pub
-  register: public_key_client
-
-- name: Get private key - client
-  become: true
-  ansible.builtin.slurp:
-    src: /etc/wireguard/client.key
-  register: private_key_client
+  register: wireguard_preshared_key
+  no_log: true
 
 - name: Get public key - server
   become: true
   ansible.builtin.slurp:
     src: /etc/wireguard/server.pub
-  register: public_key_server
+  register: wireguard_public_key_server
 
 - name: Get private key - server
   become: true
   ansible.builtin.slurp:
     src: /etc/wireguard/server.key
-  register: private_key_server
-
-- name: Get home directory of operator user
-  become: true
-  ansible.builtin.shell: |
-    set -o pipefail
-    getent passwd {{ operator_user }} | cut -d: -f6
-  args:
-    executable: /bin/bash
-  changed_when: false
-  register: operator_home
-
-- name: Copy wireguard-client.conf configuration file
-  ansible.builtin.template:
-    src: client.conf.j2
-    dest: "{{ operator_home.stdout }}/{{ wireguard_client_configuration_file }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0600
+  register: wireguard_private_key_server
+  no_log: true
 
 - name: Copy wg0.conf configuration file
   become: true
@@ -87,15 +49,22 @@
     dest: /etc/wireguard/wg0.conf
     owner: root
     group: root
-    mode: 0600
+    mode: 0400
   notify: Restart wg0 service
 
-# NOTE: Errors are ignored because the kernel module may not be available
-#       after initial installation until after a reboot.
-- name: Start/enable wg-quick@wg0.service service
+- name: Copy client configuration files
+  become: true
+  ansible.builtin.template:
+    src: client.conf.j2
+    dest: "/home/{{ item.name }}/wg0-{{ item.name }}.conf"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: 0600
+  loop: "{{ wireguard_users }}"
+
+- name: Start and enable wg-quick@wg0.service service
   become: true
   ansible.builtin.systemd:
-    name: "{{ wireguard_service_name }}"
+    name: wg-quick@wg0.service
     state: started
     enabled: true
-  failed_when: false

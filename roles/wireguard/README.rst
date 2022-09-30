@@ -1,58 +1,39 @@
-An ansible role for installation and configuration wireguard.
+An ansible role for installation and configuration of wireguard. Sets
+up VPN service for a set of local users.
 
 **Role Variables**
 
-.. zuul:rolevar:: operator_user
-   :default: dragon
+.. zuul:rolevar:: wireguard_users
 
-The user that will own the client config.
+List of users that will be configured for access. Each item is a dict with keys::
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
-
-The group that will own the client config.
-
-.. zuul:rolevar:: wireguard_service_name
-   :default: wg-quick@wg0.service
-
-The name for the wireguard service.
+  - name: Name of the user
+  - key: The public wireguard key of the user
+  - ip: The IP address assigned to the user
 
 .. zuul:rolevar:: wireguard_mtu
    :default: 1360
 
-Maximum Transfer Unit for wireguard. Please look which MTU fits for your system.
-
-.. zuul:rolevar:: wireguard_client_address
-   :default: 192.168.48.4/24
-
-The client address in the VPN.
-
-.. zuul:rolevar:: wireguard_client_configuration_file
-   :default: wireguard-client.conf
-
-The name of the client configuration file in the operator home directory.
-
-.. zuul:rolevar:: wireguard_allowed_client_ips
-   :default: 192.168.16.0/20, 192.168.48.0/20, 192.168.96.0/20, 192.168.112.0/20
-
-Addresses which should be routed through the VPN.
+Maximum Transfer Unit for wireguard. The default should allow connections to work
+through most consumer and cloud networks.
 
 .. zuul:rolevar:: wireguard_server_address
-   :default: 192.168.48.5/20
+   :default: 192.168.48.254/24
 
-The internal VPN server address.
+The VPN server address.
 
 .. zuul:rolevar:: wireguard_listen_port
    :default: 51820
 
 The port on which the wireguard server is listening.
 
-.. zuul:rolevar:: wireguard_allowed_server_ips
-   :default: 192.168.48.0/20
-
-The range of allowed client IP addresses.
-
 .. zuul:rolevar:: wireguard_server_public_address
    :default: WIREGUARD_PUBLIC_IP_ADDRESS
 
-The public IP address of the wireguard server.
+The public IP address of the wireguard server that clients can connect to.
+
+.. zuul:rolevar:: wireguard_create_client_config
+   :default: false
+
+Whether to create client config files. Assumes the user names to be local
+on the server and their home directory to be `/home/user.name`.
