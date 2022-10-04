@@ -4,9 +4,11 @@
     check:
       jobs:
         - build-sphinx-docs
+        - testbed-deploy
     gate:
       jobs:
         - build-sphinx-docs
+        - testbed-deploy
     post:
       jobs:
         - osism-publish-tox-docs-production
