@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     image: "{{ openstackclient_image }}"
     command: sleep infinity
+    env_file:
+      - "{{ openstackclient_configuration_directory }}/openstackclient.env"
     volumes:
       - "{{ openstackclient_configuration_directory }}:/configuration:ro"
       - "{{ openstackclient_data_directory }}:/data:ro"
