@@ -48,7 +48,7 @@
     - lock
     - lock-frontend
   changed_when: false
-  when: not result_add_repository.changed
+  when: result_add_repository.changed
 
 # NOTE: make sure that the package cache is up to date so that newer Docker versions will be available in any case
 - name: Update package cache
@@ -56,7 +56,7 @@
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: "{{ apt_cache_valid_time }}"
-  when: not result_add_repository.changed
+  when: result_add_repository.changed
 
 - name: Pin package version
   become: true
