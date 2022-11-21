@@ -32,3 +32,13 @@ private_key_file=/var/ssh/nodepool
 default_username=root
 trusted_rw_paths=/srv/static/logs
 log_config=/etc/zuul/executor-logging.conf
+{% if zuul_auth_secret is defined %}
+
+[auth zuul_operator]
+driver=HS256
+allow_authz_override=true
+realm={{ zuul_webserver_fqdn }}
+client_id={{ zuul_webserver_fqdn }}
+issuer_id=zuul_operator
+secret={{ zuul_auth_secret }}
+{% endif %}
