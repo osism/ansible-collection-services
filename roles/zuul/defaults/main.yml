@@ -63,9 +63,9 @@ tenants:
 
 docker_registry: index.docker.io
 
-zuul_nodepool_tag: "6.0.0"
-zuul_zookeeper_tag: "3.7.0"
-zuul_tag: "6.0.0"
+zuul_nodepool_tag: "8.0.0"
+zuul_zookeeper_tag: "3.7.1"
+zuul_tag: "8.0.1"
 zuul_mariadb_tag: "10.6"
 zuul_log_server_tag: "alpine"
 
