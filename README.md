@@ -13,7 +13,6 @@ The following Ansible roles are included in this collection.
 | cgit                     |                                                                                                                          |
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg)       |
 | clamav                   | ![Test role clamav](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20clamav/badge.svg)       |
-| cockpit                  | ![Test role cockpit](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20cockpit/badge.svg)     |
 | dnsdist                  |                                                                                                                          |
 | docker                   |                                                                                                                          |
 | fail2ban                 | ![Test role fail2ban](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20fail2ban/badge.svg)   |
