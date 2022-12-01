@@ -1,0 +1,46 @@
+frr version 8.1
+frr defaults traditional
+hostname {{ inventory_hostname_short }}
+log syslog informational
+service integrated-vtysh-config
+!
+router bgp {{ frr_local_as }}
+ no bgp ebgp-requires-policy
+ bgp bestpath as-path multipath-relax
+ bgp router-id {{ frr_loopback_v4 }}
+{% for item in frr_uplinks %}
+ neighbor {{ item.interface }} interface remote-as {{ item.remote_as }}
+{% endfor %}
+ !
+ address-family ipv4 unicast
+  redistribute connected route-map bgp_out
+{% for item in frr_uplinks %}
+  neighbor {{ item.interface }} route-map bgp_out out
+{% endfor %}
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  redistribute connected route-map bgp_out
+{% for item in frr_uplinks %}
+  neighbor {{ item.interface }} activate
+  neighbor {{ item.interface }} route-map bgp_out out
+{% endfor %}
+ exit-address-family
+exit
+!
+route-map bgp_out permit 10
+ match interface {{ frr_dummy_interface }}
+exit
+!
+route-map RM_SET_SRC4 permit 10
+ set src {{ frr_loopback_v4 }}
+exit
+!
+route-map RM_SET_SRC6 permit 10
+ set src {{ frr_loopback_v6 }}
+exit
+!
+ip protocol bgp route-map RM_SET_SRC4
+!
+ipv6 protocol bgp route-map RM_SET_SRC6
