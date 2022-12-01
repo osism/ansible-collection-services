@@ -1,7 +1,7 @@
 ---
 - name: Restart docker service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     state: restarted
     name: "{{ docker_service_name }}"
   when: (docker_allow_restart|bool and inventory_hostname not in groups[docker_ignore_restart_groupname]|default([])) or
@@ -9,6 +9,6 @@
 
 - name: Reload docker service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     state: reloaded
     name: "{{ docker_service_name }}"

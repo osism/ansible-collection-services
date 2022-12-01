@@ -1,0 +1,7 @@
+---
+- name: Restart traefik service
+  become: true
+  ansible.builtin.service:
+    name: "{{ traefik_service_name }}"
+    state: restarted
+  when: not traefik_service.changed

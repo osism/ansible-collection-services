@@ -1,0 +1,48 @@
+---
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+docker_registry_cgit: quay.io
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# cgit
+
+cgit_docker_compose_directory: /opt/cgit
+cgit_configuration_directory: /opt/cgit/configuration
+
+cgit_host: 127.0.0.1
+cgit_port: 8210
+
+# renovate: datasource=docker depName=quay.io/osism/cgit
+cgit_tag: '1.2.3'
+cgit_image: "{{ docker_registry_cgit }}/osism/cgit:{{ cgit_tag }}"
+
+cgit_network: 172.31.101.112/28
+
+cgit_service_name: "docker-compose@cgit"
+
+cgit_repositories_defaults:
+  configuration: /opt/configuration/.git
+  inventory: /var/lib/docker/volumes/manager_inventory_reconciler/_data/.git
+  netbox: /opt/state/netbox/.git
+cgit_repositories_extra: {}
+cgit_repositories: "{{ cgit_repositories_defaults|combine(cgit_repositories_extra) }}"
+
+##########################
+# traefik
+
+cgit_traefik: false
+
+cgit_traefik_path_prefix: cgit
+cgit_traefik_host: ""
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24

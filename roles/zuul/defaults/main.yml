@@ -5,12 +5,16 @@
 # Generic
 ###############################################################################
 
-operator_user: dragon
+operator_user: ubuntu
 operator_group: "{{ operator_user }}"
 zuul_host: "{{ inventory_hostname }}"
-zookeeper_fqdn: "zookeeper_1.osism"
+zuul_logserver_fqdn: "logs.example.org"
+zuul_webserver_fqdn: "zuul.example.org"
+zuul_webserver_admin: "admin@example.org"
+zookeeper_fqdn: "zookeeper01.example.org"
 base_conf_dir: /opt/zuul
 component_conf_dirs:
+  nodepool_builder: "{{ base_conf_dir }}/nodepool_builder_configuration"
   nodepool_launcher: "{{ base_conf_dir }}/nodepool_launcher_configuration"
   zookeeper: "{{ base_conf_dir }}/zookeeper_configuration"
   zuul: "{{ base_conf_dir }}/zuul_configuration"
@@ -59,19 +63,20 @@ tenants:
 
 docker_registry: index.docker.io
 
-port_list:
-  web: 9000
-  nodepool_launcher: 8022
-  log_server: 8000
+zuul_nodepool_tag: "6.0.0"
+zuul_zookeeper_tag: "3.7.0"
+zuul_tag: "6.0.0"
+zuul_mariadb_tag: "10.6"
+zuul_log_server_tag: "alpine"
 
-image_list:
-  nodepool_launcher: "{{ docker_registry }}/zuul/nodepool-launcher:4.1.0"
-  zuul_executor: "{{ docker_registry }}/zuul/zuul-executor:4.5.1"
-  zuul_web: "{{ docker_registry }}/zuul/zuul-web:4.5.1"
-  zuul_scheduler: "{{ docker_registry }}/zuul/zuul-scheduler:4.5.1"
-  zookeeper: "{{ docker_registry }}/zookeeper:3.7.0"
-  mariadb: "{{ docker_registry }}/mariadb:latest"
-  log_server: "{{ docker_registry }}/httpd:alpine"
+zuul_nodepool_builder_image: "{{ docker_registry }}/zuul/nodepool-builder:{{ zuul_nodepool_tag }}"
+zuul_nodepool_launcher_image: "{{ docker_registry }}/zuul/nodepool-launcher:{{ zuul_nodepool_tag }}"
+zuul_executor_image: "{{ docker_registry }}/zuul/zuul-executor:{{ zuul_tag }}"
+zuul_web_image: "{{ docker_registry }}/zuul/zuul-web:{{ zuul_tag }}"
+zuul_scheduler_image: "{{ docker_registry }}/zuul/zuul-scheduler:{{ zuul_tag }}"
+zuul_zookeeper_image: "{{ docker_registry }}/zookeeper:{{ zuul_zookeeper_tag }}"
+zuul_mariadb_image: "{{ docker_registry }}/mariadb:{{ zuul_mariadb_tag }}"
+zuul_log_server_image: "{{ docker_registry }}/httpd:{{ zuul_log_server_tag }}"
 
 database:
   user_name: zuul
@@ -82,15 +87,12 @@ database:
 container_name:
   mariadb: "zuul_mariadb"
   zookeeper: "zuul_zookeeper"
+  nodepool_builder: "zuul_nodepool_builder"
   nodepool_launcher: "zuul_nodepool_launcher"
+  zuul_executor: "zuul_executor"
   zuul_scheduler: "zuul_scheduler"
   zuul_web: "zuul_web"
-  zuul_executor: "zuul_executor"
   log_server: "zuul_log_server"
-  worker_node_list:
-    - "zuul_worker_node_1"
-# Do not forget to add the to the nodepool list below
-
 
 ###############################################################################
 # Nodepool
@@ -102,13 +104,3 @@ nodepool_labels:
 
 nodepool_providers:
   providers:  # we need this sub-key. limitation of to_nice_yaml library
-    - name: docker-containers
-      driver: static
-      pools:
-        - name: docker-compose containers
-          nodes:
-            - name: zuul_worker_node_1
-              labels: ubuntu-focal  # make sure nodepool_labels has this
-              host-key-checking: false
-              python-path: /usr/bin/python3
-              username: root

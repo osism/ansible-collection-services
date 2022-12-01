@@ -1,0 +1,6 @@
+---
+- name: Install required packages
+  become: true
+  ansible.builtin.yum:
+    name: "{{ clamav_package_names }}"
+    state: present

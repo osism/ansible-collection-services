@@ -8,19 +8,24 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_virtualbmc: quay.io
 
 ##########################
-# rundeck
+# virtualbmc
+
+virtualbmc_container_name: virtualbmc
 
 virtualbmc_configuration_directory: /opt/virtualbmc/configuration
 virtualbmc_docker_compose_directory: /opt/virtualbmc
 
-virtualbmc_network: 172.31.101.16/28
+virtualbmc_network: 172.31.101.128/28
 virtualbmc_service_name: "docker-compose@virtualbmc"
 
 virtualbmc_host: 127.0.0.1
 virtualbmc_port: 6230-6239
 
-virtualbmc_tag: 2.2.0
+# renovate: datasource=docker depName=quay.io/osism/virtualbmc
+virtualbmc_tag: '3.0.0'
 virtualbmc_image: "{{ docker_registry_virtualbmc }}/osism/virtualbmc:{{ virtualbmc_tag }}"

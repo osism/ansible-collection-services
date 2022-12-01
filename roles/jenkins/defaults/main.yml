@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_jenkins: quay.io
 
 ##########################

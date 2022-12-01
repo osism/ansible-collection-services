@@ -1,0 +1,30 @@
+---
+- name: Include distribution specific install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Copy bird.conf configuration file
+  become: true
+  ansible.builtin.template:
+    src: bird.conf.j2
+    dest: /etc/bird/bird.conf
+    owner: bird
+    group: bird
+    mode: 0640
+  notify: Restart bird service
+
+- name: Set sysctl parameters
+  become: true
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_file: /etc/sysctl.d/50-bird.conf
+    sysctl_set: true
+  with_items: "{{ bird_sysctl }}"
+
+- name: Start/enable bird service
+  become: true
+  ansible.builtin.service:
+    name: "{{ bird_service_name }}"
+    state: started
+    enabled: true

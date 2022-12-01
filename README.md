@@ -1,23 +1,29 @@
 # Ansible collection osism.services
 
+Documentation: https://docs.osism.tech/ansible-collection-services/
+
 The following Ansible roles are included in this collection.
 
 | Rolename                 | Test                                                                                                                     |
 |------------------------- |--------------------------------------------------------------------------------------------------------------------------|
 | adminer                  |                                                                                                                          |
 | auditd                   | ![Test role auditd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20auditd/badge.svg)       |
+| bird                     |                                                                                                                          |
 | cephclient               |                                                                                                                          |
+| cgit                     |                                                                                                                          |
 | chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg)       |
-| cockpit                  | ![Test role cockpit](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20cockpit/badge.svg)     |
+| clamav                   | ![Test role clamav](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20clamav/badge.svg)       |
+| dnsdist                  |                                                                                                                          |
 | docker                   |                                                                                                                          |
 | fail2ban                 | ![Test role fail2ban](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20fail2ban/badge.svg)   |
 | falco                    |                                                                                                                          |
-| frr                      |                                                                                                                          |
+| frr                      | ![Test role frr](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20frr/badge.svg)             |
 | hddtemp                  | ![Test role hddtemp](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20hddtemp/badge.svg)     |
 | homer                    |                                                                                                                          |
 | jenkins                  |                                                                                                                          |
+| journald                 | ![Test role journald](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20journald/badge.svg)   |
 | keycloak                 |                                                                                                                          |
-| lldpd                    |                                                                                                                          |
+| lldpd                    | ![Test role lldpd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20lldpd/badge.svg)         |
 | manager                  |                                                                                                                          |
 | minikube                 |                                                                                                                          |
 | netbox                   |                                                                                                                          |
@@ -33,6 +39,6 @@ The following Ansible roles are included in this collection.
 | rsyslog                  | ![Test role rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rsyslog/badge.svg)     |
 | rundeck                  |                                                                                                                          |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)       |
-| tailscale                | ![Test role tailscale](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20tailscale/badge.svg) |
+| traefik                  |                                                                                                                          |
 | virtualbmc               |                                                                                                                          |
 | zuul                     |                                                                                                                          |

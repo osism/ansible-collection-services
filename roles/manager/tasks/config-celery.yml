@@ -1,0 +1,49 @@
+---
+# NOTE: required by the watchdog service
+- name: Set fs.inotify.max_user_watches
+  become: true
+  ansible.posix.sysctl:
+    name: fs.inotify.max_user_watches
+    value: '32768'
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: Copy celery environment files
+  ansible.builtin.template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - conductor
+    - listener
+    - openstack
+
+# NOTE: Since we deploy the manager, we use the conductor.yml directly from the manager.
+
+- name: Check for conductor.yml
+  ansible.builtin.stat:
+    path: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+  register: result
+
+- name: Copy conductor configuration file
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+    dest: "{{ manager_configuration_directory }}/conductor.yml"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: result.stat.exists
+
+- name: Copy empty conductor configuration file
+  ansible.builtin.copy:
+    content: |
+      ---
+    dest: "{{ manager_configuration_directory }}/conductor.yml"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: not result.stat.exists

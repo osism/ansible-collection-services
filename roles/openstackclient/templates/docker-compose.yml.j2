@@ -9,11 +9,14 @@ services:
       - "{{ openstackclient_configuration_directory }}:/configuration:ro"
       - "{{ openstackclient_data_directory }}:/data:ro"
       - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
 
 networks:
- default:
-   driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ openstackclient_network }}
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ openstackclient_network }}

@@ -1,13 +1,13 @@
 ---
 - name: Gather variables for each operating system
-  include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Include distribution specific install tasks
-  include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Copy hddtemp configuration file
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ ansible_os_family }}/hddtemp"
     dest: "{{ hddtemp_conf_file }}"
     owner: root
@@ -17,7 +17,7 @@
 
 - name: Start/enable hddtemp service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ hddtemp_service_name }}"
     state: started
     enabled: true

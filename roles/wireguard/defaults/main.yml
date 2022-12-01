@@ -1,0 +1,15 @@
+---
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+wireguard_mtu: 1360
+wireguard_client_address: 192.168.48.4/24
+wireguard_client_configuration_file: wireguard-client.conf
+wireguard_allowed_client_ips: 192.168.16.0/20, 192.168.48.0/20, 192.168.96.0/20, 192.168.112.0/20
+
+wireguard_server_address: 192.168.48.5/20
+wireguard_listen_port: 51820
+wireguard_allowed_server_ips: 192.168.48.0/20
+wireguard_service_name: wg-quick@wg0.service
+wireguard_server_public_address: WIREGUARD_PUBLIC_IP_ADDRESS
+wireguard_endpoint: "{{ wireguard_server_public_address }}:{{ wireguard_listen_port }}"

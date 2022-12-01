@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -13,7 +13,7 @@
     - "{{ cephclient_docker_compose_directory }}"
 
 - name: Copy configuration files
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0640
@@ -24,15 +24,15 @@
       dest: "{{ cephclient_configuration_directory }}/ceph.conf"
 
 - name: Copy keyring file
-  copy:
-    content: "{{ cephclient_keyring }}"
+  ansible.builtin.template:
+    src: ceph-keyring-config.j2
     dest: "{{ cephclient_configuration_directory }}/ceph.{{ cephclient_keyring_name }}.keyring"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
 
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ cephclient_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -41,14 +41,14 @@
 
 - name: Start/enable cephclient service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ cephclient_service_name }}"
     state: started
     enabled: true
 
 - name: Copy wrapper scripts
   become: true
-  template:
+  ansible.builtin.template:
     src: "wrapper/{{ item }}.j2"
     dest: "/usr/local/bin/{{ item }}"
     mode: 0755
@@ -64,7 +64,7 @@
 
 - name: Copy bash completion scripts
   become: true
-  command: "docker cp {{ cephclient_container_name }}:/etc/bash_completion.d/{{ item }} /etc/bash_completion.d/{{ item }}"
+  ansible.builtin.command: "docker cp {{ cephclient_container_name }}:/etc/bash_completion.d/{{ item }} /etc/bash_completion.d/{{ item }}"
   register: result
   changed_when: false
   failed_when: result.rc != 0

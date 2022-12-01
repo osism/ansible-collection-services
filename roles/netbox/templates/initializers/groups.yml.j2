@@ -1,4 +1,2 @@
 ---
-writers:
-  users:
-    - "{{ netbox_user_name }}"
+{{ netbox_init_groups | to_nice_yaml(indent=2) }}

@@ -10,8 +10,26 @@ services:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+{% if not keycloak_traefik|bool %}
     ports:
       - "{{ keycloak_host }}:{{ keycloak_port }}:8080"
+{% else %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.middlewares.keycloak-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.keycloak-redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.routers.keycloak.entrypoints=http"
+      - "traefik.http.routers.keycloak.rule=Host(`{{ keycloak_host }}`)"
+      - "traefik.http.routers.keycloak.middlewares=keycloak-redirect-to-https@docker"
+      - "traefik.http.services.keycloak-secure.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak-secure.entrypoints=https"
+      - "traefik.http.routers.keycloak-secure.tls=true"
+      - "traefik.http.routers.keycloak-secure.rule=Host(`{{ keycloak_host }}`)"
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
     depends_on:
       - postgres
 {% if not keycloak_galera_backend_enable |bool %}
@@ -37,9 +55,15 @@ secrets:
 {% endif %}
 
 networks:
- default:
-   driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ keycloak_network }}
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ keycloak_network }}
+{% if keycloak_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}

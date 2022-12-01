@@ -1,10 +1,10 @@
 ---
 - name: Copy wrapper scripts
   become: true
-  template:
+  ansible.builtin.template:
     src: "wrapper/{{ item }}.j2"
     dest: "/usr/local/bin/{{ item }}"
     mode: 0755
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  loop: "{{ wrapper_scripts }}"
+  loop: "{{ manager_wrapper_scripts }}"

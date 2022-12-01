@@ -1,16 +1,21 @@
 ---
 - name: Wait for patchman service
-  wait_for:
-    host: "{{ patchman_host }}"
-    port: "{{ patchman_port }}"
+  ansible.builtin.uri:
+    url: "{{ patchman_server_url }}"
+    validate_certs: false
+    follow_redirects: true
+  register: result
+  until: result.status == 200 or result.status == 301
+  retries: 60
+  delay: 5
 
 - name: Get time of the last patchman-update run
-  stat:
+  ansible.builtin.stat:
     path: "{{ patchman_update_statfile }}"
   register: result
 
 - name: Run patchman-update
-  command: /usr/local/bin/patchman-update  # noqa 301
+  ansible.builtin.command: /usr/local/bin/patchman-update  # noqa no-changed-when
   async: 1800
   poll: 0
   register: command_sleeper
@@ -18,7 +23,7 @@
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_update_valid_time|int)))
 
 - name: Safe time of the last patchman-update run
-  file:
+  ansible.builtin.file:
     path: "{{ patchman_update_statfile }}"
     state: touch
     mode: 0600
@@ -26,7 +31,7 @@
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_update_valid_time|int)))
 
 - name: Wait for patchman-update command to complete
-  async_status:
+  ansible.builtin.async_status:
     jid: "{{ command_sleeper.ansible_job_id }}"
   register: job_result
   until: job_result.finished

@@ -1,0 +1,34 @@
+---
+# NOTE: https://github.com/savoirfairelinux/ansible-nexus3-oss
+
+- name: Set nexus url
+  ansible.builtin.set_fact:
+    call_script_nexus_url: "https://{{ nexus_traefik_host }}:{{ traefik_port_https }}/{{ nexus_traefik_path_prefix }}/service/rest/v1"
+  when: nexus_traefik|bool
+
+- name: Set nexus url
+  ansible.builtin.set_fact:
+    call_script_nexus_url: "http://{{ nexus_host }}:{{ nexus_port }}/service/rest/v1"
+  when: not nexus_traefik|bool
+
+- name: Wait for nexus
+  ansible.builtin.uri:
+    url: "{{ declare_script_nexus_url }}/status"
+    validate_certs: false
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 5
+
+- name: Calling script {{ script_name }}
+  ansible.builtin.uri:
+    url: "{{ call_script_nexus_url }}/script/{{ script_name }}/run"
+    user: "{{ nexus_admin_username }}"
+    password: "{{ current_nexus_admin_password }}"
+    headers:
+      Content-Type: "text/plain"
+    method: POST
+    status_code: 200,204
+    force_basic_auth: true
+    body: "{{ args | to_json }}"
+    validate_certs: false

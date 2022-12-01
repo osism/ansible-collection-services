@@ -1,13 +1,14 @@
 ---
 namespace: osism
 name: services
-version: 0.6.0
+version: 999.0.0
 readme: README.md
 authors:
   - OSISM community <info@osism.tech>
 description: OSISM service roles
 license_file: LICENSE
 tags:
+  - osism
   - system
 dependencies: {}
 repository: https://github.com/osism/ansible-collection-services.git

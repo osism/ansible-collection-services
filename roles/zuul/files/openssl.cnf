@@ -43,7 +43,7 @@ default_ca	= CA_default		# The default ca section
 ####################################################################
 [ CA_default ]
 
-dir		= ./demoCA		# Where everything is kept
+dir		= ./CA			# Where everything is kept
 certs		= $dir/certs		# Where the issued certs are kept
 crl_dir		= $dir/crl		# Where the issued crl are kept
 database	= $dir/index.txt	# database index file.
@@ -107,7 +107,7 @@ emailAddress		= optional
 
 ####################################################################
 [ req ]
-default_bits		= 2048
+default_bits		= 4096
 default_keyfile 	= privkey.pem
 distinguished_name	= req_distinguished_name
 attributes		= req_attributes
@@ -327,7 +327,7 @@ default_tsa = tsa_config1	# the default TSA section
 [ tsa_config1 ]
 
 # These are used by the TSA reply generation only.
-dir		= ./demoCA		# TSA root directory
+dir		= ./CA			# TSA root directory
 serial		= $dir/tsaserial	# The current serial number (mandatory)
 crypto_device	= builtin		# OpenSSL engine to use for signing
 signer_cert	= $dir/tsacert.pem 	# The TSA signing certificate

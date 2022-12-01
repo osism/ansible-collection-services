@@ -15,7 +15,7 @@ services:
 
   redis:
     restart: unless-stopped
-    image: "{{ redis_image }}"
+    image: "{{ netbox_redis_image }}"
     command: redis-server --appendonly yes
     volumes:
       - "redis:/data"
@@ -33,17 +33,36 @@ services:
       - redis
     volumes:
       - "{{ netbox_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
-      - "{{ netbox_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
+      - "{{ netbox_configuration_directory }}/nginx-unit.json:/etc/unit/nginx-unit.json:ro"
       - "{{ netbox_configuration_directory }}/initializers:/opt/netbox/initializers:ro"
       # NOTE: Workaround until script is available upstream
       - "{{ netbox_configuration_directory }}/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
     secrets:
       - NETBOX_POSTGRES_PASSWORD
       - NETBOX_SECRET_KEY
-    ports:
-      - "{{ netbox_host }}:{{ netbox_port }}:8080"
     healthcheck:
       test: curl -s -k http://127.0.0.1:8080/metrics
+      start_period: 120s
+{% if not netbox_traefik|bool %}
+    ports:
+      - "{{ netbox_host }}:{{ netbox_port }}:8080"
+{% else %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.middlewares.netbox-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.netbox-redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.routers.netbox.entrypoints=http"
+      - "traefik.http.routers.netbox.rule=Host(`{{ netbox_host }}`)"
+      - "traefik.http.routers.netbox.middlewares=netbox-redirect-to-https@docker"
+      - "traefik.http.services.netbox-secure.loadbalancer.server.port=8080"
+      - "traefik.http.routers.netbox-secure.entrypoints=https"
+      - "traefik.http.routers.netbox-secure.tls=true"
+      - "traefik.http.routers.netbox-secure.rule=Host(`{{ netbox_host }}`)"
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
 
   netbox-worker:
     <<: *netbox
@@ -54,6 +73,9 @@ services:
     command: rqworker
     ports: []
     healthcheck: {}
+{% if netbox_traefik|bool %}
+    labels: []
+{% endif %}
 
 volumes:
   postgres:
@@ -70,9 +92,15 @@ secrets:
     file: {{ netbox_secrets_directory }}/POSTGRES_PASSWORD
 
 networks:
- default:
-   driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ netbox_network }}
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ netbox_network }}
+{% if netbox_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}

@@ -24,5 +24,10 @@ chrony_allowed_subnets:
   - 192.168/16
   - 172.16/12
 
-# Listen for NTP requests only on local interfaces.
+# If set to true, chronyd will never open the server port and will operate
+# strictly in a client-only mode.
 chrony_bind_local_interfaces_only: true
+
+# Bind Chrony to specific addresses
+# NOTE: It is only possible to set at most one IPv4 and one IPv6 address.
+chrony_bindaddresses: []

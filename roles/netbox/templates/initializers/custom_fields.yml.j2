@@ -1,0 +1,150 @@
+---
+deployment_enabled:
+  type: boolean
+  label: Deployment enabled
+  default: false
+  description: Deployment enabled
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+ironic_enabled:
+  type: boolean
+  label: Ironic enabled
+  default: false
+  description: Ironic enabled
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+configuration_template:
+  type: text
+  label: Configuration template
+  default: ""
+  description: Configuration template of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+device_state:
+  type: text
+  label: Device state
+  default: "0"
+  description: State of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+device_transition:
+  type: text
+  label: Device transition
+  default: "0"
+  description: Action/transition just performed
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+device_type:
+  type: text
+  label: Device type
+  default: ""
+  description: Type of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+deployment_type:
+  type: text
+  label: Deployment type
+  default: ""
+  description: Deployment type for a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+deployment_state:
+  type: text
+  label: Deployment state
+  default: ""
+  description: Deployment state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+maintenance:
+  type: boolean
+  label: Maintenance
+  default: false
+  description: Maintenance
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+provision_state:
+  type: text
+  label: Provision state
+  default: ""
+  description: Provision state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+power_state:
+  type: text
+  label: Power state
+  default: ""
+  description: Power state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+introspection_state:
+  type: text
+  label: Introspection state
+  default: ""
+  description: Introspection state of a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+network_interface_name:
+  type: text
+  label: Network interface name
+  default:
+  description: Network interface name
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Interface
+
+ironic_state:
+  type: text
+  label: Ironic state
+  default: unregistered
+  description: Is the device available in Ironic
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+out_of_band_type:
+  type: text
+  label: Out-of-band type
+  default: ""
+  description: Out-of-band type for a device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device

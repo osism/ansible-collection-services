@@ -1,6 +1,6 @@
 ---
 - name: Copy ARA environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
     mode: 0640
@@ -11,7 +11,7 @@
     - ara-server
 
 - name: Copy MariaDB environment file
-  template:
+  ansible.builtin.template:
     src: env/mariadb.env.j2
     dest: "{{ manager_configuration_directory }}/mariadb.env"
     mode: 0640

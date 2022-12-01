@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_patchman: quay.io
 docker_registry_postgres: index.docker.io
 docker_registry_memcached: index.docker.io
@@ -20,8 +22,10 @@ patchman_docker_compose_directory: /opt/patchman
 
 patchman_host: 127.0.0.1
 patchman_port: 8150
+patchman_server_url: "http://{{ patchman_host }}:{{ patchman_port }}"
 
-patchman_tag: latest
+# renovate: datasource=docker depName=quay.io/osism/patchman
+patchman_tag: '2.0.3'
 patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }}"
 
 patchman_container_name: patchman
@@ -50,7 +54,8 @@ patchman_update_valid_time: 86400
 ##########################
 # postgres
 
-postgres_tag: 13-alpine
+# renovate: datasource=docker depName=postgres
+postgres_tag: '14.2-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 patchman_postgres_username: patchman
@@ -60,5 +65,16 @@ patchman_postgres_databasename: "{{ patchman_postgres_username }}"
 ##########################
 # memcached
 
-patchman_memcached_tag: alpine
+# renovate: datasource=docker depName=memcached
+patchman_memcached_tag: '1.6.14-alpine'
 patchman_memcached_image: "{{ docker_registry_memcached }}/library/memcached:{{ patchman_memcached_tag }}"
+
+##########################
+# traefik
+
+patchman_traefik: false
+
+patchman_traefik_host: ""
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24

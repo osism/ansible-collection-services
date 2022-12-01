@@ -1,0 +1,22 @@
+---
+- name: Stop clamav freshclam service
+  become: true
+  ansible.builtin.service:
+    name: "{{ clamav_freshclam_service_name }}"
+    state: stopped
+    enabled: true
+
+- name: Run freshclam
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/bin/freshclam
+  changed_when: true
+
+- name: Set osism.clamav.status fact
+  ansible.builtin.include_role:
+    name: osism.commons.state
+  vars:
+    state_name: osism
+    state_section: clamav
+    state_option: status
+    state_value: "True"

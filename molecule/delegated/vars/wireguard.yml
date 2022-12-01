@@ -1,0 +1,3 @@
+---
+operator_user: runner
+operator_group: docker

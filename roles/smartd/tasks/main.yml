@@ -1,10 +1,10 @@
 ---
 - name: Include distribution specific install tasks
-  include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Create /var/log/smartd directory
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/log/smartd
     state: directory
     owner: root
@@ -13,7 +13,7 @@
 
 - name: Copy smartmontools configuration file
   become: true
-  copy:
+  ansible.builtin.copy:
     src: smartmontools
     dest: /etc/default/smartmontools
     owner: root
@@ -23,7 +23,7 @@
 
 - name: Start/enable smartd service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ smartd_service_name }}"
     state: started
     enabled: true

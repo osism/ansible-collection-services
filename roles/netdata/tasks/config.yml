@@ -1,7 +1,7 @@
 ---
 - name: Copy /etc/netdata configuration files
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/netdata/{{ item }}"
     owner: root
@@ -12,7 +12,7 @@
 
 - name: Create /var/lib/netdata/cloud.d directory
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/lib/netdata/cloud.d
     state: directory
     owner: netdata
@@ -21,7 +21,7 @@
 
 - name: Copy cloud.conf configuration file
   become: true
-  template:
+  ansible.builtin.template:
     src: cloud.conf.j2
     dest: /var/lib/netdata/cloud.d/cloud.conf
     owner: netdata
@@ -30,13 +30,13 @@
   notify: "Restart {{ netdata_service_name }} service"
 
 - name: Retrieve /etc/netdata/.opt-out-from-anonymous-statistics status
-  stat:
+  ansible.builtin.stat:
     path: /etc/netdata/.opt-out-from-anonymous-statistics
   register: result
 
 - name: Opt out from anonymous statistics
   become: true
-  file:
+  ansible.builtin.file:
     path: /etc/netdata/.opt-out-from-anonymous-statistics
     owner: root
     group: root
@@ -46,7 +46,7 @@
 
 - name: Add netdata user to docker group
   become: true
-  user:
+  ansible.builtin.user:
     name: netdata
     groups: docker
     append: true

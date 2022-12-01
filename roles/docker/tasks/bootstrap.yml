@@ -1,18 +1,18 @@
 ---
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Add user to docker group
-  user:
+  become: true
+  ansible.builtin.user:
     name: "{{ docker_user }}"
     groups: docker
     append: true
-  become: true
 
 # NOTE: use paramiko connection to force a re-login
 
 - name: Log into private registry and force re-authorization
-  docker_login:
+  community.docker.docker_login:
     registry: "{{ docker_registry }}"
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"

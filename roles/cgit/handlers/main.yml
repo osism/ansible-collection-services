@@ -1,0 +1,6 @@
+---
+- name: Restart cgit service
+  become: true
+  ansible.builtin.service:
+    name: "{{ cgit_service_name }}"
+    state: restarted

@@ -1,0 +1,21 @@
+---
+exclude_paths:
+  - .github/playbook-publish-collection.yml
+  - roles/docker/tasks/install-docker-Debian.yml  # We must exclude this File until we have something that can handle blocks.
+  - roles/nexus/tasks/initialize.yml  # We must exclude this File until we have something that can handle blocks.
+mock_modules:
+  - scan_services
+use_default_rules: true
+rulesdir:
+  - ./.ansible-lint-rules/
+skip_list:
+  - parser-error  # AnsibleParserError.
+  - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
+  - schema
+  - yaml
+  - fqcn-builtins
+  - no-handler
+  - ignore-errors
+  - package-latest
+  - var-naming
+  - name[template]

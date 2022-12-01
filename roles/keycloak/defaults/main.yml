@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_keycloak: quay.io
 docker_registry_postgres: index.docker.io
 
@@ -25,7 +27,8 @@ keycloak_service_name: "docker-compose@keycloak"
 keycloak_host: 127.0.0.1
 keycloak_port: 8170
 
-keycloak_tag: latest
+# renovate: datasource=docker depName=quay.io/keycloak/keycloak
+keycloak_tag: 19.0.1-legacy
 keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
 
 keycloak_username: admin
@@ -46,3 +49,14 @@ keycloak_postgres_databasename: keycloak
 
 keycloak_galera_backend_enable: false
 keycloak_use_preconfigured_databases: false
+
+##########################
+# traefik
+
+keycloak_traefik: false
+
+keycloak_traefik_path_prefix: keycloak
+keycloak_traefik_host: ""
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24

@@ -1,0 +1,16 @@
+---
+{% if traefik_certificates.keys() | length >0 %}
+tls:
+  certificates:
+{% for certificate in traefik_certificates.keys() %}
+    - certFile: /etc/traefik/certificates/{{ certificate }}.cert
+      keyFile: /etc/traefik/certificates/{{ certificate }}.key
+{% endfor %}
+{% if 'default' in traefik_certificates %}
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certificates/default.cert
+        keyFile: /etc/traefik/certificates/default.key
+{% endif %}
+{% endif %}

@@ -1,6 +1,6 @@
 ---
 - name: Copy postgres environment files
-  template:
+  ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ rundeck_configuration_directory }}/{{ item }}.env"
     mode: 0640
@@ -11,8 +11,8 @@
 
 - name: Copy secret files
   no_log: true
-  copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: config-secrets.j2
     dest: "{{ rundeck_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"

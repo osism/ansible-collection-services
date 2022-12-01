@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -12,7 +12,7 @@
     - "{{ jenkins_configuration_directory }}"
 
 - name: Copy environment file
-  template:
+  ansible.builtin.template:
     src: env/jenkins.env.j2
     dest: "{{ jenkins_configuration_directory }}/jenkins.env"
     mode: 0640
@@ -20,7 +20,7 @@
     group: "{{ operator_group }}"
 
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ jenkins_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -29,7 +29,7 @@
 
 - name: Start/enable jenkins service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ jenkins_service_name }}"
     state: started
     enabled: true

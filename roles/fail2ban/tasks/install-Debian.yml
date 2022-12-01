@@ -1,6 +1,6 @@
 ---
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -8,6 +8,6 @@
 
 - name: Install fail2ban package
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ fail2ban_package_name }}"
     state: present

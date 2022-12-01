@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Ramona Rautenberg
+  description: Role osism.services.clamav
+  company: OSISM GmbH
+  license: Apache License 2.0
+  min_ansible_version: 2.10.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+    - name: EL
+      versions:
+        - 8
+  galaxy_tags:
+    - osism
+    - system
+dependencies: []

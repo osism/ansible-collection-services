@@ -6,10 +6,11 @@ services:
     tmpfs:
       - /inventory.pre:uid=45000,gid=45000
     volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
     healthcheck:
       test: pgrep celery
     environment:
@@ -20,21 +21,25 @@ services:
     environment:
       - CELERY=0
 {% endif %}
-{% if netbox_enable|bool %}
+{% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
     env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
   osism-ansible: &ansible
+    container_name: "{{ osism_ansible_container_name }}"
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
-{% if ara_enable|bool %}
+{% if enable_netbox|bool %}
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
+{% if enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
     command: osism worker osism-ansible
     environment:
       - CELERY=1
@@ -46,36 +51,39 @@ services:
       - CELERY=0
 {% endif %}
     volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/etc/timezone:/etc/timezone:ro"
       - "cache:{{ cache_directory }}"
       - "logs:{{ logs_directory }}"
       - "share:/share"
       - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ state_directory }}/netbox:/state:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
-{% if netbox_enable|bool %}
+{% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
     depends_on:
       - inventory_reconciler
       - redis
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
       - ara-server
 {% endif %}
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
       - vault
 {% endif %}
 {% for service in ansible_services %}
 {% if service.enable|bool %}
   {{ service.name }}:
     <<: *ansible
+    container_name: "{{ service.container_name }}"
     image: "{{ service.image }}"
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
     command: osism worker {{ service.name }}
     healthcheck:
       test: pgrep celery
@@ -84,25 +92,149 @@ services:
 {% endif %}
 {% endif %}
 {% endfor %}
-{% if celery_enable|bool %}
+{% if enable_celery|bool %}
+{% if enable_netbox|bool %}
+  netbox:
+    restart: unless-stopped
+    image: "{{ osism_netbox_image }}"
+    command: osism worker netbox
+    volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ configuration_directory }}/netbox:/netbox:ro"
+      - "{{ state_directory }}/netbox:/state:rw"
+      - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+    deploy:
+      replicas: {{ manager_netbox_replicas }}
+  conductor:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism worker conductor
+    volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/conductor.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
+      - "{{ manager_configuration_directory }}/openstack.env"
+  listener:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism service listener
+    volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/listener.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
+  openstack:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism worker openstack
+    volumes:
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
+      - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/openstack.env"
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
+  watchdog:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism service watchdog
+    volumes:
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+  api:
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: osism service api
+    ports:
+      - "{{ osism_api_host }}:{{ osism_api_port }}:8000"
+    healthcheck:
+      test: pgrep uvicorn
+{% if enable_netbox|bool %}
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
-    command: osism beat
+    command: osism service beat
     healthcheck:
       test: pgrep celery
+{% if enable_netbox|bool %}
+    secrets:
+      - NETBOX_TOKEN
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
+  osismclient:
+    container_name: osismclient
+    restart: unless-stopped
+    image: "{{ osism_image }}"
+    command: sleep infinity
+{% if enable_netbox|bool %}
+    secrets:
+      - NETBOX_TOKEN
+{% endif %}
+    env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+{% if enable_netbox|bool %}
+      - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
+{% if enable_ara|bool %}
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "cache:{{ cache_directory }}"
+      - "inventory_reconciler:/ansible/inventory:ro"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
-    command: osism flower
+    command: osism service flower
+{% if not flower_traefik|bool %}
     ports:
       - "{{ flower_host }}:{{ flower_port }}:5555"
+{% endif %}
     healthcheck:
       test: pgrep celery
+{% if flower_traefik|bool %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.middlewares.flower-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.flower.entrypoints=http"
+      - "traefik.http.routers.flower.rule=Host(`{{ flower_host }}`)"
+      - "traefik.http.routers.flower.middlewares=flower-redirect-to-https@docker"
+      - "traefik.http.routers.flower-secure.entrypoints=https"
+      - "traefik.http.routers.flower-secure.tls=true"
+      - "traefik.http.routers.flower-secure.rule=Host(`{{ flower_host }}`)"
+      - "traefik.http.services.flower-secure.loadbalancer.server.port=5555"
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
 {% endif %}
   redis:
     restart: unless-stopped
-    image: "{{ redis_image }}"
+    image: "{{ manager_redis_image }}"
     command: redis-server --appendonly yes
     volumes:
       - "redis:/data"
@@ -112,7 +244,7 @@ services:
       default:
         aliases:
           - cache
-{% if ara_enable|bool %}
+{% if enable_ara|bool %}
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -123,16 +255,35 @@ services:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+{% if not ara_server_traefik|bool %}
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
+{% endif %}
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
+{% if ara_server_traefik|bool %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.http.middlewares.ara-server-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.ara-server-redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.routers.ara-server.entrypoints=http"
+      - "traefik.http.routers.ara-server.rule=Host(`{{ ara_server_host }}`)"
+      - "traefik.http.routers.ara-server.middlewares=ara-server-redirect-to-https@docker"
+      - "traefik.http.routers.ara-server-secure.entrypoints=https"
+      - "traefik.http.routers.ara-server-secure.tls=true"
+      - "traefik.http.services.ara-server-secure.loadbalancer.server.port=8000" 
+      - "traefik.http.routers.ara-server-secure.rule=Host(`{{ ara_server_host }}`)"
+    networks:
+      - default
+      - {{ traefik_external_network_name }}
+{% endif %}
 {% if ara_server_database_type == 'mysql' %}
     depends_on:
       - mariadb
   mariadb:
     restart: unless-stopped
-    image: "{{ mariadb_image }}"
+    image: "{{ ara_server_mariadb_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/mariadb.env"
     volumes:
@@ -142,91 +293,9 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% endif %}
-{% if awx_enable|bool %}
-  receptor:
-    image: "{{ receptor_image }}"
-    command: receptor --config /etc/receptor/receptor.conf
-    restart: unless-stopped
-    depends_on:
-      - awx
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
-      - "receptor:/var/run/receptor"
-  awxclient:
-    container_name: "{{ awxclient_container_name }}"
-    image: "{{ awxclient_image }}"
-    command: sleep infinity
-    restart: unless-stopped
-    depends_on:
-      - awx
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-    env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
-      - "{{ manager_configuration_directory }}/awxclient.env"
-{% if ara_enable|bool %}
-      - "{{ manager_configuration_directory }}/ara.env"
-{% endif %}
-    secrets:
-      - TOWER_PASSWORD
-      - TOWER_USERNAME
-  awx:
-    image: "{{ awx_image }}"
-    restart: unless-stopped
-    hostname: awx
-    user: root
-    depends_on:
-      - postgres
-      - redis
-{% if vault_enable|bool %}
-      - vault
-{% endif %}
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ manager_configuration_directory }}/create-admin-user.sh:/usr/local/bin/create-admin-user.sh"
-      - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
-      - "{{ manager_configuration_directory }}/nginx.conf:/etc/nginx/nginx.conf:ro"
-      - "{{ manager_configuration_directory }}/provision-instance.sh:/usr/local/bin/provision-instance.sh"
-      - "{{ manager_configuration_directory }}/receptor.conf:/etc/receptor/receptor.conf"
-      - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
-      - "{{ manager_configuration_directory }}/supervisord.conf:/etc/supervisord.conf"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
-      - "{{ secrets_directory }}:/ansible/secrets:ro"
-      - "inventory_reconciler:/inventory:ro"
-      - "interface:/interface"
-      - "awx_configuration:/configuration"
-      - "awx_logs:/ansible/logs"
-      - "receptor:/var/run/receptor"
-      - "awx_share:/share"
-    env_file:
-      - "{{ manager_configuration_directory }}/ansible.env"
-      - "{{ manager_configuration_directory }}/awx.env"
-{% if ara_enable|bool %}
-      - "{{ manager_configuration_directory }}/ara.env"
-{% endif %}
-    privileged: true
-    security_opt:
-      - apparmor:unconfined
-    secrets:
-{% if netbox_enable|bool %}
-      - NETBOX_TOKEN
-{% endif %}
-      - TOWER_SECRET_KEY
-    ports:
-      - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
-      - "{{ awx_server_host }}:{{ awx_broadcast_websocket_port }}:8013"
-    healthcheck:
-      test: curl --silent --fail http://localhost:8052/api/v2
-{% endif %}
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
   vault:
+    container_name: "{{ vault_container_name }}"
     image: "{{ vault_image }}"
     command: server -config=/etc/vault.hcl
     restart: unless-stopped
@@ -248,69 +317,38 @@ services:
       # 2 - sealed
       test: vault status -address http://127.0.0.1:8200
 {% endif %}
-{% if postgres_enable|bool %}
-  postgres:
-    image: "{{ postgres_image }}"
-    restart: unless-stopped
-    env_file:
-      - "{{ manager_configuration_directory }}/postgres.env"
-    volumes:
-      - "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
-      - postgres:/var/lib/postgresql/data
-    secrets:
-      - POSTGRES_PASSWORD
-    healthcheck:
-      test: pg_isready -U postgres
-{% endif %}
 
 volumes:
   inventory_reconciler:
   interface:
-{% if postgres_enable|bool %}
-  postgres:
-{% endif %}
-{% if awx_enable|bool %}
-  awx_configuration:
-  awx_logs:
-  awx_share:
-  receptor:
-{% endif %}
-{% if vault_enable|bool %}
+{% if enable_vault|bool %}
   vault_file:
   vault_logs:
 {% endif %}
   cache:
   logs:
-{% if ara_enable|bool and ara_server_database_type == 'mysql' %}
+{% if enable_ara|bool and ara_server_database_type == 'mysql' %}
   mariadb:
 {% endif %}
   redis:
   share:
 
-{% if postgres_enable|bool or awx_enable|bool or netbox_enable|bool %}
+{% if enable_netbox|bool %}
 secrets:
-{% if awx_enable|bool %}
-  TOWER_PASSWORD:
-    file: {{ manager_secrets_directory }}/TOWER_PASSWORD
-  TOWER_USERNAME:
-    file: {{ manager_secrets_directory }}/TOWER_USERNAME
-  TOWER_SECRET_KEY:
-    file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
-{% endif %}
-{% if netbox_enable|bool %}
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
 {% endif %}
-{% if postgres_enable|bool %}
-  POSTGRES_PASSWORD:
-    file: {{ manager_secrets_directory }}/POSTGRES_PASSWORD
-{% endif %}
-{% endif %}
 
 networks:
- default:
-   driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ manager_network }}
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ manager_network }}
+{% if ara_server_traefik|bool %}
+  {{ traefik_external_network_name }}:
+    external: true
+{% endif %}

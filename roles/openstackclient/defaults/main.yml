@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_openstackclient: quay.io
 
 ##########################
@@ -14,7 +16,7 @@ operator_group: "{{ operator_user }}"
 # openstackclient
 
 openstackclient_install_type: container
-openstackclient_version: victoria
+openstackclient_version: xena
 
 ##########################
 # container

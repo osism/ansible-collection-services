@@ -2,6 +2,7 @@
 services:
   virtualbmc:
     image: "{{ virtualbmc_image }}"
+    container_name: "{{ virtualbmc_container_name }}"
     restart: unless-stopped
     entrypoint: vbmcd --foreground
     ports:
@@ -14,9 +15,11 @@ volumes:
     external: true
 
 networks:
- default:
-   driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ virtualbmc_network }}
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ virtualbmc_network }}

@@ -8,6 +8,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_rundeck: index.docker.io
 docker_registry_postgres: index.docker.io
 

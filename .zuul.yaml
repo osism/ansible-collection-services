@@ -1,0 +1,12 @@
+---
+- project:
+    default-branch: main
+    check:
+      jobs:
+        - build-sphinx-docs
+    gate:
+      jobs:
+        - build-sphinx-docs
+    post:
+      jobs:
+        - osism-publish-tox-docs-production

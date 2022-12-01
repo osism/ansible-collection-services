@@ -1,0 +1,54 @@
+---
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+docker_registry: index.docker.io
+docker_registry_traefik: "{{ docker_registry }}"
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# configuration
+
+configuration_directory: /opt/configuration
+
+##########################
+# traefik
+
+traefik_docker_compose_directory: /opt/traefik
+traefik_certificates_directory: /opt/traefik/certificates
+traefik_configuration_directory: /opt/traefik/configuration
+
+traefik_host: 127.0.0.1
+traefik_port: 8122
+
+traefik_port_http: 80
+traefik_port_https: 443
+
+# traefik_certificates:
+#   dashboard:
+#     cert: "-----BEGIN CERTIFICATE-----..."
+#     key: "-----BEGIN PRIVATE KEY-----..."
+traefik_certificates: {}
+
+# renovate: datasource=docker depName=traefik
+traefik_tag: 'v2.9.5'
+traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"
+
+traefik_network: 172.31.101.48/28
+
+traefik_container_name: traefik
+traefik_service_name: "docker-compose@traefik"
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
+
+traefik_pilot_dashboard: false
+
+traefik_log_level: "INFO"

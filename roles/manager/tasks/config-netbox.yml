@@ -1,7 +1,7 @@
 ---
 - name: Copy secret files
-  copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: config-netbox-secret.j2
     dest: "{{ manager_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"
@@ -10,3 +10,11 @@
     - filename: NETBOX_TOKEN
       secret: "{{ netbox_api_token }}"
   no_log: true
+
+- name: Copy netbox environment file
+  ansible.builtin.template:
+    src: env/netbox.env.j2
+    dest: "{{ manager_configuration_directory }}/netbox.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"

@@ -1,0 +1,12 @@
+---
+clamav_package_names:
+  - clamav
+  - clamav-scanner
+  - clamav-scanner-systemd
+  - clamav-update
+
+clamav_localsocket: /var/run/clamd.scan/clamd.sock
+clamav_configuration_path: /etc/clamd.d/scan.conf
+
+clamav_daemon_service_name: clamd@scan
+clamav_freshclam_service_name: clamd-freshclam

@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_cephclient: quay.io
 
 ##########################
@@ -14,7 +16,7 @@ operator_group: "{{ operator_user }}"
 # cephclient
 
 cephclient_install_type: container
-cephclient_version: octopus
+cephclient_version: pacific
 
 cephclient_mons: []
 cephclient_keyring: ""

@@ -1,0 +1,19 @@
+---
+- name: Create facts directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/ansible/facts.d
+    state: "directory"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy docker fact files
+  become: true
+  ansible.builtin.copy:
+    src: "facts/{{ item }}.fact"
+    dest: "/etc/ansible/facts.d/{{ item }}.fact"
+    owner: root
+    group: root
+    mode: 0755
+  loop: "{{ docker_fact_files }}"

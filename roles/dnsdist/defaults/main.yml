@@ -1,0 +1,37 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+docker_registry_dnsdist: quay.io
+
+##########################
+# dnsdist
+
+dnsdist_configuration_directory: /opt/dnsdist/configuration
+dnsdist_docker_compose_directory: /opt/dnsdist
+
+dnsdist_network: 172.31.101.80/28
+dnsdist_service_name: "docker-compose@dnsdist"
+
+dnsdist_container_name: dnsdist
+
+dnsdist_host: 127.0.0.1
+dnsdist_port: 1053
+
+# renovate: datasource=docker depName=quay.io/osism/dnsdist
+dnsdist_tag: '1.6.1'
+dnsdist_image: "{{ docker_registry_dnsdist }}/osism/dnsdist:{{ dnsdist_tag }}"
+
+dnsdist_servers:
+  - 208.67.222.222
+  - 208.67.220.220
+  - 208.67.222.220
+  - 208.67.220.222

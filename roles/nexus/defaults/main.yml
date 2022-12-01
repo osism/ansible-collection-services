@@ -2,8 +2,9 @@
 ##########################
 # docker
 
-docker_registry: index.docker.io
-docker_registry_nexus: "{{ docker_registry }}"
+docker_network_mtu: 1500
+
+docker_registry_nexus: quay.io
 
 ##########################
 # operator user
@@ -20,7 +21,8 @@ nexus_configuration_directory: /opt/nexus/configuration
 nexus_host: 127.0.0.1
 nexus_port: 8190
 
-nexus_tag: 3.36.0
+# renovate: datasource=docker depName=quay.io/osism/nexus
+nexus_tag: '3.43.0'
 nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
 nexus_network: 172.31.101.32/28
@@ -28,6 +30,7 @@ nexus_network: 172.31.101.32/28
 nexus_container_name: nexus
 nexus_service_name: "docker-compose@nexus"
 
+# NOTE: Scripts that are already included in the Nexus container
 nexus_provision_scripts:
   - anonymous.json
   - cleanup.json
@@ -35,3 +38,99 @@ nexus_provision_scripts:
   - docker-quay.json
   - ubuntu-archive.json
   - ubuntu-docker.json
+
+# NOTE: Scripts that are included in this role
+nexus_provision_groovy_scripts:
+  - create_repos_from_list
+  - setup_http_proxy
+  - setup_realms
+  - update_admin_password
+
+nexus_admin_username: admin
+nexus_admin_password: password
+
+nexus_with_http_proxy: false
+nexus_http_proxy_host: "proxy.example.com"
+nexus_http_proxy_port: 8080
+nexus_http_proxy_username: ""
+nexus_http_proxy_password: ""
+nexus_with_https_proxy: false
+nexus_https_proxy_host: "proxy.example.com"
+nexus_https_proxy_port: 8080
+nexus_https_proxy_username: ""
+nexus_https_proxy_password: ""
+nexus_proxy_exclude_hosts:
+  - "localhost"
+  - "127.*"
+  - "[::1]"
+
+nexus_docker_bearer_token_realm: true
+
+nexus_repos_apt_defaults:
+  blob_store: default
+  strict_content_validation: true
+  layout_policy: strict  # strict or permissive
+  write_policy: allow_once  # one of "allow", "allow_once" or "deny"
+  maximum_component_age: 1440  # Nexus gui default. For proxies only
+  maximum_metadata_age: 1440  # Nexus gui default. For proxies only
+  negative_cache_enabled: true  # Nexus gui default. For proxies only
+  negative_cache_ttl: 1440  # Nexus gui default. For proxies only
+  flat: false  # Nexus gui default. For proxies only
+
+nexus_repos_docker_defaults:
+  blob_store: default
+  force_basic_auth: true
+  strict_content_validation: true
+  version_policy: release  # release, snapshot or mixed
+  layout_policy: strict  # strict or permissive
+  write_policy: allow_once  # one of "allow", "allow_once" or "deny"
+  maximum_component_age: 1440  # Nexus gui default. For proxies only
+  maximum_metadata_age: 1440  # Nexus gui default. For proxies only
+  negative_cache_enabled: true  # Nexus gui default. For proxies only
+  negative_cache_ttl: 1440  # Nexus gui default. For proxies only
+  # More about Foreign Layers https://help.sonatype.com/repomanager3/formats/docker-registry/foreign-layers
+  cache_foreign_layers: false  # Nexus gui default. For proxies only
+  foreign_layer_url_whitelist: []  # Nexus gui default. For proxies only
+
+nexus_repos_docker_proxy:
+  - name: docker-quay
+    http_port: 8192
+    v1_enabled: false
+    index_type: "HUB"
+    remote_url: "https://quay.io"
+    use_nexus_certificates_to_access_index: false
+    force_basic_auth: false
+    cache_foreign_layers: true
+  - name: docker-hub
+    http_port: 8191
+    v1_enabled: false
+    index_type: "HUB"
+    remote_url: "https://registry-1.docker.io"
+    use_nexus_certificates_to_access_index: false
+    force_basic_auth: false
+    cache_foreign_layers: true
+
+nexus_repos_apt_proxy:
+  - name: ubuntu-docker
+    remote_url: https://download.docker.com/linux/ubuntu/
+    distribution: focal
+    flat: true
+  - name: ubuntu-archive
+    remote_url: http://archive.ubuntu.com/ubuntu/
+    distribution: focal
+    flat: true
+
+##########################
+# traefik
+
+nexus_traefik: false
+
+nexus_traefik_path_prefix: nexus
+nexus_traefik_host: ""
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
+
+traefik_host: 127.0.0.1
+traefik_port_http: 80
+traefik_port_https: 443

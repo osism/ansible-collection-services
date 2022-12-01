@@ -1,6 +1,6 @@
 ---
 - name: Copy docker-compose.yml file
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ rundeck_docker_compose_directory }}/docker-compose.yml"
     owner: "{{ operator_user }}"
@@ -9,7 +9,7 @@
 
 - name: Start/enable rundeck service
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ rundeck_service_name }}"
     state: started
     enabled: true

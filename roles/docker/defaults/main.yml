@@ -1,4 +1,6 @@
 ---
+apt_cache_valid_time: 3600
+
 ##########################
 # generic
 
@@ -33,8 +35,10 @@ docker_log_opts:
 ##########################
 # hosts
 
-docker_hosts:
+docker_hosts_defaults:
   - "unix:///var/run/docker.sock"
+docker_hosts_extra: []
+docker_hosts: "{{ docker_hosts_defaults + docker_hosts_extra }}"
 
 ##########################
 # services
@@ -81,20 +85,17 @@ docker_pip_extra_args: ""
 
 # NOTE: This "5:" must be prepended starting with version 18.09.
 #       Check available version under Ubuntu with apt-cache madison docker-ce.
-docker_version: "5:20.10.6"
-
-##########################
-# compose
-
-docker_compose_version: "v2.0.1"
-docker_compose_plugin: true
+# renovate: datasource=docker depName=docker
+docker_version: '5:20.10.21'
 
 ##########################
 # registry
 
-docker_registry: index.docker.io
 # docker_registry_password:
 # docker_registry_username:
+
+docker_registry: index.docker.io
+docker_registry_docker_openpolicyagent: "{{ docker_registry }}"
 
 docker_insecure_registries: []
 docker_registry_mirrors: []
@@ -121,9 +122,12 @@ docker_configure_proxy: false
 
 docker_proxy_http: "http://proxy.tld:8080"
 docker_proxy_https: "{{ docker_proxy_http }}"
-docker_proxy_no_proxy:
+
+docker_proxy_no_proxy_default:
   - localhost
   - 127.0.0.1
+docker_proxy_no_proxy_extra: []
+docker_proxy_no_proxy: "{{ docker_proxy_no_proxy_default + docker_proxy_no_proxy_extra }}"
 
 ##########################
 # repository
@@ -150,22 +154,6 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 
 docker_default_runtime: runc
 
-docker_kata_install: false
-docker_kata_version: 1.11
-docker_kata_packages:
-  - kata-runtime
-  - kata-proxy
-  - kata-shim
-
-docker_kata_configure_repository: true
-docker_kata_debian_repository_arch: amd64
-
-# NOTE: The focal repository for Kata is not yet available. Until then,
-# we will use the Bionic repository for Focal.
-
-docker_kata_debian_repository_key: "http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_{{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/Release.key"
-docker_kata_debian_repository: "deb [ arch={{ docker_kata_debian_repository_arch }} ] http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-{{ docker_kata_version }}/xUbuntu_{{ '18.04' if ansible_distribution_release == 'focal' else ansible_distribution_version }}/ /"
-
 ##########################
 # dragonfly
 
@@ -176,16 +164,54 @@ docker_dragonfly: false
 
 docker_policies: false
 
-docker_open_policy_agent_tag: "0.7"
-docker_open_policy_agent_image: "{{ docker_registry}}/openpolicyagent/opa-docker-authz-v2:{{ docker_open_policy_agent_tag }}"
+docker_openpolicyagent_tag: '0.8'
+docker_openpolicyagent_image: "{{ docker_registry_docker_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_openpolicyagent_tag }}"
 
-docker_authorization_plugins:
-  - "{{ docker_open_policy_agent_image }}"
-docker_static_policy_files:
+docker_authorization_plugins_defaults:
+  - "{{ docker_openpolicyagent_image }}"
+docker_authorization_plugins_extra: []
+
+docker_authorization_plugins: "{{ docker_authorization_plugins_defaults + docker_authorization_plugins_extra }}"
+
+docker_policy_files_defaults:
   - default.rego
+docker_policy_files_extra: []
+docker_policy_files: "{{ docker_policy_files_defaults + docker_policy_files_extra }}"
+
+docker_policy_allowed_registries_defaults:
+  - index.docker.io
+  - quay.io
+docker_policy_allowed_registries_extra: []
+docker_policy_allowed_registries: "{{ docker_policy_allowed_registries_defaults + docker_policy_allowed_registries_extra + docker_insecure_registries}}"
+
+##########################
+# zun
+
+docker_zun: false
+
+docker_zun_hosts:
+  - tcp://{{ api_interface_address | default('api' | osism.services.kolla_address) | osism.services.put_address_in_context('url') }}:2375
+docker_zun_opts:
+  cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ 'api' | osism.services.kolla_address(host) | osism.services.put_address_in_context('url') }}:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
+
+docker_zun_cni_version: '0.3.1'
+docker_cni_config_dir: /etc/cni/net.d
+docker_cni_bin_dir: /opt/cni/bin
+
+##########################
+# containerd
+
+containerd_grpc_gid: 42463
 
 ##########################
 # other options
 
 # https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
 docker_opts: {}
+
+##########################
+# facts
+
+docker_fact_files:
+  - docker_containers
+  - docker_images

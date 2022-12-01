@@ -1,0 +1,16 @@
+---
+##########################
+# configuration
+
+journald_SystemMaxUse: 2000M
+journald_SystemKeepFree: 1000M
+journald_SystemMaxFileSize: 100M
+
+journald_RuntimeMaxUse: 2000M
+journald_RuntimeKeepFree: 1000M
+journald_RuntimeMaxFileSize: 100M
+
+##########################
+# services
+
+journald_service_name: systemd-journald

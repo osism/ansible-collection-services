@@ -1,0 +1,9 @@
+---
+# NOTE: Errors are ignored because the kernel module may not be available
+#       after initial installation until after a reboot.
+- name: Restart wg0 service
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ wireguard_service_name }}"
+    state: restarted
+  failed_when: false

@@ -1,0 +1,8 @@
+addLocal('0.0.0.0:53')
+setACL({'0.0.0.0/0', '::/0'})
+
+{% for server in dnsdist_servers %}
+newServer({address="{{ server }}", qps=5})
+{% endfor %}
+
+setServerPolicy(firstAvailable)

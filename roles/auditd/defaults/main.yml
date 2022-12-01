@@ -5,17 +5,21 @@ auditd_syslog: false
 ##########################
 # configuration
 
+auditd_plugin_path: /etc/audisp/plugins.d
 auditd_config:
   - parameter: active
     value: "{{ 'yes' if auditd_syslog|bool else 'no' }}"
-    config: /etc/audisp/plugins.d/syslog.conf
+    config: "{{ auditd_plugin_path }}/syslog.conf"
 
 ##########################
 # rules
 
 auditd_rules_path: /etc/audit/rules.d
-auditd_rules_files:
+
+auditd_rules_files_defaults:
   - 20-neo23x0.rules
+auditd_rules_files_extra: []
+auditd_rules_files: "{{ auditd_rules_files_defaults + auditd_rules_files_extra }}"
 
 ##########################
 # packages

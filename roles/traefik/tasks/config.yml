@@ -1,0 +1,45 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  with_items:
+    - "{{ traefik_docker_compose_directory }}"
+    - "{{ traefik_certificates_directory }}"
+    - "{{ traefik_configuration_directory }}"
+
+- name: Copy configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ traefik_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - traefik.yml
+    - traefik.env
+    - certificates.yml
+
+- name: Copy certificate cert files
+  ansible.builtin.template:
+    src: traefik-cert.j2
+    dest: "{{ traefik_certificates_directory }}/{{ item.key }}.cert"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ traefik_certificates | dict2items }}"
+  no_log: true
+
+- name: Copy certificate key files
+  ansible.builtin.template:
+    src: traefik-key.j2
+    dest: "{{ traefik_certificates_directory }}/{{ item.key }}.key"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ traefik_certificates | dict2items }}"
+  no_log: true

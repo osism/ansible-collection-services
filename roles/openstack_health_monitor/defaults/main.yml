@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry_openstack_health_monitor: quay.io
 
 ##########################
@@ -46,7 +48,8 @@ openstack_health_monitor_configuration_directory: /opt/openstack_health_monitor/
 openstack_health_monitor_crontabs_directory: /opt/openstack_health_monitor/configuration/crontabs
 openstack_health_monitor_docker_compose_directory: /opt/openstack_health_monitor
 
-openstack_health_monitor_tag: latest
+# renovate: datasource=docker depName=quay.io/sovereigncloudstack/openstack-health-monitor
+openstack_health_monitor_tag: 'v3.0.0'
 openstack_health_monitor_image: "{{ docker_registry_openstack_health_monitor }}/sovereigncloudstack/openstack-health-monitor:{{ openstack_health_monitor_tag }}"
 
 openstack_health_monitor_container_name: openstack_health_monitor

@@ -2,26 +2,42 @@ version: '3'
 services:
   mariadb:
     container_name: "{{ container_name.mariadb }}"
-    image: {{ image_list.mariadb }}
+    image: "{{ zuul_mariadb_image }}"
     env_file: "{{ base_conf_dir }}/mariadb.env"
   zookeeper:
     container_name: "{{ container_name.zookeeper }}"
-    image: {{ image_list.zookeeper }}
+    image: "{{ zuul_zookeeper_image }}"
     hostname: {{ zookeeper_fqdn }}
     volumes:
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "{{ component_conf_dirs.zookeeper }}/zoo.cfg:/conf/zoo.cfg:z"
     command: zkServer.sh start-foreground
-  nodepool_launcher:
-    container_name: "{{ container_name.nodepool_launcher }}"
+  nodepool_builder:
+    container_name: "{{ container_name.nodepool_builder }}"
+    command: "/usr/local/bin/nodepool-builder -f -l /etc/nodepool/logging.conf"
     depends_on:
       - zookeeper
-    image: {{ image_list.nodepool_launcher }}
+    image: "{{ nodepool_builder_image }}"
+    privileged: true
+    volumes:
+      - "{{ component_conf_dirs.nodepool_builder }}:/etc/nodepool/:z"
+      - "{{ component_conf_dirs.certs }}:/var/certs:z"
+      - "/srv/dib_cache:/srv/dib_cache:rw"
+      - "/srv/dib_tmp:/srv/dib_tmp:rw"
+      - "/srv/nodepool:/srv/nodepool"
+      - "/etc/openstack:/etc/openstack:ro"
+      - "/var/log/nodepool:/var/log/nodepool:rw"
+  nodepool_launcher:
+    container_name: "{{ container_name.nodepool_launcher }}"
+    command: "/usr/local/bin/nodepool-launcher -f -l /etc/nodepool/logging.conf"
+    depends_on:
+      - zookeeper
+    image: "{{ nodepool_launcher_image }}"
     volumes:
       - "{{ component_conf_dirs.nodepool_launcher }}:/etc/nodepool/:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
-    ports:
-      - "{{ port_list.nodepool_launcher }}:8022"
+      - "/etc/openstack:/etc/openstack:ro"
+      - "/var/log/nodepool:/var/log/nodepool:rw"
   zuul_scheduler:
     container_name: "{{ container_name.zuul_scheduler }}"
     depends_on:
@@ -29,54 +45,48 @@ services:
       - mariadb
     env_file: "{{ base_conf_dir }}/scheduler.env"
     command: "sh -c '/wait-to-start.sh && zuul-scheduler -f'"
-    image: {{ image_list.zuul_scheduler }}
+    image: "{{ zuul_scheduler_image }}"
     volumes:
       - "{{ component_conf_dirs.zuul }}:/etc/zuul/:z"
       - "{{ component_conf_dirs.ssh_keys }}:/var/ssh:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "{{ component_conf_dirs.scheduler }}/wait-to-start.sh:/wait-to-start.sh:ro"
+      - "/var/log/zuul:/var/log/zuul"
   zuul_web:
     container_name: "{{ container_name.zuul_web }}"
-    command: "sh -c '/wait-to-start-gearman.sh && zuul-web -f'"
     depends_on:
       - zuul_scheduler
       - mariadb
     ports:
-      - "{{ port_list.web }}:9000"
-    image: {{ image_list.zuul_web }}
+      - "9000:9000"
+    image: "{{ zuul_web_image }}"
     env_file: "{{ base_conf_dir }}/web.env"
     volumes:
       - "{{ component_conf_dirs.zuul }}:/etc/zuul/:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
-      - "{{ component_conf_dirs.web }}/wait-to-start-gearman.sh:/wait-to-start-gearman.sh:ro"
+      - "/var/log/zuul:/var/log/zuul"
   zuul_executor:
     container_name: "{{ container_name.zuul_executor }}"
     privileged: true
     env_file: "{{ base_conf_dir }}/executor.env"
     depends_on:
       - zuul_scheduler
-    image: {{ image_list.zuul_executor }}
+    image: "{{ zuul_executor_image }}"
     volumes:
       - "{{ component_conf_dirs.zuul }}:/etc/zuul/:z"
       - "{{ component_conf_dirs.ssh_keys }}:/var/ssh:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
       - "log_server:/srv/static/logs:z"
+      - "/var/log/zuul:/var/log/zuul"
   log_server:
     container_name: "{{ container_name.log_server }}"
-    build:
-      dockerfile: log_server_Dockerfile
-      context: {{ component_conf_dirs.log_server }}
+    image: "{{ zuul_log_server_image }}"
     ports:
-      - "{{ port_list.log_server }}:80"
+      - "80:80"
+      - "443:443"
     volumes:
+      - "{{ component_conf_dirs.log_server }}:/usr/local/apache2/conf:ro"
       - "log_server:/usr/local/apache2/htdocs:z"
-{% for worker_node in container_name.worker_node_list %}
-  {{ worker_node }}:
-    container_name: "{{ worker_node }}"
-    build:
-      dockerfile: worker_node_Dockerfile
-      context: {{ component_conf_dirs.ssh_keys }}
-{% endfor %}
 
 volumes:
   log_server:

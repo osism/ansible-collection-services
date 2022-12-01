@@ -1,0 +1,17 @@
+---
+- name: Copy configuration file
+  become: true
+  ansible.builtin.template:
+    src: journald.conf.j2
+    dest: /etc/systemd/journald.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart journald service
+
+- name: Start/enable journald service
+  become: true
+  ansible.builtin.service:
+    name: "{{ journald_service_name }}"
+    state: started
+    enabled: true

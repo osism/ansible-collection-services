@@ -7,17 +7,20 @@ docker_registry_ansible: quay.io
 docker_registry_service: "{{ docker_registry }}"
 
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
-docker_registry_awx: "{{ docker_registry_ansible }}"
-docker_registry_awxclient: "{{ docker_registry_ansible }}"
 docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
 docker_registry_osism: "{{ docker_registry_ansible }}"
-docker_registry_postgres: "{{ docker_registry_service }}"
+docker_registry_osism_netbox: "{{ docker_registry_ansible }}"
 docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
 docker_registry_vault: "{{ docker_registry_service }}"
 
-manager_network: 172.31.101.0/28
+docker_network_mtu: 1500
+
+##########################
+# generic
+
+manager_network: 172.31.101.0/27
 
 manager_service_name: "docker-compose@manager"
 
@@ -30,6 +33,7 @@ cache_directory: /opt/ansible/cache
 configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs
 secrets_directory: /opt/ansible/secrets
+state_directory: /opt/state
 
 manager_docker_compose_directory: /opt/manager
 manager_configuration_directory: /opt/manager/configuration
@@ -67,6 +71,7 @@ required_packages_manager:
 ##########################
 # netbox integration
 
+enable_netbox: "{{ netbox_enable }}"
 netbox_enable: false
 netbox_api_url: ""
 netbox_api_token: ""
@@ -87,19 +92,19 @@ ansible_services_defaults:
     container_name: "{{ ceph_ansible_container_name }}"
     tag: "{{ ceph_ansible_tag }}"
     image: "{{ ceph_ansible_image }}"
-    enable: "{{ ceph_ansible_enable }}"
+    enable: "{{ enable_ceph_ansible }}"
   - name: kolla-ansible
     container_name: "{{ kolla_ansible_container_name }}"
     tag: "{{ kolla_ansible_tag }}"
     image: "{{ kolla_ansible_image }}"
-    enable: "{{ kolla_ansible_enable }}"
+    enable: "{{ enable_kolla_ansible }}"
 ansible_services_extra: []
 ansible_services: "{{ ansible_services_defaults + ansible_services_extra }}"
 
 ##########################
 # osism-ansible
 
-osism_ansible_container_name: manager_osism-ansible_1
+osism_ansible_container_name: osism-ansible
 
 osism_ansible_tag: latest
 osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
@@ -107,32 +112,36 @@ osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism
 ##########################
 # ceph-ansible
 
+enable_ceph_ansible: "{{ ceph_ansible_enable }}"
 ceph_ansible_enable: true
 
-ceph_ansible_container_name: manager_ceph-ansible_1
+ceph_ansible_container_name: ceph-ansible
 
-ceph_ansible_tag: nautilus
+ceph_ansible_tag: pacific
 ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
 # kolla-ansible
 
+enable_kolla_ansible: "{{ kolla_ansible_enable }}"
 kolla_ansible_enable: true
 
-kolla_ansible_container_name: manager_kolla-ansible_1
+kolla_ansible_container_name: kolla-ansible
 
-kolla_ansible_tag: victoria
+kolla_ansible_tag: xena
 kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
 # redis
 
-redis_tag: 6-alpine
-redis_image: "{{ docker_registry_redis }}/library/redis:{{ redis_tag }}"
+# renovate: datasource=docker depName=redis
+manager_redis_tag: '7.0.5-alpine'
+manager_redis_image: "{{ docker_registry_redis }}/library/redis:{{ manager_redis_tag }}"
 
 ##########################
 # ara
 
+enable_ara: "{{ ara_enable }}"
 ara_enable: true
 
 ara_username: ara
@@ -140,13 +149,19 @@ ara_password: password
 
 # ara server
 
+ara_server_traefik: false
+
+ara_server_traefik_path_prefix: ara
+ara_server_traefik_host: ""
+
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
 ara_workers: 5
 ara_worker_class: sync
 
-ara_server_tag: 1.5.4
+# renovate: datasource=docker depName=quay.io/osism/ara-server
+ara_server_tag: '1.5.8'
 ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
@@ -160,102 +175,41 @@ ara_server_mariadb_username: ara
 ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
-mariadb_tag: 10.5
-mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ mariadb_tag }}"
-
-##########################
-# postgres
-
-postgres_enable: "{{ awx_enable|bool }}"
-
-postgres_tag: 14-alpine
-postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
-
-postgres_password: password
+# renovate: datasource=docker depName=mariadb
+ara_server_mariadb_tag: '10.10.2'
+ara_server_mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ ara_server_mariadb_tag }}"
 
 ##########################
 # celery
 
+enable_celery: "{{ celery_enable }}"
 celery_enable: false
 
 osism_tag: latest
 osism_image: "{{ docker_registry_osism }}/osism/osism:{{ osism_tag }}"
 
+osism_netbox_tag: latest
+osism_netbox_image: "{{ docker_registry_osism_netbox }}/osism/osism-netbox:{{ osism_netbox_tag }}"
+
 flower_host: "{{ ansible_default_ipv4.address }}"
 flower_port: 5555
+flower_traefik: false
+
+osism_api_host: "{{ ansible_default_ipv4.address }}"
+osism_api_port: 8000
 
 ##########################
-# awx
-
-awx_enable: false
-
-awx_mailaddress: "{{ operator_user }}@osism.test"
-awx_password: password
-awx_username: "{{ operator_user }}"
-
-awx_broadcast_websocket_secret: secret
-awx_secret_key: 22222222-2222-2222-2222-222222222222
-
-awx_server_host: "{{ ansible_default_ipv4.address }}"
-awx_server_port: 8052
-
-awx_broadcast_websocket_port: 8013
-
-awx_tag: 19.4.0
-awx_image: "{{ docker_registry_awx }}/ansible/awx:{{ awx_tag }}"
-
-# receptor
-
-receptor_tag: devel
-receptor_image: "{{ docker_registry_receptor }}/ansible/receptor:{{ receptor_tag }}"
-
-# awxclient
-
-awxclient_container_name: awxclient
-
-awxclient_host: "http://{{ awx_server_host }}:{{ awx_server_port }}"
-
-awxclient_tag: 19.4.0
-awxclient_image: "{{ docker_registry_awxclient }}/osism/awxclient:{{ awxclient_tag }}"
-
-awx_group_queues: tower
-
-awx_configuration_defaults:
-  ANSIBLE_FACT_CACHE_TIMEOUT: 3600
-  AWX_REBUILD_SMART_MEMBERSHIP: true
-  BROADCAST_WEBSOCKET_PORT: 8013
-  BROADCAST_WEBSOCKET_PROTOCOL: http
-  BROADCAST_WEBSOCKET_VERIFY_CERT: false
-  DEBUG: false
-  PROJECTS_ROOT: /interface
-  USE_X_FORWARDED_HOST: true
-  USE_X_FORWARDED_PORT: true
-
-# NOTE: See https://github.com/ansible/awx/blob/devel/awx/settings/defaults.py
-#       for all available configuration parameters.
-awx_configuration_extra: {}
-
-awx_configuration: "{{ awx_configuration_defaults|combine(awx_configuration_extra) }}"
-
-# postgres
-
-awx_postgres_username: awx
-awx_postgres_password: password
-awx_postgres_databasename: "{{ awx_postgres_username }}"
-
 # vault
 
-vault_container_name: manager_vault_1
+vault_container_name: vault
 
-# possible choices: [vault, ansible, none]
-awx_vault_type: ansible
-
-vault_enable: "{{ awx_vault_type == 'vault' }}"
+enable_vault: false
 
 vault_host: "{{ ansible_default_ipv4.address }}"
 vault_port: 8200
 
-vault_tag: latest
+# renovate: datasource=docker depName=hashicorp/vault
+vault_tag: '1.12.2'
 vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
 
 vault_output_key_shares: false
@@ -266,10 +220,9 @@ vault_key_shares_path: "{{ manager_secrets_directory }}/vault_key_shares.yml"
 ##########################
 # wrapper
 
-wrapper_scripts:
+manager_wrapper_scripts:
   - osism
   - osism-ansible
-  - osism-awx
   - osism-ceph
   - osism-custom
   - osism-generic
@@ -284,3 +237,41 @@ wrapper_scripts:
   - osism-state
   - osism-update-manager
   - osism-validate
+
+##########################
+# environment
+
+manager_environment_extra: {}
+#   REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+
+##########################
+# listener
+
+manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
+
+##########################
+# service integrations
+
+manager_enable_bifrost: false
+manager_enable_ironic: true
+
+##########################
+# openstack
+
+manager_openstack_os_project_domain_name: Default
+manager_openstack_os_user_domain_name: Default
+manager_openstack_os_project_name: admin
+manager_openstack_os_username: admin
+manager_openstack_os_password: password
+manager_openstack_os_auth_url: http://localhost:5000/v3
+
+##########################
+# traefik
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24
+
+##########################
+# replicas
+
+manager_netbox_replicas: 1

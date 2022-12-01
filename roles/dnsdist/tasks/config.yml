@@ -1,0 +1,22 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ dnsdist_docker_compose_directory }}"
+    - "{{ dnsdist_configuration_directory }}"
+
+- name: Copy configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ dnsdist_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - dnsdist.conf

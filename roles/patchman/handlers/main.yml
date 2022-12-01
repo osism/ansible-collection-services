@@ -1,0 +1,6 @@
+---
+- name: Restart patchman service
+  become: true
+  ansible.builtin.service:
+    name: "{{ patchman_service_name }}"
+    state: restarted

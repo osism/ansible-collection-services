@@ -98,9 +98,12 @@ rtcsync
 # change it if necessary.
 rtconutc
 
+{% for chrony_bindaddress in chrony_bindaddresses %}
+bindaddress {{ chrony_bindaddress }}
+{% endfor %}
+
 {% if chrony_bind_local_interfaces_only | bool %}
-# Listen for NTP requests only on local interfaces.
+# If set to 0, chronyd will never open the server port and will operate
+# strictly in a client-only mode.
 port 0
-bindcmdaddress 127.0.0.1
-bindcmdaddress ::1
 {% endif %}

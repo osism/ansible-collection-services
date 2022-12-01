@@ -6,14 +6,15 @@
   register: tmpfile
 
 - name: Download minikube package
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ minikube_package_url }}"
     dest: "{{ tmpfile.path }}"
     force: true
+    mode: 0644
 
 - name: Install minikube package
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: "{{ tmpfile.path }}"
 
 - name: Remove temporary file
@@ -24,7 +25,7 @@
 
 - name: Copy minikube systemd unit file
   become: true
-  template:
+  ansible.builtin.template:
     src: minikube.service.j2
     dest: "/etc/systemd/system/{{ minikube_service_name }}.service"
     mode: 0644
@@ -34,13 +35,13 @@
 
 - name: Reload systemd daemon if minikube systemd unit file is changed
   become: true
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
   when: systemd_minikube_template is changed
 
 - name: "Start/enable {{ minikube_service_name }} service"
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ minikube_service_name }}"
     state: started
     enabled: true

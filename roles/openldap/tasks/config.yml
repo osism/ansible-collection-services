@@ -1,7 +1,7 @@
 ---
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
@@ -16,7 +16,7 @@
     - "{{ openldap_docker_compose_directory }}"
 
 - name: Copy environment files and ucr files
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ openldap_configuration_directory }}/{{ item.dest }}"
     mode: 0640
@@ -41,8 +41,8 @@
       dest: umc/web/ucr
 
 - name: Copy secret files
-  copy:
-    content: "{{ item.secret }}"
+  ansible.builtin.template:
+    src: config-secret.j2
     dest: "{{ openldap_secrets_directory }}/{{ item.filename }}"
     mode: 0644
     owner: "{{ operator_user }}"

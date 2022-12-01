@@ -2,6 +2,8 @@
 ##########################
 # docker
 
+docker_network_mtu: 1500
+
 docker_registry: index.docker.io
 docker_registry_phpmyadmin: "{{ docker_registry }}"
 
@@ -20,9 +22,21 @@ phpmyadmin_host: 127.0.0.1
 phpmyadmin_database_host: 127.0.0.1
 phpmyadmin_port: 8110
 
-phpmyadmin_tag: 4.9
+# renovate: datasource=docker depName=phpmyadmin/phpmyadmin
+phpmyadmin_tag: '5.2'
 phpmyadmin_image: "{{ docker_registry_phpmyadmin }}/phpmyadmin/phpmyadmin:{{ phpmyadmin_tag }}"
 
 phpmyadmin_network: 172.31.100.32/28
 
 phpmyadmin_service_name: "docker-compose@phpmyadmin"
+
+##########################
+# traefik
+
+phpmyadmin_traefik: false
+
+phpmyadmin_traefik_path_prefix: phpmyadmin
+phpmyadmin_traefik_host: ""
+
+traefik_external_network_name: traefik
+traefik_external_network_cidr: 172.31.254.0/24

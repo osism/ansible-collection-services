@@ -1,0 +1,37 @@
+---
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Include distribution specific install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Upate configuration
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ clamav_configuration_path }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line | default('') }}"
+    state: "{{ item.state | default('present') }}"
+    mode: 0644
+    create: true
+  with_items: "{{ clamav_configuration }}"
+  notify: Restart clamav daemon service
+
+- name: Include initialize tasks
+  ansible.builtin.include_tasks: initialize.yml
+  tags: initialize
+  when: not ansible_local.osism.clamav.status|default("False")|bool
+
+- name: Start/enable clamav freshclam service
+  become: true
+  ansible.builtin.service:
+    name: "{{ clamav_freshclam_service_name }}"
+    state: started
+    enabled: true
+
+- name: Start/enable clamav daemon service
+  become: true
+  ansible.builtin.service:
+    name: "{{ clamav_daemon_service_name }}"
+    state: started
+    enabled: true

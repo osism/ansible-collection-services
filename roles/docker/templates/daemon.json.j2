@@ -56,12 +56,5 @@
     },
     "registry-mirrors": [{% for mirror in docker_registry_mirrors %}"{{ mirror }}"{% if not loop.last %}, {% endif %}{% endfor %}],
     "storage-driver": "{{ docker_storage_driver }}",
-{% if docker_kata_install|bool %}
-    "runtimes": {
-         "kata-runtime": {
-             "path": "/usr/bin/kata-runtime"
-         }
-    },
-{% endif %}
     "default-runtime": "{{ docker_default_runtime }}"
 }

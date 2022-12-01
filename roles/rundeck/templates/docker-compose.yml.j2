@@ -33,9 +33,11 @@ secrets:
     file: {{ rundeck_secrets_directory }}/POSTGRES_PASSWORD
 
 networks:
- default:
-   driver: bridge
-   ipam:
-     driver: default
-     config:
-       - subnet:  {{ rundeck_network }}
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ rundeck_network }}

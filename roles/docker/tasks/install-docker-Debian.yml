@@ -1,74 +1,92 @@
 ---
 - name: Gather the apt package facts
-  package_facts:
+  ansible.builtin.package_facts:
     manager: auto
 
 - name: Check whether packages are installed that should not be installed
-  fail:
+  ansible.builtin.fail:
     msg: "{{ ansible_facts.packages[item] | length }} versions of {{ item }} are installed!"
   when: "item in ansible_facts.packages"
   loop: "{{ docker_packages_fail }}"
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
   changed_when: false
 
 - name: Install apt-transport-https package
-  apt:
+  become: true
+  ansible.builtin.apt:
     name: apt-transport-https
     state: present
-  become: true
   when: docker_configure_repository|bool
   changed_when: false
 
 - name: Add repository gpg key
-  apt_key:
-    url: "{{ docker_debian_repository_key }}"
   become: true
+  ansible.builtin.apt_key:
+    url: "{{ docker_debian_repository_key }}"
   when: docker_configure_repository|bool
 
 - name: Add repository
-  apt_repository:
+  become: true
+  ansible.builtin.apt_repository:
     repo: "{{ docker_debian_repository }}"
     state: present
     filename: docker
     update_cache: true
     mode: 0644
-  become: true
   when: docker_configure_repository|bool
+  register: result_add_repository
+
+- name: Wait for apt lock
+  become: true
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  changed_when: false
+  when: result_add_repository.changed
+
+# NOTE: make sure that the package cache is up to date so that newer Docker versions will be available in any case
+- name: Update package cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+  when: result_add_repository.changed
 
 - name: Pin package version
-  copy:
+  become: true
+  ansible.builtin.copy:
     content: |
       Package: {{ docker_package_name }}
       Pin: version {{ docker_version }}*
       Pin-Priority: 1001
     dest: /etc/apt/preferences.d/docker
     mode: 0644
-  become: true
 
 - name: Pin cli package version
-  copy:
+  become: true
+  ansible.builtin.copy:
     content: |
       Package: {{ docker_package_name }}-cli
       Pin: version {{ docker_version }}*
       Pin-Priority: 1001
     dest: /etc/apt/preferences.d/docker-cli
     mode: 0644
-  become: true
 
 - name: Unlock containerd package
-  dpkg_selections:
+  become: true
+  ansible.builtin.dpkg_selections:
     name: "{{ containerd_package_name }}"
     selection: install
-  become: true
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
@@ -76,83 +94,84 @@
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
-  apt:
+  become: true  # noqa 403
+  ansible.builtin.apt:
     name: "{{ containerd_package_name }}"
     state: latest
-  become: true  # noqa 403
 
 - name: Lock containerd package
-  dpkg_selections:
+  become: true
+  ansible.builtin.dpkg_selections:
     name: "{{ containerd_package_name }}"
     selection: hold
-  become: true
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
   changed_when: false
 
 - name: Install docker-cli package
-  apt:
+  become: true
+  ansible.builtin.apt:
     name: "{{ docker_cli_package_name }}={{ docker_version }}*"
     state: present
-  become: true
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
   changed_when: false
 
 - name: Install docker package
-  apt:
+  become: true
+  ansible.builtin.apt:
     name: "{{ docker_package_name }}={{ docker_version }}*"
     state: present
-  become: true
 
 - name: Install python bindings with apt
+  become: true
   block:
     - name: Unblock installation of python docker packages
-      file:
+      ansible.builtin.file:
         dest: "/etc/apt/preferences.d/{{ item }}"
         state: absent
       loop: "{{ docker_python_package_names }}"
 
     - name: Wait for apt lock
-      shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+      ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
       loop:
         - lock
         - lock-frontend
       changed_when: false
 
     - name: Install python3 docker package
-      apt:
+      ansible.builtin.apt:
         name: "{{ docker_python3_package_name }}"
         state: present
 
-  become: true
   when: not docker_python_install_from_pip|bool
 
 - name: Install python bindings with pip
+  become: true
   block:
     - name: Wait for apt lock
-      shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+      ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
       loop:
         - lock
         - lock-frontend
       changed_when: false
 
     - name: Remove python docker packages (install python bindings from pip)
-      apt:
+      ansible.builtin.apt:
         name: "{{ docker_python_package_names }}"
         state: absent
 
     - name: Block installation of python docker packages (install python bindings from pip)
-      copy:
+      ansible.builtin.copy:
         content: |
           Package: {{ item }}
           Pin: version *
@@ -162,39 +181,38 @@
       loop: "{{ docker_python_package_names }}"
 
     - name: Wait for apt lock
-      shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+      ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
       loop:
         - lock
         - lock-frontend
       changed_when: false
 
     - name: Install python3-pip package (install python bindings from pip)
-      apt:
+      ansible.builtin.apt:
         name: python3-pip
         state: present
 
     - name: Install docker packages (install python bindings from pip)
-      pip:
+      ansible.builtin.pip:
         name: "{{ docker_pip_package_name }}"
         extra_args: "{{ docker_pip_extra_args }}"
         executable: pip3
         state: present
 
-  become: true
   when: docker_python_install_from_pip|bool
 
 - name: Wait for apt lock
-  shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
   loop:
     - lock
     - lock-frontend
   changed_when: false
 
 - name: Install packages required by docker login
-  apt:
+  become: true
+  ansible.builtin.apt:
     name: ["gnupg2", "pass"]
     state: present
-  become: true
   when:
     - docker_registry_username is defined and docker_registry_username|string|length > 0
     - docker_registry_password is defined and docker_registry_password|string|length > 0
