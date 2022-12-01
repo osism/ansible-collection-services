@@ -6,7 +6,7 @@ name: Test role wireguard
   push:
     paths:
       - '.github/workflows/test-role-wireguard.yml'
-      - 'molecule/delegated/**'
+      - 'molecule/delegated/*'
       - 'molecule/wireguard/**'
       - 'roles/wireguard/**'
     branches:
@@ -14,7 +14,7 @@ name: Test role wireguard
   pull_request:
     paths:
       - '.github/workflows/test-role-wireguard.yml'
-      - 'molecule/delegated/**'
+      - 'molecule/delegated/*'
       - 'molecule/wireguard/**'
       - 'roles/wireguard/**'
 
