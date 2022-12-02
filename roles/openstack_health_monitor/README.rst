@@ -114,7 +114,12 @@ The container image to use.
 .. zuul:rolevar:: openstack_health_monitor_container_name
    :default: openstack_health_monitor
 
-Name of the container in which Openstack-health-monitor will run.
+Name of the container.
+
+.. zuul:rolevar:: openstack_health_monitor_service_name
+   :default: docker-compose@openstack_health_monitor
+
+Name of the service.
 
 .. zuul:rolevar:: openstack_health_monitor_network
    :default: 172.31.100.160/28
