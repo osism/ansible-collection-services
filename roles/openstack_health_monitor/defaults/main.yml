@@ -55,3 +55,5 @@ openstack_health_monitor_image: "{{ docker_registry_openstack_health_monitor }}/
 openstack_health_monitor_container_name: openstack_health_monitor
 
 openstack_health_monitor_network: 172.31.100.160/28
+
+openstack_health_monitor_service_name: "docker-compose@openstack_health_monitor"

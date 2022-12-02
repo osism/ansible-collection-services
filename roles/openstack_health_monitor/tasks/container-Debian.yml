@@ -48,28 +48,12 @@
     group: "{{ operator_group }}"
     mode: 0640
 
-- name: Run service
-  community.docker.docker_compose:
-    project_src: "{{ openstack_health_monitor_docker_compose_directory }}"
-    build: false
-    pull: true
-    remove_orphans: true
-  when: "'docker-compose' in ansible_facts.packages"
-
-# NOTE: If docker-compose was not installed by package, the Python bindings are not available.
-#       Therefore in this case docker-compose is called directly.
-
-- name: Pull images
-  ansible.builtin.command: "docker-compose -f {{ openstack_health_monitor_docker_compose_directory }}/docker-compose.yml pull"
-  register: result
-  changed_when: ('Downloaded' in result.stdout)
-  when: "'docker-compose' not in ansible_facts.packages"
-
-- name: Run service
-  ansible.builtin.command: "docker-compose -f {{ openstack_health_monitor_docker_compose_directory }}/docker-compose.yml up -d --remove-orphans --no-build"
-  register: result
-  changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
-  when: "'docker-compose' not in ansible_facts.packages"
+- name: Start/enable openstack_health_monitor service
+  become: true
+  ansible.builtin.service:
+    name: "{{ openstack_health_monitor_service_name }}"
+    state: started
+    enabled: true
 
 - name: Create cronjob
   ansible.builtin.cron:
