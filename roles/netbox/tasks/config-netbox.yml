@@ -21,17 +21,34 @@
   loop:
     - netbox
 
-- name: Copy netbox configuration files
+- name: Copy netbox configuration file
   ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "{{ netbox_configuration_directory }}/{{ item }}"
+    src: configuration.py.j2
+    dest: "{{ netbox_configuration_directory }}/configuration.py"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  loop:
-    - configuration.py
-    - nginx-unit.json
   notify: Restart netbox service
+
+- name: Copy nginx unit configuration file (<= 1.26)
+  ansible.builtin.template:
+    src: nginx-unit-1.26.json.j2
+    dest: "{{ netbox_configuration_directory }}/nginx-unit.json"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  notify: Restart netbox service
+  when: '"ldap" in netbox_tag'
+
+- name: Copy nginx unit configuration file (> 1.26)
+  ansible.builtin.template:
+    src: nginx-unit.json.j2
+    dest: "{{ netbox_configuration_directory }}/nginx-unit.json"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  notify: Restart netbox service
+  when: '"ldap" not in netbox_tag'
 
 - name: Copy secret files
   ansible.builtin.template:
