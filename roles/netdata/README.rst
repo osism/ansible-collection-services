@@ -62,7 +62,17 @@ The short hostname provided from the ansible inventory.
 .. zuul:rolevar:: netdata_update_every
    :default: 5
 
-Intervall in seconds how often netdata should update the data
+Interval in seconds how often netdata should update the data
+
+.. zuul:rolevar:: netdata_page_cache_size
+   :default: 128
+
+Memory for metrics storage, in MiB
+
+.. zuul:rolevar:: netdata_accept_a_streaming_request_every_seconds
+   :default: 1
+
+Limit on how often a parent node will accept streaming requests from its child nodes
 
 .. zuul:rolevar:: netdata_default_history
    :default: 3600

@@ -42,9 +42,11 @@ netdata_hostname: "{{ inventory_hostname_short }}"
 # client
 
 netdata_update_every: 5
+netdata_page_cache_size: 128
 
 # server
 
+netdata_accept_a_streaming_request_every_seconds: 1
 netdata_default_history: 3600
 netdata_enable_cloud: false
 
