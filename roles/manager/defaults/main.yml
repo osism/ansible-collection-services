@@ -135,7 +135,7 @@ kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla
 # redis
 
 # renovate: datasource=docker depName=redis
-manager_redis_tag: '7.0.6-alpine'
+manager_redis_tag: '7.0.7-alpine'
 manager_redis_image: "{{ docker_registry_redis }}/library/redis:{{ manager_redis_tag }}"
 
 ##########################
