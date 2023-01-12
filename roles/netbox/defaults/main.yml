@@ -87,6 +87,7 @@ netbox_extra: {}
 # RELEASE_CHECK_URL: https://api.github.com/repos/netbox-community/netbox/releases
 
 netbox_plugins_defaults:
+  - netbox_initializers
   - netbox_plugin_osism
 netbox_plugins_extra: []
 #   - netbox_bgp

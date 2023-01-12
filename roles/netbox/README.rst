@@ -249,7 +249,8 @@ List of files which contain preconfigured settings for netbox data.
 Additional environment variables for the netbox container.
 
 .. zuul:rolevar:: netbox_plugins_defaults
-   :default: netbox_plugin_osism
+   :default: - netbox_initializers
+             - netbox_plugin_osism
 
 Plugins for Netbox which should be installed at default.
 
