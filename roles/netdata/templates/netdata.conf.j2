@@ -4,6 +4,7 @@
         hostname = {{ netdata_hostname }}
         run as user = netdata
         update every = {{ netdata_update_every }}
+        page cache size = {{ netdata_page_cache_size }}
 
 {% if netdata_host_type == 'client' %}
         memory mode = none
@@ -13,10 +14,12 @@
 {% endif %}
 
 [web]
-        respect do not track policy = yes
 {% if netdata_host_type == 'client' %}
         mode = none
 {% else %}
+        mode = static-threaded
+        respect do not track policy = yes
+        accept a streaming request every seconds = {{ netdata_accept_a_streaming_request_every_seconds }}
         web files owner = root
         web files group = netdata
 	default port = {{ netdata_api_port }}
