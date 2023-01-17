@@ -74,7 +74,5 @@ patchman_memcached_image: "{{ docker_registry_memcached }}/library/memcached:{{ 
 
 patchman_traefik: false
 
-patchman_traefik_host: ""
-
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24

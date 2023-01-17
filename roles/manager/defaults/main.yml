@@ -151,9 +151,6 @@ ara_password: password
 
 ara_server_traefik: false
 
-ara_server_traefik_path_prefix: ara
-ara_server_traefik_host: ""
-
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
