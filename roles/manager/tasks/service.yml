@@ -21,3 +21,12 @@
     name: "{{ manager_service_name }}"
     state: started
     enabled: true
+
+- name: Copy osismclient bash completion script
+  become: true
+  ansible.builtin.shell:
+    cmd: "INTERACTIVE=false osism complete >> /etc/bash_completion.d/osism"
+    creates: /etc/bash_completion.d/osism
+  register: result
+  changed_when: false
+  failed_when: result.rc != 0
