@@ -10,6 +10,8 @@ services:
       - "{{ openstackclient_data_directory }}:/data:ro"
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+    environment:
+      REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
 
 networks:
   default:
