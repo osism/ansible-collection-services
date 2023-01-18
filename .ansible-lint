@@ -9,15 +9,16 @@ use_default_rules: true
 rulesdir:
   - ./.ansible-lint-rules/
 skip_list:
-  - parser-error  # AnsibleParserError.
-  - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
-  - schema
-  - yaml
   - fqcn-builtins
-  - no-handler
+  - galaxy[no-changelog]
   - ignore-errors
-  - package-latest
-  - var-naming
   - name[template]
+  - no-handler
+  - package-latest
+  - parser-error  # AnsibleParserError.
+  - schema
+  - var-naming
+  - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
+  - yaml
 warn_list:
   - experimental  # all rules tagged as experimental
