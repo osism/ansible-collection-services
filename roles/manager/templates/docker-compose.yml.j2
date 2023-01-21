@@ -116,6 +116,7 @@ services:
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
+      - "{{ state_directory }}/conductor:/state:rw"
     secrets:
       - NETBOX_TOKEN
     env_file:
