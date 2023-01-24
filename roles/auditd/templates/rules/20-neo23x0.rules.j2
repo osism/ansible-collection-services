@@ -10,7 +10,7 @@
 # Compiled by Florian Roth
 #
 # Created  : 2017/12/05
-# Modified : 2022/07/19
+# Modified : 2022/12/12
 #
 # Based on rules published here:
 #   Gov.uk auditd rules
@@ -47,7 +47,9 @@
 
 ## Audit the audit logs
 ### Successful and unsuccessful attempts to read information from the audit records
--w /var/log/audit/ -k auditlog
+-w /var/log/audit/ -p wra -k auditlog
+-w /var/log/audit/ -p wra -k T1005_Data_From_Local_System_audit_log
+-w /var/audit/ -p wra -k T1005_Data_From_Local_System_audit_log
 
 ## Auditd configuration
 ### Modifications to audit configuration that occur while the audit collection functions are operating
@@ -63,11 +65,11 @@
 
 ## Access to all audit trails
 
--a always,exit -F path=/usr/sbin/ausearch -F perm=x -F -k T1005_Data_From_Local_System_audit_log
--a always,exit -F path=/usr/sbin/aureport -F perm=x -F -k T1005_Data_From_Local_System_audit_log
--a always,exit -F path=/usr/sbin/aulast -F perm=x -F -k T1005_Data_From_Local_System_audit_log
--a always,exit -F path=/usr/sbin/aulastlogin -F perm=x -F -k T1005_Data_From_Local_System_audit_log
--a always,exit -F path=/usr/sbin/auvirt -F perm=x -F -k T1005_Data_From_Local_System_audit_log
+-a always,exit -F path=/usr/sbin/ausearch -F perm=x -k T1005_Data_From_Local_System_audit_log
+-a always,exit -F path=/usr/sbin/aureport -F perm=x -k T1005_Data_From_Local_System_audit_log
+-a always,exit -F path=/usr/sbin/aulast -F perm=x -k T1005_Data_From_Local_System_audit_log
+-a always,exit -F path=/usr/sbin/aulastlogin -F perm=x -k T1005_Data_From_Local_System_audit_log
+-a always,exit -F path=/usr/sbin/auvirt -F perm=x -k T1005_Data_From_Local_System_audit_log
 
 # Filters ---------------------------------------------------------------------
 
@@ -162,7 +164,7 @@
 -w /etc/cron.monthly/ -p wa -k cron
 -w /etc/cron.weekly/ -p wa -k cron
 -w /etc/crontab -p wa -k cron
--w /var/spool/cron/ -k cron
+-w /var/spool/cron/ -p wa -k cron
 
 ## User, group, password databases
 -w /etc/group -p wa -k etcgroup
@@ -198,6 +200,12 @@
 ### Changes to hostname
 -a always,exit -F arch=b32 -S sethostname -S setdomainname -k network_modifications
 -a always,exit -F arch=b64 -S sethostname -S setdomainname -k network_modifications
+
+### Detect Remote Shell Use
+-a always,exit -F arch=b32 -F exe=/bin/bash -F success=1 -S connect -k "remote_shell"
+-a always,exit -F arch=b64 -F exe=/bin/bash -F success=1 -S connect -k "remote_shell"
+-a always,exit -F arch=b32 -F exe=/usr/bin/bash -F success=1 -S connect -k "remote_shell"
+-a always,exit -F arch=b64 -F exe=/usr/bin/bash -F success=1 -S connect -k "remote_shell"
 
 ### Successful IPv4 Connections
 -a always,exit -F arch=b64 -S connect -F a2=16 -F success=1 -F key=network_connect_4
@@ -551,7 +559,7 @@
 ## https://wiki.archlinux.org/title/Pacman
 ## T1072 third party software
 -w /etc/pacman.conf -p x -k T1072_third_party_software
--w /etc//etc/pacman.d -p x -k T1072_third_party_software
+-w /etc/pacman.d -p x -k T1072_third_party_software
    
 # Special Software ------------------------------------------------------------
 
@@ -576,32 +584,43 @@
 -w /etc/otter -p wa -k soft_otter
 
 ## T1081 Credentials In Files
-
 -w /usr/bin/grep -p x -k T1081_Credentials_In_Files
 -w /usr/bin/egrep -p x -k T1081_Credentials_In_Files
-
 -w /usr/bin/ugrep -p x -k T1081_Credentials_In_Files
 ### macOS
+-w /usr/local/bin/grep -p x -k T1081_Credentials_In_Files
+-w /usr/local/bin/egrep -p x -k T1081_Credentials_In_Files
 -w /usr/local/bin/ugrep -p x -k T1081_Credentials_In_Files
 
-### https://github.com/BurntSushi/ripgrep
+### https://github.com/tmbinc/bgrep
+-w /usr/bin/bgrep -p x -k T1081_Credentials_In_Files
+### macOS
+-w /usr/local/bin/bgrep -p x -k T1081_Credentials_In_Files
 
+### https://github.com/BurntSushi/ripgrep
 -w /usr/bin/rg -p x -k T1081_Credentials_In_Files
 ### macOS
 -w /usr/local/bin/rg -p x -k T1081_Credentials_In_Files
 
-### https://github.com/ggreer/the_silver_searcher
+### https://github.com/monochromegane/the_platinum_searcher
+-w /usr/bin/pt -p x -k T1081_Credentials_In_Files
+### macOS
+-w /usr/local/bin/pt -p x -k T1081_Credentials_In_Files
 
+### https://github.com/gvansickle/ucg
+-w /usr/bin/ucg -p x -k T1081_Credentials_In_Files
+### macOS
+-w /usr/local/bin/ucg -p x -k T1081_Credentials_In_Files
+
+### https://github.com/ggreer/the_silver_searcher
 -w /usr/bin/ag -p x -k T1081_Credentials_In_Files
 ### macOS
 -w /usr/local/bin/ag -p x -k T1081_Credentials_In_Files
 
 ### https://github.com/beyondgrep/ack3
 ### https://beyondgrep.com
-
 -w /usr/bin/ack -p x -k T1081_Credentials_In_Files
 -w /usr/local/bin/ack -p x -k T1081_Credentials_In_Files
-
 -w /usr/bin/semgrep -p x -k T1081_Credentials_In_Files
 ### macOS
 -w /usr/local/bin/semgrep -p x -k T1081_Credentials_In_Files
@@ -627,6 +646,45 @@
 -w /usr/bin/virt-manager -p x -k virt-manager
 -w /usr/bin/VBoxManage -p x -k VBoxManage
 
+#### VirtualBox on macOS
+
+-w /usr/local/bin/VirtualBox -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VirtualBoxVM -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxManage -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxVRDP -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxHeadless -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/vboxwebsrv -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxBugReport -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxBalloonCtrl -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxAutostart -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/VBoxDTrace -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/vbox-img -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/LaunchDaemons/org.virtualbox.startup.plist -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/Application Support/VirtualBox/LaunchDaemons/ -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/Application Support/VirtualBox/VBoxDrv.kext/ -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/Application Support/VirtualBox/VBoxUSB.kext/ -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/Application Support/VirtualBox/VBoxNetFlt.kext/ -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/Application Support/VirtualBox/VBoxNetAdp.kext/ -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+
+### Parallels Desktop on macOS
+
+-w /usr/local/bin/prl_convert -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/prl_disk_tool -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/prl_perf_ctl -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/prlcore2dmp -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/prlctl -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/prlexec -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/prlsrvctl -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /Library/Preferences/Parallels -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+
+### qemu on macOS
+
+-w /usr/local/bin/qemu-edid -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/qemu-img -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/qemu-io -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/qemu-nbd -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+-w /usr/local/bin/qemu-system-x86_64 -p x -k T1497_Virtualization_Sandbox_Evasion_System_Checks
+
 ## Kubelet
 -w /usr/bin/kubelet -k kubelet
 
@@ -634,34 +692,34 @@
 # /usr/include/linux/ipc.h
 
 ## msgctl
-#-a entry,always -S ipc -F a0=14 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=14 -k T1559_Inter-Process_Communication
 ## msgget
-#-a entry,always -S ipc -F a0=13 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=13 -k T1559_Inter-Process_Communication
 ## Use these lines on x86_64, ia64 instead
--a entry,always -S msgctl -k T1559_Inter-Process_Communication
--a entry,always -S msgget -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S msgctl -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S msgget -k T1559_Inter-Process_Communication
 
 ## semctl
-#-a entry,always -S ipc -F a0=3 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=3 -k T1559_Inter-Process_Communication
 ## semget
-#-a entry,always -S ipc -F a0=2 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=2 -k T1559_Inter-Process_Communication
 ## semop
-#-a entry,always -S ipc -F a0=1 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=1 -k T1559_Inter-Process_Communication
 ## semtimedop
-#-a entry,always -S ipc -F a0=4 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=4 -k T1559_Inter-Process_Communication
 ## Use these lines on x86_64, ia64 instead
--a entry,always -S semctl -k T1559_Inter-Process_Communication
--a entry,always -S semget -k T1559_Inter-Process_Communication
--a entry,always -S semop -k T1559_Inter-Process_Communication
--a entry,always -S semtimedop -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S semctl -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S semget -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S semop -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S semtimedop -k T1559_Inter-Process_Communication
 
 ## shmctl
-#-a entry,always -S ipc -F a0=24 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=24 -k T1559_Inter-Process_Communication
 ## shmget
-#-a entry,always -S ipc -F a0=23 -k T1559_Inter-Process_Communication
+#-a always,exit -S ipc -F a0=23 -k T1559_Inter-Process_Communication
 ## Use these lines on x86_64, ia64 instead
--a entry,always -S shmctl -k T1559_Inter-Process_Communication
--a entry,always -S shmget -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S shmctl -k T1559_Inter-Process_Communication
+-a always,exit -F arch=b64 -S shmget -k T1559_Inter-Process_Communication
 
 # High Volume Events ----------------------------------------------------------
 
