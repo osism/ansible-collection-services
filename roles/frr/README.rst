@@ -5,12 +5,12 @@ Ansible role for installation and configuration of FRRouting.
 .. zuul:rolevar:: frr_package_name
    :default: frr
 
-The package name for Frr.
+The package name for FRRouting.
 
 .. zuul:rolevar:: frr_service_name
    :default: frr
 
-Service name for Frr.
+Service name for FRRouting.
 
 .. zuul:rolevar:: frr_sysctl_defaults
    :default: - name: net.ipv4.ip_forward
@@ -36,4 +36,12 @@ Have a look at frr_sysctl.
 .. zuul:rolevar:: frr_sysctl
    :default: frr_sysctl_defaults + frr_sysctl_extra
 
-A list with kernel parameters for Frr.
+A list with kernel parameters for FRRouting.
+
+.. zuul:rolevar:: frr_dummy_interface
+
+.. zuul:rolevar:: frr_interfaces
+
+.. zuul:rolevar:: frr_local_as
+
+.. zuul:rolevar:: frr_remote_as

@@ -2,6 +2,26 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
+- name: Install frr daemons configuration file
+  become: true
+  ansible.builtin.template:
+    src: daemons.j2
+    dest: /etc/frr/daemons
+    owner: frr
+    group: frr
+    mode: 0640
+  notify: Restart frr service
+
+- name: Install frr.conf configuration file
+  become: true
+  ansible.builtin.template:
+    src: "frr_{{ frr_type }}.conf.j2"
+    dest: /etc/frr/frr.conf
+    owner: frr
+    group: frr
+    mode: 0640
+  notify: Restart frr service
+
 - name: Set sysctl parameters
   become: true
   ansible.posix.sysctl:
