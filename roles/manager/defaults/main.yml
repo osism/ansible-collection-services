@@ -272,3 +272,9 @@ traefik_external_network_cidr: 172.31.254.0/24
 # replicas
 
 manager_netbox_replicas: 1
+
+##########################
+# other services
+
+beat_enable: true
+flower_enable: true

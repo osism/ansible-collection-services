@@ -168,6 +168,7 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
+{% beat_enable|bool %}
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -179,6 +180,7 @@ services:
       - NETBOX_TOKEN
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
 {% endif %}
   osismclient:
     container_name: osismclient
@@ -206,6 +208,7 @@ services:
       - "inventory_reconciler:/ansible/inventory:ro"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
+{% flower_enable|bool %}
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -231,6 +234,7 @@ services:
     networks:
       - default
       - {{ traefik_external_network_name }}
+{% endif %}
 {% endif %}
 {% endif %}
   redis:
