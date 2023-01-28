@@ -44,14 +44,12 @@ docker_hosts: "{{ docker_hosts_defaults + docker_hosts_extra }}"
 # services
 
 docker_service_name: docker
-containerd_service_name: containerd
 
 ##########################
 # packages
 
 docker_package_name: docker-ce
 docker_cli_package_name: "{{ docker_package_name }}-cli"
-containerd_package_name: containerd.io
 
 # NOTE: By default this role uses the packages from Docker itself. Therefore the
 #       packages of Ubuntu must not be installed.
@@ -201,7 +199,11 @@ docker_cni_bin_dir: /opt/cni/bin
 ##########################
 # containerd
 
+docker_manage_containerd: true
+
 containerd_grpc_gid: 42463
+containerd_service_name: containerd
+containerd_package_name: containerd.io
 
 ##########################
 # other options

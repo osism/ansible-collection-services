@@ -1,0 +1,6 @@
+---
+- name: Restart containerd service
+  become: true
+  ansible.builtin.systemd:
+    state: restarted
+    name: "{{ containerd_service_name }}"

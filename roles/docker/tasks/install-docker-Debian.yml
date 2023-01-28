@@ -83,6 +83,7 @@
   ansible.builtin.dpkg_selections:
     name: "{{ containerd_package_name }}"
     selection: install
+  when: docker_manage_containerd|bool
   tags: molecule-idempotence-notest
 
 - name: Wait for apt lock
@@ -91,6 +92,7 @@
     - lock
     - lock-frontend
   changed_when: false
+  when: docker_manage_containerd|bool
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
@@ -98,6 +100,7 @@
   ansible.builtin.apt:
     name: "{{ containerd_package_name }}"
     state: latest
+  when: docker_manage_containerd|bool
 
 - name: Lock containerd package
   become: true
@@ -105,6 +108,7 @@
     name: "{{ containerd_package_name }}"
     selection: hold
   tags: molecule-idempotence-notest
+  when: docker_manage_containerd|bool
 
 - name: Wait for apt lock
   ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"

@@ -1,0 +1,69 @@
+---
+- name: Gather the apt package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check whether packages are installed that should not be installed
+  ansible.builtin.fail:
+    msg: "{{ ansible_facts.packages[item] | length }} versions of {{ item }} are installed!"
+  when: "item in ansible_facts.packages"
+  loop: "{{ containerd_packages_fail }}"
+
+- name: Wait for apt lock
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  changed_when: false
+
+- name: Install apt-transport-https package
+  become: true
+  ansible.builtin.apt:
+    name: apt-transport-https
+    state: present
+  when: docker_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.apt_key:
+    url: "{{ docker_debian_repository_key }}"
+  when: docker_configure_repository|bool
+
+- name: Add repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_debian_repository }}"
+    state: present
+    filename: docker
+    update_cache: true
+    mode: 0644
+  when: docker_configure_repository|bool
+
+- name: Unlock containerd package
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: "{{ containerd_package_name }}"
+    selection: install
+  tags: molecule-idempotence-notest
+
+- name: Wait for apt lock
+  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
+  loop:
+    - lock
+    - lock-frontend
+  changed_when: false
+
+# NOTE: At this point the last available version of containerd should be installed
+- name: Install containerd package
+  become: true  # noqa 403
+  ansible.builtin.apt:
+    name: "{{ containerd_package_name }}"
+    state: latest
+
+- name: Lock containerd package
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: "{{ containerd_package_name }}"
+    selection: hold
+  tags: molecule-idempotence-notest

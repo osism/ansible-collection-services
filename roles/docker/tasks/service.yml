@@ -20,4 +20,6 @@
     name: "{{ containerd_service_name }}"
     state: started
     enabled: true
-  when: ansible_os_family == 'Debian'
+  when:
+    - docker_manage_containerd|bool
+    - ansible_os_family == 'Debian'
