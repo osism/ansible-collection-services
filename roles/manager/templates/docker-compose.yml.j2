@@ -168,7 +168,7 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
-{% beat_enable|bool %}
+{% if beat_enable|bool %}
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -208,7 +208,7 @@ services:
       - "inventory_reconciler:/ansible/inventory:ro"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
-{% flower_enable|bool %}
+{% if flower_enable|bool %}
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
