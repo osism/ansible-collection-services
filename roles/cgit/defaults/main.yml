@@ -41,8 +41,5 @@ cgit_repositories: "{{ cgit_repositories_defaults|combine(cgit_repositories_extr
 
 cgit_traefik: false
 
-cgit_traefik_path_prefix: cgit
-cgit_traefik_host: ""
-
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24

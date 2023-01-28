@@ -55,8 +55,5 @@ keycloak_use_preconfigured_databases: false
 
 keycloak_traefik: false
 
-keycloak_traefik_path_prefix: keycloak
-keycloak_traefik_host: ""
-
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
