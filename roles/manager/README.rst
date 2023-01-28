@@ -612,3 +612,16 @@ Enable bifrost integration.
    :default: true
 
 Enable ironic integration.
+
+
+**Other services**
+
+.. zuul:rolevar:: beat_enable
+   :default: true
+
+Enable beat service.
+
+.. zuul:rolevar:: flower_enable
+   :default: true
+
+Enable flower service.
