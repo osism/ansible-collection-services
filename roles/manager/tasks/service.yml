@@ -22,6 +22,12 @@
     state: started
     enabled: true
 
+- name: Get stat of /usr/local/bin/osism
+  stat:
+    path: /usr/local/bin/osism
+  register: result
+  changed_when: false
+
 - name: Copy osismclient bash completion script
   become: true
   ansible.builtin.shell:
@@ -30,3 +36,4 @@
   register: result
   changed_when: false
   failed_when: result.rc != 0
+  when: result.stat.exists
