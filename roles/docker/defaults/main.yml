@@ -84,7 +84,7 @@ docker_pip_extra_args: ""
 # NOTE: This "5:" must be prepended starting with version 18.09.
 #       Check available version under Ubuntu with apt-cache madison docker-ce.
 # renovate: datasource=docker depName=docker
-docker_version: '5:20.10.22'
+docker_version: '5:20.10.23'
 
 ##########################
 # registry
