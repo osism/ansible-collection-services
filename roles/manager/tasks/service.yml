@@ -30,3 +30,8 @@
   register: result
   changed_when: false
   failed_when: result.rc != 0
+  # In certain constellations it can happen that the osismclient container
+  # is not yet available or cannot be used at the moment. To prevent the
+  # entire manager deployment from failing, the error is simply ignored
+  # here as a workaround.
+  ignore_errors: true
