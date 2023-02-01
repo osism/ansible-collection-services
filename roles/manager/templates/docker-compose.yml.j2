@@ -1,5 +1,9 @@
 ---
 services:
+
+  ##########################################
+  # inventory-reconciler service
+
   inventory_reconciler:
     restart: unless-stopped
     image: "{{ inventory_reconciler_image }}"
@@ -27,6 +31,10 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
+
+  ##########################################
+  # osism-ansible service
+
   osism-ansible: &ansible
     container_name: "{{ osism_ansible_container_name }}"
     restart: unless-stopped
@@ -77,6 +85,10 @@ services:
 {% if enable_vault|bool %}
       - vault
 {% endif %}
+
+  ##########################################
+  # other ansible services (kolla-ansible, ..)
+
 {% for service in ansible_services %}
 {% if service.enable|bool %}
   {{ service.name }}:
@@ -92,8 +104,11 @@ services:
 {% endif %}
 {% endif %}
 {% endfor %}
-{% if enable_celery|bool %}
+
 {% if enable_netbox|bool %}
+  ##########################################
+  # Netbox
+
   netbox:
     restart: unless-stopped
     image: "{{ osism_netbox_image }}"
@@ -109,6 +124,17 @@ services:
       - "{{ manager_configuration_directory }}/netbox.env"
     deploy:
       replicas: {{ manager_netbox_replicas }}
+{% endif %}
+
+  ##########################################
+  # services that necessarily require Celery
+
+{% if enable_celery|bool %}
+
+{% if enable_netbox|bool %}
+  ##########################################
+  # conductor service for netbox integration
+
   conductor:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -123,17 +149,30 @@ services:
       - "{{ manager_configuration_directory }}/conductor.env"
       - "{{ manager_configuration_directory }}/netbox.env"
       - "{{ manager_configuration_directory }}/openstack.env"
+{% endif %}
+
+  ##########################################
+  # openstack event listener service
+
   listener:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism service listener
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
+{% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/listener.env"
+{% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
+
+  ##########################################
+  # openstack integration service
+
   openstack:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -142,18 +181,29 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
+{% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/openstack.env"
+{% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
+
+  ##########################################
+  # watchdog service
+
   watchdog:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism service watchdog
     volumes:
       - "{{ configuration_directory }}:/opt/configuration:ro"
+
+  ##########################################
+  # api service
+
   api:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -168,7 +218,11 @@ services:
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
+
 {% if beat_enable|bool %}
+  ##########################################
+  # beat service
+
   beat:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -182,6 +236,10 @@ services:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 {% endif %}
+
+  ##########################################
+  # osismclient service
+
   osismclient:
     container_name: osismclient
     restart: unless-stopped
@@ -208,7 +266,11 @@ services:
       - "inventory_reconciler:/ansible/inventory:ro"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
+
 {% if flower_enable|bool %}
+  ##########################################
+  # flower service
+
   flower:
     restart: unless-stopped
     image: "{{ osism_image }}"
@@ -237,6 +299,10 @@ services:
 {% endif %}
 {% endif %}
 {% endif %}
+
+  ##########################################
+  # redis service
+
   redis:
     restart: unless-stopped
     image: "{{ manager_redis_image }}"
@@ -249,7 +315,11 @@ services:
       default:
         aliases:
           - cache
+
 {% if enable_ara|bool %}
+  ##########################################
+  # ARA service
+
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -287,6 +357,10 @@ services:
 {% if ara_server_database_type == 'mysql' %}
     depends_on:
       - mariadb
+
+  ##########################################
+  # mariadb service
+
   mariadb:
     restart: unless-stopped
     image: "{{ ara_server_mariadb_image }}"
@@ -299,7 +373,11 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% endif %}
+
 {% if enable_vault|bool %}
+  ##########################################
+  # vault service
+
   vault:
     container_name: "{{ vault_container_name }}"
     image: "{{ vault_image }}"
@@ -324,6 +402,9 @@ services:
       test: vault status -address http://127.0.0.1:8200
 {% endif %}
 
+##########################################
+# Volumes
+
 volumes:
   inventory_reconciler:
   interface:
@@ -340,10 +421,16 @@ volumes:
   share:
 
 {% if enable_netbox|bool %}
+##########################################
+# Secrets
+
 secrets:
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
 {% endif %}
+
+##########################################
+# Networks
 
 networks:
   default:
