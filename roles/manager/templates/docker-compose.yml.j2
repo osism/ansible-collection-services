@@ -77,13 +77,17 @@ services:
       - NETBOX_TOKEN
 {% endif %}
     depends_on:
-      - inventory_reconciler
-      - redis
+      inventory_reconciler:
+        condition: service_started
+      redis:
+        condition: service_healthy
 {% if enable_ara|bool %}
-      - ara-server
+      ara-server:
+        condition: service_started
 {% endif %}
 {% if enable_vault|bool %}
-      - vault
+      vault:
+        condition: service_started
 {% endif %}
 
   ##########################################
@@ -356,7 +360,8 @@ services:
 {% endif %}
 {% if ara_server_database_type == 'mysql' %}
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
 
   ##########################################
   # mariadb service
@@ -369,7 +374,6 @@ services:
     volumes:
       - "mariadb:/var/lib/mysql"
     healthcheck:
-      test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% endif %}
