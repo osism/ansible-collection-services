@@ -31,7 +31,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      redis
+      redis:
         condition: service_healthy
     volumes:
       - "{{ netbox_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
