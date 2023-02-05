@@ -267,6 +267,7 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "/etc/timezone:/etc/timezone:ro"
       - "cache:{{ cache_directory }}"
+      - "interface:/interface:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
