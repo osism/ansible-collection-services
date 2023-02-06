@@ -6,8 +6,10 @@ services:
     restart: unless-stopped
     command: ["--disable-syslog", "--uid", "dnsdist", "--gid", "dnsdist", "--verbose", "--supervised"]
     ports:
-      - "{{ dnsdist_host }}:{{ dnsdist_port }}:53"
-      - "{{ dnsdist_host }}:{{ dnsdist_port }}:53/udp"
+{% for host in dnsdist_hosts %}
+      - "{{ host }}:{{ dnsdist_port }}:53"
+      - "{{ host }}:{{ dnsdist_port }}:53/udp"
+{% endfor %}
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "{{ dnsdist_configuration_directory }}/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro"
@@ -20,4 +22,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet:  {{ dnsdist_network }}
+        - subnet: {{ dnsdist_network }}

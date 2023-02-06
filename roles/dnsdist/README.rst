@@ -54,6 +54,11 @@ Name from the container in which Dnsdist will run.
 
 The host where Dnsdist will be reachable.
 
+.. zuul:rolevar:: dnsdist_hosts
+   :default: - "{{ dnsdist_host }}"
+
+The hosts where Dnsdist will be reachable.
+
 .. zuul:rolevar:: dnsdist_port
    :default: 1053
 
@@ -75,4 +80,4 @@ The container image to use.
              - 208.67.222.220
              - 208.67.220.222
 
-List of public DNS servers.
+List of DNS servers to loadbalance.

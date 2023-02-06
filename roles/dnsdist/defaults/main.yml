@@ -24,6 +24,8 @@ dnsdist_service_name: "docker-compose@dnsdist"
 dnsdist_container_name: dnsdist
 
 dnsdist_host: 127.0.0.1
+dnsdist_hosts:
+  - "{{ dnsdist_host }}"
 dnsdist_port: 1053
 
 # renovate: datasource=docker depName=quay.io/osism/dnsdist
