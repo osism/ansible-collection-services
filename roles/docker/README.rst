@@ -397,3 +397,8 @@ Fact files for Docker images and containers.
 
 Manage the containerd service with this role. Alternatively, osism.service.containerd
 can be used for this.
+
+.. zuul:rolevar:: docker_facts
+   :default: true
+
+Copy docker fact files.
