@@ -214,6 +214,8 @@ docker_opts: {}
 ##########################
 # facts
 
+docker_facts: true
+
 docker_fact_files:
   - docker_containers
   - docker_images

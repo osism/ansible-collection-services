@@ -26,3 +26,4 @@
 
 - name: Include facts tasks
   ansible.builtin.include_tasks: facts.yml
+  when: docker_facts|bool
