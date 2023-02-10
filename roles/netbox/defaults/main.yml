@@ -106,7 +106,7 @@ netbox_plugins_config:
 # postgres
 
 # renovate: datasource=docker depName=postgres
-postgres_tag: '15.1-alpine'
+postgres_tag: '15.2-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 netbox_postgres_password: password
