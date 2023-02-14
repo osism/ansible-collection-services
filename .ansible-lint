@@ -1,6 +1,6 @@
 ---
 exclude_paths:
-  - .github/playbook-publish-collection.yml
+  - .github/
   - roles/docker/tasks/install-docker-Debian.yml  # We must exclude this File until we have something that can handle blocks.
   - roles/nexus/tasks/initialize.yml  # We must exclude this File until we have something that can handle blocks.
 mock_modules:
