@@ -30,7 +30,7 @@ jobs:
       max-parallel: 4
       matrix:
         ansible-version: ['6.7.0']
-        python-version: ['3.8']
+        python-version: ['3.10']
         docker-image: ['ubuntu:20.04', 'ubuntu:22.04']
 
     steps:
