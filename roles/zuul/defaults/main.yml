@@ -5,7 +5,8 @@
 # Generic
 ###############################################################################
 
-operator_user: ubuntu
+zuul_user: zuul
+operator_user: "{{ zuul_user }}"
 operator_group: "{{ operator_user }}"
 zuul_host: "{{ inventory_hostname }}"
 zuul_logserver_fqdn: "logs.example.org"
