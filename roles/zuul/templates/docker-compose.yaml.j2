@@ -17,7 +17,7 @@ services:
     command: "/usr/local/bin/nodepool-builder -f -l /etc/nodepool/logging.conf"
     depends_on:
       - zookeeper
-    image: "{{ nodepool_builder_image }}"
+    image: "{{ zuul_nodepool_builder_image }}"
     privileged: true
     volumes:
       - "{{ component_conf_dirs.nodepool_builder }}:/etc/nodepool/:z"
@@ -32,7 +32,7 @@ services:
     command: "/usr/local/bin/nodepool-launcher -f -l /etc/nodepool/logging.conf"
     depends_on:
       - zookeeper
-    image: "{{ nodepool_launcher_image }}"
+    image: "{{ zuul_nodepool_launcher_image }}"
     volumes:
       - "{{ component_conf_dirs.nodepool_launcher }}:/etc/nodepool/:z"
       - "{{ component_conf_dirs.certs }}:/var/certs:z"
