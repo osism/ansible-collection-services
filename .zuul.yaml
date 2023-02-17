@@ -4,10 +4,12 @@
     check:
       jobs:
         - build-sphinx-docs
+        - yamllint
         - ansible-lint
     gate:
       jobs:
         - build-sphinx-docs
+        - yamllint
         - ansible-lint
     post:
       jobs:
