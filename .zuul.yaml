@@ -1,5 +1,6 @@
 ---
 - project:
+    merge-mode: squash-merge
     default-branch: main
     check:
       jobs:
