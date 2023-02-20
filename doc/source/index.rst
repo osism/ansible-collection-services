@@ -75,4 +75,6 @@ ansible-collections-services
 
 .. zuul:autorole:: wireguard
 
-.. zuul:autorole:: zuul
+.. toctree::
+
+   zuul/index
