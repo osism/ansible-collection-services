@@ -10,9 +10,9 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_patchman: quay.io
-docker_registry_postgres: index.docker.io
-docker_registry_memcached: index.docker.io
+docker_registry_patchman: registry.airgap.services.osism.tech
+docker_registry_postgres: registry.airgap.services.osism.tech
+docker_registry_memcached: registry.airgap.services.osism.tech
 
 ##########################
 # patchman
@@ -24,7 +24,7 @@ patchman_host: 127.0.0.1
 patchman_port: 8150
 patchman_server_url: "http://{{ patchman_host }}:{{ patchman_port }}"
 
-# renovate: datasource=docker depName=quay.io/osism/patchman
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/patchman
 patchman_tag: '2.0.3'
 patchman_image: "{{ docker_registry_patchman }}/osism/patchman:{{ patchman_tag }}"
 

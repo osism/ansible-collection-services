@@ -2,8 +2,8 @@
 ##########################
 # docker
 
-docker_registry: index.docker.io
-docker_registry_ansible: quay.io
+docker_registry: registry.airgap.services.osism.tech
+docker_registry_ansible: registry.airgap.services.osism.tech
 docker_registry_service: "{{ docker_registry }}"
 
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
@@ -157,7 +157,7 @@ ara_server_port: 8120
 ara_workers: 5
 ara_worker_class: sync
 
-# renovate: datasource=docker depName=quay.io/osism/ara-server
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/ara-server
 ara_server_tag: '1.6.1'
 ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
 

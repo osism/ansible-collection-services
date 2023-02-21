@@ -4,7 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry_nexus: quay.io
+docker_registry_nexus: registry.airgap.services.osism.tech
 
 ##########################
 # operator user
@@ -21,7 +21,7 @@ nexus_configuration_directory: /opt/nexus/configuration
 nexus_host: 127.0.0.1
 nexus_port: 8190
 
-# renovate: datasource=docker depName=quay.io/osism/nexus
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/nexus
 nexus_tag: '3.49.0'
 nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
@@ -34,8 +34,7 @@ nexus_service_name: "docker-compose@nexus"
 nexus_provision_scripts:
   - anonymous.json
   - cleanup.json
-  - docker-hub.json
-  - docker-quay.json
+  - docker-osism.json
   - ubuntu-archive.json
   - ubuntu-docker.json
 
@@ -93,19 +92,11 @@ nexus_repos_docker_defaults:
   foreign_layer_url_whitelist: []  # Nexus gui default. For proxies only
 
 nexus_repos_docker_proxy:
-  - name: docker-quay
-    http_port: 8192
-    v1_enabled: false
-    index_type: "HUB"
-    remote_url: "https://quay.io"
-    use_nexus_certificates_to_access_index: false
-    force_basic_auth: false
-    cache_foreign_layers: true
-  - name: docker-hub
+  - name: docker-osism
     http_port: 8191
     v1_enabled: false
     index_type: "HUB"
-    remote_url: "https://registry-1.docker.io"
+    remote_url: "https://registry.airgap.services.osism.tech"
     use_nexus_certificates_to_access_index: false
     force_basic_auth: false
     cache_foreign_layers: true

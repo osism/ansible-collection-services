@@ -62,7 +62,7 @@ zuul_tenants:
 # docker
 ###############################################################################
 
-docker_registry: index.docker.io
+docker_registry: registry.airgap.services.osism.tech
 
 zuul_log_server_tag: "alpine"
 zuul_mariadb_tag: "10.6"

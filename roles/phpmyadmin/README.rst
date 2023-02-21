@@ -9,7 +9,7 @@ Phpmyadmin is a tool to manage MySQL and MariaDB database over the web.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Have a look at ``docker_registry_phpmyadmin``
 

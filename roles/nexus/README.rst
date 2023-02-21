@@ -11,7 +11,7 @@ This role is based on the following two roles:
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Look at docker_registry_nexus.
 
@@ -84,8 +84,7 @@ Name from the Nexus service to deal with it.
 .. zuul:rolevar:: nexus_provision_scripts
    :default: - anonymous.json
              - cleanup.json
-             - docker-hub.json
-             - docker-quay.json
+             - docker-osism.json
              - ubuntu-archive.json
              - ubuntu-docker.json
 
@@ -211,19 +210,11 @@ Defines how Nexus should deal with Docker repositories.
 
 .. code-block:: yaml
 
-   - name: docker-quay
-     http_port: 8192
-     v1_enabled: false
-     index_type: "HUB"
-     remote_url: "https://quay.io"
-     use_nexus_certificates_to_access_index: false
-     force_basic_auth: false
-     cache_foreign_layers: true
-   - name: docker-hub
+   - name: docker-osism
      http_port: 8191
      v1_enabled: false
      index_type: "HUB"
-     remote_url: "https://registry-1.docker.io"
+     remote_url: "https://registry.airgap.services.osism.tech"
      use_nexus_certificates_to_access_index: false
      force_basic_auth: false
      cache_foreign_layers: true

@@ -2,7 +2,7 @@
 services:
   squid:
     container_name: "{{ squid_container_name }}"
-    restart: unless-stopped
+    restart: always
     image: "{{ squid_image }}"
     ports:
       - "{{ squid_host }}:{{ squid_port }}:3128"

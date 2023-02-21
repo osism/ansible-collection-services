@@ -23,12 +23,12 @@ Group from the user which will own the configuration directory.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_rundeck
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Rundeck Docker container.
 
 .. zuul:rolevar:: docker_registry_postgres
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Registry for the Postgres Docker container.
 

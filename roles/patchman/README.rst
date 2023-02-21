@@ -23,17 +23,17 @@ Group from the user which will own the configuration directory.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_patchman
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Patchman Docker container.
 
 .. zuul:rolevar:: docker_registry_postgres
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Registry for the Postgres Docker container files.
 
 .. zuul:rolevar:: docker_registry_memcached
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Memcached container files.
 

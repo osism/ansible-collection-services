@@ -10,7 +10,7 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_homer: quay.io
+docker_registry_homer: registry.airgap.services.osism.tech
 
 ##########################
 # homer
@@ -21,7 +21,7 @@ homer_docker_compose_directory: /opt/homer
 homer_host: 127.0.0.1
 homer_port: 8080
 
-# renovate: datasource=docker depName=quay.io/osism/homer
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/homer
 homer_tag: 'v23.02.2'
 homer_image: "{{ docker_registry_homer }}/osism/homer:{{ homer_tag }}"
 

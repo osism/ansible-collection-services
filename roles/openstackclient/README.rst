@@ -11,7 +11,7 @@ together in a single shell with a uniform command structure.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_openstackclient
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the OpenStackClient Docker container.
 

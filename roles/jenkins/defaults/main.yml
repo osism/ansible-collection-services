@@ -4,7 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry_jenkins: quay.io
+docker_registry_jenkins: registry.airgap.services.osism.tech
 
 ##########################
 # operator user

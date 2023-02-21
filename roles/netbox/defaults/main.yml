@@ -10,9 +10,9 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_netbox: quay.io
-docker_registry_postgres: index.docker.io
-docker_registry_redis: index.docker.io
+docker_registry_netbox: registry.airgap.services.osism.tech
+docker_registry_postgres: registry.airgap.services.osism.tech
+docker_registry_redis: registry.airgap.services.osism.tech
 
 ##########################
 # netbox
@@ -32,7 +32,7 @@ netbox_osism_api_port: 8000
 
 netbox_userid: 101
 
-# renovate: datasource=docker depName=quay.io/osism/netbox
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/netbox
 netbox_tag: 'v3.4.6'
 netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
 

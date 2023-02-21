@@ -1,7 +1,7 @@
 ---
 # tasks file for squid
 
-- name: Create required directories
+- name: Create required squid directories
   become: true
   ansible.builtin.file:
     path: "{{ item }}"
@@ -21,7 +21,7 @@
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  notify: Restart squid service
+  register: restart_squid
 
 - name: Copy docker-compose.yml file
   ansible.builtin.template:
@@ -30,11 +30,19 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
-  notify: Restart squid service
+  register: docker_compose_file
 
 - name: Start/enable squid service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: "{{ squid_service_name }}"
     state: started
     enabled: true
+
+- name: Restart squid service
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ squid_service_name }}"
+    state: restarted
+    enabled: true
+  when: restart_squid.changed

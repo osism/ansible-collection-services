@@ -4,7 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry_cgit: quay.io
+docker_registry_cgit: registry.airgap.services.osism.tech
 
 ##########################
 # operator user
@@ -21,7 +21,7 @@ cgit_configuration_directory: /opt/cgit/configuration
 cgit_host: 127.0.0.1
 cgit_port: 8210
 
-# renovate: datasource=docker depName=quay.io/osism/cgit
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/cgit
 cgit_tag: '1.2.3'
 cgit_image: "{{ docker_registry_cgit }}/osism/cgit:{{ cgit_tag }}"
 

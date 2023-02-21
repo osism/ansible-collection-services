@@ -24,12 +24,12 @@ Because of Docker dose not check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
 .. zuul:rolevar:: docker_registry_keycloak
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 Path to the registry that stores the Docker container images for Keycloak.
 
 .. zuul:rolevar:: docker_registry_postgres
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Postgres Docker container.
 

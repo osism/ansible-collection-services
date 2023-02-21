@@ -9,7 +9,7 @@ Traefik is a reverse proxy and loadbalancer for managing microservices.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Traefik Docker container.
 

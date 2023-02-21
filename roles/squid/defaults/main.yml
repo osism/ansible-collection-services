@@ -10,7 +10,7 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_squid: index.docker.io
+docker_registry_squid: registry.airgap.services.osism.tech
 
 ##########################
 # squid
@@ -29,14 +29,17 @@ squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
 squid_container_name: squid
 
 squid_allowed_addresses:
-  - harbor.services.osism.tech
-  - index.docker.io
-  - quay.io
-  - minio.services.osism.tech
-  - archive.ubuntu.com
-  - download.docker.com
-  - packagecloud.io
-  - github.com
-  - galaxy.ansible.com
-  - pypi.org
-  - .opendev.org
+#  - aptly.airgap.services.osism.tech
+#  - bandersnatch.airgap.services.osism.tech
+#  - registry.airgap.services.osism.tech
+#  - wormhole.airgap.services.osism.tech
+#  - harbor.services.osism.tech
+  - .services.osism.tech
+#  - minio.services.osism.tech
+#  - archive.ubuntu.com
+#  - download.docker.com
+#  - packagecloud.io
+#  - github.com
+#  - galaxy.ansible.com
+#  - pypi.org
+#  - .opendev.org

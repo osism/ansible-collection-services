@@ -10,8 +10,8 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_keycloak: quay.io
-docker_registry_postgres: index.docker.io
+docker_registry_keycloak: registry.airgap.services.osism.tech
+docker_registry_postgres: registry.airgap.services.osism.tech
 
 ##########################
 # keycloak
@@ -27,7 +27,7 @@ keycloak_service_name: "docker-compose@keycloak"
 keycloak_host: 127.0.0.1
 keycloak_port: 8170
 
-# renovate: datasource=docker depName=quay.io/keycloak/keycloak
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/keycloak/keycloak
 keycloak_tag: 19.0.1-legacy
 keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
 

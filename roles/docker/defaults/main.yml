@@ -92,7 +92,7 @@ docker_version: '5:20.10.23'
 # docker_registry_password:
 # docker_registry_username:
 
-docker_registry: index.docker.io
+docker_registry: registry.airgap.services.osism.tech
 docker_registry_docker_openpolicyagent: "{{ docker_registry }}"
 
 docker_insecure_registries: []
@@ -177,8 +177,7 @@ docker_policy_files_extra: []
 docker_policy_files: "{{ docker_policy_files_defaults + docker_policy_files_extra }}"
 
 docker_policy_allowed_registries_defaults:
-  - index.docker.io
-  - quay.io
+  - registry.airgap.services.osism.tech
 docker_policy_allowed_registries_extra: []
 docker_policy_allowed_registries: "{{ docker_policy_allowed_registries_defaults + docker_policy_allowed_registries_extra + docker_insecure_registries}}"
 

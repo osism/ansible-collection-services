@@ -4,12 +4,12 @@ required comopnents.
 **Docker Variables**
 
 .. zuul:rolevar:: docker_registry
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 The Docker registry which stores container files which are needed for the manager.
 
 .. zuul:rolevar:: docker_registry_ansible
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 Container registry which stores container files which are needed for the manager.
 

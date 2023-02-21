@@ -23,17 +23,17 @@ Group from the user which will own the configuration directory.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_netbox
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 Name of the registry for the Netbox container image.
 
 .. zuul:rolevar:: docker_registry_postgres
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Name of the registry for the Postgres container image.
 
 .. zuul:rolevar:: docker_registry_redis
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Name of the registry for the Redis container image.
 

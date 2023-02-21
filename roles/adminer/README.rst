@@ -9,7 +9,7 @@ Adminer is a tool for database management.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Default name of the registry for container images.
 

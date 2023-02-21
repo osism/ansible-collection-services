@@ -10,7 +10,7 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_virtualbmc: quay.io
+docker_registry_virtualbmc: registry.airgap.services.osism.tech
 
 ##########################
 # virtualbmc
@@ -26,6 +26,6 @@ virtualbmc_service_name: "docker-compose@virtualbmc"
 virtualbmc_host: 127.0.0.1
 virtualbmc_port: 6230-6239
 
-# renovate: datasource=docker depName=quay.io/osism/virtualbmc
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/virtualbmc
 virtualbmc_tag: '3.0.1'
 virtualbmc_image: "{{ docker_registry_virtualbmc }}/osism/virtualbmc:{{ virtualbmc_tag }}"

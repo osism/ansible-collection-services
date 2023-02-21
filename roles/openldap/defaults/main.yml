@@ -10,9 +10,9 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_openldap: quay.io
-docker_registry_udm_rest: quay.io
-docker_registry_umc: quay.io
+docker_registry_openldap: registry.airgap.services.osism.tech
+docker_registry_udm_rest: registry.airgap.services.osism.tech
+docker_registry_umc: registry.airgap.services.osism.tech
 
 ##########################
 # openldap

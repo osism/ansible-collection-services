@@ -10,7 +10,7 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_dnsdist: quay.io
+docker_registry_dnsdist: registry.airgap.services.osism.tech
 
 ##########################
 # dnsdist
@@ -28,7 +28,7 @@ dnsdist_hosts:
   - "{{ dnsdist_host }}"
 dnsdist_port: 1053
 
-# renovate: datasource=docker depName=quay.io/osism/dnsdist
+# renovate: datasource=docker depName=registry.airgap.services.osism.tech/osism/dnsdist
 dnsdist_tag: '1.6.1'
 dnsdist_image: "{{ docker_registry_dnsdist }}/osism/dnsdist:{{ dnsdist_tag }}"
 

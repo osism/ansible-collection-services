@@ -22,12 +22,12 @@ Group from the user which will own the configuration directory.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_openldap
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Openldap Docker container.
 
 .. zuul:rolevar:: docker_registry_umc
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 Registry for the UMC Docker container.
 

@@ -167,7 +167,7 @@ This "5:" must be prepended starting with version 18.09.
 Check available version under Ubuntu with apt-cache madison docker-ce.
 
 .. zuul:rolevar:: docker_registry
-   :default: index.docker.io
+   :default: registry.airgap.services.osism.tech
 
 Path to the registry that stores the Docker container images.
 
@@ -323,8 +323,7 @@ Look at docker_policy_files.
 Configuration files that contain fine grained policies to interact with Docker.
 
 .. zuul:rolevar:: docker_policy_allowed_registries_defaults
-   :default: - index.docker.io
-             - quay.io
+   :default: - registry.airgap.services.osism.tech
 
 Have a look at docker_policy_allowed_registries.
 

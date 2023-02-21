@@ -10,7 +10,7 @@ Openstack API endpoints.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_openstack_health_monitor
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 The registry for the Openstack-health-monitor Docker container.
 

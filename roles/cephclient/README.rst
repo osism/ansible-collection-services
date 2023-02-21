@@ -10,7 +10,7 @@ Because of Docker don't check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
 .. zuul:rolevar:: docker_registry_cephclient
-   :default: quay.io
+   :default: registry.airgap.services.osism.tech
 
 Path to the registry that stores the Docker container images for Cephclient.
 

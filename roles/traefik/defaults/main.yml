@@ -4,7 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry: index.docker.io
+docker_registry: registry.airgap.services.osism.tech
 docker_registry_traefik: "{{ docker_registry }}"
 
 ##########################

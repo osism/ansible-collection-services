@@ -4,7 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry_openstackclient: quay.io
+docker_registry_openstackclient: registry.airgap.services.osism.tech
 
 ##########################
 # operator user
