@@ -33,7 +33,7 @@ netbox_osism_api_port: 8000
 netbox_userid: 101
 
 # renovate: datasource=docker depName=quay.io/osism/netbox
-netbox_tag: 'v3.4.4'
+netbox_tag: 'v3.4.5'
 netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
 
 netbox_secret_key: 00000000-0000-0000-0000-000000000000
