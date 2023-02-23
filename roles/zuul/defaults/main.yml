@@ -66,9 +66,9 @@ docker_registry: index.docker.io
 
 zuul_log_server_tag: "alpine"
 zuul_mariadb_tag: "10.6"
-zuul_nodepool_tag: "8.1.0"
+zuul_nodepool_tag: "8.2.0"
 zuul_zookeeper_tag: "3.7.1"
-zuul_zuul_tag: "8.1.0"
+zuul_zuul_tag: "8.2.0"
 
 zuul_executor_image: "{{ docker_registry }}/zuul/zuul-executor:{{ zuul_zuul_tag }}"
 zuul_log_server_image: "{{ docker_registry }}/httpd:{{ zuul_log_server_tag }}"
