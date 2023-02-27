@@ -10,6 +10,8 @@ license_file: LICENSE
 tags:
   - osism
   - system
+  - cloud
+  - infrastructure
 dependencies: {}
 repository: https://github.com/osism/ansible-collection-services.git
 documentation: https://docs.osism.tech
