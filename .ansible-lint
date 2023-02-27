@@ -20,5 +20,7 @@ skip_list:
   - var-naming
   - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
   - yaml
+# DO NOT DELETE THE WARNLIST! It is required for our custom rules!
+# If this isn't there our custom rules will only through a warning and wont generate a failure!:
 warn_list:
-  - experimental  # all rules tagged as experimental
+  - dummy
