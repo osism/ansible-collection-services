@@ -12,3 +12,4 @@
   ansible.builtin.apt:
     name: "{{ tang_packages }}"
     state: present
+    lock_timeout: "{{ apt_lock_timeout|default(300) }}"
