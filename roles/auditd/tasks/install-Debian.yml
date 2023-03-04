@@ -11,6 +11,7 @@
   ansible.builtin.apt:
     name: "{{ auditd_package_name }}"
     state: present
+    lock_timeout: "{{ apt_lock_timeout|default(300) }}"
 
 - name: Wait for apt lock
   ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
@@ -24,3 +25,4 @@
   ansible.builtin.apt:
     name: "{{ audispd_plugins_package_name }}"
     state: present
+    lock_timeout: "{{ apt_lock_timeout|default(300) }}"

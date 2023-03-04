@@ -11,3 +11,4 @@
   ansible.builtin.apt:
     name: "{{ smartd_package_name }}"
     state: present
+    lock_timeout: "{{ apt_lock_timeout|default(300) }}"
