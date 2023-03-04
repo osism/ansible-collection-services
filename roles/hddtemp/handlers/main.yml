@@ -2,5 +2,5 @@
 - name: Restart hddtemp service
   become: true
   ansible.builtin.service:
-    name: "{{ hddtemp_service_name }}"
+    name: hddtemp
     state: restarted
