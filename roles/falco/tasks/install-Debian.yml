@@ -15,11 +15,25 @@
   when: falco_configure_repository|bool
   changed_when: false
 
-- name: Add repository gpg key
+- name: Add repository gpg key with apt-key
   become: true
   ansible.builtin.apt_key:
     url: "{{ falco_debian_repository_key }}"
-  when: falco_configure_repository|bool
+  when:
+    - falco_configure_repository|bool
+    - ansible_distribution_version is version('22.04', '<')
+
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ falco_debian_repository_key }}"
+    dest: /etc/apt/trusted.gpg.d/falco.asc
+    mode: 0644
+    owner: root
+    group: root
+  when:
+    - falco_configure_repository|bool
+    - ansible_distribution_version is version('22.04', '>=')
 
 - name: Add repository
   become: true
