@@ -1,10 +1,24 @@
 ---
-- name: Add repository key
+- name: Add repository key with apt-key
   become: true
   ansible.builtin.apt_key:
     keyserver: keyserver.ubuntu.com
     id: "{{ openstackclient_debian_repository_key }}"
-  when: openstackclient_configure_repository|bool
+  when:
+    - openstackclient_configure_repository|bool
+    - ansible_distribution_version is version('22.04', '<')
+
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ openstackclient_debian_repository_key }}"
+    dest: /etc/apt/trusted.gpg.d/openstackclient.asc
+    mode: 0644
+    owner: root
+    group: root
+  when:
+    - openstackclient_configure_repository|bool
+    - ansible_distribution_version is version('22.04', '>=')
 
 - name: Add repository
   become: true
