@@ -2,5 +2,5 @@
 - name: Install hddtemp package
   become: true
   ansible.builtin.dnf:
-    name: ["epel-release", "{{ hddtemp_package_name }}"]
+    name: ["epel-release", "hddtemp"]
     state: present

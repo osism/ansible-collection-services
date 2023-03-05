@@ -1,0 +1,17 @@
+---
+- name: Copy hddtemp configuration file
+  become: true
+  ansible.builtin.copy:
+    src: "{{ ansible_os_family }}/hddtemp"
+    dest: "{{ hddtemp_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart hddtemp service
+
+- name: Start/enable hddtemp service
+  become: true
+  ansible.builtin.service:
+    name: hddtemp
+    state: started
+    enabled: true

@@ -1,17 +1,7 @@
-With this role you can install and configure Hddtmp.
+With this role you can install and configure hddtmp/lm-sensors.
 This tool checks the temperature of a block device.
 
 **Role Variables**
-
-.. zuul:rolevar:: hddtemp_package_name
-   :default: hddtemp
-
-The package name which is needed for the Hddtemp installation.
-
-.. zuul:rolevar:: hddtemp_service_name
-   :default: hddtemp
-
-Service name of Hddtmp.
 
 .. zuul:rolevar:: hddtemp_conf_file
 
