@@ -19,8 +19,24 @@
   become: true
   ansible.builtin.apt:
     name: hddtemp
-    state: absent 
+    state: absent
     lock_timeout: "{{ apt_lock_timeout|default(300) }}"
+  when:
+    - ansible_distribution_version is version('22.04', '>=')
+
+- name: Enable Kernel Module drivetemp
+  ansible.builtin.lineinfile:
+    line: drivetemp
+    dest: /etc/modules
+    mode: 0644
+    state: present
+  when:
+    - ansible_distribution_version is version('22.04', '>=')
+
+- name: Load Kernel Module drivetemp
+  community.general.modprobe:
+    name: drivetemp
+    state: present
   when:
     - ansible_distribution_version is version('22.04', '>=')
 
