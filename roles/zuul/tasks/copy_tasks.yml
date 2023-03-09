@@ -2,16 +2,16 @@
 - name: Copy pem files (e.g. for github)
   ansible.posix.synchronize:
     src: "{{ playbook_dir }}/pem-files/"
-    dest: "{{ component_conf_dirs.zuul }}/pem-files"
+    dest: "{{ zuul_component_conf_dirs.zuul }}/pem-files"
     owner: false
     group: false
 
 - name: Copy zuul logging configs
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ component_conf_dirs.zuul }}/{{ item }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.zuul }}/{{ item }}"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
   loop:
     - logging.conf
@@ -21,25 +21,25 @@
 - name: Copy nodepool builder logging config
   ansible.builtin.copy:
     src: builder-logging.conf
-    dest: "{{ component_conf_dirs.nodepool_builder }}/logging.conf"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.nodepool_builder }}/logging.conf"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Copy nodepool launcher logging config
   ansible.builtin.copy:
     src: launcher-logging.conf
-    dest: "{{ component_conf_dirs.nodepool_launcher }}/logging.conf"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.nodepool_launcher }}/logging.conf"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Copy zookeeper certificate generator script
   ansible.builtin.copy:
     src: "{{ item['file'] }}"
-    dest: "{{ component_conf_dirs.certs }}/{{ item['file'] }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.certs }}/{{ item['file'] }}"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: "{{ item['mode'] }}"
   loop:
     - file: zk-ca.sh
@@ -50,15 +50,15 @@
 - name: Copy log server mime types
   ansible.builtin.copy:
     src: mime.types
-    dest: "{{ component_conf_dirs.log_server }}/mime.types"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.log_server }}/mime.types"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Copy log server certificate
   ansible.builtin.copy:
     src: server.crt
-    dest: "{{ component_conf_dirs.log_server }}/server.crt"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.log_server }}/server.crt"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0600

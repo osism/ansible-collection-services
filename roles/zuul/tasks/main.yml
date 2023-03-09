@@ -8,19 +8,19 @@
 - name: Create base config directory
   ansible.builtin.file:
     state: directory
-    path: "{{ base_conf_dir }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    path: "{{ zuul_base_conf_dir }}"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0755
 
 - name: Create component config directories
   ansible.builtin.file:
     state: directory
     path: "{{ item['value'] }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0755
-  loop: "{{ component_conf_dirs | dict2items }}"
+  loop: "{{ zuul_component_conf_dirs | dict2items }}"
 
 - name: Create log directory
   become: true
@@ -28,7 +28,7 @@
     state: directory
     path: /var/log/zuul
     owner: "{{ zuul_user }}"
-    group: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0755
 
 - name: Create nodepool directories
@@ -37,7 +37,7 @@
     state: directory
     path: "{{ item }}"
     owner: "{{ zuul_user }}"
-    group: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0755
   loop:
     - /srv/dib_cache
@@ -58,5 +58,5 @@
 
 - name: Start zuul
   community.docker.docker_compose:
-    project_src: "{{ base_conf_dir }}"
+    project_src: "{{ zuul_base_conf_dir }}"
     project_name: zuul
