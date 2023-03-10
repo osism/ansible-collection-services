@@ -6,42 +6,42 @@
 ###############################################################################
 
 zuul_user: zuul
-operator_user: "{{ zuul_user }}"
-operator_group: "{{ operator_user }}"
-zuul_host: "{{ inventory_hostname }}"
+zuul_group: "{{ zuul_user }}"
+
 zuul_logserver_fqdn: "logs.example.org"
 zuul_webserver_fqdn: "zuul.example.org"
 zuul_webserver_admin: "admin@example.org"
-zookeeper_fqdn: "zookeeper01.example.org"
-base_conf_dir: /opt/zuul
-component_conf_dirs:
-  nodepool_builder: "{{ base_conf_dir }}/nodepool_builder_configuration"
-  nodepool_launcher: "{{ base_conf_dir }}/nodepool_launcher_configuration"
-  zookeeper: "{{ base_conf_dir }}/zookeeper_configuration"
-  zuul: "{{ base_conf_dir }}/zuul_configuration"
-  certs: "{{ base_conf_dir }}/certs"
-  ssh_keys: "{{ base_conf_dir }}/ssh_keys"
-  web: "{{ base_conf_dir }}/web"
-  log_server: "{{ base_conf_dir }}/log_server"
-  scheduler: "{{ base_conf_dir }}/scheduler"
+zuul_zookeeper_fqdn: "zookeeper01.example.org"
+
+zuul_base_conf_dir: /opt/zuul
+zuul_component_conf_dirs:
+  nodepool_builder: "{{ zuul_base_conf_dir }}/nodepool_builder_configuration"
+  nodepool_launcher: "{{ zuul_base_conf_dir }}/nodepool_launcher_configuration"
+  zookeeper: "{{ zuul_base_conf_dir }}/zookeeper_configuration"
+  zuul: "{{ zuul_base_conf_dir }}/zuul_configuration"
+  certs: "{{ zuul_base_conf_dir }}/certs"
+  ssh_keys: "{{ zuul_base_conf_dir }}/ssh_keys"
+  web: "{{ zuul_base_conf_dir }}/web"
+  log_server: "{{ zuul_base_conf_dir }}/log_server"
+  scheduler: "{{ zuul_base_conf_dir }}/scheduler"
 
 
 ###############################################################################
 # Zuul
 ###############################################################################
 
-connections:
-  githubzuulapp:
+zuul_connections:
+  github:
     driver: github
-    webhook_token: "webhooksecretvalue"
-    app_id: 121873
-    app_key: "/etc/zuul/pem-files/githubzuulapp.pem"
+    webhook_token: "{{ webhook_token }}"
+    app_id: "{{ github_app_id }}"
+    app_key: "/etc/zuul/pem-files/{{ github_pem_name }}.pem"
   opendevorg:
     name: opendev
     driver: git
     baseurl: https://opendev.org
 
-tenants:
+zuul_tenants:
   - tenant:
       name: my-tenant-name
       source:
@@ -79,7 +79,7 @@ zuul_scheduler_image: "{{ docker_registry }}/zuul/zuul-scheduler:{{ zuul_zuul_ta
 zuul_web_image: "{{ docker_registry }}/zuul/zuul-web:{{ zuul_zuul_tag }}"
 zuul_zookeeper_image: "{{ docker_registry }}/zookeeper:{{ zuul_zookeeper_tag }}"
 
-database:
+zuul_database:
   user_name: zuul
   user_pass: secret
   root_pass: rootpassword
@@ -99,9 +99,9 @@ container_name:
 # Nodepool
 ###############################################################################
 
-nodepool_labels:
+zuul_nodepool_labels:
   labels:  # we need this sub-key. limitation of to_nice_yaml library
-    - name: ubuntu-focal
+    - name: ubuntu-jammy
 
-nodepool_providers:
+zuul_nodepool_providers:
   providers:  # we need this sub-key. limitation of to_nice_yaml library

@@ -2,66 +2,66 @@
 - name: Template zookeeper zoo.cfg
   ansible.builtin.template:
     src: zoo.cfg.j2
-    dest: "{{ component_conf_dirs.zookeeper }}/zoo.cfg"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.zookeeper }}/zoo.cfg"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Template zuul scheduler wait script
   ansible.builtin.template:
     src: wait-to-start.sh.j2
-    dest: "{{ component_conf_dirs.scheduler }}/wait-to-start.sh"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.scheduler }}/wait-to-start.sh"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0755
 
 - name: Template zuul zuul.conf
   ansible.builtin.template:
     src: zuul.conf.j2
-    dest: "{{ component_conf_dirs.zuul }}/zuul.conf"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.zuul }}/zuul.conf"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Template zuul main.yaml
   ansible.builtin.template:
     src: main.yaml.j2
-    dest: "{{ component_conf_dirs.zuul }}/main.yaml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.zuul }}/main.yaml"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
   notify: Smart reload scheduler
 
 - name: Template nodepool-builder nodepool.yaml
   ansible.builtin.template:
     src: nodepool.yaml.j2
-    dest: "{{ component_conf_dirs.nodepool_builder }}/nodepool.yaml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.nodepool_builder }}/nodepool.yaml"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Template nodepool-launcher nodepool.yaml
   ansible.builtin.template:
     src: nodepool.yaml.j2
-    dest: "{{ component_conf_dirs.nodepool_launcher }}/nodepool.yaml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.nodepool_launcher }}/nodepool.yaml"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Template log server config
   ansible.builtin.template:
     src: httpd.conf.j2
-    dest: "{{ component_conf_dirs.log_server }}/httpd.conf"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_component_conf_dirs.log_server }}/httpd.conf"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
 
 - name: Template docker-compose env files
   ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
-    dest: "{{ base_conf_dir }}/{{ item }}.env"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_base_conf_dir }}/{{ item }}.env"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
   loop:
     - executor
@@ -72,7 +72,7 @@
 - name: Template docker-compose.yaml
   ansible.builtin.template:
     src: docker-compose.yaml.j2
-    dest: "{{ base_conf_dir }}/docker-compose.yaml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ zuul_base_conf_dir }}/docker-compose.yaml"
+    owner: "{{ zuul_user }}"
+    group: "{{ zuul_group }}"
     mode: 0644
