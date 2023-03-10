@@ -9,13 +9,6 @@
   when: "item in ansible_facts.packages"
   loop: "{{ docker_packages_fail }}"
 
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
-
 - name: Install apt-transport-https package
   become: true
   ansible.builtin.apt:
@@ -56,15 +49,6 @@
   when: docker_configure_repository|bool
   register: result_add_repository
 
-- name: Wait for apt lock
-  become: true
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
-  when: result_add_repository.changed
-
 # NOTE: make sure that the package cache is up to date so that newer Docker versions will be available in any case
 - name: Update package cache
   become: true
@@ -102,14 +86,6 @@
   when: docker_manage_containerd|bool
   tags: molecule-idempotence-notest
 
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
-  when: docker_manage_containerd|bool
-
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
   become: true  # noqa 403
@@ -127,26 +103,12 @@
   tags: molecule-idempotence-notest
   when: docker_manage_containerd|bool
 
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
-
 - name: Install docker-cli package
   become: true
   ansible.builtin.apt:
     name: "{{ docker_cli_package_name }}={{ docker_version }}*"
     state: present
     lock_timeout: "{{ apt_lock_timeout|default(300) }}"
-
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
 
 - name: Install docker package
   become: true
@@ -164,13 +126,6 @@
         state: absent
       loop: "{{ docker_python_package_names }}"
 
-    - name: Wait for apt lock
-      ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-      loop:
-        - lock
-        - lock-frontend
-      changed_when: false
-
     - name: Install python3 docker package
       ansible.builtin.apt:
         name: "{{ docker_python3_package_name }}"
@@ -182,12 +137,6 @@
 - name: Install python bindings with pip
   become: true
   block:
-    - name: Wait for apt lock
-      ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-      loop:
-        - lock
-        - lock-frontend
-      changed_when: false
 
     - name: Remove python docker packages (install python bindings from pip)
       ansible.builtin.apt:
@@ -205,13 +154,6 @@
         mode: 0644
       loop: "{{ docker_python_package_names }}"
 
-    - name: Wait for apt lock
-      ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-      loop:
-        - lock
-        - lock-frontend
-      changed_when: false
-
     - name: Install python3-pip package (install python bindings from pip)
       ansible.builtin.apt:
         name: python3-pip
@@ -226,13 +168,6 @@
         state: present
 
   when: docker_python_install_from_pip|bool
-
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
 
 - name: Install packages required by docker login
   become: true
