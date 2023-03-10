@@ -9,13 +9,6 @@
   when: "item in ansible_facts.packages"
   loop: "{{ containerd_packages_fail }}"
 
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
-
 - name: Install apt-transport-https package
   become: true
   ansible.builtin.apt:
@@ -61,13 +54,6 @@
     name: "{{ containerd_package_name }}"
     selection: install
   tags: molecule-idempotence-notest
-
-- name: Wait for apt lock
-  ansible.builtin.shell: "while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 5; done;"
-  loop:
-    - lock
-    - lock-frontend
-  changed_when: false
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
