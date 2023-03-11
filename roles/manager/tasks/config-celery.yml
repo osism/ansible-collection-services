@@ -18,8 +18,16 @@
     group: "{{ operator_group }}"
   loop:
     - conductor
-    - listener
     - openstack
+
+- name: Copy listener environment file
+  ansible.builtin.template:
+    src: env/listener.env.j2
+    dest: "{{ manager_configuration_directory }}/listener.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: enable_listener|bool
 
 # NOTE: Since we deploy the manager, we use the conductor.yml directly from the manager.
 
