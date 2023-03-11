@@ -155,6 +155,7 @@ services:
       - "{{ manager_configuration_directory }}/openstack.env"
 {% endif %}
 
+{% if enable_listener|bool %}
   ##########################################
   # openstack event listener service
 
@@ -172,6 +173,7 @@ services:
       - "{{ manager_configuration_directory }}/listener.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
 {% endif %}
 
   ##########################################
