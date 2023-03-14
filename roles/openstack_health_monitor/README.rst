@@ -75,6 +75,11 @@ These are variables for the openstack-health-monitor:
 
 **Cronjob Variables**
 
+.. zuul:rolevar:: openstack_health_monitor_cronjob
+   :default: false
+
+Enable cronjob for healthcheck.
+
 .. zuul:rolevar:: openstack_health_monitor_cronjob_minute
    :default: */10
 
