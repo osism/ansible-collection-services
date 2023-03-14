@@ -63,3 +63,4 @@
     job: "/api_monitor.sh {{ openstack_health_monitor_arguments }}"
     cron_file: "{{ openstack_health_monitor_crontabs_directory }}/main"
     user: "{{ operator_user }}"
+  when: openstack_health_monitor_cronjob|bool

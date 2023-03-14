@@ -38,6 +38,8 @@ openstack_health_monitor_arguments: "-O -C -D -N 1 -i 1 -n 2"
 ##########################
 # cronjob
 
+openstack_health_monitor_cronjob: false
+
 openstack_health_monitor_cronjob_minute: "*/10"
 openstack_health_monitor_cronjob_hour: "*"
 
