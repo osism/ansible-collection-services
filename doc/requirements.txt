@@ -10,4 +10,4 @@ zuul-sphinx
 # mistune is a transitive requirement of sphinxcontrib-openapi
 # remove this requirement once this issue is fixed:
 # https://github.com/sphinx-contrib/openapi/issues/121
-mistune<2.0
+mistune<2.1
