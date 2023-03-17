@@ -419,7 +419,7 @@ The container image to use.
 Have a look at celery_enable.
 
 .. zuul:rolevar:: celery_enable
-   :default: false
+   :default: true
 
 Disables Celery integration for deployment.
 
@@ -627,6 +627,6 @@ Enable ironic integration.
 Enable beat service.
 
 .. zuul:rolevar:: flower_enable
-   :default: true
+   :default: false
 
 Enable flower service.

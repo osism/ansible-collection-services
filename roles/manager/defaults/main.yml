@@ -180,7 +180,7 @@ ara_server_mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ ara_
 # celery
 
 enable_celery: "{{ celery_enable }}"
-celery_enable: false
+celery_enable: true
 
 osism_tag: latest
 osism_image: "{{ docker_registry_osism }}/osism/osism:{{ osism_tag }}"
@@ -278,4 +278,4 @@ manager_netbox_replicas: 1
 # other services
 
 beat_enable: true
-flower_enable: true
+flower_enable: false
