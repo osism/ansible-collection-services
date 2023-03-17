@@ -75,6 +75,8 @@ else
         -u $ANSIBLE_USER \
         osism.manager.$PLAYBOOK "$@"
 
+    osism reconciler sync
+
 fi
 
 popd > /dev/null
