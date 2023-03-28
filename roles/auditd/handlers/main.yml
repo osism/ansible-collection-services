@@ -9,3 +9,4 @@
   become: true
   ansible.builtin.command: augenrules --load
   notify: Restart auditd service
+  changed_when: true
