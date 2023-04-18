@@ -4,6 +4,16 @@ exclude_paths:
   - roles/docker/tasks/install-docker-Debian.yml  # We must exclude this File until we have something that can handle blocks.
   - roles/nexus/tasks/initialize.yml  # We must exclude this File until we have something that can handle blocks.
 mock_modules:
+  - ansible.posix.mount
+  - ansible.posix.synchronize
+  - ansible.posix.sysctl
+  - community.docker.docker_container_exec
+  - community.docker.docker_compose
+  - community.docker.docker_login
+  - community.docker.docker_network
+  - community.general.filesystem
+  - community.general.modprobe
+  - kolla_toolbox
   - scan_services
 use_default_rules: true
 rulesdir:
@@ -20,6 +30,7 @@ skip_list:
   - var-naming
   - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
   - yaml
+  - args[module] # Skipt since is fixed: <https://github.com/ansible/ansible-lint/issues/3199>
 # DO NOT DELETE THE WARNLIST! It is required for our custom rules!
 # If this isn't there our custom rules will only through a warning and wont generate a failure!:
 warn_list:
