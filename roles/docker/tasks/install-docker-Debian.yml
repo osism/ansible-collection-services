@@ -109,6 +109,7 @@
     name: "{{ docker_cli_package_name }}={{ docker_version }}*"
     state: present
     lock_timeout: "{{ apt_lock_timeout|default(300) }}"
+    allow_downgrade: true
 
 - name: Install docker package
   become: true
@@ -116,6 +117,7 @@
     name: "{{ docker_package_name }}={{ docker_version }}*"
     state: present
     lock_timeout: "{{ apt_lock_timeout|default(300) }}"
+    allow_downgrade: true
 
 - name: Install python bindings with apt
   become: true
