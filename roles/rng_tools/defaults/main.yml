@@ -1,6 +1,0 @@
----
-##########################
-# random number generator
-
-rng_tools_service_name: rngd
-rng_tools_package_name: "{{ 'rng-tools5' if ansible_os_family is 'Debian' else 'rng-tools' }}"
