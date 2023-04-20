@@ -1,0 +1,6 @@
+---
+- name: Install rng-tools package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ rng_tools_package_name }}"
+    state: present
