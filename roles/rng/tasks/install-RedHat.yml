@@ -4,3 +4,9 @@
   ansible.builtin.dnf:
     name: "{{ rng_package_name }}"
     state: present
+
+- name: Remove haveged package
+  become: true
+  ansible.builtin.dnf:
+    name: haveged
+    state: absent

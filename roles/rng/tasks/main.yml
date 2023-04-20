@@ -5,6 +5,6 @@
 - name: Start/enable rng service
   become: true
   ansible.builtin.service:
-    name: "{{ rng_service_name }}"
+    name: rngd
     state: started
     enabled: true
