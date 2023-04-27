@@ -31,9 +31,9 @@ squid_container_name: squid
 squid_allowed_addresses:
   - harbor.services.osism.tech
   - index.docker.io
-  - quay.io
+  - .quay.io
   - minio.services.osism.tech
-  - archive.ubuntu.com
+  - .archive.ubuntu.com
   - download.docker.com
   - packagecloud.io
   - github.com
