@@ -40,3 +40,4 @@ squid_allowed_addresses:
   - galaxy.ansible.com
   - pypi.org
   - .opendev.org
+  - .cloudfront.net
