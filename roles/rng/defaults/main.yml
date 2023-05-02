@@ -2,5 +2,4 @@
 ##########################
 # random number generator
 
-rng_service_name: haveged
-rng_package_name: haveged
+rng_package_name: "{{ 'rng-tools5' if ansible_os_family == 'Debian' else 'rng-tools' }}"
