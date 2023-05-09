@@ -57,7 +57,7 @@
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
-  become: true  # noqa 403
+  become: true  # noqa package-latest
   ansible.builtin.apt:
     name: "{{ containerd_package_name }}"
     state: latest
