@@ -4,12 +4,6 @@ Documentation: https://docs.osism.tech/ansible-collection-services/
 
 The following Ansible roles are included in this collection.
 
-# Ansible collection osism.services
-
-Documentation: https://docs.osism.tech/ansible-collection-services/
-
-The following Ansible roles are included in this collection.
-
 | Rolename                 | Test                                                                                                                       |
 |------------------------- |----------------------------------------------------------------------------------------------------------------------------|
 | adminer                  |                                                                                                                            |
@@ -46,6 +40,7 @@ The following Ansible roles are included in this collection.
 | rng                      | ![Test role rng](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rng/badge.svg)               |
 | rsyslog                  | ![Test role rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rsyslog/badge.svg)       |
 | rundeck                  |                                                                                                                            |
+| scaphandre               |                                                                                                                            |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)         |
 | traefik                  |                                                                                                                            |
 | virtualbmc               |                                                                                                                            |
