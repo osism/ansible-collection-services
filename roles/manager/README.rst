@@ -62,13 +62,19 @@ The subnet for the Manager in the docker-compose file.
 
 Name from the Manager service to deal with it.
 
+.. zuul:rolevar:: manager_service_restart
+   :default: true
 
-**Directories Variables**
+Controls the behavior of the restart handler. If set to false the manager service
+will not restart even if the handler was triggered.
+
+
+**Directory Variables**
 
 .. zuul:rolevar:: ansible_directory
    :default: /opt/ansible
 
-Directory for the ansible configuration file.
+Directory for the Ansible configuration file.
 
 .. zuul:rolevar:: archive_directory
    :default: /opt/archive
@@ -78,12 +84,12 @@ Directory for the ansible configuration file.
 .. zuul:rolevar:: cache_directory
    :default: /opt/ansible/cache
 
-Path to the cache which ansible should use.
+Path to the cache which Ansible should use.
 
 .. zuul:rolevar:: configuration_directory
    :default: /opt/configuration
 
-Directory where the configuration files for Osism are stored.
+Directory where the configuration files for OSISM are stored.
 
 .. zuul:rolevar:: logs_directory
    :default: /opt/ansible/logs
@@ -213,7 +219,7 @@ Note: The osism-ansible service is always enabled and cannot be disabled.
      image: "{{ kolla_ansible_image }}"
      enable: "{{ enable_kolla_ansible }}"
 
-Required services for Osism.
+Required services for OSISM.
 
 .. zuul:rolevar:: ansible_services_extra
    :default: []
@@ -226,17 +232,17 @@ Here you can define extra services besides ceph-ansible and kolla-ansible.
 A compose of ansible_services_defaults and ansible_services_extra.
 
 
-**Osism-ansible Variables**
+**osism-ansible Variables**
 
 .. zuul:rolevar:: osism_ansible_container_name
    :default: osism-ansible
 
-Name of the container in which Osism-ansible will run.
+Name of the container in which osism-ansible will run.
 
 .. zuul:rolevar:: osism_ansible_tag
    :default: latest
 
-Version from Osism-ansible in form of a tag which should be used.
+Version from osism-ansible in form of a tag which should be used.
 
 .. zuul:rolevar:: osism_ansible_image
    :default: {{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}
@@ -244,7 +250,7 @@ Version from Osism-ansible in form of a tag which should be used.
 The container image to use.
 
 
-**Ceph-ansible Variables**
+**ceph-ansible Variables**
 
 .. zuul:rolevar:: enable_ceph_ansible
    :default: ceph_ansible_enable
@@ -254,12 +260,12 @@ Have a look at ceph_ansible_enable.
 .. zuul:rolevar:: ceph_ansible_enable
    :default: true
 
-Enables Ceph-ansible integration for deployment.
+Enables ceph-ansible integration for deployment.
 
 .. zuul:rolevar:: ceph_ansible_container_name
    :default: ceph-ansible
 
-Name of the container in which Ceph-ansible will run.
+Name of the container in which ceph-ansible will run.
 
 .. zuul:rolevar:: ceph_ansible_tag
    :default: pacific
@@ -272,7 +278,7 @@ Version in form of a tag which should be used.
 The container image to use.
 
 
-**Kolla-ansible Variables**
+**kolla-ansible Variables**
 
 .. zuul:rolevar:: enable_kolla_ansible
    :default: kolla_ansible_enable
@@ -282,12 +288,12 @@ Look at kolla_ansible_enable.
 .. zuul:rolevar:: kolla_ansible_enable
    :default: true
 
-Enables Kolla-ansible integration for deployment.
+Enables kolla-ansible integration for deployment.
 
 .. zuul:rolevar:: kolla_ansible_container_name
    :default: kolla-ansible
 
-Name of the container in which Kolla-ansible will run.
+Name of the container in which kolla-ansible will run.
 
 .. zuul:rolevar:: kolla_ansible_tag
    :default: xena
@@ -461,12 +467,12 @@ Set the configuration from Traefik to false. If true Traefik will be used.
 .. zuul:rolevar:: osism_api_host
    :default: ansible_default_ipv4.address
 
-Address of the Osism API.
+Address of the OSISM API.
 
 .. zuul:rolevar:: osism_api_port
    :default: 8000
 
-Port for the Osism API.
+Port for the OSISM API.
 
 
 **Vault Variables**
@@ -582,7 +588,7 @@ Url to task queue broker.
 .. zuul:rolevar:: manager_openstack_os_auth_url
    :default: http://localhost:5000/v3
 
-Enviroment variables for the Osism container.
+Enviroment variables for the OSISM container.
 These are the credentials to access the OpenStack installation.
 
 

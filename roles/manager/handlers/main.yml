@@ -4,3 +4,4 @@
   ansible.builtin.service:
     name: "{{ manager_service_name }}"
     state: restarted
+  when: manager_service_restart|bool
