@@ -1,0 +1,25 @@
+---
+services:
+  scaphandre:
+    image: "{{ scaphandre_image }}"
+    container_name: "{{ scaphandre_container_name }}"
+    restart: unless-stopped
+    ports:
+      - "{{ scaphandre_host }}:{{ scaphandre_port }}:8080/tcp"
+    volumes:
+      - type: bind
+        source: /proc
+        target: /proc
+      - type: bind
+        source: /sys/class/powercap
+        target: /sys/class/powercap
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ scaphandre_network }}

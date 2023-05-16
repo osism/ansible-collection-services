@@ -1,0 +1,31 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+docker_registry_scaphandre: index.docker.io
+
+##########################
+# scaphandre
+
+scaphandre_container_name: scaphandre
+
+scaphandre_configuration_directory: /opt/scaphandre/configuration
+scaphandre_docker_compose_directory: /opt/scaphandre
+
+scaphandre_network: 172.31.101.160/28
+scaphandre_service_name: "docker-compose@scaphandre"
+
+scaphandre_host: 127.0.0.1
+scaphandre_port: 9155
+
+# renovate: datasource=docker depName=index.docker.io/hubblo/scaphandre
+scaphandre_tag: '0.5.0'
+scaphandre_image: "{{ docker_registry_scaphandre }}/hubblo/scaphandre:{{ scaphandre_tag }}"
