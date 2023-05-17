@@ -26,6 +26,12 @@ scaphandre_service_name: "docker-compose@scaphandre"
 scaphandre_host: 127.0.0.1
 scaphandre_port: 9155
 
+scaphandre_exporter: prometheus
+scaphandre_flags_defaults:
+  - "--qemu"
+scaphandre_flags_extra: []
+scaphandre_flags: "{{ scaphandre_flags_defaults + scaphandre_flags_extra }}"
+
 # renovate: datasource=docker depName=index.docker.io/hubblo/scaphandre
 scaphandre_tag: '0.5.0'
 scaphandre_image: "{{ docker_registry_scaphandre }}/hubblo/scaphandre:{{ scaphandre_tag }}"

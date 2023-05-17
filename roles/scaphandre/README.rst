@@ -75,3 +75,26 @@ Version from the Scaphandre which should be installed.
    :default: {{ docker_registry_scaphandre }}/hubblo/scaphandre:{{ scaphandre_tag }}
 
 The container image to use.
+
+.. zuul:rolevar:: scaphandre_exporter
+   :default: prometheus
+
+Exporter to launch.
+
+.. zuul:rolevar:: scaphandre_flags_extra
+   :default: []
+
+Extra flags.
+
+.. zuul:rolevar:: scaphandre_flags_defaults
+
+.. code-block:: yaml
+
+   - "--qemu"
+
+Default flags.
+
+.. zuul:rolevar:: scaphandre_flags
+   :default: "{{ scaphandre_flags_defaults + scaphandre_flags_extra }}"
+
+Merged flags (default + extra)
