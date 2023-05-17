@@ -4,6 +4,7 @@ services:
     image: "{{ scaphandre_image }}"
     container_name: "{{ scaphandre_container_name }}"
     restart: unless-stopped
+    entrypoint: scaphandre prometheus
     ports:
       - "{{ scaphandre_host }}:{{ scaphandre_port }}:8080/tcp"
     volumes:
