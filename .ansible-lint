@@ -19,7 +19,6 @@ use_default_rules: true
 rulesdir:
   - ./.ansible-lint-rules/
 skip_list:
-  - fqcn-builtins
   - galaxy[no-changelog]
   - ignore-errors
   - name[template]
