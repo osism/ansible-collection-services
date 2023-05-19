@@ -268,8 +268,8 @@ Compose of netbox_plugins_defaults + netbox_plugins_extra.
 
 .. code-block:: yaml
 
-   grafana: "http://{{ kolla_internal_vip_address|default('127.0.0.1') }}:3000"
-   netdata: "http://{{ netdata_api_host|default('127.0.0.1') }}:19999"
+   grafana: "http://{{ kolla_internal_vip_address | default('127.0.0.1') }}:3000"
+   netdata: "http://{{ netdata_api_host | default('127.0.0.1') }}:19999"
 
 OSISM specific configuration for plugins of netbox. Contains mostly urls to other connected services.
 

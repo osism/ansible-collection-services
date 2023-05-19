@@ -180,7 +180,7 @@ docker_policy_allowed_registries_defaults:
   - index.docker.io
   - quay.io
 docker_policy_allowed_registries_extra: []
-docker_policy_allowed_registries: "{{ docker_policy_allowed_registries_defaults + docker_policy_allowed_registries_extra + docker_insecure_registries}}"
+docker_policy_allowed_registries: "{{ docker_policy_allowed_registries_defaults + docker_policy_allowed_registries_extra + docker_insecure_registries }}"
 
 ##########################
 # zun

@@ -42,7 +42,7 @@ patchman_secret_key: aiGe7eedievootee3ook3aeshok2sa4p
 patchman_cron_day: "*"
 patchman_cron_hour: "1"
 patchman_cron_minute: "3"
-patchman_cron_user: "{{ operator_user|default('dragon') }}"
+patchman_cron_user: "{{ operator_user | default('dragon') }}"
 
 patchman_debug: "False"
 

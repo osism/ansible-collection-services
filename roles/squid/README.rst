@@ -75,4 +75,4 @@ Name from the Squid service to deal with it.
 The following Variables define the urls to the webservices that OSISM provides:
 
 .. zuul:rolevar:: homer_url_ara
-   :default: http://{{ ara_server_host|default(ansible_default_ipv4.address) }}:{{ ara_server_port|default(8120) }}
+   :default: http://{{ ara_server_host | default(ansible_default_ipv4.address) }}:{{ ara_server_port | default(8120) }}

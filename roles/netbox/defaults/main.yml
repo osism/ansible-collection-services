@@ -96,8 +96,8 @@ netbox_plugins_extra: []
 netbox_plugins: "{{ netbox_plugins_defaults + netbox_plugins_extra }}"
 
 netbox_plugins_config_osism:
-  grafana: "http://{{ kolla_internal_vip_address|default('127.0.0.1') }}:3000"
-  netdata: "http://{{ netdata_api_host|default('127.0.0.1') }}:19999"
+  grafana: "http://{{ kolla_internal_vip_address | default('127.0.0.1') }}:3000"
+  netdata: "http://{{ netdata_api_host | default('127.0.0.1') }}:19999"
 
 netbox_plugins_config:
   netbox_plugin_osism: "{{ netbox_plugins_config_osism }}"

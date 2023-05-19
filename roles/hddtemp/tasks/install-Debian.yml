@@ -4,7 +4,7 @@
   ansible.builtin.apt:
     name: hddtemp
     state: present
-    lock_timeout: "{{ apt_lock_timeout|default(300) }}"
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   when:
     - ansible_distribution_version is version('22.04', '<')
 
@@ -13,7 +13,7 @@
   ansible.builtin.apt:
     name: hddtemp
     state: absent
-    lock_timeout: "{{ apt_lock_timeout|default(300) }}"
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   when:
     - ansible_distribution_version is version('22.04', '>=')
 
@@ -38,6 +38,6 @@
   ansible.builtin.apt:
     name: lm-sensors
     state: present
-    lock_timeout: "{{ apt_lock_timeout|default(300) }}"
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   when:
     - ansible_distribution_version is version('22.04', '>=')
