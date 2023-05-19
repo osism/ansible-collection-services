@@ -7,7 +7,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: "Restart {{ netdata_service_name }} service"
+  notify: "Restart service {{ netdata_service_name }}"
   loop: "{{ netdata_configuration_files }}"
 
 - name: Create /var/lib/netdata/cloud.d directory
@@ -27,7 +27,7 @@
     owner: netdata
     group: netdata
     mode: 0644
-  notify: "Restart {{ netdata_service_name }} service"
+  notify: "Restart service {{ netdata_service_name }}"
 
 - name: Retrieve /etc/netdata/.opt-out-from-anonymous-statistics status
   ansible.builtin.stat:
