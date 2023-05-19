@@ -27,7 +27,6 @@ skip_list:
   - parser-error  # AnsibleParserError.
   - schema
   - var-naming
-  - var-spacing  # Variables should have spaces before and after: {{ var_name }}.
   - yaml
   - args[module] # Skipt since is fixed: <https://github.com/ansible/ansible-lint/issues/3199>
 # DO NOT DELETE THE WARNLIST! It is required for our custom rules!

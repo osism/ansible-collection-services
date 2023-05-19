@@ -9,7 +9,7 @@
 
 - name: Merge zun hosts config
   ansible.builtin.set_fact:
-    docker_hosts: "{{ docker_hosts + docker_zun_hosts  }}"
+    docker_hosts: "{{ docker_hosts + docker_zun_hosts }}"
   when:
     - "'zun-compute' in group_names"
 
@@ -19,8 +19,8 @@
     path: "{{ docker_cni_config_dir }}"
     state: "directory"
     mode: "0770"
-    owner: "{{ config_owner_user|default('root') }}"
-    group: "{{ config_owner_group|default('root') }}"
+    owner: "{{ config_owner_user | default('root') }}"
+    group: "{{ config_owner_group | default('root') }}"
 
 - name: Copying CNI config file
   become: true
@@ -28,8 +28,8 @@
     src: "10-zun-cni.conf.j2"
     dest: "{{ docker_cni_config_dir }}/10-zun-cni.conf"
     mode: "0660"
-    owner: "{{ config_owner_user|default('root') }}"
-    group: "{{ config_owner_group|default('root') }}"
+    owner: "{{ config_owner_user | default('root') }}"
+    group: "{{ config_owner_group | default('root') }}"
   register: docker_cni_configured
 
 - name: Ensuring CNI bin directory exist
@@ -38,8 +38,8 @@
     path: "{{ docker_cni_bin_dir }}"
     state: "directory"
     mode: "0770"
-    owner: "{{ config_owner_user|default('root') }}"
-    group: "{{ config_owner_group|default('root') }}"
+    owner: "{{ config_owner_user | default('root') }}"
+    group: "{{ config_owner_group | default('root') }}"
 
 - name: Copy zun-cni script
   become: true

@@ -1,4 +1,4 @@
-router id {{ bird_router_id|default(ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])) }};
+router id {{ bird_router_id | default(ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0])) }};
 
 filter export_internal_address {
 
@@ -44,8 +44,8 @@ protocol kernel {
 
 protocol bgp leaf{{ loop.index }} {
 
-  local as {{ bird_local_as|default(65100) }};
-  neighbor {{ hostvars[inventory_hostname]['ansible_' + item]['ipv4']['address'] | ipmath(-1) }} as {{ bird_neighbor_as|default(65000) }};
+  local as {{ bird_local_as | default(65100) }};
+  neighbor {{ hostvars[inventory_hostname]['ansible_' + item]['ipv4']['address'] | ipmath(-1) }} as {{ bird_neighbor_as | default(65000) }};
   import filter accept_all;
   export filter export_internal_address;
   hold time {{ bird_leaf_hold_time }};

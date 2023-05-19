@@ -8,7 +8,7 @@ auditd_syslog: false
 auditd_plugin_path: /etc/audisp/plugins.d
 auditd_config:
   - parameter: active
-    value: "{{ 'yes' if auditd_syslog|bool else 'no' }}"
+    value: "{{ 'yes' if auditd_syslog | bool else 'no' }}"
     config: "{{ auditd_plugin_path }}/syslog.conf"
 
 ##########################

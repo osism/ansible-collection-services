@@ -10,4 +10,4 @@
 - name: Include initialize tasks
   ansible.builtin.include_tasks: initialize.yml
   tags: initialize
-  when: not ansible_local.osism.nexus.status|default("False")|bool
+  when: not ansible_local.osism.nexus.status | default("False") | bool

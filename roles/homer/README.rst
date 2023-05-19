@@ -75,13 +75,13 @@ Name from the Homer service to deal with it.
 The following Variables define the urls to the webservices that OSISM provides:
 
 .. zuul:rolevar:: homer_url_ara
-   :default: http://{{ ara_server_host|default(ansible_default_ipv4.address) }}:{{ ara_server_port|default(8120) }}
+   :default: http://{{ ara_server_host | default(ansible_default_ipv4.address) }}:{{ ara_server_port | default(8120) }}
 
 .. zuul:rolevar:: homer_url_ceph
    :default: http://{{ kolla_internal_vip_address }}:8140
 
 .. zuul:rolevar:: homer_url_flower
-   :default: http://{{ flower_host|default(ansible_default_ipv4.address) }}:{{ flower_port|default(5555) }}
+   :default: http://{{ flower_host | default(ansible_default_ipv4.address) }}:{{ flower_port | default(5555) }}
 
 .. zuul:rolevar:: homer_url_grafana
    :default: http://{{ kolla_internal_vip_address }}:3000
@@ -90,22 +90,22 @@ The following Variables define the urls to the webservices that OSISM provides:
    :default: http://{{ kolla_internal_vip_address }}
 
 .. zuul:rolevar:: homer_url_keycloak
-   :default: http://{{ keycloak_host|default(ansible_default_ipv4.address) }}:{{ keycloak_port|default(8170) }}
+   :default: http://{{ keycloak_host | default(ansible_default_ipv4.address) }}:{{ keycloak_port | default(8170) }}
 
 .. zuul:rolevar:: homer_url_kibana
    :default: http://{{ kolla_internal_vip_address }}:5601
 
 .. zuul:rolevar:: homer_url_netbox
-   :default: http://{{ netbox_host|default(ansible_default_ipv4.address) }}:{{ netbox_port|default(8121) }}
+   :default: http://{{ netbox_host | default(ansible_default_ipv4.address) }}:{{ netbox_port | default(8121) }}
 
 .. zuul:rolevar:: homer_url_netdata
-   :default: http://{{ netdata_host|default(ansible_default_ipv4.address) }}:{{ netdata_port|default(19999) }}
+   :default: http://{{ netdata_host | default(ansible_default_ipv4.address) }}:{{ netdata_port | default(19999) }}
 
 .. zuul:rolevar:: homer_url_patchman
-   :default: http://{{ patchman_host|default(ansible_default_ipv4.address) }}:{{ patchman_port|default(8150) }}
+   :default: http://{{ patchman_host | default(ansible_default_ipv4.address) }}:{{ patchman_port | default(8150) }}
 
 .. zuul:rolevar:: homer_url_phpmyadmin
-   :default: http://{{ phpmyadmin_host|default(ansible_default_ipv4.address) }}:{{ phpmyadmin_port|default(8110) }}
+   :default: http://{{ phpmyadmin_host | default(ansible_default_ipv4.address) }}:{{ phpmyadmin_port | default(8110) }}
 
 .. zuul:rolevar:: homer_url_prometheus
    :default: http://{{ kolla_internal_vip_address }}:9090
@@ -114,7 +114,7 @@ The following Variables define the urls to the webservices that OSISM provides:
    :default: http://{{ kolla_internal_vip_address }}:15672
 
 .. zuul:rolevar:: homer_url_vault
-   :default: http://{{ vault_host|default(ansible_default_ipv4.address) }}:{{ vault_port|default(8200) }}
+   :default: http://{{ vault_host | default(ansible_default_ipv4.address) }}:{{ vault_port | default(8200) }}
 
 
 **Traefik Variables**

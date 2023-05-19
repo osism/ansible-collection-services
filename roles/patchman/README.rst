@@ -122,7 +122,7 @@ Hour-parameter for the Patchman cronjob.
 Minute-parameter for the Patchman cronjob.
 
 .. zuul:rolevar:: patchman_cron_user
-   :default: {{ operator_user|default('dragon') }}
+   :default: {{ operator_user | default('dragon') }}
 
 User that should hold the cronjobs for Patchman.
 

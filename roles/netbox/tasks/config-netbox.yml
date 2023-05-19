@@ -80,7 +80,7 @@
 - name: Deploy startup scripts for netbox
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ netbox_configuration_directory }}/startup-scripts/{{ item|basename }}"
+    dest: "{{ netbox_configuration_directory }}/startup-scripts/{{ item | basename }}"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"

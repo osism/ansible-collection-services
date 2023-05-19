@@ -6,7 +6,7 @@
     dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
     owner: "{{ operator_user }}"
     mode: 0600
-  loop: "{{ private_keys|dict2items }}"
+  loop: "{{ private_keys | dict2items }}"
   no_log: true
 
 - name: Copy ansible environment file
