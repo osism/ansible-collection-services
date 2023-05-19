@@ -31,7 +31,7 @@ jobs:
       matrix:
         ansible-version: ['7.5.0']
         python-version: ['3.10']
-        docker-image: ['ubuntu:20.04', 'ubuntu:22.04']
+        docker-image: ['ubuntu:22.04']
 
     steps:
       - name: Checkout
