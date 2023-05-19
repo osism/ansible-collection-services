@@ -29,15 +29,18 @@ squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
 squid_container_name: squid
 
 squid_allowed_addresses:
+  - .archive.ubuntu.com
+  - .cloudfront.net
+  - .opendev.org
+  - .quay.io
+  - auth.docker.io
+  - download.docker.com
+  - galaxy.ansible.com
+  - github.com
   - harbor.services.osism.tech
   - index.docker.io
-  - .quay.io
   - minio.services.osism.tech
-  - .archive.ubuntu.com
-  - download.docker.com
   - packagecloud.io
-  - github.com
-  - galaxy.ansible.com
+  - production.cloudflare.docker.com
   - pypi.org
-  - .opendev.org
-  - .cloudfront.net
+  - registry-1.docker.io
