@@ -24,7 +24,6 @@ skip_list:
   - name[template]
   - no-handler
   - package-latest
-  - parser-error  # AnsibleParserError.
   - schema
   - var-naming
   - yaml
