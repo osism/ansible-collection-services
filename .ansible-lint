@@ -28,7 +28,6 @@ skip_list:
   - schema
   - var-naming
   - yaml
-  - args[module] # Skipt since is fixed: <https://github.com/ansible/ansible-lint/issues/3199>
 # DO NOT DELETE THE WARNLIST! It is required for our custom rules!
 # If this isn't there our custom rules will only through a warning and wont generate a failure!:
 warn_list:
