@@ -1,5 +1,5 @@
 ---
-- name: "Restart {{ osquery_service_name }} service"
+- name: "Restart service {{ osquery_service_name }}"
   become: true
   ansible.builtin.service:
     name: "{{ osquery_service_name }}"

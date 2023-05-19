@@ -37,13 +37,13 @@
     update_cache: true
   when: falco_configure_repository|bool
 
-- name: "Install {{ falco_package_name }} package"
+- name: "Install package {{ falco_package_name }}"
   become: true
   ansible.builtin.apt:
     name: "{{ falco_package_name }}"
     state: latest
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  notify: "Restart {{ falco_service_name }} service"
+  notify: "Restart service {{ falco_service_name }}"
 
 - name: Check if /var/run/reboot-required exist
   ansible.builtin.stat:
@@ -70,7 +70,7 @@
     name: falco
     state: present
 
-- name: "Start/enable {{ falco_service_name }} service"
+- name: "Start/enable service {{ falco_service_name }}"
   become: true
   ansible.builtin.service:
     name: "{{ falco_service_name }}"

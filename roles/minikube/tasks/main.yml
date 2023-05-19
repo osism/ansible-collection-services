@@ -40,7 +40,7 @@
     daemon_reload: true
   when: systemd_minikube_template is changed
 
-- name: "Start/enable {{ minikube_service_name }} service"
+- name: "Start/enable service {{ minikube_service_name }}"
   become: true
   ansible.builtin.service:
     name: "{{ minikube_service_name }}"

@@ -38,15 +38,15 @@
     mode: 0644
   when: netdata_configure_repository|bool
 
-- name: "Install {{ netdata_package_name }} package"
+- name: "Install package {{ netdata_package_name }}"
   become: true
   ansible.builtin.apt:
     name: "{{ netdata_package_name }}"
     state: latest
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  notify: "Restart {{ netdata_service_name }} service"
+  notify: "Restart service {{ netdata_service_name }}"
 
-- name: "Start/enable {{ netdata_service_name }} service"
+- name: "Start/enable service {{ netdata_service_name }}"
   become: true
   ansible.builtin.service:
     name: "{{ netdata_service_name }}"

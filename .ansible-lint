@@ -21,7 +21,6 @@ rulesdir:
 skip_list:
   - galaxy[no-changelog]
   - ignore-errors
-  - name[template]
   - no-handler
   - package-latest
   - schema
