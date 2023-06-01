@@ -271,6 +271,7 @@ services:
       - "cache:{{ cache_directory }}"
       - "interface:/interface:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
+      - "share:/share"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
 
