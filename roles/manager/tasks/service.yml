@@ -35,6 +35,8 @@
                 --filter "label=com.docker.compose.project=manager" \
                 --filter "health=unhealthy"; }' | \
     sort | uniq -u
+  args:
+    executable: /bin/bash
   register: result
   changed_when: false
   until: "result.stdout | length == 0"
