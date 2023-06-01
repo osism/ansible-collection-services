@@ -5,3 +5,10 @@
     name: "{{ manager_service_name }}"
     state: restarted
   when: manager_service_restart|bool
+  notify: Register that manager service was restarted
+
+# NOTE: This handler prevents a 2nd manager restart in the
+#       osism.manager.manager playbook.
+- name: Register that manager service was restarted
+  ansible.builtin.set_fact:
+    manager_service_restart: false
