@@ -8,6 +8,12 @@
     mode: 0600
   loop: "{{ private_keys | dict2items }}"
   no_log: true
+  # NOTE: Depending on the time at which the role is executed, certain keys are
+  #       not yet present in the correct places. However, this is fine and a warning
+  #       is therefore not necessary. So that the warning that a key has not yet
+  #       been found is not displayed, warnings are ignored here.
+  args:
+    warn: false
 
 - name: Copy ansible environment file
   ansible.builtin.template:
