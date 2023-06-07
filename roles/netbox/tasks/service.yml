@@ -21,3 +21,4 @@
     name: "{{ netbox_service_name }}"
     state: started
     enabled: true
+  notify: Register that netbox service was started

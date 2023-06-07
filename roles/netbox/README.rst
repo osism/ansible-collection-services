@@ -37,6 +37,12 @@ Name of the registry for the Postgres container image.
 
 Name of the registry for the Redis container image.
 
+.. zuul:rolevar:: netbox_service_restart
+   :default: true
+
+Controls the behavior of the restart handler. If set to false the netbox service
+will not restart even if the handler was triggered.
+
 
 **Variables for Netbox**
 
