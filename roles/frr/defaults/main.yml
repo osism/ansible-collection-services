@@ -24,3 +24,8 @@ frr_local_as: 4200000000
 frr_type: leaf
 frr_loopback_v4: 127.0.0.42
 frr_loopback_v6: 2001:db8:cafe:f00d::42
+
+frr_externalbackup_v4: []
+frr_externalbackup_v6: []
+frr_internalbackup_v4: []
+frr_internalbackup_v6: []

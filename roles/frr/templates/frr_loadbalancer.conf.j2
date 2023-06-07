@@ -5,9 +5,9 @@ log syslog informational
 service integrated-vtysh-config
 !
 router bgp {{ frr_local_as }}
+ bgp router-id {{ frr_loopback_v4 }}
  no bgp ebgp-requires-policy
  bgp bestpath as-path multipath-relax
- bgp router-id {{ frr_loopback_v4 }}
 {% for item in frr_neigh_v4 %}
  neighbor {{ item.address }} remote-as {{ item.remote_as }}
 {% endfor %}
@@ -36,27 +36,63 @@ router bgp {{ frr_local_as }}
 exit
 !
 ip prefix-list internal seq 5 permit {{ frr_internal_v4 }} ge 32 le 32
+{% for item in frr_internalbackup_v4 %}
+ip prefix-list internalbackup seq {{ item.seq }} permit {{ item.cidr }} ge 32 le 32
+{% endfor %}
 ip prefix-list external seq 5 permit {{ frr_external_v4 }} ge 32 le 32
+{% for item in frr_externalbackup_v4 %}
+ip prefix-list externalbackup seq {{ item.seq }} permit {{ item.cidr }} ge 32 le 32
+{% endfor %}
 !
 ipv6 prefix-list internal permit {{ frr_internal_v6 }} ge 128 le 128
+{% for item in frr_internalbackup_v6 %}
+ipv6 prefix-list internalbackup seq {{ item.seq }} permit {{ item.cidr }} ge 128 le 128
+{% endfor %}
 ipv6 prefix-list external permit {{ frr_external_v6 }} ge 128 le 128
+{% for item in frr_externalbackup_v6 %}
+ipv6 prefix-list externalbackup seq {{ item.seq }} permit {{ item.cidr }} ge 128 le 128
+{% endfor %}
 !
 route-map bgp_out permit 10
+ match interface dummy0
+ match ip address prefix-list internalbackup
+ set metric 1
+exit
+!
+route-map bgp_out permit 20
+ match interface dummy0
+ match ipv6 address prefix-list internalbackup
+ set metric 1
+exit
+!
+route-map bgp_out permit 30
  match interface {{ frr_dummy_interface }}
  match ip address prefix-list internal
 exit
 !
-route-map bgp_out permit 20
+route-map bgp_out permit 40
  match interface {{ frr_dummy_interface }}
  match ipv6 address prefix-list internal
 exit
 !
 route-map uplink_out permit 10
  match interface dummy0
- match ip address prefix-list external
+ match ip address prefix-list externalbackup
+ set metric 1
 exit
 !
 route-map uplink_out permit 20
+ match interface dummy0
+ match ipv6 address prefix-list externalbackup
+ set metric 1
+exit
+!
+route-map uplink_out permit 30
+ match interface dummy0
+ match ip address prefix-list external
+exit
+!
+route-map uplink_out permit 40
  match interface dummy0
  match ipv6 address prefix-list external
 exit
