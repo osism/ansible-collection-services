@@ -1,6 +1,13 @@
 ---
+# NOTE: This handler prevents a netbox restart when the service
+# was already started via ansible.builtin.service.
+- name: Register that netbox service was started
+  ansible.builtin.set_fact:
+    netbox_service_restart: false
+
 - name: Restart netbox service
   become: true
   ansible.builtin.service:
     name: "{{ netbox_service_name }}"
     state: restarted
+  when: netbox_service_restart|bool

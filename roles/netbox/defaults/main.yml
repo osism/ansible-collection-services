@@ -36,6 +36,8 @@ netbox_userid: 101
 netbox_tag: 'v3.4.8'
 netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
 
+netbox_service_restart: true
+
 netbox_secret_key: 00000000-0000-0000-0000-000000000000
 
 netbox_superuser_name: admin
