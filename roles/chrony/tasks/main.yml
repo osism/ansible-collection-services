@@ -34,7 +34,7 @@
   when:
     - chrony_conf_check.stat.exists
   with_first_found:
-    - "{{ chrony_conf_template }}"
+    - "{{ chrony_local_conf_template }}"
     - chrony.conf.j2
   notify:
     - Restart chrony service
