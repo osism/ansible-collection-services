@@ -268,6 +268,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "/etc/timezone:/etc/timezone:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "cache:{{ cache_directory }}"
       - "interface:/interface:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
