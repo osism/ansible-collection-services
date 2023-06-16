@@ -1,0 +1,35 @@
+---
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# metering
+
+metering_install_type: container
+metering_version: xena
+
+##########################
+# container
+
+metering_configuration_directory: /opt/metering/configuration
+metering_data_directory: /opt/metering/data
+metering_docker_compose_directory: /opt/metering
+
+metering_tag: "{{ metering_version }}"
+metering_image: "metering:{{ metering_tag }}"
+
+metering_container_name: metering
+
+metering_network: 172.31.100.16/28
+
+metering_service_name: "docker-compose@metering"
+
+
