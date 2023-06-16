@@ -34,7 +34,7 @@
   register: systemd_overlay_template
   notify: Restart docker service
 
-- name: Reload systemd daemon if systemd overlay file is changed
+- name: Reload systemd daemon if systemd overlay file is changed  # noqa: no-handler
   become: true
   ansible.builtin.systemd:
     daemon_reload: true

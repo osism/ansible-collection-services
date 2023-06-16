@@ -71,12 +71,12 @@
     args:
       docker_bearer_token_realm: "{{ nexus_docker_bearer_token_realm }}"
 
-- name: Process definitions for docker
+- name: Process definitions for docker  # noqa: osism-fqcn
   block:
     - name: Apply defaults to docker proxy repos
       ansible.builtin.set_fact:
         nexus_repos_docker_proxy: >-
-          {%- set result=[] -%}
+          {%- set result = [] -%}
           {%- for repo in nexus_repos_docker_proxy -%}
             {{ result.append(nexus_repos_docker_defaults | combine(repo)) }}
           {%- endfor -%}
@@ -91,12 +91,12 @@
             (nexus_repos_docker_proxy | map('combine', {"format": "docker", "type": "proxy"}) | list)
           }}
 
-- name: Process definitions for apt repositories
+- name: Process definitions for apt repositories  # noqa: osism-fqcn
   block:
     - name: Apply defaults to apt proxy repos
       ansible.builtin.set_fact:
         nexus_repos_apt_proxy: >-
-          {%- set result=[] -%}
+          {%- set result = [] -%}
           {%- for repo in nexus_repos_apt_proxy -%}
             {{ result.append(nexus_repos_apt_defaults | combine(repo)) }}
           {%- endfor -%}

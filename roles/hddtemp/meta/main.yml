@@ -12,7 +12,7 @@ galaxy_info:
         - jammy
     - name: EL
       versions:
-        - 8
+        - "8"
   galaxy_tags:
     - osism
     - system

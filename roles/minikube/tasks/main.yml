@@ -34,7 +34,7 @@
     group: root
   register: systemd_minikube_template
 
-- name: Reload systemd daemon if minikube systemd unit file is changed
+- name: Reload systemd daemon if minikube systemd unit file is changed  # noqa: no-handler
   become: true
   ansible.builtin.systemd:
     daemon_reload: true
