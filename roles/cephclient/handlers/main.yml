@@ -1,0 +1,6 @@
+---
+- name: Restart cephclient service
+  become: true
+  ansible.builtin.service:
+    name: "{{ cephclient_service_name }}"
+    state: restarted
