@@ -38,6 +38,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
+  notify: Restart cephclient service
 
 - name: Start/enable cephclient service
   become: true
