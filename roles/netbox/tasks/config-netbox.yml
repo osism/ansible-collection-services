@@ -75,6 +75,7 @@
     group: "{{ operator_group }}"
   loop: "{{ netbox_initializers }}"
   notify: Restart netbox service
+  when: netbox_init|bool
 
 # NOTE: Workaround until scripts are available upstream
 - name: Deploy startup scripts for netbox

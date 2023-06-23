@@ -1,4 +1,6 @@
 ---
+configuration_directory: /opt/configuration
+
 ##########################
 # operator
 
@@ -70,19 +72,7 @@ netbox_ldap_find_group_perms: true
 netbox_ldap_cache_timeout: 3600
 
 netbox_metrics: "True"
-
-netbox_initializers:
-  - custom_fields
-  - device_roles
-  - device_types
-  - groups
-  - manufacturers
-  - object_permissions
-  - prefix_vlan_roles
-  - sites
-  - tags
-  - users
-  - webhooks
+netbox_max_db_wait_time: 90
 
 netbox_extra: {}
 # BASE_PATH: netbox/
@@ -115,6 +105,8 @@ netbox_postgres_password: password
 netbox_postgres_username: netbox
 netbox_postgres_databasename: netbox
 
+netbox_postgres_init_sql:  "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
+
 ##########################
 # redis
 
@@ -132,6 +124,21 @@ traefik_external_network_cidr: 172.31.254.0/24
 
 ##############
 # initializers
+
+netbox_init: true
+
+netbox_initializers:
+  - custom_fields
+  - device_roles
+  - device_types
+  - groups
+  - manufacturers
+  - object_permissions
+  - prefix_vlan_roles
+  - sites
+  - tags
+  - users
+  - webhooks
 
 netbox_init_object_permissions:
   read_write_all:
