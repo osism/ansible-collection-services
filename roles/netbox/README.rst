@@ -233,21 +233,10 @@ Cache time span before an information becomes invalid if there is no connection 
 
 Configures, if netbox should offer a metrics endpoint which can be monitored.
 
-.. zuul:rolevar:: netbox_initializers
-   :default: - custom_fields
-             - device_roles
-             - device_types
-             - groups
-             - manufacturers
-             - object_permissions
-             - prefix_vlan_roles
-             - sites
-             - tags
-             - users
-             - webhooks
+.. zuul:rolevar:: netbox_max_db_wait_time
+   :default: 90
 
-List of files which contain preconfigured settings for netbox data.
-(Like device types, custom fields, etc.)
+Time to wait for the database.
 
 .. zuul:rolevar:: netbox_extra
    :default: {}
@@ -288,7 +277,7 @@ Configuration for all Plugins of netbox.
 **Postgres Variables**
 
 .. zuul:rolevar:: postgres_tag
-   :default: 14.3-alpine
+   :default: 15.3-alpine
 
 Version of Postgres which should be used.
 
@@ -312,6 +301,11 @@ Username for the Netbox-Postgres database.
 
 Name for the Netbox-Postgres database.
 
+.. zuul:rolevar:: netbox_postgres_init_sql
+   :default: "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
+
+Optional init.sql file in the configuration repository that should be used to initialize
+the database.
 
 **Redis Variables**
 
@@ -345,6 +339,27 @@ The Traefik network segment for external traffic.
 
 
 **Initializers Variables**
+
+.. zuul:rolevar:: netbox_init
+   :default: true
+
+Copy and run initialize scripts.
+
+.. zuul:rolevar:: netbox_initializers
+   :default: - custom_fields
+             - device_roles
+             - device_types
+             - groups
+             - manufacturers
+             - object_permissions
+             - prefix_vlan_roles
+             - sites
+             - tags
+             - users
+             - webhooks
+
+List of files which contain preconfigured settings for netbox data.
+(Like device types, custom fields, etc.)
 
 .. zuul:rolevar:: netbox_init_object_permissions
 

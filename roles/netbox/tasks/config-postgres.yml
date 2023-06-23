@@ -30,6 +30,21 @@
     group: "{{ operator_group }}"
     mode: 0755
 
+- name: Check if init.sql file exists
+  ansible.builtin.stat:
+    path: "{{ netbox_postgres_init_sql }}"
+  register: netbox_postgres_init_sql_check
+
+# NOTE: init.sql.osism to be able to execute the file with our own 
+#       init-netbox-database.sh script
+- name: Copy init.sql file
+  ansible.builtin.copy:
+    src: "{{ netbox_postgres_init_sql }}"
+    dest: "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d/init.sql.osism"
+    mode: 0644
+  when:
+    - netbox_postgres_init_sql_check.stat.exists
+
 - name: Create init-netbox-database.sh script
   ansible.builtin.template:
     src: config-netbox-database.j2

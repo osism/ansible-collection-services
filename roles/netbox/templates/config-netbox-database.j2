@@ -7,3 +7,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
   GRANT ALL PRIVILEGES ON DATABASE {{ netbox_postgres_databasename }} TO {{ netbox_postgres_username }};
   ALTER DATABASE {{ netbox_postgres_databasename }} OWNER TO {{ netbox_postgres_username }};
 EOSQL
+
+if [[ -e /docker-entrypoint-initdb.d/init.sql.osism ]]; then
+    cat /docker-entrypoint-initdb.d/init.sql.osism | psql -v ON_ERROR_STOP=1 --username netbox --dbname netbox
+fi
