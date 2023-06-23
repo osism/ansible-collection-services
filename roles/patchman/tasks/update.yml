@@ -15,10 +15,11 @@
   register: result
 
 - name: Run patchman-update
-  ansible.builtin.command: /usr/local/bin/patchman-update  # noqa no-changed-when
+  ansible.builtin.command: /usr/local/bin/patchman-update
   async: 1800
   poll: 0
   register: command_sleeper
+  changed_when: true
   when: (not result.stat.exists or patchman_update_force|bool or
          (result.stat.exists and (ansible_date_time.epoch|int - result.stat.mtime|int > patchman_update_valid_time|int)))
 

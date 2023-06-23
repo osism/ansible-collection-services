@@ -50,7 +50,7 @@
   register: result_add_repository
 
 # NOTE: make sure that the package cache is up to date so that newer Docker versions will be available in any case
-- name: Update package cache
+- name: Update package cache  # noqa: no-handler
   become: true
   ansible.builtin.apt:
     update_cache: true
@@ -88,7 +88,7 @@
 
 # NOTE: At this point the last available version of containerd should be installed
 - name: Install containerd package
-  become: true  # noqa package-latest
+  become: true
   ansible.builtin.apt:
     name: "{{ containerd_package_name }}"
     state: latest
@@ -119,7 +119,7 @@
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
     allow_downgrade: true
 
-- name: Install python bindings with apt
+- name: Install python bindings with apt  # noqa: key-order[task], osism-fqcn
   become: true
   block:
     - name: Unblock installation of python docker packages
@@ -136,7 +136,7 @@
 
   when: not docker_python_install_from_pip|bool
 
-- name: Install python bindings with pip
+- name: Install python bindings with pip  # noqa: key-order[task], osism-fqcn
   become: true
   block:
 

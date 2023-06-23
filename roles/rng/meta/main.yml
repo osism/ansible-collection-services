@@ -8,7 +8,7 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - bulleye
+        - bullseye
         - bookworm
     - name: Ubuntu
       versions:
@@ -16,8 +16,8 @@ galaxy_info:
         - jammy
     - name: EL
       versions:
-        - 8
-        - 9
+        - "8"
+        - "9"
   galaxy_tags:
     - osism
     - system
