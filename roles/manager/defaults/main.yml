@@ -78,6 +78,13 @@ netbox_api_url: ""
 netbox_api_token: ""
 
 ##########################
+# opensearch integration
+
+manager_opensearch_enable: true
+manager_opensearch_address: 127.0.0.1
+manager_opensearch_port: 9200
+
+##########################
 # inventory-reconciler
 
 inventory_reconciler_tag: latest

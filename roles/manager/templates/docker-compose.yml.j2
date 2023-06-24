@@ -257,6 +257,7 @@ services:
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
+      - "{{ manager_configuration_directory }}/client.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
