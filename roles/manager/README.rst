@@ -186,6 +186,24 @@ Url to reach the Netbox API.
 Access token for Netbox API.
 
 
+**OpenSearch Integration**
+
+.. zuul:rolevar:: manager_opensearch_enable
+   :default: true
+
+Enable or disable OpenSearch integration
+
+.. zuul:rolevar:: manager_opensearch_address
+   :default: 127.0.0.1
+
+OpenSearch address.
+
+.. zuul:rolevar:: manager_opensearch_port
+   :default: 9200
+
+OpenSearch port.
+
+
 **Inventory-reconciler Variables**
 
 .. zuul:rolevar:: inventory_reconciler_tag

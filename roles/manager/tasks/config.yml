@@ -16,6 +16,14 @@
     - "{{ secrets_directory }}"
     - "{{ state_directory }}"
 
+- name: Copy client environment file
+  ansible.builtin.template:
+    src: env/client.env.j2
+    dest: "{{ manager_configuration_directory }}/client.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
 - name: Include ara config tasks
   ansible.builtin.include_tasks: config-ara.yml
   tags: ara
