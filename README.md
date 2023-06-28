@@ -43,5 +43,6 @@ The following Ansible roles are included in this collection.
 | scaphandre               |                                                                                                                            |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)         |
 | traefik                  |                                                                                                                            |
+| tuned                    | ![Test role tuned](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20tuned/badge.svg)           |
 | virtualbmc               |                                                                                                                            |
 | zuul                     |                                                                                                                            |
