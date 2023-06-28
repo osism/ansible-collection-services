@@ -1,0 +1,7 @@
+---
+- name: Install package
+  become: true
+  ansible.builtin.apt:
+    name: "{{ tuned_package_name }}"
+    state: present
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
