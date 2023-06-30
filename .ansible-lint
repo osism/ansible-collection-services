@@ -2,17 +2,7 @@
 exclude_paths:
   - .github/
 mock_modules:
-  - ansible.posix.mount
-  - ansible.posix.synchronize
-  - ansible.posix.sysctl
-  - community.docker.docker_container_exec
-  - community.docker.docker_compose
-  - community.docker.docker_login
-  - community.docker.docker_network
-  - community.general.filesystem
-  - community.general.modprobe
   - kolla_toolbox
-  - scan_services
 use_default_rules: true
 rulesdir:
   - ./.ansible-lint-rules/

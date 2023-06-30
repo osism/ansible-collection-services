@@ -1,0 +1,13 @@
+---
+collections:
+  - name: https://github.com/ansible-collections/community.docker.git
+    type: git
+    version: main
+
+  - name: https://github.com/ansible-collections/community.general.git
+    type: git
+    version: main
+
+  - name: https://github.com/ansible-collections/ansible.posix.git
+    type: git
+    version: main
