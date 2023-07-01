@@ -33,13 +33,14 @@ squid_allowed_addresses:
   - .cloudfront.net
   - .opendev.org
   - .quay.io
+  - .regiocloud.tech
+  - .services.osism.tech
   - auth.docker.io
   - download.docker.com
   - galaxy.ansible.com
   - github.com
-  - harbor.services.osism.tech
+  - harbor.regio.digital
   - index.docker.io
-  - minio.services.osism.tech
   - packagecloud.io
   - production.cloudflare.docker.com
   - pypi.org
