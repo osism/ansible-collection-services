@@ -14,13 +14,16 @@
     - "{{ squid_configuration_directory }}/conf.d"
     - "{{ squid_docker_compose_directory }}"
 
-- name: Copy config.yml configuration file
+- name: Copy squid configuration files
   ansible.builtin.template:
-    src: osism_allow_list.conf.j2
-    dest: "{{ squid_configuration_directory }}/conf.d/osism_allow_list.conf"
+    src: "{{ item }}.j2"
+    dest: "{{ squid_configuration_directory }}/conf.d/{{ item }}"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  loop:
+    - osism_allow_list.conf
+    - osism.conf
   notify: Restart squid service
 
 - name: Copy docker-compose.yml file
