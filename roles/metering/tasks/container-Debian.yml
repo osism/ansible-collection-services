@@ -12,16 +12,14 @@
     - "{{ metering_data_directory }}"
     - "{{ metering_docker_compose_directory }}"
 
-- name: Copy settngs.conf file
+- name: Copy settings.conf file
   ansible.builtin.template:
     src: settings.conf.j2
     dest: "{{ metering_configuration_directory }}/settings.conf"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
-
-- name: Include setup tasks
-  ansible.builtin.include_tasks: "setup_metering.yml"
+  notify: Restart metering service
 
 - name: Copy docker-compose.yml file
   ansible.builtin.template:

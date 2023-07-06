@@ -3,6 +3,7 @@
 # docker
 
 docker_network_mtu: 1500
+docker_registry_metering: quay.io
 
 ##########################
 # operator user
@@ -14,7 +15,6 @@ operator_group: "{{ operator_user }}"
 # metering
 
 metering_install_type: container
-metering_version: xena
 
 ##########################
 # container
@@ -23,13 +23,11 @@ metering_configuration_directory: /opt/metering/configuration
 metering_data_directory: /opt/metering/data
 metering_docker_compose_directory: /opt/metering
 
-metering_tag: "{{ metering_version }}"
-metering_image: "metering:{{ metering_tag }}"
+metering_tag: zed
+metering_image: "{{ docker_registry_metering }}/osism/metering:{{ metering_tag }}"
 
 metering_container_name: metering
 
-metering_network: 172.31.100.16/28
+metering_network: 172.31.101.176/28
 
 metering_service_name: "docker-compose@metering"
-
-

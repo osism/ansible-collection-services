@@ -11,8 +11,8 @@ services:
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
     environment:
       REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
-  ports:
-    - "8088:8088"
+    ports:
+      - "8088:8088"
 
 networks:
   default:
