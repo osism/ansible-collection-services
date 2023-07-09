@@ -6,7 +6,6 @@ logo: "osism.png"
 header: true
 footer: false
 
-# Optional theme customization
 theme: default
 colors:
   light:
@@ -48,135 +47,63 @@ links:
     url: "https://github.com/osism/issues"
     target: "_blank"
 
-# Services
-{% if homer_url_ara|length > 0 or homer_url_flower|length > 0 or homer_url_netbox|length > 0 or homer_url_vault|length > 0 %}
 services:
-  - name: "Deployment"
+  - name: "Manager"
     icon: "fas fa-wrench"
     items:
-{%   if homer_url_ara|length > 0 %}
-      - name: "ARA Records Ansible"
-        logo: "ara.png"
-        subtitle: "Ansible logs"
-        tag: "dashboard"
-        url: "{{ homer_url_ara }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_flower|length > 0 %}
-      - name: "Flower"
-        logo: "flower.png"
-        subtitle: "Distributed Task Queue"
-        tag: "dashboard"
-        url: "{{ homer_url_flower }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_netbox|length > 0 %}
-      - name: "NetBox"
-        logo: "netbox.png"
-        subtitle: "Infrastructure Resource Modeling (IRM)"
-        tag: "dashboard"
-        url: "{{ homer_url_netbox }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_vault|length > 0 %}
-      - name: "Vault"
-        logo: "vault.png"
-        subtitle: "Tool for secrets management"
-        tag: "dashboard"
-        url: "{{ homer_url_vault }}"
-        target: "_blank"
-{%   endif %}
+{% for service in homer_services_manager %}
+{% if homer_urls[service]|default(None) %}
+{% set service_definition = home_services_manager[service] %}
+      - name: "{{ service_definition['name']|default('') }}"
+        logo: "{{ service_definition['logo']|default('') }}"
+        subtitle: "{{ service_definition['subtitle']|default('') }}"
+        tag: "{{ service_definition['tag']|default('') }}"
+        url: "{{ homer_urls[service] }}"
+        target: {{ service_definition['target']|default('') }}
 {% endif %}
-{% if homer_url_ceph|length > 0 or homer_url_keycloak|length > 0 or homer_url_phpmyadmin|length > 0 or homer_url_rabbitmq|length > 0 %}
-  - name: "Operations"
+{% endfor %}
+
+  - name: "Control"
     icon: "fas fa-toolbox"
     items:
-{%   if homer_url_ceph|length > 0 %}
-      - name: "Ceph"
-        logo: "ceph.png"
-        subtitle: "Ceph dashboard"
-        tag: "dashboard"
-        url: "{{ homer_url_ceph }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_keycloak|length > 0 %}
-      - name: "Keycloak"
-        logo: "keycloak.png"
-        subtitle: "Identity and Access Management (IAM)"
-        tag: "dashboard"
-        url: "{{ homer_url_keycloak }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_phpmyadmin|length > 0 %}
-      - name: "phpMyAdmin"
-        logo: "phpmyadmin.png"
-        subtitle: "Administration of MariaDB"
-        tag: "dashboard"
-        url: "{{ homer_url_phpmyadmin }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_rabbitmq|length > 0 %}
-      - name: "RabbitMQ"
-        logo: "rabbitmq.png"
-        subtitle: "Administration of RabbitMQ"
-        tag: "dashboard"
-        url: "{{ homer_url_rabbitmq }}"
-        target: "_blank"
-{%   endif %}
+{% for service in homer_services_control %}
+{% if homer_urls[service]|default(None) %}
+{% set service_definition = home_services_control[service] %}
+      - name: "{{ service_definition['name']|default('') }}"
+        logo: "{{ service_definition['logo']|default('') }}"
+        subtitle: "{{ service_definition['subtitle']|default('') }}"
+        tag: "{{ service_definition['tag']|default('') }}"
+        url: "{{ homer_urls[service] }}"
+        target: {{ service_definition['target']|default('') }}
 {% endif %}
-{% if homer_url_grafana|length > 0 or homer_url_kibana|length > 0 or homer_url_netdata|length > 0 or homer_url_patchman|length > 0 or homer_url_prometheus|length > 0 %}
-  - name: "Insights"
+{% endfor %}
+
+  - name: "Monitoring & Insights"
     icon: "fas fa-warehouse"
     items:
-{%   if homer_url_grafana|length > 0 %}
-      - name: "Grafana"
-        logo: "grafana.png"
-        subtitle: "Observability platform"
-        tag: "dashboard"
-        url: "{{ homer_url_grafana }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_kibana|length > 0 %}
-      - name: "Kibana"
-        logo: "kibana.png"
-        subtitle: "Visualized logs"
-        tag: "dashboard"
-        url: "{{ homer_url_kibana }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_netdata|length > 0 %}
-      - name: "Netdata"
-        logo: "netdata.png"
-        subtitle: "Realtime monitoring"
-        tag: "dashboard"
-        url: "{{ homer_url_netdata }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_patchman|length > 0 %}
-      - name: "Patchman"
-        icon: "fas fa-boxes"
-        subtitle: "Linux Patch Status Monitoring System"
-        tag: "dashboard"
-        url: "{{ homer_url_patchman }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_prometheus|length > 0 %}
-      - name: "Prometheus"
-        logo: "prometheus.png"
-        subtitle: "Monitoring system & timer series database"
-        tag: "dashboard"
-        url: "{{ homer_url_prometheus }}"
-        target: "_blank"
-{%   endif %}
+{% for service in homer_services_monitoring %}
+{% if homer_urls[service]|default(None) %}
+{% set service_definition = home_services_monitoring[service] %}
+      - name: "{{ service_definition['name']|default('') }}"
+        logo: "{{ service_definition['logo']|default('') }}"
+        subtitle: "{{ service_definition['subtitle']|default('') }}"
+        tag: "{{ service_definition['tag']|default('') }}"
+        url: "{{ homer_urls[service] }}"
+        target: {{ service_definition['target']|default('') }}
 {% endif %}
-{% if homer_url_horizon|length > 0 %}
-  - name: "User interfaces"
+{% endfor %}
+
+  - name: "Other"
     icon: "fas fa-user"
     items:
-      - name: "Horizon"
-        logo: "openstack.png"
-        subtitle: "OpenStack dashboard"
-        tag: "dashboard"
-        url: "{{ homer_url_horizon }}"
-        target: "_blank"
+{% for service in homer_services_other %}
+{% if homer_urls[service]|default(None) %}
+{% set service_definition = home_services_other[service] %}
+      - name: "{{ service_definition['name']|default('') }}"
+        logo: "{{ service_definition['logo']|default('') }}"
+        subtitle: "{{ service_definition['subtitle']|default('') }}"
+        tag: "{{ service_definition['tag']|default('') }}"
+        url: "{{ homer_urls[service] }}"
+        target: {{ service_definition['target']|default('') }}
 {% endif %}
+{% endfor %}

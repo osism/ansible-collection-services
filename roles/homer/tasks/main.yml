@@ -1,4 +1,7 @@
 ---
+- name: Include service definitions
+  ansible.builtin.include_vars: servies.yml
+
 - name: Create traefik external network
   community.docker.docker_network:
     name: "{{ traefik_external_network_name }}"

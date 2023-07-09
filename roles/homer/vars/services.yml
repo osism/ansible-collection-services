@@ -1,0 +1,94 @@
+---
+homer_default_target: _blank
+
+homer_services_manager:
+  ara:
+    name: ARA Records Ansible
+    logo: ara.png
+    subtitle: Ansible logs
+    tag: manager
+    target: "{{ homer_default_target }}"
+  flower:
+    name: Flower
+    logo: flower.png
+    subtitle: Distributed Task Queue
+    tag: manager
+    target: "{{ homer_default_target }}"
+  netbox:
+    name: NetBox
+    logo: netbox.png
+    subtitle: Infrastructure Resource Modeling (IRM)
+    tag: manager
+    target: "{{ homer_default_target }}"
+  vault:
+    name: Vault
+    logo: vault.png
+    subtitle: Tool for secrets management
+    tag: manager
+    target: "{{ homer_default_target }}"
+  phpmyadmin:
+    name: phpMyAdmin
+    logo: phpmyadmin.png
+    subtitle: Administration of MariaDB
+    tag: manager
+    target: "{{ homer_default_target }}"
+
+homer_services_monitoring:
+  grafana:
+    name: Grafana
+    logo: grafana.png
+    subtitle: Observability platform
+    tag: monitoring
+    target: "{{ homer_default_target }}"
+  kibana:
+    name: Kibana / OpenSearch Dashboards
+    logo: kibana.png
+    subtitle: Visualized logs
+    tag: monitoring
+    target: "{{ homer_default_target }}"
+  netdata:
+    name: Netdata
+    logo: netdata.png
+    subtitle: Realtime monitoring
+    tag: monitoring
+    target: "{{ homer_default_target }}"
+  prometheus:
+    name: Prometheus
+    logo: prometheus.png
+    subtitle: Monitoring system & timer series database
+    tag: monitoring
+    target: "{{ homer_default_target }}"
+  patchman:
+    name: Patchman
+    logo: fas fa-boxes
+    subtitle: Linux Patch Status Monitoring System
+    tag: monitoring
+    target: "{{ homer_default_target }}"
+
+homer_services_control:
+  keycloak:
+    name: Keycloak
+    logo: keycloak.png
+    subtitle: Identity and Access Management (IAM)
+    tag: control
+    target: "{{ homer_default_target }}"
+  rabbitmq:
+    name: RabbitMQ
+    logo: rabbitmq.png
+    subtitle: Administration of RabbitMQ
+    tag: control
+    target: "{{ homer_default_target }}"
+  ceph:
+    name: Ceph
+    logo: ceph.png
+    subtitle: Ceph dashboard
+    tag: control
+    target: "{{ homer_default_target }}"
+
+homer_services_other:
+  horizon:
+    name: Horizon
+    logo: openstack.png
+    subtitle: OpenStack dashboard
+    tag: other
+    target: "{{ homer_default_target }}"
