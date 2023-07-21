@@ -38,7 +38,6 @@ The following Ansible roles are included in this collection.
 | phpmyadmin               |                                                                                                                            |
 | rng                      | ![Test role rng](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rng/badge.svg)               |
 | rsyslog                  | ![Test role rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rsyslog/badge.svg)       |
-| rundeck                  |                                                                                                                            |
 | scaphandre               |                                                                                                                            |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)         |
 | traefik                  |                                                                                                                            |
