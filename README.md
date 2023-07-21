@@ -21,7 +21,6 @@ The following Ansible roles are included in this collection.
 | frr                      | ![Test role frr](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20frr/badge.svg)               |
 | hddtemp                  | ![Test role hddtemp](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20hddtemp/badge.svg)       |
 | homer                    |                                                                                                                            |
-| jenkins                  |                                                                                                                            |
 | journald                 | ![Test role journald](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20journald/badge.svg)     |
 | keycloak                 |                                                                                                                            |
 | lldpd                    | ![Test role lldpd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20lldpd/badge.svg)           |

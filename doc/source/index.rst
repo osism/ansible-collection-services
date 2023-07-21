@@ -29,8 +29,6 @@ ansible-collections-services
 
 .. zuul:autorole:: homer
 
-.. zuul:autorole:: jenkins
-
 .. zuul:autorole:: journald
 
 .. zuul:autorole:: keycloak
