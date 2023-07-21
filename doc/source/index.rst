@@ -59,8 +59,6 @@ ansible-collections-services
 
 .. zuul:autorole:: rsyslog
 
-.. zuul:autorole:: rundeck
-
 .. zuul:autorole:: smartd
 
 .. zuul:autorole:: tang
