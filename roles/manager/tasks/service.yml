@@ -45,6 +45,8 @@
   #       (1000 seconds) is intentionally made here.
   retries: 50
   delay: 20
+  tags:
+    - wait-for-an-healthy-manager-service
 
 - name: Copy osismclient bash completion script
   become: true
