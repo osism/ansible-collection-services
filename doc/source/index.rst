@@ -39,8 +39,6 @@ ansible-collections-services
 
 .. zuul:autorole:: manager
 
-.. zuul:autorole:: minikube
-
 .. zuul:autorole:: netbox
 
 .. zuul:autorole:: netdata
