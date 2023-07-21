@@ -72,12 +72,14 @@ services:
   netbox-worker:
     <<: *netbox
     depends_on:
-      - netbox
-      - redis
+      netbox:
+        condition: service_healthy
     entrypoint: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py
     command: rqworker
     ports: []
     healthcheck: {}
+    networks:
+      - default
 {% if netbox_traefik|bool %}
     labels: []
 {% endif %}
