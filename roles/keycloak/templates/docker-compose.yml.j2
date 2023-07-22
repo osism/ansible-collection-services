@@ -3,6 +3,7 @@ services:
   keycloak:
     container_name: "{{ keycloak_container_name }}"
     image: "{{ keycloak_image }}"
+    command: start-dev
     restart: unless-stopped
     env_file:
       - "{{ keycloak_configuration_directory }}/keycloak.env"
@@ -10,6 +11,9 @@ services:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
 {% if not keycloak_traefik|bool %}
     ports:
       - "{{ keycloak_host }}:{{ keycloak_port }}:8080"
