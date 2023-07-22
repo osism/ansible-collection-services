@@ -13,6 +13,8 @@ services:
     healthcheck:
       test: pg_isready -U netbox
       start_period: 30s
+    networks:
+      - default
 
   redis:
     restart: unless-stopped
@@ -22,6 +24,8 @@ services:
       - "redis:/data"
     healthcheck:
       test: redis-cli ping
+    networks:
+      - default
 
   netbox: &netbox
     image: "{{ netbox_image }}"
