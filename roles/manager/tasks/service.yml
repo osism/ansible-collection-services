@@ -34,10 +34,8 @@
         state: stopped
 
     - name: Do a manual start of the manager service
-      community.docker.docker_compose:
-        project_src: "{{ manager_docker_compose_directory }}"
-        recreate: always
-        state: present
+      ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ manager_docker_compose_directory }} up -d --remove-orphans"
+      changed_when: true
 
     # This does not change anything on the service side, but the unit is
     # then in the expected state.
