@@ -3,9 +3,6 @@ Traefik is a reverse proxy and loadbalancer for managing microservices.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
-   :default: 1500
-
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry
@@ -93,11 +90,6 @@ Version from the Traefik which should be installed.
    :default: {{ docker_registry_traefik }}/traefik:{{ traefik_tag }}
 
 The container image to use.
-
-.. zuul:rolevar:: traefik_network
-   :default: 172.31.101.48/28
-
-Network which is behind Traefik.
 
 .. zuul:rolevar:: traefik_container_name
    :default: traefik

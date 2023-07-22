@@ -2,8 +2,6 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
-
 docker_registry: index.docker.io
 docker_registry_traefik: "{{ docker_registry }}"
 
@@ -40,8 +38,6 @@ traefik_certificates: {}
 # renovate: datasource=docker depName=traefik
 traefik_tag: 'v2.10.3'
 traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"
-
-traefik_network: 172.31.101.48/28
 
 traefik_container_name: traefik
 traefik_service_name: "docker-compose@traefik"
