@@ -20,17 +20,8 @@ services:
 {% endif %}
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - default
       - {{ traefik_external_network_name }}
 
 networks:
-  default:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
-    ipam:
-      driver: default
-      config:
-        - subnet: {{ traefik_network }}
   {{ traefik_external_network_name }}:
     external: true
