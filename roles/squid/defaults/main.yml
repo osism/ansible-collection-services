@@ -28,7 +28,7 @@ squid_tag: 5.2-22.04_beta  # don't get fooled by "beta". this is actually produc
 squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
 squid_container_name: squid
 
-squid_allowed_addresses:
+squid_allowed_addresses_defaults:
   - .archive.ubuntu.com
   - .cloudfront.net
   - .opendev.org
@@ -45,3 +45,5 @@ squid_allowed_addresses:
   - production.cloudflare.docker.com
   - pypi.org
   - registry-1.docker.io
+squid_allowed_addresses_extra: []
+squid_allowed_addresses: "{{ squid_allowed_addresses_defaults + squid_allowed_addresses_extra }}"
