@@ -1,0 +1,25 @@
+---
+services:
+  metering:
+    container_name: "{{ metering_container_name }}"
+    restart: unless-stopped
+    image: "{{ metering_image }}"
+    volumes:
+      - "{{ metering_configuration_directory }}:/configuration:ro"
+      - "{{ metering_data_directory }}:/data:ro"
+      - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+    environment:
+      REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+    ports:
+      - "8088:8088"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ metering_network }}
