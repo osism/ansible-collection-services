@@ -13,7 +13,7 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
-      - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
 {% if enable_celery|bool %}
     healthcheck:
       test: pgrep celery
