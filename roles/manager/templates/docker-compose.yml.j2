@@ -13,7 +13,7 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
-{% if inventory_reconciler_tag | version_compare('5.2.0', '<=') %}
+{% if inventory_reconciler_tag != 'latest' and inventory_reconciler_tag is version('5.2.0', operator='le') %}
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
 {% else %}
       - "{{ configuration_directory }}:/opt/configuration:ro"
