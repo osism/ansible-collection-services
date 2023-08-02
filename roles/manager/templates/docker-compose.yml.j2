@@ -13,7 +13,11 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
+{% if inventory_reconciler_tag | version_compare('5.2.0', '<=') %}
+      - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
+{% else %}
       - "{{ configuration_directory }}:/opt/configuration:ro"
+{% endif %}
 {% if enable_celery|bool %}
     healthcheck:
       test: pgrep celery
