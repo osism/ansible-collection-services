@@ -153,11 +153,6 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 docker_default_runtime: runc
 
 ##########################
-# dragonfly
-
-docker_dragonfly: false
-
-##########################
 # policies
 
 docker_policies: false
