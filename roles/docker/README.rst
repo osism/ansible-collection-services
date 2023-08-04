@@ -271,11 +271,6 @@ Name of the Docker debian repository.
 
 Container-execution-runtime which should be used.
 
-.. zuul:rolevar:: docker_dragonfly
-   :default: false
-
-No peer to peer network for container distribution.
-
 .. zuul:rolevar:: docker_policies
    :default: false
 

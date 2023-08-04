@@ -1,4 +1,3 @@
-{{- docker_registry_mirrors.append('http://127.0.0.1:65001') if docker_dragonfly|bool else none -}}
 {
 {% if docker_opts|length %}
 {% for key, value in docker_opts|dictsort %}
