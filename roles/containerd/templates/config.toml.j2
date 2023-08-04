@@ -1,2 +1,10 @@
 [grpc]
   gid = {{ containerd_grpc_gid }}
+
+{% containerd_enable_kata | bool %}
+[plugins]
+  [plugins.cri]
+    [plugins.cri.containerd]
+      [plugins.cri.containerd.runtimes.kata]
+        runtime_type = "io.containerd.kata.v2"
+{% endif %}
