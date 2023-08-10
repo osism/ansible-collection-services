@@ -10,7 +10,7 @@ password=%(ZUUL_MARIADB_PASSWORD)s
 [scheduler]
 tenant_config=/etc/zuul/main.yaml
 log_config=/etc/zuul/logging.conf
-{% for i in connections|dict2items %}
+{% for i in zuul_connections|dict2items %}
 
 [connection "{{ i['key'] }}"]
 {% for j in i['value']|dict2items %}
