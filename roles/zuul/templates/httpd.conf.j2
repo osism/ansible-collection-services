@@ -380,7 +380,10 @@ SSLStaplingCache "shmcb:/usr/local/apache2/logs/ssl_stapling(32768)"
 ##
 
 <VirtualHost _default_:80>
+Alias /.well-known/acme-challenge/ /usr/local/apache2/htdocs/.well-known/acme-challenge/
 RewriteEngine On
+RewriteCond %{REQUEST_URI} /\.well\-known/acme\-challenge/
+RewriteRule (.*) /.well-known/acme-challenge/$1 [L,QSA]
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
 </VirtualHost>
 
@@ -405,7 +408,8 @@ SSLEngine on
 #   Some ECC cipher suites (http://www.ietf.org/rfc/rfc4492.txt)
 #   require an ECC certificate which can also be configured in
 #   parallel.
-SSLCertificateFile "/usr/local/apache2/conf/server.crt"
+SSLCertificateFile "/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/fullchain.pem"
+SSLCertificateKeyFile "/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/privkey.pem"
 
 #   TLS-SRP mutual authentication:
 #   Enable TLS-SRP and set the path to the OpenSSL SRP verifier
