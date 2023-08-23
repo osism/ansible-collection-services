@@ -12,6 +12,7 @@ zuul_logserver_fqdn: "logs.example.org"
 zuul_webserver_fqdn: "zuul.example.org"
 zuul_webserver_admin: "admin@example.org"
 zuul_zookeeper_fqdn: "zookeeper01.example.org"
+zuul_use_acme: false
 
 zuul_base_conf_dir: /opt/zuul
 zuul_component_conf_dirs:

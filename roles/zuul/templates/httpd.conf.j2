@@ -408,8 +408,13 @@ SSLEngine on
 #   Some ECC cipher suites (http://www.ietf.org/rfc/rfc4492.txt)
 #   require an ECC certificate which can also be configured in
 #   parallel.
+
+{% if zuul_use_acme %}
 SSLCertificateFile "/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/fullchain.pem"
 SSLCertificateKeyFile "/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/privkey.pem"
+{% else %}
+SSLCertificateFile "/usr/local/apache2/conf/server.crt"
+{% endif %}
 
 #   TLS-SRP mutual authentication:
 #   Enable TLS-SRP and set the path to the OpenSSL SRP verifier
