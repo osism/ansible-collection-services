@@ -87,8 +87,7 @@ services:
     volumes:
       - "{{ zuul_component_conf_dirs.log_server }}:/usr/local/apache2/conf:ro"
       - "log_server:/usr/local/apache2/htdocs:z"
-      - "/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/fullchain.pem:/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/fullchain.pem:ro"
-      - "/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/privkey.pem:/etc/letsencrypt/live/{{ zuul_logserver_fqdn }}/privkey.pem:ro"
+      - "/etc/letsencrypt:/etc/letsencrypt:ro"
       - "/opt/zuul/log_server/.well-known/acme-challenge/:/usr/local/apache2/htdocs/.well-known/acme-challenge/:rw"
 
 volumes:
