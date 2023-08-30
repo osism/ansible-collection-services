@@ -1,1 +1,5 @@
+{% if rsyslog_additional_protocol|default('udp') == 'udp' %}
 *.* @{{ rsyslog_additional_host }}:{{ rsyslog_additional_port }}
+{% else %}
+*.* @@{{ rsyslog_additional_host }}:{{ rsyslog_additional_port }}
+{% endif %}
