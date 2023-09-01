@@ -29,7 +29,7 @@ dnsdist_hosts:
 dnsdist_port: 1053
 
 # renovate: datasource=docker depName=quay.io/osism/dnsdist
-dnsdist_tag: '1.6.1'
+dnsdist_tag: '1.7.3'
 dnsdist_image: "{{ docker_registry_dnsdist }}/osism/dnsdist:{{ dnsdist_tag }}"
 
 dnsdist_servers:
