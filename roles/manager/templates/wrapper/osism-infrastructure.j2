@@ -11,4 +11,6 @@ if [[ $INTERACTIVE == "true" ]]; then
 
 fi
 
+echo "Please note that this script is deprecated and will be removed in the future. Please use the OSISM CLI."
+
 docker exec $PARAMETERS {{ osism_ansible_container_name }} /run-infrastructure.sh "$@"
