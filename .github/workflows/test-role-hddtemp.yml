@@ -21,7 +21,7 @@ name: Test role hddtemp
 jobs:
   test-role-hddtemp:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     env:
       ANSIBLE_ROLE: hddtemp
@@ -35,13 +35,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           install: true
       # NOTE: Technically, Molecule supports variable interpolation in molecule.yml.
