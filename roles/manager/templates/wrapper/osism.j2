@@ -11,4 +11,10 @@ if [[ $INTERACTIVE == "true" ]]; then
 
 fi
 
+# The update from the manager is done with osism-update-manager script as
+# it cannot be done within a container as it is recreated during the update.
+if [[ "$@" == "update manager" ]]; then
+    exec /usr/local/bin/osism-update-manager
+fi
+
 docker exec $PARAMETERS osismclient osism "$@"
