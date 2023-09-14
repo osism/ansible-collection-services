@@ -1,5 +1,5 @@
 ansible
-sphinx==6.2.1
+sphinx==7.2.6
 sphinxcontrib-blockdiag>=1.1.0
 sphinxcontrib-programoutput
 sphinx-autodoc-typehints
