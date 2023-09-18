@@ -21,9 +21,6 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if docker_policies|bool %}
-    "authorization-plugins": [{% for plugin in docker_authorization_plugins %}"{{ plugin }}"{% if not loop.last %}, {% endif %}{% endfor %}],
-{% endif %}
 {% if docker_disable_default_network is defined and docker_disable_default_network|bool %}
     "bridge": "none",
 {% endif %}

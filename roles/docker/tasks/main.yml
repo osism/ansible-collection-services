@@ -14,10 +14,6 @@
 - name: Include config tasks
   ansible.builtin.include_tasks: config.yml
 
-- name: Include open policy agent install tasks
-  ansible.builtin.include_tasks: install-open-policy-agent.yml
-  when: docker_policies|bool
-
 - name: Include service tasks
   ansible.builtin.include_tasks: service.yml
 

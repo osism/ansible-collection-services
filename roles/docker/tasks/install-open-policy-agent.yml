@@ -1,8 +1,0 @@
----
-- name: Install open policy agent plugin
-  become: true
-  ansible.builtin.command: |
-    docker plugin install --grant-all-permissions {{ docker_open_policy_agent_image }} opa-args="-policy-file /opa/policies/default.rego"
-  register: result
-  changed_when: "'Installed plugin' in result.stdout"
-  failed_when: "result.rc > 0 and 'already exists' not in result.stderr"
