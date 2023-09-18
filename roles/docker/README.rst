@@ -171,11 +171,6 @@ Check available version under Ubuntu with apt-cache madison docker-ce.
 
 Path to the registry that stores the Docker container images.
 
-.. zuul:rolevar:: docker_registry_docker_openpolicyagent
-   :default: docker_registry
-
-The registry where to get the Openpolicyagent.
-
 .. zuul:rolevar:: docker_insecure_registries
    :default: []
 
@@ -270,70 +265,6 @@ Name of the Docker debian repository.
    :default: runc
 
 Container-execution-runtime which should be used.
-
-.. zuul:rolevar:: docker_policies
-   :default: false
-
-Disables enhanced policy mechanismens for Docker.
-
-.. zuul:rolevar:: docker_openpolicyagent_tag
-   :default: 0.8
-
-Version of openpolicyagent.
-
-.. zuul:rolevar:: docker_openpolicyagent_image
-   :default: {{ docker_registry_docker_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:
-             {{ docker_openpolicyagent_tag }}
-
-Image-url of openpolicyagent.
-
-.. zuul:rolevar:: docker_authorization_plugins_defaults
-   :default: docker_openpolicyagent_image
-
-Look at docker_authorization_plugins. 
-
-.. zuul:rolevar:: docker_authorization_plugins_extra
-   :default: []
-
-Look at docker_authorization_plugins. 
-
-.. zuul:rolevar:: docker_authorization_plugins
-   :default: docker_authorization_plugins_defaults + docker_authorization_plugins_extra
-
-Images of the openpolicyagent as well as additional plugins.
-
-.. zuul:rolevar:: docker_policy_files_defaults
-   :default: default.rego
-
-Look at docker_policy_files.
-
-.. zuul:rolevar:: docker_policy_files_extra
-   :default: []
-
-Look at docker_policy_files.
-
-.. zuul:rolevar:: docker_policy_files
-   :default: docker_policy_files_defaults + docker_policy_files_extra
-
-Configuration files that contain fine grained policies to interact with Docker.
-
-.. zuul:rolevar:: docker_policy_allowed_registries_defaults
-   :default: - index.docker.io
-             - quay.io
-
-Have a look at docker_policy_allowed_registries.
-
-.. zuul:rolevar:: docker_policy_allowed_registries_extra
-   :default: []
-
-Have a look at docker_policy_allowed_registries.
-
-.. zuul:rolevar:: docker_policy_allowed_registries
-   :default: docker_policy_allowed_registries_defaults
-             + docker_policy_allowed_registries_extra
-             + docker_insecure_registries
-
-Configuration of registries.
 
 .. zuul:rolevar:: docker_zun
    :default: false

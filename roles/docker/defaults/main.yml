@@ -93,7 +93,6 @@ docker_version: '5:24.0.6'
 # docker_registry_username:
 
 docker_registry: index.docker.io
-docker_registry_docker_openpolicyagent: "{{ docker_registry }}"
 
 docker_insecure_registries: []
 docker_registry_mirrors: []
@@ -151,31 +150,6 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 # runtime
 
 docker_default_runtime: runc
-
-##########################
-# policies
-
-docker_policies: false
-
-docker_openpolicyagent_tag: '0.8'
-docker_openpolicyagent_image: "{{ docker_registry_docker_openpolicyagent }}/openpolicyagent/opa-docker-authz-v2:{{ docker_openpolicyagent_tag }}"
-
-docker_authorization_plugins_defaults:
-  - "{{ docker_openpolicyagent_image }}"
-docker_authorization_plugins_extra: []
-
-docker_authorization_plugins: "{{ docker_authorization_plugins_defaults + docker_authorization_plugins_extra }}"
-
-docker_policy_files_defaults:
-  - default.rego
-docker_policy_files_extra: []
-docker_policy_files: "{{ docker_policy_files_defaults + docker_policy_files_extra }}"
-
-docker_policy_allowed_registries_defaults:
-  - index.docker.io
-  - quay.io
-docker_policy_allowed_registries_extra: []
-docker_policy_allowed_registries: "{{ docker_policy_allowed_registries_defaults + docker_policy_allowed_registries_extra + docker_insecure_registries }}"
 
 ##########################
 # zun

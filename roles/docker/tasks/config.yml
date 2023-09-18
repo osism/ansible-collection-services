@@ -58,7 +58,3 @@
     group: root
     mode: 0644
   notify: Restart docker service
-
-- name: Include open policy agent tasks
-  ansible.builtin.include_tasks: config-open-policy-agent.yml
-  when: docker_policies|bool
