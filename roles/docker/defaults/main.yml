@@ -152,20 +152,6 @@ docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] http
 docker_default_runtime: runc
 
 ##########################
-# zun
-
-docker_zun: false
-
-docker_zun_hosts:
-  - tcp://{{ api_interface_address | default('api' | osism.services.kolla_address) | osism.services.put_address_in_context('url') }}:2375
-docker_zun_opts:
-  cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ 'api' | osism.services.kolla_address(host) | osism.services.put_address_in_context('url') }}:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
-
-docker_zun_cni_version: '0.3.1'
-docker_cni_config_dir: /etc/cni/net.d
-docker_cni_bin_dir: /opt/cni/bin
-
-##########################
 # containerd
 
 docker_manage_containerd: true

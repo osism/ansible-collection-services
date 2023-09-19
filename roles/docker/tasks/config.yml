@@ -1,10 +1,4 @@
 ---
-- name: Include zun config tasks
-  ansible.builtin.include_tasks: config-zun.yml
-  when:
-    - docker_zun|bool
-    - "'zun-compute' in group_names"
-
 - name: Create plugins directory
   become: true
   ansible.builtin.file:
