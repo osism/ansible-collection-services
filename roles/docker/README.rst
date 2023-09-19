@@ -266,42 +266,6 @@ Name of the Docker debian repository.
 
 Container-execution-runtime which should be used.
 
-.. zuul:rolevar:: docker_zun
-   :default: false
-
-Disables the installation for OpenStack Zun.
-
-.. zuul:rolevar:: docker_zun_hosts
-   :default: tcp://{{ api_interface_address | default('api' |
-             osism.services.kolla_address) |
-             osism.services.put_address_in_context('url') }}:2375
-
-On which hosts Zun should be avaiable.
-
-.. zuul:rolevar:: docker_zun_opts
-   :default: cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ 'api' |
-             osism.services.kolla_address(host) |
-             osism.services.put_address_in_context('url') }}:
-             {{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},
-             {% endif %}{% endfor %}
-
-Options for Zun.
-
-.. zuul:rolevar:: docker_zun_cni_version
-   :default: 0.3.1
-
-Container-network-interface version for Zun.
-
-.. zuul:rolevar:: docker_cni_config_dir
-   :default: /etc/cni/net.d
-
-Location of the Container-network-interface configuration file.
-
-.. zuul:rolevar:: docker_cni_bin_dir
-   :default: /opt/cni/bin
-
-Binary location of the CNI.
-
 .. zuul:rolevar:: containerd_grpc_gid
    :default: 42463
 
