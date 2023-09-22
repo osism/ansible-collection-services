@@ -234,7 +234,6 @@ manager_wrapper_scripts:
   - osism-infrastructure
   - osism-kolla
   - osism-manager
-  - osism-mirror
   - osism-monitoring
   - osism-openstack
   - osism-run
