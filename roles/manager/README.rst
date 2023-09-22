@@ -562,7 +562,6 @@ Location of the file which contains the Vault unlock keys.
              - osism-infrastructure
              - osism-kolla
              - osism-manager
-             - osism-mirror
              - osism-monitoring
              - osism-openstack
              - osism-run

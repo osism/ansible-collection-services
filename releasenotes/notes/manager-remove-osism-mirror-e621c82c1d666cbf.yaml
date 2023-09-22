@@ -1,0 +1,6 @@
+---
+other:
+  - |
+    In `osism.services.manager` the `osism-mirror` script has been removed.
+    The script no longer worked and new scripts are now available in the
+    `osism/sbom` repository to mirror container images.
