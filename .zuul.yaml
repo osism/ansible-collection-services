@@ -1,15 +1,319 @@
 ---
+- job:
+    name: ansible-collection-services-ansible-molecule-auditd
+    parent: ansible-molecule
+    vars:
+      ansible_role: auditd
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-chrony
+    parent: ansible-molecule
+    vars:
+      ansible_role: chrony
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-clamav
+    parent: ansible-molecule
+    vars:
+      ansible_role: clamav
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-containerd
+    parent: ansible-molecule
+    vars:
+      ansible_role: containerd
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-fail2ban
+    parent: ansible-molecule
+    vars:
+      ansible_role: fail2ban
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-frr
+    parent: ansible-molecule
+    vars:
+      ansible_role: frr
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-hddtemp
+    parent: ansible-molecule
+    vars:
+      ansible_role: hddtemp
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-journald
+    parent: ansible-molecule
+    vars:
+      ansible_role: journald
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-lldpd
+    parent: ansible-molecule
+    vars:
+      ansible_role: lldpd
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-netdata
+    parent: ansible-molecule
+    vars:
+      ansible_role: netdata
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-osquery
+    parent: ansible-molecule
+    vars:
+      ansible_role: osquery
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-rng
+    parent: ansible-molecule
+    vars:
+      ansible_role: rng
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-rsyslog
+    parent: ansible-molecule
+    vars:
+      ansible_role: rsyslog
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-smartd
+    parent: ansible-molecule
+    vars:
+      ansible_role: smartd
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-tuned
+    parent: ansible-molecule
+    vars:
+      ansible_role: tuned
+      ansible_molecule_ansible_version: "8.4.0"
+
+- job:
+    name: ansible-collection-services-ansible-molecule-wireguard
+    parent: ansible-molecule
+    vars:
+      ansible_role: wireguard
+      ansible_molecule_ansible_version: "8.4.0"
+
 - project:
     merge-mode: squash-merge
     default-branch: main
     check:
       jobs:
+        - ansible-collection-services-ansible-molecule-auditd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/auditd\/.*$'
+              - '^roles\/auditd\/.*$'
+        - ansible-collection-services-ansible-molecule-chrony:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/chrony\/.*$'
+              - '^roles\/chrony\/.*$'
+        - ansible-collection-services-ansible-molecule-clamav:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/clamav\/.*$'
+              - '^roles\/clamav\/.*$'
+        - ansible-collection-services-ansible-molecule-containerd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/containerd\/.*$'
+              - '^roles\/containerd\/.*$'
+        - ansible-collection-services-ansible-molecule-fail2ban:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/fail2ban\/.*$'
+              - '^roles\/fail2ban\/.*$'
+        - ansible-collection-services-ansible-molecule-frr:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/frr\/.*$'
+              - '^roles\/frr\/.*$'
+        - ansible-collection-services-ansible-molecule-hddtemp:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/hddtemp\/.*$'
+              - '^roles\/hddtemp\/.*$'
+        - ansible-collection-services-ansible-molecule-journald:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/journald\/.*$'
+              - '^roles\/journald\/.*$'
+        - ansible-collection-services-ansible-molecule-lldpd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/lldpd\/.*$'
+              - '^roles\/lldpd\/.*$'
+        - ansible-collection-services-ansible-molecule-netdata:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/netdata\/.*$'
+              - '^roles\/netdata\/.*$'
+        - ansible-collection-services-ansible-molecule-osquery:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/osquery\/.*$'
+              - '^roles\/osquery\/.*$'
+        - ansible-collection-services-ansible-molecule-rng:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/rng\/.*$'
+              - '^roles\/rng\/.*$'
+        - ansible-collection-services-ansible-molecule-rsyslog:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/rsyslog\/.*$'
+              - '^roles\/rsyslog\/.*$'
+        - ansible-collection-services-ansible-molecule-smartd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/smartd\/.*$'
+              - '^roles\/smartd\/.*$'
+        - ansible-collection-services-ansible-molecule-tuned:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/tuned\/.*$'
+              - '^roles\/tuned\/.*$'
+        - ansible-collection-services-ansible-molecule-wireguard:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/wireguard\/.*$'
+              - '^roles\/wireguard\/.*$'
         - build-sphinx-docs
         - yamllint
         - ansible-lint
         - flake8
     gate:
       jobs:
+        - ansible-collection-services-ansible-molecule-auditd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/auditd\/.*$'
+              - '^roles\/auditd\/.*$'
+        - ansible-collection-services-ansible-molecule-chrony:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/chrony\/.*$'
+              - '^roles\/chrony\/.*$'
+        - ansible-collection-services-ansible-molecule-clamav:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/clamav\/.*$'
+              - '^roles\/clamav\/.*$'
+        - ansible-collection-services-ansible-molecule-containerd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/containerd\/.*$'
+              - '^roles\/containerd\/.*$'
+        - ansible-collection-services-ansible-molecule-fail2ban:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/fail2ban\/.*$'
+              - '^roles\/fail2ban\/.*$'
+        - ansible-collection-services-ansible-molecule-frr:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/frr\/.*$'
+              - '^roles\/frr\/.*$'
+        - ansible-collection-services-ansible-molecule-hddtemp:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/hddtemp\/.*$'
+              - '^roles\/hddtemp\/.*$'
+        - ansible-collection-services-ansible-molecule-journald:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/journald\/.*$'
+              - '^roles\/journald\/.*$'
+        - ansible-collection-services-ansible-molecule-lldpd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/lldpd\/.*$'
+              - '^roles\/lldpd\/.*$'
+        - ansible-collection-services-ansible-molecule-netdata:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/netdata\/.*$'
+              - '^roles\/netdata\/.*$'
+        - ansible-collection-services-ansible-molecule-osquery:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/osquery\/.*$'
+              - '^roles\/osquery\/.*$'
+        - ansible-collection-services-ansible-molecule-rng:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/rng\/.*$'
+              - '^roles\/rng\/.*$'
+        - ansible-collection-services-ansible-molecule-rsyslog:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/rsyslog\/.*$'
+              - '^roles\/rsyslog\/.*$'
+        - ansible-collection-services-ansible-molecule-smartd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/smartd\/.*$'
+              - '^roles\/smartd\/.*$'
+        - ansible-collection-services-ansible-molecule-tuned:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/tuned\/.*$'
+              - '^roles\/tuned\/.*$'
+        - ansible-collection-services-ansible-molecule-wireguard:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/wireguard\/.*$'
+              - '^roles\/wireguard\/.*$'
         - build-sphinx-docs
         - yamllint
         - ansible-lint
