@@ -18,6 +18,7 @@
     - ansible_distribution_version is version('22.04', '>=')
 
 - name: Enable Kernel Module drivetemp
+  become: true
   ansible.builtin.lineinfile:
     line: drivetemp
     dest: /etc/modules
@@ -27,6 +28,7 @@
     - ansible_distribution_version is version('22.04', '>=')
 
 - name: Load Kernel Module drivetemp
+  become: true
   community.general.modprobe:
     name: drivetemp
     state: present
