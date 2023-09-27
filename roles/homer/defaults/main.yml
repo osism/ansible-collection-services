@@ -43,7 +43,6 @@ homer_url_keycloak: "http://{{ keycloak_host | default(ansible_default_ipv4.addr
 homer_url_kibana: "http://{{ kolla_internal_vip_address }}:5601"
 homer_url_netbox: "http://{{ netbox_host | default(ansible_default_ipv4.address) }}:{{ netbox_port | default(8121) }}"
 homer_url_netdata: "http://{{ netdata_host | default(ansible_default_ipv4.address) }}:{{ netdata_port | default(19999) }}"
-homer_url_patchman: "http://{{ patchman_host | default(ansible_default_ipv4.address) }}:{{ patchman_port | default(8150) }}"
 homer_url_phpmyadmin: "http://{{ phpmyadmin_host | default(ansible_default_ipv4.address) }}:{{ phpmyadmin_port | default(8110) }}"
 homer_url_prometheus: "http://{{ kolla_internal_vip_address }}:9090"
 homer_url_rabbitmq: "http://{{ kolla_internal_vip_address }}:15672"

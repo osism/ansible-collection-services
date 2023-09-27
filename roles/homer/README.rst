@@ -101,9 +101,6 @@ The following Variables define the urls to the webservices that OSISM provides:
 .. zuul:rolevar:: homer_url_netdata
    :default: http://{{ netdata_host | default(ansible_default_ipv4.address) }}:{{ netdata_port | default(19999) }}
 
-.. zuul:rolevar:: homer_url_patchman
-   :default: http://{{ patchman_host | default(ansible_default_ipv4.address) }}:{{ patchman_port | default(8150) }}
-
 .. zuul:rolevar:: homer_url_phpmyadmin
    :default: http://{{ phpmyadmin_host | default(ansible_default_ipv4.address) }}:{{ phpmyadmin_port | default(8110) }}
 

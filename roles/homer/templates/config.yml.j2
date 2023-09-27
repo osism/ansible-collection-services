@@ -124,7 +124,7 @@ services:
         target: "_blank"
 {%   endif %}
 {% endif %}
-{% if homer_url_grafana|length > 0 or homer_url_kibana|length > 0 or homer_url_netdata|length > 0 or homer_url_patchman|length > 0 or homer_url_prometheus|length > 0 %}
+{% if homer_url_grafana|length > 0 or homer_url_kibana|length > 0 or homer_url_netdata|length > 0 or homer_url_prometheus|length > 0 %}
   - name: "Insights"
     icon: "fas fa-warehouse"
     items:
@@ -150,14 +150,6 @@ services:
         subtitle: "Realtime monitoring"
         tag: "dashboard"
         url: "{{ homer_url_netdata }}"
-        target: "_blank"
-{%   endif %}
-{%   if homer_url_patchman|length > 0 %}
-      - name: "Patchman"
-        icon: "fas fa-boxes"
-        subtitle: "Linux Patch Status Monitoring System"
-        tag: "dashboard"
-        url: "{{ homer_url_patchman }}"
         target: "_blank"
 {%   endif %}
 {%   if homer_url_prometheus|length > 0 %}
