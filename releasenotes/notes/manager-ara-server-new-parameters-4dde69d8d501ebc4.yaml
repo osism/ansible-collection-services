@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    New parameters have been added to the manager role for the ara-server service.
+    With `ara_threads` the number of used threads can be configured. With
+    `ara_worker_connections` the number of worker connections can be configured.
+    The default of `ara_worker_class` changed to gevent.
