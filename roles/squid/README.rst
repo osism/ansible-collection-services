@@ -45,7 +45,7 @@ The host where Squid will be reachable.
 Port which Squid will be used for connections from outside.
 
 .. zuul:rolevar:: squid_tag
-   :default: 5.2-22.04_beta
+   :default: 5.7-23.04_beta
 
 Version from Squid in form of a tag which should be used.
 

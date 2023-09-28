@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    In the squid role, tag `5.7-23.04_beta` is now used for image
+    `ubuntu/squid` by default.

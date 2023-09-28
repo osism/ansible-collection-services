@@ -24,7 +24,7 @@ squid_service_name: "docker-compose@squid"
 squid_host: 127.0.0.1
 squid_port: 3128
 
-squid_tag: 5.2-22.04_beta  # don't get fooled by "beta". this is actually production ready
+squid_tag: 5.7-23.04_beta  # don't get fooled by "beta". this is actually production ready
 squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
 squid_container_name: squid
 
