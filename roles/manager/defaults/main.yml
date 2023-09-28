@@ -162,8 +162,10 @@ ara_server_traefik: false
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
+ara_threads: 1
+ara_worker_class: gevent
+ara_worker_connections: 1000
 ara_workers: 5
-ara_worker_class: sync
 
 # renovate: datasource=docker depName=quay.io/osism/ara-server
 ara_server_tag: '1.7.0'

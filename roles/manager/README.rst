@@ -374,15 +374,25 @@ Hostname for the Ara server.
 
 Port for the Ara server.
 
+.. zuul:rolevar:: ara_worker_connections
+   :default: 1000
+
+Number of ara-server worker connections.
+
 .. zuul:rolevar:: ara_workers
    :default: 5
 
-Amount of workers Ara should spawn.
+Number of ara-server workers.
 
 .. zuul:rolevar:: ara_worker_class
-   :default: sync
+   :default: gevent
 
-The Type of worker which Ara spawns.
+Worker class for the ara-server service.
+
+.. zuul:rolevar:: ara_threads
+   :default: 1
+
+Number of ara-server threads.
 
 .. zuul:rolevar:: ara_server_tag
    :default: 1.5.8
