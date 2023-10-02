@@ -3,7 +3,7 @@ dependency:
   name: shell
   command: ansible-galaxy collection install -v -f -r molecule/delegated/collections.yml -p ~/.ansible/collections
 driver:
-  name: delegated
+  name: default
   options:
     managed: false
     ansible_connection_options:
