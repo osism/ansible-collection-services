@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Setting `MARIADB_AUTO_UPGRADE=1` as an environment variable for the mariadb
+    container of the manager service will auto-upgrade running mariadb-upgrade
+    inside the mariadb container.
