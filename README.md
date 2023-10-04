@@ -33,8 +33,6 @@ The following Ansible roles are included in this collection.
 | openstack_health_monitor |                                                                                                                            |
 | openstackclient          |                                                                                                                            |
 | osquery                  | ![Test role osquery](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20osquery/badge.svg)       |
-| patchman                 |                                                                                                                            |
-| patchman_client          |                                                                                                                            |
 | phpmyadmin               |                                                                                                                            |
 | rng                      | ![Test role rng](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rng/badge.svg)               |
 | rsyslog                  | ![Test role rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rsyslog/badge.svg)       |

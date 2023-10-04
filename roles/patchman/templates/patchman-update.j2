@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-export COMPOSE_INTERACTIVE_NO_CLI=1
-docker-compose --no-ansi -f {{ patchman_docker_compose_directory }}/docker-compose.yml exec -T patchman patchman -q -r -A -p -c -d -n

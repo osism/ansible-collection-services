@@ -49,10 +49,6 @@ ansible-collections-services
 
 .. zuul:autorole:: openstackclient
 
-.. zuul:autorole:: patchman
-
-.. zuul:autorole:: patchman_client
-
 .. zuul:autorole:: phpmyadmin
 
 .. zuul:autorole:: rng
