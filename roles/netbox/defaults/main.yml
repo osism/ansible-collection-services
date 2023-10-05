@@ -105,7 +105,7 @@ netbox_postgres_password: password
 netbox_postgres_username: netbox
 netbox_postgres_databasename: netbox
 
-netbox_postgres_init_sql:  "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
+netbox_postgres_init_sql: "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
 
 ##########################
 # redis

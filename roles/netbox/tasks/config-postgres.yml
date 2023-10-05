@@ -35,7 +35,7 @@
     path: "{{ netbox_postgres_init_sql }}"
   register: netbox_postgres_init_sql_check
 
-# NOTE: init.sql.osism to be able to execute the file with our own 
+# NOTE: init.sql.osism to be able to execute the file with our own
 #       init-netbox-database.sh script
 - name: Copy init.sql file
   ansible.builtin.copy:
