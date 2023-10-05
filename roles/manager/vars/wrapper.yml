@@ -1,0 +1,18 @@
+---
+manager_wrapper_scripts:
+  - osism
+  - osism-ansible
+  - osism-ceph
+  - osism-custom
+  - osism-generic
+  - osism-infrastructure
+  - osism-kolla
+  - osism-manager
+  - osism-monitoring
+  - osism-openstack
+  - osism-run
+  - osism-run-without-secrets
+  - osism-state
+  - osism-update-docker
+  - osism-update-manager
+  - osism-validate

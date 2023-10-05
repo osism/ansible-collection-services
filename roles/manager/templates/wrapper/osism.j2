@@ -17,4 +17,11 @@ if [[ "$@" == "update manager" ]]; then
     exec /usr/local/bin/osism-update-manager
 fi
 
+# The update from the docker service on the manager is done with
+# osism-update-docker script as it cannot be done within a container as it
+# may be recreated during the update.
+if [[ "$@" == "update docker" ]]; then
+    exec /usr/local/bin/osism-update-docker
+fi
+
 docker exec $PARAMETERS osismclient osism "$@"
