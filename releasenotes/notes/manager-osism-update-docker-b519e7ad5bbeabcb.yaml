@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    With the `osism-update-docker` script, also available via `osism update docker`,
+    it is possible to update the Docker service on the manager.

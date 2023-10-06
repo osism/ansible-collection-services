@@ -1,4 +1,8 @@
 ---
+- name: Include wrapper vars file
+  ansible.builtin.include_vars:
+    file: wrapper.yml
+
 - name: Copy wrapper scripts
   become: true
   ansible.builtin.template:

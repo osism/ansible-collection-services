@@ -551,29 +551,6 @@ Disables the writing Vault unlock keys to a file.
 Location of the file which contains the Vault unlock keys.
 
 
-**Wrapper Variables**
-
-.. zuul:rolevar:: manager_wrapper_scripts
-   :default: - osism
-             - osism-ansible
-             - osism-ceph
-             - osism-custom
-             - osism-generic
-             - osism-infrastructure
-             - osism-kolla
-             - osism-manager
-             - osism-monitoring
-             - osism-openstack
-             - osism-run
-             - osism-run-without-secrets
-             - osism-state
-             - osism-update-manager
-             - osism-validate
-
-List of template files that generate wrapper scripts. These scripts perform
-docker-exec commands in the respektive containers.
-
-
 **Enviroment Variables**
 
 .. zuul:rolevar:: manager_environment_extra
