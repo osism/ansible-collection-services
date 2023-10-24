@@ -562,14 +562,14 @@ Enviroments variables that will be added at the ansible container start.
 **Listener Variables**
 
 .. zuul:rolevar:: enable_listener
-   :default: true
+   :default: false
 
 Enable listener service.
 
 .. zuul:rolevar:: manager_listener_broker_uri
    :default: amqp://openstack:password@127.0.0.1:5672/
 
-Url to task queue broker.
+OpenStack broker URI.
 
 
 **OpenStack Variables**
