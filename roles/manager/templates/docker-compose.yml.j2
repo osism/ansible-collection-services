@@ -384,7 +384,7 @@ services:
     volumes:
       - "mariadb:/var/lib/mysql"
     healthcheck:
-      test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
+      test: healthcheck.sh --connect --innodb_initialized
 {% endif %}
 {% endif %}
 

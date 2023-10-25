@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Use new `healthcheck.sh` script for the healthcheck of the MariaDB
+    service of the manager as mysqladmin is not longer usable. Further
+    details at
+    https://mariadb.org/mariadb-server-docker-official-images-healthcheck-without-mysqladmin/
