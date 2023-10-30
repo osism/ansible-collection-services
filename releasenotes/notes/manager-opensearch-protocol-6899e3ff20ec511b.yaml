@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    With the `manager_opensearch_protocol` parameter it is now possible
+    to configure the protocol (`http` or `https`) that should be used by
+    `osism log opensearch`.

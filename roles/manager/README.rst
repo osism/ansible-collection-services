@@ -203,6 +203,11 @@ OpenSearch address.
 
 OpenSearch port.
 
+.. zuul:rolevar:: manager_opensearch_protocol
+   :default: https
+
+OpenSearch protocol.
+
 
 **Inventory-reconciler Variables**
 
