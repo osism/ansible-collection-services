@@ -14,6 +14,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-bird
+    parent: ansible-molecule
+    vars:
+      ansible_role: bird
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-chrony
     parent: ansible-molecule
     vars:
@@ -129,12 +136,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/adminer\/.*$'
         #       - '^roles\/adminer\/.*$'
-        - ansible-collection-services-molecule-auditd:
+        # - ansible-collection-services-molecule-auditd:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/auditd\/.*$'
+        #       - '^roles\/auditd\/.*$'
+        - ansible-collection-services-molecule-bird:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/auditd\/.*$'
-              - '^roles\/auditd\/.*$'
+              - '^molecule\/bird\/.*$'
+              - '^roles\/bird\/.*$'
         # - ansible-collection-services-molecule-chrony:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -236,12 +249,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/adminer\/.*$'
         #       - '^roles\/adminer\/.*$'
-        - ansible-collection-services-molecule-auditd:
+        # - ansible-collection-services-molecule-auditd:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/auditd\/.*$'
+        #       - '^roles\/auditd\/.*$'
+        - ansible-collection-services-molecule-bird:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/auditd\/.*$'
-              - '^roles\/auditd\/.*$'
+              - '^molecule\/bird\/.*$'
+              - '^roles\/bird\/.*$'
         # - ansible-collection-services-molecule-chrony:
         #     files:
         #       - '^molecule\/delegated\/.*$'
