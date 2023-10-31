@@ -123,18 +123,18 @@
     default-branch: main
     check:
       jobs:
-        - ansible-collection-services-molecule-adminer:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/adminer\/.*$'
-              - '^roles\/adminer\/.*$'
-        # - ansible-collection-services-molecule-auditd:
+        # - ansible-collection-services-molecule-adminer:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/auditd\/.*$'
-        #       - '^roles\/auditd\/.*$'
+        #       - '^molecule\/adminer\/.*$'
+        #       - '^roles\/adminer\/.*$'
+        - ansible-collection-services-molecule-auditd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/auditd\/.*$'
+              - '^roles\/auditd\/.*$'
         # - ansible-collection-services-molecule-chrony:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -230,18 +230,18 @@
         - yamllint
     gate:
       jobs:
-        - ansible-collection-services-molecule-adminer:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/adminer\/.*$'
-              - '^roles\/adminer\/.*$'
-        # - ansible-collection-services-molecule-auditd:
+        # - ansible-collection-services-molecule-adminer:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/auditd\/.*$'
-        #       - '^roles\/auditd\/.*$'
+        #       - '^molecule\/adminer\/.*$'
+        #       - '^roles\/adminer\/.*$'
+        - ansible-collection-services-molecule-auditd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/auditd\/.*$'
+              - '^roles\/auditd\/.*$'
         # - ansible-collection-services-molecule-chrony:
         #     files:
         #       - '^molecule\/delegated\/.*$'
