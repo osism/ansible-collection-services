@@ -37,12 +37,15 @@ services:
 {% endif %}
 
   ##########################################
-  # osism-ansible service
+  # ansible services (kolla-ansible, ..)
 
   osism-ansible: &ansible
     container_name: "{{ osism_ansible_container_name }}"
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
+    mem_limit: {{ ansible_services_defaults[0].mem_limit }}
+    mem_reservation: {{ ansible_services_defaults[0].mem_reservation }}
+    cpus: "{{ ansible_services_defaults[0].cpus}}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
 {% if enable_netbox|bool %}
@@ -94,15 +97,15 @@ services:
         condition: service_started
 {% endif %}
 
-  ##########################################
-  # other ansible services (kolla-ansible, ..)
-
 {% for service in ansible_services %}
 {% if service.enable|bool %}
   {{ service.name }}:
     <<: *ansible
     container_name: "{{ service.container_name }}"
     image: "{{ service.image }}"
+    mem_limit: {{ service.mem_limit }}
+    mem_reservation: {{ service.mem_reservation }}
+    cpus: "{{ service.cpus }}"
 {% if enable_celery|bool %}
     command: osism worker {{ service.name }}
     healthcheck:
