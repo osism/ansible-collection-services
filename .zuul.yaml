@@ -21,6 +21,13 @@
       ansible_molecule_ansible_version: "8.5.0"
 
 - job:
+    name: ansible-collection-services-molecule-cephclient
+    parent: ansible-molecule
+    vars:
+      ansible_role: cephclient
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-chrony
     parent: ansible-molecule
     vars:
@@ -142,12 +149,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/auditd\/.*$'
         #       - '^roles\/auditd\/.*$'
-        - ansible-collection-services-molecule-bird:
+        # - ansible-collection-services-molecule-bird:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/bird\/.*$'
+        #       - '^roles\/bird\/.*$'
+        - ansible-collection-services-molecule-cephclient:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/bird\/.*$'
-              - '^roles\/bird\/.*$'
+              - '^molecule\/cephclient\/.*$'
+              - '^roles\/cephclient\/.*$'
         # - ansible-collection-services-molecule-chrony:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -255,12 +268,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/auditd\/.*$'
         #       - '^roles\/auditd\/.*$'
-        - ansible-collection-services-molecule-bird:
+        # - ansible-collection-services-molecule-bird:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/bird\/.*$'
+        #       - '^roles\/bird\/.*$'
+        - ansible-collection-services-molecule-cephclient:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/bird\/.*$'
-              - '^roles\/bird\/.*$'
+              - '^molecule\/cephclient\/.*$'
+              - '^roles\/cephclient\/.*$'
         # - ansible-collection-services-molecule-chrony:
         #     files:
         #       - '^molecule\/delegated\/.*$'
