@@ -95,19 +95,35 @@ inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/osism/in
 ##########################
 # ansible services
 
-# NOTE: the osism-ansible service is always enabled and cannot be disabled
-
 ansible_services_defaults:
+  # The osism-ansible service must always be in the 1st position.
+  - name: osism-ansible
+    container_name: "{{ osism_ansible_container_name }}"
+    tag: "{{ osism_ansible_tag }}"
+    image: "{{ osism_ansible_image }}"
+    # The service is disabled here because it is always enabled. But it is necessary to
+    # have an additional entry for osism-ansible in the ansible_services_defaults to access
+    # the defaults.
+    enable: false
+    mem_limit: "{{ manager_mem_limit }}"
+    mem_reservation: "{{ manager_mem_reservation }}"
+    cpus: "{{ manager_cpus }}"
   - name: ceph-ansible
     container_name: "{{ ceph_ansible_container_name }}"
     tag: "{{ ceph_ansible_tag }}"
     image: "{{ ceph_ansible_image }}"
     enable: "{{ enable_ceph_ansible }}"
+    mem_limit: "{{ manager_mem_limit }}"
+    mem_reservation: "{{ manager_mem_reservation }}"
+    cpus: "{{ manager_cpus }}"
   - name: kolla-ansible
     container_name: "{{ kolla_ansible_container_name }}"
     tag: "{{ kolla_ansible_tag }}"
     image: "{{ kolla_ansible_image }}"
     enable: "{{ enable_kolla_ansible }}"
+    mem_limit: "{{ manager_mem_limit }}"
+    mem_reservation: "{{ manager_mem_reservation }}"
+    cpus: "{{ manager_cpus }}"
 ansible_services_extra: []
 ansible_services: "{{ ansible_services_defaults + ansible_services_extra }}"
 
@@ -291,3 +307,10 @@ manager_netbox_replicas: 1
 
 beat_enable: true
 flower_enable: false
+
+##########################
+# resources
+
+manager_mem_limit: "{{ ansible_memtotal_mb }}m"
+manager_mem_reservation: 1024m
+manager_cpus: "{{ ansible_processor_vcpus }}"
