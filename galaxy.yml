@@ -14,6 +14,6 @@ tags:
   - infrastructure
 dependencies: {}
 repository: https://github.com/osism/ansible-collection-services.git
-documentation: https://osism.github.io/docs/intro/
+documentation: https://osism.github.io/docs/guides/configuration-guides/services/
 homepage: https://www.osism.tech
 issues: https://github.com/osism/ansible-collection-services/issues

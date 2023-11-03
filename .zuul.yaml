@@ -212,7 +212,6 @@
               - '^molecule\/requirements\.txt$'
               - '^molecule\/wireguard\/.*$'
               - '^roles\/wireguard\/.*$'
-        - build-sphinx-docs
         - yamllint
         - ansible-lint
         - flake8
@@ -314,13 +313,9 @@
               - '^molecule\/requirements\.txt$'
               - '^molecule\/wireguard\/.*$'
               - '^roles\/wireguard\/.*$'
-        - build-sphinx-docs
         - yamllint
         - ansible-lint
         - flake8
-    post:
-      jobs:
-        - osism-publish-tox-docs-production
     periodic-daily:
       jobs:
         - yamllint
