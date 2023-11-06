@@ -79,3 +79,4 @@
   register: result
   changed_when: false
   failed_when: result.rc != 0
+  when: enable_celery|bool
