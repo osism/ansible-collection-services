@@ -131,6 +131,8 @@ services:
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
     secrets:
       - NETBOX_TOKEN
+    healthcheck:
+      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism worker netbox'
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
     deploy:
@@ -156,6 +158,8 @@ services:
       - "{{ state_directory }}/conductor:/state:rw"
     secrets:
       - NETBOX_TOKEN
+    healthcheck:
+      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism worker conductor'
     env_file:
       - "{{ manager_configuration_directory }}/conductor.env"
       - "{{ manager_configuration_directory }}/netbox.env"
