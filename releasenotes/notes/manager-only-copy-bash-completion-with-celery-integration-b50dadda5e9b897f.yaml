@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Copy the bash completion script from the osismclient container only if the Celery
+    integration is enabled.
