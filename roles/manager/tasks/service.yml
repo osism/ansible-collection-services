@@ -56,6 +56,9 @@
                 --filter "health=starting" && \
                docker ps -aq \
                 --filter "label=com.docker.compose.project=manager" \
+                --filter "status=created" && \
+               docker ps -aq \
+                --filter "label=com.docker.compose.project=manager" \
                 --filter "health=unhealthy"; }' | \
     sort | uniq -u
   args:
