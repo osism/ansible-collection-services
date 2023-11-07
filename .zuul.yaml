@@ -168,18 +168,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/cephclient\/.*$'
         #       - '^roles\/cephclient\/.*$'
-        - ansible-collection-services-molecule-cgit:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/cgit\/.*$'
-              - '^roles\/cgit\/.*$'
-        # - ansible-collection-services-molecule-chrony:
+        # - ansible-collection-services-molecule-cgit:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/chrony\/.*$'
-        #       - '^roles\/chrony\/.*$'
+        #       - '^molecule\/cgit\/.*$'
+        #       - '^roles\/cgit\/.*$'
+        - ansible-collection-services-molecule-chrony:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/chrony\/.*$'
+              - '^roles\/chrony\/.*$'
         # - ansible-collection-services-molecule-clamav:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -293,18 +293,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/cephclient\/.*$'
         #       - '^roles\/cephclient\/.*$'
-        - ansible-collection-services-molecule-cgit:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/cgit\/.*$'
-              - '^roles\/cgit\/.*$'
-        # - ansible-collection-services-molecule-chrony:
+        # - ansible-collection-services-molecule-cgit:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/chrony\/.*$'
-        #       - '^roles\/chrony\/.*$'
+        #       - '^molecule\/cgit\/.*$'
+        #       - '^roles\/cgit\/.*$'
+        - ansible-collection-services-molecule-chrony:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/chrony\/.*$'
+              - '^roles\/chrony\/.*$'
         # - ansible-collection-services-molecule-clamav:
         #     files:
         #       - '^molecule\/delegated\/.*$'
