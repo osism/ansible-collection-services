@@ -35,6 +35,13 @@
       ansible_molecule_ansible_version: "8.5.0"
 
 - job:
+    name: ansible-collection-services-molecule-docker
+    parent: ansible-molecule
+    vars:
+      ansible_role: docker
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-cgit
     parent: ansible-molecule
     vars:
@@ -199,12 +206,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/containerd\/.*$'
         #       - '^roles\/containerd\/.*$'
-        - ansible-collection-services-molecule-dnsdist:
+        # - ansible-collection-services-molecule-dnsdist:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/dnsdist\/.*$'
+        #       - '^roles\/dnsdist\/.*$'
+        - ansible-collection-services-molecule-docker:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/dnsdist\/.*$'
-              - '^roles\/dnsdist\/.*$'
+              - '^molecule\/docker\/.*$'
+              - '^roles\/docker\/.*$'
         # - ansible-collection-services-molecule-fail2ban:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -331,12 +344,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/containerd\/.*$'
         #       - '^roles\/containerd\/.*$'
-        - ansible-collection-services-molecule-dnsdist:
+        # - ansible-collection-services-molecule-dnsdist:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/dnsdist\/.*$'
+        #       - '^roles\/dnsdist\/.*$'
+        - ansible-collection-services-molecule-docker:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/dnsdist\/.*$'
-              - '^roles\/dnsdist\/.*$'
+              - '^molecule\/docker\/.*$'
+              - '^roles\/docker\/.*$'
         # - ansible-collection-services-molecule-fail2ban:
         #     files:
         #       - '^molecule\/delegated\/.*$'
