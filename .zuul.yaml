@@ -174,24 +174,24 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/cgit\/.*$'
         #       - '^roles\/cgit\/.*$'
-        - ansible-collection-services-molecule-chrony:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/chrony\/.*$'
-              - '^roles\/chrony\/.*$'
+        # - ansible-collection-services-molecule-chrony:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/chrony\/.*$'
+        #       - '^roles\/chrony\/.*$'
         # - ansible-collection-services-molecule-clamav:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/clamav\/.*$'
         #       - '^roles\/clamav\/.*$'
-        # - ansible-collection-services-molecule-containerd:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/containerd\/.*$'
-        #       - '^roles\/containerd\/.*$'
+        - ansible-collection-services-molecule-containerd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/containerd\/.*$'
+              - '^roles\/containerd\/.*$'
         # - ansible-collection-services-molecule-fail2ban:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -300,24 +300,24 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/cgit\/.*$'
         #       - '^roles\/cgit\/.*$'
-        - ansible-collection-services-molecule-chrony:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/chrony\/.*$'
-              - '^roles\/chrony\/.*$'
+        # - ansible-collection-services-molecule-chrony:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/chrony\/.*$'
+        #       - '^roles\/chrony\/.*$'
         # - ansible-collection-services-molecule-clamav:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/clamav\/.*$'
         #       - '^roles\/clamav\/.*$'
-        # - ansible-collection-services-molecule-containerd:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/containerd\/.*$'
-        #       - '^roles\/containerd\/.*$'
+        - ansible-collection-services-molecule-containerd:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/containerd\/.*$'
+              - '^roles\/containerd\/.*$'
         # - ansible-collection-services-molecule-fail2ban:
         #     files:
         #       - '^molecule\/delegated\/.*$'
