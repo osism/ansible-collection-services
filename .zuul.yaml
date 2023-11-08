@@ -212,18 +212,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/dnsdist\/.*$'
         #       - '^roles\/dnsdist\/.*$'
-        - ansible-collection-services-molecule-docker:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/docker\/.*$'
-              - '^roles\/docker\/.*$'
-        # - ansible-collection-services-molecule-fail2ban:
+        # - ansible-collection-services-molecule-docker:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/fail2ban\/.*$'
-        #       - '^roles\/fail2ban\/.*$'
+        #       - '^molecule\/docker\/.*$'
+        #       - '^roles\/docker\/.*$'
+        - ansible-collection-services-molecule-fail2ban:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/fail2ban\/.*$'
+              - '^roles\/fail2ban\/.*$'
         # - ansible-collection-services-molecule-frr:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -350,18 +350,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/dnsdist\/.*$'
         #       - '^roles\/dnsdist\/.*$'
-        - ansible-collection-services-molecule-docker:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/docker\/.*$'
-              - '^roles\/docker\/.*$'
-        # - ansible-collection-services-molecule-fail2ban:
+        # - ansible-collection-services-molecule-docker:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/fail2ban\/.*$'
-        #       - '^roles\/fail2ban\/.*$'
+        #       - '^molecule\/docker\/.*$'
+        #       - '^roles\/docker\/.*$'
+        - ansible-collection-services-molecule-fail2ban:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/fail2ban\/.*$'
+              - '^roles\/fail2ban\/.*$'
         # - ansible-collection-services-molecule-frr:
         #     files:
         #       - '^molecule\/delegated\/.*$'
