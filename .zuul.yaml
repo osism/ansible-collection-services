@@ -28,6 +28,13 @@
       ansible_molecule_ansible_version: "8.5.0"
 
 - job:
+    name: ansible-collection-services-molecule-dnsdist
+    parent: ansible-molecule
+    vars:
+      ansible_role: dnsdist
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-cgit
     parent: ansible-molecule
     vars:
@@ -186,12 +193,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/clamav\/.*$'
         #       - '^roles\/clamav\/.*$'
-        - ansible-collection-services-molecule-containerd:
+        # - ansible-collection-services-molecule-containerd:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/containerd\/.*$'
+        #       - '^roles\/containerd\/.*$'
+        - ansible-collection-services-molecule-dnsdist:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/containerd\/.*$'
-              - '^roles\/containerd\/.*$'
+              - '^molecule\/dnsdist\/.*$'
+              - '^roles\/dnsdist\/.*$'
         # - ansible-collection-services-molecule-fail2ban:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -312,12 +325,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/clamav\/.*$'
         #       - '^roles\/clamav\/.*$'
-        - ansible-collection-services-molecule-containerd:
+        # - ansible-collection-services-molecule-containerd:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/containerd\/.*$'
+        #       - '^roles\/containerd\/.*$'
+        - ansible-collection-services-molecule-dnsdist:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/containerd\/.*$'
-              - '^roles\/containerd\/.*$'
+              - '^molecule\/dnsdist\/.*$'
+              - '^roles\/dnsdist\/.*$'
         # - ansible-collection-services-molecule-fail2ban:
         #     files:
         #       - '^molecule\/delegated\/.*$'
