@@ -15,7 +15,6 @@
     mode: 0640
   notify:
     - Restart manager service
-    - Copy osismclient bash completion script
 
 - name: Ensure that the manager service is up and running
   block:  # noqa osism-fqcn
