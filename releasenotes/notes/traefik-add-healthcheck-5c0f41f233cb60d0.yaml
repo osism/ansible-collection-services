@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Enable /ping endpoint of traefik and add health check to the
+    traefik container.
