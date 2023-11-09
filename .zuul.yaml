@@ -98,6 +98,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-homer
+    parent: ansible-molecule
+    vars:
+      ansible_role: homer
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-journald
     parent: ansible-molecule
     vars:
@@ -243,12 +250,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/frr\/.*$'
         #       - '^roles\/frr\/.*$'
-        - ansible-collection-services-molecule-hddtemp:
+        # - ansible-collection-services-molecule-hddtemp:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/hddtemp\/.*$'
+        #       - '^roles\/hddtemp\/.*$'
+        - ansible-collection-services-molecule-homer:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/hddtemp\/.*$'
-              - '^roles\/hddtemp\/.*$'
+              - '^molecule\/homer\/.*$'
+              - '^roles\/homer\/.*$'
         # - ansible-collection-services-molecule-journald:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -387,12 +400,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/frr\/.*$'
         #       - '^roles\/frr\/.*$'
-        - ansible-collection-services-molecule-hddtemp:
+        # - ansible-collection-services-molecule-hddtemp:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/hddtemp\/.*$'
+        #       - '^roles\/hddtemp\/.*$'
+        - ansible-collection-services-molecule-homer:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/hddtemp\/.*$'
-              - '^roles\/hddtemp\/.*$'
+              - '^molecule\/homer\/.*$'
+              - '^roles\/homer\/.*$'
         # - ansible-collection-services-molecule-journald:
         #     files:
         #       - '^molecule\/delegated\/.*$'
