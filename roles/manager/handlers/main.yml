@@ -12,3 +12,12 @@
 - name: Register that manager service was restarted
   ansible.builtin.set_fact:
     manager_service_restart: false
+
+- name: Copy osismclient bash completion script
+  become: true
+  ansible.builtin.shell:
+    cmd: "INTERACTIVE=false osism complete > /etc/bash_completion.d/osism"
+  register: result
+  changed_when: false
+  failed_when: result.rc != 0
+  when: enable_celery|bool
