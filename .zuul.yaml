@@ -77,6 +77,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-falco
+    parent: ansible-molecule
+    vars:
+      ansible_role: falco
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-frr
     parent: ansible-molecule
     vars:
@@ -218,12 +225,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/docker\/.*$'
         #       - '^roles\/docker\/.*$'
-        - ansible-collection-services-molecule-fail2ban:
+        # - ansible-collection-services-molecule-fail2ban:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/fail2ban\/.*$'
+        #       - '^roles\/fail2ban\/.*$'
+        - ansible-collection-services-molecule-falco:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/fail2ban\/.*$'
-              - '^roles\/fail2ban\/.*$'
+              - '^molecule\/falco\/.*$'
+              - '^roles\/falco\/.*$'
         # - ansible-collection-services-molecule-frr:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -356,12 +369,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/docker\/.*$'
         #       - '^roles\/docker\/.*$'
-        - ansible-collection-services-molecule-fail2ban:
+        # - ansible-collection-services-molecule-fail2ban:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/fail2ban\/.*$'
+        #       - '^roles\/fail2ban\/.*$'
+        - ansible-collection-services-molecule-falco:
             files:
               - '^molecule\/delegated\/.*$'
               - '^molecule\/requirements\.txt$'
-              - '^molecule\/fail2ban\/.*$'
-              - '^roles\/fail2ban\/.*$'
+              - '^molecule\/falco\/.*$'
+              - '^roles\/falco\/.*$'
         # - ansible-collection-services-molecule-frr:
         #     files:
         #       - '^molecule\/delegated\/.*$'
