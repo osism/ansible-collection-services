@@ -237,18 +237,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/falco\/.*$'
         #       - '^roles\/falco\/.*$'
-        - ansible-collection-services-molecule-frr:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/frr\/.*$'
-              - '^roles\/frr\/.*$'
-        # - ansible-collection-services-molecule-hddtemp:
+        # - ansible-collection-services-molecule-frr:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/hddtemp\/.*$'
-        #       - '^roles\/hddtemp\/.*$'
+        #       - '^molecule\/frr\/.*$'
+        #       - '^roles\/frr\/.*$'
+        - ansible-collection-services-molecule-hddtemp:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/hddtemp\/.*$'
+              - '^roles\/hddtemp\/.*$'
         # - ansible-collection-services-molecule-journald:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -381,18 +381,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/falco\/.*$'
         #       - '^roles\/falco\/.*$'
-        - ansible-collection-services-molecule-frr:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/frr\/.*$'
-              - '^roles\/frr\/.*$'
-        # - ansible-collection-services-molecule-hddtemp:
+        # - ansible-collection-services-molecule-frr:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/hddtemp\/.*$'
-        #       - '^roles\/hddtemp\/.*$'
+        #       - '^molecule\/frr\/.*$'
+        #       - '^roles\/frr\/.*$'
+        - ansible-collection-services-molecule-hddtemp:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/hddtemp\/.*$'
+              - '^roles\/hddtemp\/.*$'
         # - ansible-collection-services-molecule-journald:
         #     files:
         #       - '^molecule\/delegated\/.*$'
