@@ -81,7 +81,8 @@ services:
     entrypoint: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py
     command: rqworker
     ports: []
-    healthcheck: {}
+    healthcheck:
+      test: pgrep -f '/opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker'
     networks:
       - default
 {% if netbox_traefik|bool %}
