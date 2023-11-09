@@ -9,6 +9,8 @@ services:
     volumes:
       - "{{ squid_configuration_directory }}/conf.d:/etc/squid/conf.d:ro"
       - squid:/var/spool/squid
+    healthcheck:
+      test: pgrep -f '/usr/sbin/squid -f /etc/squid/squid.conf -NYC'
 
 networks:
   default:

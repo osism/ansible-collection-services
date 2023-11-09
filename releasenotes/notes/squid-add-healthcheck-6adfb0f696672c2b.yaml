@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add health check to the squid container.
