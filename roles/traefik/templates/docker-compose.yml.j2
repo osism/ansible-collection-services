@@ -19,6 +19,8 @@ services:
       - "{{ traefik_certificates_directory }}:/etc/traefik/certificates:ro"
 {% endif %}
       - "/var/run/docker.sock:/var/run/docker.sock"
+    healthcheck:
+      test: traefik healthcheck
     networks:
       - {{ traefik_external_network_name }}
 
