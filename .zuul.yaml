@@ -4,112 +4,112 @@
     parent: ansible-molecule
     vars:
       ansible_role: auditd
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-chrony
     parent: ansible-molecule
     vars:
       ansible_role: chrony
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-clamav
     parent: ansible-molecule
     vars:
       ansible_role: clamav
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-containerd
     parent: ansible-molecule
     vars:
       ansible_role: containerd
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-fail2ban
     parent: ansible-molecule
     vars:
       ansible_role: fail2ban
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-frr
     parent: ansible-molecule
     vars:
       ansible_role: frr
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-hddtemp
     parent: ansible-molecule
     vars:
       ansible_role: hddtemp
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-journald
     parent: ansible-molecule
     vars:
       ansible_role: journald
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-lldpd
     parent: ansible-molecule
     vars:
       ansible_role: lldpd
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-netdata
     parent: ansible-molecule
     vars:
       ansible_role: netdata
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-osquery
     parent: ansible-molecule
     vars:
       ansible_role: osquery
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-rng
     parent: ansible-molecule
     vars:
       ansible_role: rng
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-rsyslog
     parent: ansible-molecule
     vars:
       ansible_role: rsyslog
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-smartd
     parent: ansible-molecule
     vars:
       ansible_role: smartd
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-tuned
     parent: ansible-molecule
     vars:
       ansible_role: tuned
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - job:
     name: ansible-collection-services-molecule-wireguard
     parent: ansible-molecule
     vars:
       ansible_role: wireguard
-      ansible_molecule_ansible_version: "8.6.0"
+      ansible_molecule_ansible_version: "8.6.1"
 
 - project:
     merge-mode: squash-merge
