@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Wait for healthy openstackclient and cephclient containers before copying
+    the bash completion script.
