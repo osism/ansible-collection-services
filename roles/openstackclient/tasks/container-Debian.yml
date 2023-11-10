@@ -44,10 +44,10 @@
     path: /usr/local/bin/ospurge
     state: absent
 
-# NOTE: The command returns a list of IDs of containers from the manager service
+# NOTE: The command returns a list of IDs of containers from the service
 #       that are currently starting or unhealthy. As long as the list is not empty
-#       the manager service is not in a good state.
-- name: Wait for an healthy manager service
+#       the service is not in a good state.
+- name: Wait for an healthy service
   ansible.builtin.shell: |
     set -o pipefail
     docker compose --project-directory /opt/openstackclient \
