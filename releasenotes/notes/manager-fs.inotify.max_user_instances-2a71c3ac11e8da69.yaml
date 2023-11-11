@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Set `fs.inotify.max_user_instances = 256` on the manager to fix the
+    `Failed to allocate directory watch: Too many open files` issue.

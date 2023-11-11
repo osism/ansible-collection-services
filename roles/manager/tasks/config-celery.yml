@@ -9,6 +9,15 @@
     state: present
     reload: true
 
+- name: Set fs.inotify.max_user_instances
+  become: true
+  ansible.posix.sysctl:
+    name: fs.inotify.max_user_instances
+    value: '256'
+    sysctl_set: true
+    state: present
+    reload: true
+
 - name: Copy celery environment files
   ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
