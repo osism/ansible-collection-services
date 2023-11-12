@@ -45,3 +45,4 @@
   changed_when: true
   failed_when: result.rc != 0
   when: enable_celery|bool
+  ignore_errors: true
