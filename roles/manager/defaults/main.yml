@@ -67,6 +67,7 @@ private_keys:
 # packages
 
 required_packages_manager:
+  - jq
   - python3-virtualenv
 
 ##########################
