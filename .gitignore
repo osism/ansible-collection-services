@@ -2,3 +2,4 @@
 doc/build
 galaxy.yml
 osism-services-*.tar.gz
+.idea/
