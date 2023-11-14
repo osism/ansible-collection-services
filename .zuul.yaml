@@ -262,12 +262,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/homer\/.*$'
         #       - '^roles\/homer\/.*$'
-        - ansible-collection-services-molecule-journald:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/journald\/.*$'
-              - '^roles\/journald\/.*$'
+        #- ansible-collection-services-molecule-journald:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/journald\/.*$'
+        #      - '^roles\/journald\/.*$'
         # - ansible-collection-services-molecule-lldpd:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -286,12 +286,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/osquery\/.*$'
         #       - '^roles\/osquery\/.*$'
-        # - ansible-collection-services-molecule-rng:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/rng\/.*$'
-        #       - '^roles\/rng\/.*$'
+        - ansible-collection-services-molecule-rng:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/rng\/.*$'
+               - '^roles\/rng\/.*$'
         # - ansible-collection-services-molecule-rsyslog:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -412,12 +412,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/homer\/.*$'
         #       - '^roles\/homer\/.*$'
-        - ansible-collection-services-molecule-journald:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/journald\/.*$'
-              - '^roles\/journald\/.*$'
+        #- ansible-collection-services-molecule-journald:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/journald\/.*$'
+        #      - '^roles\/journald\/.*$'
         # - ansible-collection-services-molecule-lldpd:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -436,12 +436,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/osquery\/.*$'
         #       - '^roles\/osquery\/.*$'
-        # - ansible-collection-services-molecule-rng:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/rng\/.*$'
-        #       - '^roles\/rng\/.*$'
+        - ansible-collection-services-molecule-rng:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/rng\/.*$'
+               - '^roles\/rng\/.*$'
         # - ansible-collection-services-molecule-rsyslog:
         #     files:
         #       - '^molecule\/delegated\/.*$'
