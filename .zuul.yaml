@@ -268,12 +268,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/journald\/.*$'
         #      - '^roles\/journald\/.*$'
-        - ansible-collection-services-molecule-lldpd:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/lldpd\/.*$'
-               - '^roles\/lldpd\/.*$'
+        #- ansible-collection-services-molecule-lldpd:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/lldpd\/.*$'
+        #       - '^roles\/lldpd\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -310,12 +310,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        # - ansible-collection-services-molecule-tuned:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/tuned\/.*$'
-        #       - '^roles\/tuned\/.*$'
+        - ansible-collection-services-molecule-tuned:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/tuned\/.*$'
+               - '^roles\/tuned\/.*$'
         # - ansible-collection-services-molecule-wireguard:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -424,12 +424,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/journald\/.*$'
         #      - '^roles\/journald\/.*$'
-        - ansible-collection-services-molecule-lldpd:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/lldpd\/.*$'
-               - '^roles\/lldpd\/.*$'
+        #- ansible-collection-services-molecule-lldpd:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/lldpd\/.*$'
+        #       - '^roles\/lldpd\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -466,12 +466,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        # - ansible-collection-services-molecule-tuned:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/tuned\/.*$'
-        #       - '^roles\/tuned\/.*$'
+        - ansible-collection-services-molecule-tuned:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/tuned\/.*$'
+               - '^roles\/tuned\/.*$'
         # - ansible-collection-services-molecule-wireguard:
         #     files:
         #       - '^molecule\/delegated\/.*$'
