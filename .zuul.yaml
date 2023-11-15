@@ -268,19 +268,25 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/journald\/.*$'
         #      - '^roles\/journald\/.*$'
-        # - ansible-collection-services-molecule-lldpd:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/lldpd\/.*$'
-        #       - '^roles\/lldpd\/.*$'
+        - ansible-collection-services-molecule-lldpd:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/lldpd\/.*$'
+               - '^roles\/lldpd\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/netdata\/.*$'
         #       - '^roles\/netdata\/.*$'
-        # - ansible-collection-services-molecule-osquery:
+        #- ansible-collection-services-molecule-osquery:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/osquery\/.*$'
+        #       - '^roles\/osquery\/.*$'
+        #- ansible-collection-services-molecule-rng:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
@@ -418,19 +424,25 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/journald\/.*$'
         #      - '^roles\/journald\/.*$'
-        # - ansible-collection-services-molecule-lldpd:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/lldpd\/.*$'
-        #       - '^roles\/lldpd\/.*$'
+        - ansible-collection-services-molecule-lldpd:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/lldpd\/.*$'
+               - '^roles\/lldpd\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/netdata\/.*$'
         #       - '^roles\/netdata\/.*$'
-        # - ansible-collection-services-molecule-osquery:
+        #- ansible-collection-services-molecule-osquery:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/osquery\/.*$'
+        #       - '^roles\/osquery\/.*$'
+        #- ansible-collection-services-molecule-rng:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
