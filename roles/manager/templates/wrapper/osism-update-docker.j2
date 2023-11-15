@@ -19,7 +19,7 @@ VENV_PYTHON_BIN=${VENV_PYTHON_BIN:-python3}
 
 pushd $CONFIGURATION_DIRECTORY/environments/manager > /dev/null
 
-if [[ $INSTALL_ANSIBLE == "true" ]]; then
+if [[ $INSTALL_ANSIBLE == "true" && -e requirements.txt ]]; then
     if [[ ! -e $VENV_PATH ]]; then
 
         command -v virtualenv >/dev/null 2>&1 || { echo >&2 "virtualenv not installed"; exit 1; }
