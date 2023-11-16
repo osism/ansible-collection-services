@@ -4,6 +4,10 @@ services:
     container_name: "{{ container_name.mariadb }}"
     image: "{{ zuul_mariadb_image }}"
     env_file: "{{ zuul_base_conf_dir }}/mariadb.env"
+{% if zuul_mariadb_volume | length > 0 %}
+    volumes:
+      - "{{ zuul_mariadb_volume }}:/var/lib/mysql"
+{% endif %}
   zookeeper:
     container_name: "{{ container_name.zookeeper }}"
     image: "{{ zuul_zookeeper_image }}"
@@ -76,7 +80,7 @@ services:
       - "{{ zuul_component_conf_dirs.zuul }}:/etc/zuul/:z"
       - "{{ zuul_component_conf_dirs.ssh_keys }}:/var/ssh:z"
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
-      - "log_server:/srv/static/logs:z"
+      - "{{ zuul_log_volume }}:/srv/static/logs:z"
       - "/var/log/zuul:/var/log/zuul"
   log_server:
     container_name: "{{ container_name.log_server }}"
@@ -86,8 +90,9 @@ services:
       - "443:443"
     volumes:
       - "{{ zuul_component_conf_dirs.log_server }}:/usr/local/apache2/conf:ro"
-      - "log_server:/usr/local/apache2/htdocs:z"
+      - "{{ zuul_log_volume }}:/usr/local/apache2/htdocs:z"
+{% if not zuul_log_volume.startswith('/') %}
 
 volumes:
-  log_server:
-
+  {{ zuul_log_volume }}:
+{% endif %}
