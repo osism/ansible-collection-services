@@ -140,6 +140,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-scaphandre
+    parent: ansible-molecule
+    vars:
+      ansible_role: scaphandre
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-rsyslog
     parent: ansible-molecule
     vars:
@@ -290,14 +297,14 @@
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/osquery\/.*$'
-        #       - '^roles\/osquery\/.*$'
-        - ansible-collection-services-molecule-rng:
+        #       - '^molecule\/rng\/.*$'
+        #       - '^roles\/rng\/.*$'
+        - ansible-collection-services-molecule-scaphandre:
              files:
                - '^molecule\/delegated\/.*$'
                - '^molecule\/requirements\.txt$'
-               - '^molecule\/rng\/.*$'
-               - '^roles\/rng\/.*$'
+               - '^molecule\/scaphandre\/.*$'
+               - '^roles\/scaphandre\/.*$'
         # - ansible-collection-services-molecule-rsyslog:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -446,14 +453,14 @@
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/osquery\/.*$'
-        #       - '^roles\/osquery\/.*$'
-        - ansible-collection-services-molecule-rng:
+        #       - '^molecule\/rng\/.*$'
+        #       - '^roles\/rng\/.*$'
+        - ansible-collection-services-molecule-scaphandre:
              files:
                - '^molecule\/delegated\/.*$'
                - '^molecule\/requirements\.txt$'
-               - '^molecule\/rng\/.*$'
-               - '^roles\/rng\/.*$'
+               - '^molecule\/scaphandre\/.*$'
+               - '^roles\/scaphandre\/.*$'
         # - ansible-collection-services-molecule-rsyslog:
         #     files:
         #       - '^molecule\/delegated\/.*$'
