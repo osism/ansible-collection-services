@@ -161,6 +161,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-traefik
+    parent: ansible-molecule
+    vars:
+      ansible_role: traefik
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-tuned
     parent: ansible-molecule
     vars:
@@ -299,12 +306,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rng\/.*$'
         #       - '^roles\/rng\/.*$'
-        - ansible-collection-services-molecule-scaphandre:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/scaphandre\/.*$'
-               - '^roles\/scaphandre\/.*$'
+        #- ansible-collection-services-molecule-scaphandre:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/scaphandre\/.*$'
+        #       - '^roles\/scaphandre\/.*$'
         # - ansible-collection-services-molecule-rsyslog:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -317,12 +324,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        - ansible-collection-services-molecule-tuned:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/tuned\/.*$'
-               - '^roles\/tuned\/.*$'
+        #- ansible-collection-services-molecule-tuned:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/tuned\/.*$'
+        #      - '^roles\/tuned\/.*$'
+        - ansible-collection-services-molecule-traefik:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/traefik\/.*$'
+              - '^roles\/traefik\/.*$'
         # - ansible-collection-services-molecule-wireguard:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -455,12 +468,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rng\/.*$'
         #       - '^roles\/rng\/.*$'
-        - ansible-collection-services-molecule-scaphandre:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/scaphandre\/.*$'
-               - '^roles\/scaphandre\/.*$'
+        #- ansible-collection-services-molecule-scaphandre:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/scaphandre\/.*$'
+        #       - '^roles\/scaphandre\/.*$'
         # - ansible-collection-services-molecule-rsyslog:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -473,12 +486,18 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        - ansible-collection-services-molecule-tuned:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/tuned\/.*$'
-               - '^roles\/tuned\/.*$'
+        #- ansible-collection-services-molecule-tuned:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/tuned\/.*$'
+        #       - '^roles\/tuned\/.*$'
+        - ansible-collection-services-molecule-traefik:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/traefik\/.*$'
+              - '^roles\/traefik\/.*$'
         # - ansible-collection-services-molecule-wireguard:
         #     files:
         #       - '^molecule\/delegated\/.*$'
