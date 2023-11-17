@@ -1,0 +1,12 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ thanos_sidecar_docker_compose_directory }}"
+    - "{{ thanos_sidecar_configuration_directory }}"

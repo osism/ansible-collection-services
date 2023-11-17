@@ -1,0 +1,6 @@
+---
+- name: Restart thanos_sidecar service
+  become: true
+  ansible.builtin.service:
+    name: "{{ thanos_sidecar_service_name }}"
+    state: restarted

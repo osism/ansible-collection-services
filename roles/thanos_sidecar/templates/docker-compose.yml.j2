@@ -1,0 +1,27 @@
+---
+services:
+  thanos_sidecar:
+    image: "{{ thanos_sidecar_image }}"
+    container_name: "{{ thanos_sidecar_container_name }}"
+    restart: unless-stopped
+    command:
+      - "sidecar"
+      - "--prometheus.url={{ thanos_sidecar_prometheus_url }}"
+      - "--prometheus.http-client={{ thanos_sidecar_prometheus_http_client_config }}"
+      - "--grpc-address=0.0.0.0:10901"
+      - "--http-address=0.0.0.0:10902"
+    ports:
+      - "{{ thanos_sidecar_host }}:{{ thanos_sidecar_grpc_port }}:10901"
+      - "{{ thanos_sidecar_host }}:{{ thanos_sidecar_http_port }}:10902"
+    volumes:
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ thanos_sidecar_network }}
