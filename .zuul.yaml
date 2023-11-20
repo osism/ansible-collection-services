@@ -144,7 +144,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: rsyslog
-      ansible_molecule_ansible_version: "8.5.0"
+      ansible_molecule_ansible_version: "8.7.0"
 
 - job:
     name: ansible-collection-services-molecule-scaphandre
@@ -152,13 +152,6 @@
     vars:
       ansible_role: scaphandre
       ansible_molecule_ansible_version: "8.5.0"
-
-- job:
-    name: ansible-collection-services-molecule-rsyslog
-    parent: ansible-molecule
-    vars:
-      ansible_role: rsyslog
-      ansible_molecule_ansible_version: "8.7.0"
 
 - job:
     name: ansible-collection-services-molecule-smartd
@@ -180,6 +173,13 @@
     vars:
       ansible_role: tuned
       ansible_molecule_ansible_version: "8.7.0"
+
+- job:
+    name: ansible-collection-services-molecule-virtualbmc
+    parent: ansible-molecule
+    vars:
+      ansible_role: virtualbmc
+      ansible_molecule_ansible_version: "8.5.0"
 
 - job:
     name: ansible-collection-services-molecule-wireguard
@@ -313,42 +313,42 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rng\/.*$'
         #       - '^roles\/rng\/.*$'
-        - ansible-collection-services-molecule-rsyslog:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/rsyslog\/.*$'
-               - '^roles\/rsyslog\/.*$'
+        #- ansible-collection-services-molecule-rsyslog:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/rsyslog\/.*$'
+        #       - '^roles\/rsyslog\/.*$'
         #- ansible-collection-services-molecule-scaphandre:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #      - '^molecule\/requirements\.txt$'
         #       - '^molecule\/scaphandre\/.*$'
         #       - '^roles\/scaphandre\/.*$'
-        # - ansible-collection-services-molecule-rsyslog:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/rsyslog\/.*$'
-        #       - '^roles\/rsyslog\/.*$'
         # - ansible-collection-services-molecule-smartd:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        #- ansible-collection-services-molecule-tuned:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/tuned\/.*$'
-        #      - '^roles\/tuned\/.*$'
         #- ansible-collection-services-molecule-traefik:
         #    files:
         #      - '^molecule\/delegated\/.*$'
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/traefik\/.*$'
         #      - '^roles\/traefik\/.*$'
+        #- ansible-collection-services-molecule-tuned:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/tuned\/.*$'
+        #      - '^roles\/tuned\/.*$'
+        - ansible-collection-services-molecule-virtualbmc:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/virtualbmc\/.*$'
+              - '^roles\/virtualbmc\/.*$'
         # - ansible-collection-services-molecule-wireguard:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -481,12 +481,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rng\/.*$'
         #       - '^roles\/rng\/.*$'#
-        - ansible-collection-services-molecule-rsyslog:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/rsyslog\/.*$'
-               - '^roles\/rsyslog\/.*$'
+        #- ansible-collection-services-molecule-rsyslog:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/rsyslog\/.*$'
+        #       - '^roles\/rsyslog\/.*$'
         #- ansible-collection-services-molecule-scaphandre:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -505,6 +505,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/tuned\/.*$'
         #       - '^roles\/tuned\/.*$'
+        - ansible-collection-services-molecule-virtualbmc:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/virtualbmc\/.*$'
+               - '^roles\/virtualbmc\/.*$'
         #- ansible-collection-services-molecule-traefik:
         #    files:
         #      - '^molecule\/delegated\/.*$'
