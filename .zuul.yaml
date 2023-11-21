@@ -333,12 +333,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rng\/.*$'
         #       - '^roles\/rng\/.*$'
-        #- ansible-collection-services-molecule-rsyslog:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/rsyslog\/.*$'
-        #       - '^roles\/rsyslog\/.*$'
+        - ansible-collection-services-molecule-rsyslog:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/rsyslog\/.*$'
+               - '^roles\/rsyslog\/.*$'
         #- ansible-collection-services-molecule-scaphandre:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -351,12 +351,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        - ansible-collection-services-molecule-squid:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/squid\/.*$'
-              - '^roles\/squid\/.*$'
+#        - ansible-collection-services-molecule-squid:
+#            files:
+#              - '^molecule\/delegated\/.*$'
+#              - '^molecule\/requirements\.txt$'
+#              - '^molecule\/squid\/.*$'
+#              - '^roles\/squid\/.*$'
         #- ansible-collection-services-molecule-traefik:
         #    files:
         #      - '^molecule\/delegated\/.*$'
@@ -513,12 +513,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rng\/.*$'
         #       - '^roles\/rng\/.*$'#
-        #- ansible-collection-services-molecule-rsyslog:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/rsyslog\/.*$'
-        #       - '^roles\/rsyslog\/.*$'
+        - ansible-collection-services-molecule-rsyslog:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/rsyslog\/.*$'
+               - '^roles\/rsyslog\/.*$'
         #- ansible-collection-services-molecule-scaphandre:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -531,12 +531,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/smartd\/.*$'
         #       - '^roles\/smartd\/.*$'
-        - ansible-collection-services-molecule-squid:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/squid\/.*$'
-              - '^roles\/squid\/.*$'
+#        - ansible-collection-services-molecule-squid:
+#            files:
+#              - '^molecule\/delegated\/.*$'
+#              - '^molecule\/requirements\.txt$'
+#              - '^molecule\/squid\/.*$'
+#              - '^roles\/squid\/.*$'
         #- ansible-collection-services-molecule-tuned:
         #     files:
         #       - '^molecule\/delegated\/.*$'
