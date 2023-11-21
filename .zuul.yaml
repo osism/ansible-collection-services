@@ -302,12 +302,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/lldpd\/.*$'
         #       - '^roles\/lldpd\/.*$'
-#        - ansible-collection-services-molecule-openstack_health_monitor:
-#            files:
-#              - '^molecule\/delegated\/.*$'
-#              - '^molecule\/requirements\.txt$'
-#              - '^molecule\/openstack_health_monitor\/.*$'
-#              - '^roles\/openstack_health_monitor\/.*$'
+        - ansible-collection-services-molecule-openstack_health_monitor:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/openstack_health_monitor\/.*$'
+              - '^roles\/openstack_health_monitor\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -362,12 +362,12 @@
 #              - '^molecule\/requirements\.txt$'
 #              - '^molecule\/virtualbmc\/.*$'
 #              - '^roles\/virtualbmc\/.*$'
-        - ansible-collection-services-molecule-wireguard:
-            files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/wireguard\/.*$'
-             - '^roles\/wireguard\/.*$'
+#        - ansible-collection-services-molecule-wireguard:
+#            files:
+#             - '^molecule\/delegated\/.*$'
+#             - '^molecule\/requirements\.txt$'
+#             - '^molecule\/wireguard\/.*$'
+#             - '^roles\/wireguard\/.*$'
         - ansible-lint
         - flake8
         - python-black
@@ -476,12 +476,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/lldpd\/.*$'
         #       - '^roles\/lldpd\/.*$'
-#        - ansible-collection-services-molecule-openstack_health_monitor:
-#            files:
-#              - '^molecule\/delegated\/.*$'
-#              - '^molecule\/requirements\.txt$'
-#              - '^molecule\/openstack_health_monitor\/.*$'
-#              - '^roles\/openstack_health_monitor\/.*$'
+        - ansible-collection-services-molecule-openstack_health_monitor:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/openstack_health_monitor\/.*$'
+              - '^roles\/openstack_health_monitor\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -536,12 +536,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/traefik\/.*$'
         #      - '^roles\/traefik\/.*$'
-        - ansible-collection-services-molecule-wireguard:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/wireguard\/.*$'
-              - '^roles\/wireguard\/.*$'
+#        - ansible-collection-services-molecule-wireguard:
+#            files:
+#              - '^molecule\/delegated\/.*$'
+#              - '^molecule\/requirements\.txt$'
+#              - '^molecule\/wireguard\/.*$'
+#              - '^roles\/wireguard\/.*$'
         - ansible-lint
         - flake8
         - python-black
