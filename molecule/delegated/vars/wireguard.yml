@@ -1,3 +1,4 @@
 ---
 operator_user: runner
 operator_group: docker
+wireguard_users: []

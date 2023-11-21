@@ -119,6 +119,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-openstack_health_monitor
+    parent: ansible-molecule
+    vars:
+      ansible_role: openstack_health_monitor
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-netdata
     parent: ansible-molecule
     vars:
@@ -295,6 +302,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/lldpd\/.*$'
         #       - '^roles\/lldpd\/.*$'
+#        - ansible-collection-services-molecule-openstack_health_monitor:
+#            files:
+#              - '^molecule\/delegated\/.*$'
+#              - '^molecule\/requirements\.txt$'
+#              - '^molecule\/openstack_health_monitor\/.*$'
+#              - '^roles\/openstack_health_monitor\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -343,18 +356,18 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/tuned\/.*$'
         #      - '^roles\/tuned\/.*$'
-        - ansible-collection-services-molecule-virtualbmc:
+#        - ansible-collection-services-molecule-virtualbmc:
+#            files:
+#              - '^molecule\/delegated\/.*$'
+#              - '^molecule\/requirements\.txt$'
+#              - '^molecule\/virtualbmc\/.*$'
+#              - '^roles\/virtualbmc\/.*$'
+        - ansible-collection-services-molecule-wireguard:
             files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/virtualbmc\/.*$'
-              - '^roles\/virtualbmc\/.*$'
-        # - ansible-collection-services-molecule-wireguard:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/wireguard\/.*$'
-        #       - '^roles\/wireguard\/.*$'
+             - '^molecule\/delegated\/.*$'
+             - '^molecule\/requirements\.txt$'
+             - '^molecule\/wireguard\/.*$'
+             - '^roles\/wireguard\/.*$'
         - ansible-lint
         - flake8
         - python-black
@@ -463,6 +476,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/lldpd\/.*$'
         #       - '^roles\/lldpd\/.*$'
+#        - ansible-collection-services-molecule-openstack_health_monitor:
+#            files:
+#              - '^molecule\/delegated\/.*$'
+#              - '^molecule\/requirements\.txt$'
+#              - '^molecule\/openstack_health_monitor\/.*$'
+#              - '^roles\/openstack_health_monitor\/.*$'
         # - ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -505,24 +524,24 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/tuned\/.*$'
         #       - '^roles\/tuned\/.*$'
-        - ansible-collection-services-molecule-virtualbmc:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/virtualbmc\/.*$'
-               - '^roles\/virtualbmc\/.*$'
+#        - ansible-collection-services-molecule-virtualbmc:
+#             files:
+#               - '^molecule\/delegated\/.*$'
+#               - '^molecule\/requirements\.txt$'
+#               - '^molecule\/virtualbmc\/.*$'
+#               - '^roles\/virtualbmc\/.*$'
         #- ansible-collection-services-molecule-traefik:
         #    files:
         #      - '^molecule\/delegated\/.*$'
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/traefik\/.*$'
         #      - '^roles\/traefik\/.*$'
-        # - ansible-collection-services-molecule-wireguard:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/wireguard\/.*$'
-        #       - '^roles\/wireguard\/.*$'
+        - ansible-collection-services-molecule-wireguard:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/wireguard\/.*$'
+              - '^roles\/wireguard\/.*$'
         - ansible-lint
         - flake8
         - python-black
