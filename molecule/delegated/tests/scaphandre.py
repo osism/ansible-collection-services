@@ -17,10 +17,10 @@ def test_scaphandre_directories_created(host):
         assert dir.is_directory, f"{directory} should be a directory"
         assert (
             dir.user == operator_user
-        ), f"Directory {directory} should be owned by {operator_user}"
+        )
         assert (
             dir.group == operator_group
-        ), f"Directory {directory} should be in group {operator_group}"
+        )
         assert dir.mode == 0o750, f"Directory {directory} should have 0750 permissions"
 
 
