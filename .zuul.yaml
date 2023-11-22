@@ -140,6 +140,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-phpmyadmin
+    parent: ansible-molecule
+    vars:
+      ansible_role: phpmyadmin
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-rng
     parent: ansible-molecule
     vars:
@@ -327,6 +334,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/osquery\/.*$'
         #       - '^roles\/osquery\/.*$'
+        - ansible-collection-services-molecule-phpmyadmin:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/phpmyadmin\/.*$'
+              - '^roles\/phpmyadmin\/.*$'
         #- ansible-collection-services-molecule-rng:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -339,12 +352,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/rsyslog\/.*$'
         #       - '^roles\/rsyslog\/.*$'
-        - ansible-collection-services-molecule-scaphandre:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/scaphandre\/.*$'
-               - '^roles\/scaphandre\/.*$'
+        #- ansible-collection-services-molecule-scaphandre:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/scaphandre\/.*$'
+        #       - '^roles\/scaphandre\/.*$'
         #- ansible-collection-services-molecule-smartd:
         #    files:
         #      - '^molecule\/delegated\/.*$'
@@ -507,6 +520,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/osquery\/.*$'
         #      - '^roles\/osquery\/.*$'
+        - ansible-collection-services-molecule-phpmyadmin:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/phpmyadmin\/.*$'
+              - '^roles\/phpmyadmin\/.*$'
         #- ansible-collection-services-molecule-rng:
         #    files:
         #      - '^molecule\/delegated\/.*$'
@@ -519,12 +538,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/rsyslog\/.*$'
         #      - '^roles\/rsyslog\/.*$'
-        - ansible-collection-services-molecule-scaphandre:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/scaphandre\/.*$'
-              - '^roles\/scaphandre\/.*$'
+        #- ansible-collection-services-molecule-scaphandre:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/scaphandre\/.*$'
+        #      - '^roles\/scaphandre\/.*$'
         #- ansible-collection-services-molecule-smartd:
         #    files:
         #      - '^molecule\/delegated\/.*$'
