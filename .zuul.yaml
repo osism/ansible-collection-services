@@ -126,6 +126,13 @@
       ansible_molecule_ansible_version: "8.5.0"
 
 - job:
+    name: ansible-collection-services-molecule-openstackclient
+    parent: ansible-molecule
+    vars:
+      ansible_role: openstackclient
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-netdata
     parent: ansible-molecule
     vars:
@@ -322,6 +329,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/openstack_health_monitor\/.*$'
         #       - '^roles\/openstack_health_monitor\/.*$'
+        - ansible-collection-services-molecule-openstackclient:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/openstackclient\/.*$'
+               - '^roles\/openstackclient\/.*$'
         #- ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -334,12 +347,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/osquery\/.*$'
         #       - '^roles\/osquery\/.*$'
-        - ansible-collection-services-molecule-phpmyadmin:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/phpmyadmin\/.*$'
-              - '^roles\/phpmyadmin\/.*$'
+        #- ansible-collection-services-molecule-phpmyadmin:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/phpmyadmin\/.*$'
+        #      - '^roles\/phpmyadmin\/.*$'
         #- ansible-collection-services-molecule-rng:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -508,6 +521,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/openstack_health_monitor\/.*$'
         #      - '^roles\/openstack_health_monitor\/.*$'
+        - ansible-collection-services-molecule-openstackclient:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/openstackclient\/.*$'
+              - '^roles\/openstackclient\/.*$'
         #- ansible-collection-services-molecule-netdata:
         #    files:
         #      - '^molecule\/delegated\/.*$'
@@ -520,12 +539,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/osquery\/.*$'
         #      - '^roles\/osquery\/.*$'
-        - ansible-collection-services-molecule-phpmyadmin:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/phpmyadmin\/.*$'
-              - '^roles\/phpmyadmin\/.*$'
+        #- ansible-collection-services-molecule-phpmyadmin:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/phpmyadmin\/.*$'
+        #      - '^roles\/phpmyadmin\/.*$'
         #- ansible-collection-services-molecule-rng:
         #    files:
         #      - '^molecule\/delegated\/.*$'
