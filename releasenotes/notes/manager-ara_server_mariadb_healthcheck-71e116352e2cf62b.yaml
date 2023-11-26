@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The healthcheck of the mariadb service used by the ARA service
+    is now configurable via `ara_server_mariadb_healthcheck`.

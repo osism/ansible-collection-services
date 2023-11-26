@@ -397,7 +397,7 @@ services:
     volumes:
       - "mariadb:/var/lib/mysql"
     healthcheck:
-      test: healthcheck.sh --connect --innodb_initialized
+      test: {{ ara_server_mariadb_healthcheck }}
 {% endif %}
 {% endif %}
 
