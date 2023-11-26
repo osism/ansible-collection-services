@@ -205,6 +205,9 @@ ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 ara_server_mariadb_tag: '11.2.2'
 ara_server_mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ ara_server_mariadb_tag }}"
 
+# ara_server_mariadb_healthcheck: "healthcheck.sh --connect --innodb_initialized"
+ara_server_mariadb_healthcheck: "mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"
+
 ##########################
 # celery
 
