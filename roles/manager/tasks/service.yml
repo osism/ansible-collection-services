@@ -6,11 +6,11 @@
       - subnet: "{{ traefik_external_network_cidr }}"
   when: ara_server_traefik|bool
 
-- name: Set mariadb healthcheck for mariadb <= 10.0.0
+- name: Set mariadb healthcheck for mariadb < 11.0.0
   ansible.builtin.set_fact:
     ara_server_mariadb_healthcheck: "mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"
   when:
-    - "ara_server_mariadb_tag is version('10.0.0', '<=')"
+    - "ara_server_mariadb_tag is version('11.0.0', '<')"
 
 - name: Set mariadb healthcheck for mariadb >= 11.0.0
   ansible.builtin.set_fact:
