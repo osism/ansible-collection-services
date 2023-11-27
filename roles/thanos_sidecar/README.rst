@@ -24,7 +24,7 @@ Group from the user which will own the configuration directory.
 Set this to the MTU for your outside connection.
 
 .. zuul:rolevar:: docker_registry_thanos_sidecar
-   :default: quay.io/thanos
+   :default: quay.io
 
 The registry for the Thanos sidecar container image.
 
@@ -88,6 +88,6 @@ Port where Thanos sidecar HTTP endpoint will be reachable from outside.
 Version from the Thanos sidecar which should be installed.
 
 .. zuul:rolevar:: thanos_sidecar_image
-   :default: {{ docker_registry_thanos_sidecar }}/thanos:{{ thanos_sidecar_tag }}
+   :default: {{ docker_registry_thanos_sidecar }}/thanos/thanos:{{ thanos_sidecar_tag }}
 
 The container image to use.

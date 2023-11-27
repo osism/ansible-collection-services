@@ -10,7 +10,7 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_thanos_sidecar: quay.io/thanos
+docker_registry_thanos_sidecar: quay.io
 
 ##########################
 # thanos_sidecar
@@ -29,13 +29,6 @@ thanos_sidecar_host: 127.0.0.1
 thanos_sidecar_grpc_port: 10901
 thanos_sidecar_http_port: 10902
 
+# renovate: datasource=docker depName=quay.io/thanos/thanos
 thanos_sidecar_tag: 'v0.32.5'
-thanos_sidecar_image: "{{ docker_registry_thanos_sidecar }}/thanos:{{ thanos_sidecar_tag }}"
-
-##########################
-# traefik
-
-thanos_sidecar_traefik: false
-
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+thanos_sidecar_image: "{{ docker_registry_thanos_sidecar }}/thanos/thanos:{{ thanos_sidecar_tag }}"
