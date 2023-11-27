@@ -140,6 +140,13 @@
       ansible_molecule_ansible_version: "8.7.0"
 
 - job:
+    name: ansible-collection-services-molecule-nexus
+    parent: ansible-molecule
+    vars:
+      ansible_role: nexus
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-osquery
     parent: ansible-molecule
     vars:
@@ -329,18 +336,24 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/openstack_health_monitor\/.*$'
         #       - '^roles\/openstack_health_monitor\/.*$'
-        - ansible-collection-services-molecule-openstackclient:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/openstackclient\/.*$'
-               - '^roles\/openstackclient\/.*$'
+        #- ansible-collection-services-molecule-openstackclient:
+        #     files:
+        #       - '^molecule\/delegated\/.*$'
+        #       - '^molecule\/requirements\.txt$'
+        #       - '^molecule\/openstackclient\/.*$'
+        #       - '^roles\/openstackclient\/.*$'
         #- ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/netdata\/.*$'
         #       - '^roles\/netdata\/.*$'
+        - ansible-collection-services-molecule-nexus:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/nexus\/.*$'
+              - '^roles\/nexus\/.*$'
         #- ansible-collection-services-molecule-osquery:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -521,18 +534,24 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/openstack_health_monitor\/.*$'
         #      - '^roles\/openstack_health_monitor\/.*$'
-        - ansible-collection-services-molecule-openstackclient:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/openstackclient\/.*$'
-              - '^roles\/openstackclient\/.*$'
+        #- ansible-collection-services-molecule-openstackclient:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/openstackclient\/.*$'
+        #      - '^roles\/openstackclient\/.*$'
         #- ansible-collection-services-molecule-netdata:
         #    files:
         #      - '^molecule\/delegated\/.*$'
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/netdata\/.*$'
         #      - '^roles\/netdata\/.*$'
+        - ansible-collection-services-molecule-nexus:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/nexus\/.*$'
+              - '^roles\/nexus\/.*$'
         #- ansible-collection-services-molecule-osquery:
         #    files:
         #      - '^molecule\/delegated\/.*$'

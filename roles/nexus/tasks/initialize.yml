@@ -1,13 +1,13 @@
 ---
-# NOTE: The file does not exist directly. Accordingly, the task fails at first.
 - name: Get setup admin password
+  become: true
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: cat /nexus-data/admin.password
   register: result
+  until: not result.failed
   retries: 10
   delay: 20
-  until: result.rc == 0
   no_log: true
 
 - name: Set setup admin password
@@ -16,6 +16,7 @@
   no_log: true
 
 - name: Provision scripts included in the container image
+  become: true
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: "/bin/bash -c 'NEXUS_PASSWORD={{ result.stdout }} /scripts/provision.sh /scripts/{{ item }}'"
@@ -38,11 +39,13 @@
   no_log: true
 
 - name: Allow anonymous access
+  become: true
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/enable-anonymous.sh'"
 
 - name: Cleanup default repositories
+  become: true
   community.docker.docker_container_exec:
     container: "{{ nexus_container_name }}"
     command: "/bin/bash -c 'NEXUS_PASSWORD={{ nexus_admin_password }} /scripts/run.sh cleanup'"
