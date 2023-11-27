@@ -2,4 +2,5 @@
 features:
   - |
     The healthcheck of the mariadb service used by the ARA service
-    is now configurable via `ara_server_mariadb_healthcheck`.
+    is now set via `ara_server_mariadb_healthcheck` dependent on the
+    version of the mariadb image.
