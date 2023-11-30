@@ -12,7 +12,6 @@ def test_pkg(host):
 
 
 def test_conffile(host):
-
     with host.sudo("bird"):
         f = host.file("/etc/bird/bird.conf")
         assert f.exists

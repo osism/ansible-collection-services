@@ -4,8 +4,10 @@ testinfra_runner, testinfra_hosts = get_ansible()
 
 
 def test_dirs(host):
-    directories = [get_variable(host, "dnsdist_docker_compose_directory"),
-                   get_variable(host, "dnsdist_configuration_directory")]
+    directories = [
+        get_variable(host, "dnsdist_docker_compose_directory"),
+        get_variable(host, "dnsdist_configuration_directory"),
+    ]
 
     for d in directories:
         f = host.file(d)
@@ -17,7 +19,9 @@ def test_dirs(host):
 
 
 def test_configfile(host):
-    f = host.file(f"{get_variable(host, 'dnsdist_configuration_directory')}/dnsdist.conf")
+    f = host.file(
+        f"{get_variable(host, 'dnsdist_configuration_directory')}/dnsdist.conf"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o644
@@ -27,7 +31,9 @@ def test_configfile(host):
 
 
 def test_dockercompose(host):
-    f = host.file(f"{get_variable(host, 'dnsdist_docker_compose_directory')}/docker-compose.yml")
+    f = host.file(
+        f"{get_variable(host, 'dnsdist_docker_compose_directory')}/docker-compose.yml"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640

@@ -19,7 +19,7 @@ import docker
 
 from ansible.module_utils.basic import AnsibleModule
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: kolla_container_facts
 short_description: Module for collecting Docker container facts
@@ -39,9 +39,9 @@ options:
     required: False
     type: str or list
 author: Jeffrey Zhang
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - hosts: all
   tasks:
     - name: Gather docker facts
@@ -52,7 +52,7 @@ EXAMPLES = '''
         name:
           - glance_api
           - glance_registry
-'''
+"""
 
 
 def get_docker_client():
@@ -61,25 +61,25 @@ def get_docker_client():
 
 def main():
     argument_spec = dict(
-        name=dict(required=False, type='list', default=[]),
-        api_version=dict(required=False, type='str', default='auto')
+        name=dict(required=False, type="list", default=[]),
+        api_version=dict(required=False, type="str", default="auto"),
     )
 
     module = AnsibleModule(argument_spec=argument_spec)
 
     results = dict(changed=False, _containers=[])
-    client = get_docker_client()(version=module.params.get('api_version'))
+    client = get_docker_client()(version=module.params.get("api_version"))
     containers = client.containers()
-    names = module.params.get('name')
+    names = module.params.get("name")
     if names and not isinstance(names, list):
         names = [names]
     for container in containers:
-        for container_name in container['Names']:
+        for container_name in container["Names"]:
             # remove '/' prefix character
             container_name = container_name[1:]
             if names and container_name not in names:
                 continue
-            results['_containers'].append(container)
+            results["_containers"].append(container)
             results[container_name] = container
     module.exit_json(**results)
 

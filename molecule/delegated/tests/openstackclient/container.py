@@ -15,7 +15,7 @@ def test_openstackclient_directories(host):
     directories = [
         get_variable(host, "openstackclient_configuration_directory"),
         get_variable(host, "openstackclient_data_directory"),
-        get_variable(host, "openstackclient_docker_compose_directory")
+        get_variable(host, "openstackclient_docker_compose_directory"),
     ]
     for directory in directories:
         dir = host.file(directory)

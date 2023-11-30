@@ -15,12 +15,8 @@ def test_scaphandre_directories_created(host):
         dir = host.file(directory)
         assert dir.exists, f"Directory {directory} should exist"
         assert dir.is_directory, f"{directory} should be a directory"
-        assert (
-            dir.user == operator_user
-        )
-        assert (
-            dir.group == operator_group
-        )
+        assert dir.user == operator_user
+        assert dir.group == operator_group
         assert dir.mode == 0o750, f"Directory {directory} should have 0750 permissions"
 
 

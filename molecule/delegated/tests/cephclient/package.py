@@ -13,12 +13,16 @@ def check_cephclient_install_type(host):
 def test_gpg_key(host):
     check_cephclient_install_type(host)
 
-    cephclient_configure_repository = get_variable(host, "cephclient_configure_repository")
+    cephclient_configure_repository = get_variable(
+        host, "cephclient_configure_repository"
+    )
 
     if not cephclient_configure_repository:
         pytest.skip("cephclient_configure_repository not configured")
 
-    cephclient_repository_key_url = get_variable(host, "cephclient_debian_repository_key")
+    cephclient_repository_key_url = get_variable(
+        host, "cephclient_debian_repository_key"
+    )
 
     # Fetch the GPG key content from the URL
     key_content = get_from_url(cephclient_repository_key_url)

@@ -6,7 +6,9 @@ testinfra_runner, testinfra_hosts = get_ansible()
 def test_lldpd_package_installed(host):
     lldpd_package_name = get_variable(host, "lldpd_package_name")
     lldpd_package = host.package(lldpd_package_name)
-    assert lldpd_package.is_installed, f"Package {lldpd_package_name} should be installed"
+    assert (
+        lldpd_package.is_installed
+    ), f"Package {lldpd_package_name} should be installed"
 
 
 def test_lldpd_service_running_and_enabled(host):

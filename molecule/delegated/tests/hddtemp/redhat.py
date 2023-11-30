@@ -29,7 +29,10 @@ def test_configfile(host):
     assert f.user == "root"
     assert f.group == "root"
     assert f.mode == 0o644
-    assert "--listen 127.0.0.1 --daemon --port 7634 --syslog=1 /dev/sd[a-z] /dev/sd[a-z][a-z]" in f.content_string
+    assert (
+        "--listen 127.0.0.1 --daemon --port 7634 --syslog=1 /dev/sd[a-z] /dev/sd[a-z][a-z]"
+        in f.content_string
+    )
 
 
 def test_srv(host):

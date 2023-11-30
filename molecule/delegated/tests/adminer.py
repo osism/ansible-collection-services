@@ -25,7 +25,7 @@ def test_file(host):
     assert f.mode == 0o640
 
     adminer_database_host = get_variable(host, "adminer_database_host")
-    assert f"ADMINER_DEFAULT_SERVER: \"{adminer_database_host}\"" in f.content_string
+    assert f'ADMINER_DEFAULT_SERVER: "{adminer_database_host}"' in f.content_string
 
 
 def test_srv(host):

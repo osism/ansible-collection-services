@@ -24,7 +24,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 from ast import literal_eval
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: kolla_toolbox
 short_description: >
@@ -66,9 +66,9 @@ options:
     type: int
     default: 180
 author: Jeffrey Zhang
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - hosts: controller
   tasks:
     - name: Ensure the direct absent
@@ -96,34 +96,40 @@ EXAMPLES = '''
             password: password
             project_name: "admin"
             domain_name: "default"
-'''
+"""
 
 
-JSON_REG = re.compile(r'^(?P<host>\w+) \| (?P<status>\w+)!? =>(?P<stdout>.*)$',
-                      re.MULTILINE | re.DOTALL)
-NON_JSON_REG = re.compile((r'^(?P<host>\w+) \| (?P<status>\w+)!? \| '
-                           r'rc=(?P<exit_code>\d+) >>\n(?P<stdout>.*)\n$'),
-                          re.MULTILINE | re.DOTALL)
+JSON_REG = re.compile(
+    r"^(?P<host>\w+) \| (?P<status>\w+)!? =>(?P<stdout>.*)$", re.MULTILINE | re.DOTALL
+)
+NON_JSON_REG = re.compile(
+    (
+        r"^(?P<host>\w+) \| (?P<status>\w+)!? \| "
+        r"rc=(?P<exit_code>\d+) >>\n(?P<stdout>.*)\n$"
+    ),
+    re.MULTILINE | re.DOTALL,
+)
 
 
 def gen_commandline(params):
-    command = ['ansible', 'localhost']
-    if params.get('module_name'):
-        command.extend(['-m', params.get('module_name')])
-    if params.get('module_args'):
-        if StrictVersion(ansible_version) < StrictVersion('2.11.0'):
-            module_args = params.get('module_args')
+    command = ["ansible", "localhost"]
+    if params.get("module_name"):
+        command.extend(["-m", params.get("module_name")])
+    if params.get("module_args"):
+        if StrictVersion(ansible_version) < StrictVersion("2.11.0"):
+            module_args = params.get("module_args")
         else:
-            module_args = literal_eval(params.get('module_args'))
+            module_args = literal_eval(params.get("module_args"))
         if isinstance(module_args, dict):
-            module_args = ' '.join("{}='{}'".format(key, value)
-                                   for key, value in module_args.items())
-        command.extend(['-a', module_args])
-    if params.get('module_extra_vars'):
-        extra_vars = params.get('module_extra_vars')
+            module_args = " ".join(
+                "{}='{}'".format(key, value) for key, value in module_args.items()
+            )
+        command.extend(["-a", module_args])
+    if params.get("module_extra_vars"):
+        extra_vars = params.get("module_extra_vars")
         if isinstance(extra_vars, dict):
             extra_vars = json.dumps(extra_vars)
-        command.extend(['--extra-vars', extra_vars])
+        command.extend(["--extra-vars", extra_vars])
     return command
 
 
@@ -133,32 +139,33 @@ def get_docker_client():
 
 def docker_supports_environment_in_exec(client):
     docker_version = StrictVersion(client.api_version)
-    return docker_version >= StrictVersion('1.25')
+    return docker_version >= StrictVersion("1.25")
 
 
 def main():
     specs = dict(
-        module_name=dict(required=True, type='str'),
-        module_args=dict(type='str'),
-        module_extra_vars=dict(type='json'),
-        api_version=dict(required=False, type='str', default='auto'),
-        timeout=dict(required=False, type='int', default=180),
-        user=dict(required=False, type='str'),
+        module_name=dict(required=True, type="str"),
+        module_args=dict(type="str"),
+        module_extra_vars=dict(type="json"),
+        api_version=dict(required=False, type="str", default="auto"),
+        timeout=dict(required=False, type="int", default=180),
+        user=dict(required=False, type="str"),
     )
     module = AnsibleModule(argument_spec=specs, bypass_checks=True)
     client = get_docker_client()(
-        version=module.params.get('api_version'),
-        timeout=module.params.get('timeout'))
+        version=module.params.get("api_version"), timeout=module.params.get("timeout")
+    )
     command_line = gen_commandline(module.params)
-    kolla_toolbox = client.containers(filters=dict(name='kolla_toolbox',
-                                                   status='running'))
+    kolla_toolbox = client.containers(
+        filters=dict(name="kolla_toolbox", status="running")
+    )
     if not kolla_toolbox:
-        module.fail_json(msg='kolla_toolbox container is not running.')
+        module.fail_json(msg="kolla_toolbox container is not running.")
 
     kolla_toolbox = kolla_toolbox[0]
     kwargs = {}
-    if 'user' in module.params:
-        kwargs['user'] = module.params['user']
+    if "user" in module.params:
+        kwargs["user"] = module.params["user"]
 
     # NOTE(mgoddard): Docker 1.12 has API version 1.24, and was installed by
     # kolla-ansible bootstrap-servers on Rocky and earlier releases. This API
@@ -170,17 +177,21 @@ def main():
     # Docker API version 1.25+.
     if docker_supports_environment_in_exec(client):
         # Use the JSON output formatter, so that we can parse it.
-        environment = {"ANSIBLE_STDOUT_CALLBACK": "json",
-                       "ANSIBLE_LOAD_CALLBACK_PLUGINS": "True"}
-        job = client.exec_create(kolla_toolbox, command_line,
-                                 environment=environment, **kwargs)
+        environment = {
+            "ANSIBLE_STDOUT_CALLBACK": "json",
+            "ANSIBLE_LOAD_CALLBACK_PLUGINS": "True",
+        }
+        job = client.exec_create(
+            kolla_toolbox, command_line, environment=environment, **kwargs
+        )
         json_output = client.exec_start(job)
 
         try:
             output = json.loads(json_output)
         except Exception:
             module.fail_json(
-                msg='Can not parse the inner module output: %s' % json_output)
+                msg="Can not parse the inner module output: %s" % json_output
+            )
 
         # Expected format is the following:
         # {
@@ -199,13 +210,14 @@ def main():
         #   ]
         # }
         try:
-            ret = output['plays'][0]['tasks'][0]['hosts']['localhost']
+            ret = output["plays"][0]["tasks"][0]["hosts"]["localhost"]
         except (KeyError, IndexError):
             module.fail_json(
-                msg='Ansible JSON output has unexpected format: %s' % output)
+                msg="Ansible JSON output has unexpected format: %s" % output
+            )
 
         # Remove Ansible's internal variables from returned fields.
-        ret.pop('_ansible_no_log', None)
+        ret.pop("_ansible_no_log", None)
     else:
         job = client.exec_create(kolla_toolbox, command_line, **kwargs)
         output = client.exec_start(job)
@@ -213,12 +225,11 @@ def main():
         for exp in [JSON_REG, NON_JSON_REG]:
             m = exp.match(output)
             if m:
-                inner_output = m.groupdict().get('stdout')
-                status = m.groupdict().get('status')
+                inner_output = m.groupdict().get("stdout")
+                status = m.groupdict().get("status")
                 break
         else:
-            module.fail_json(
-                msg='Can not parse the inner module output: %s' % output)
+            module.fail_json(msg="Can not parse the inner module output: %s" % output)
 
         ret = dict()
         try:
@@ -226,12 +237,12 @@ def main():
         except ValueError:
             # Some modules (e.g. command) do not produce a JSON output.
             # Instead, check the status, and assume changed on success.
-            ret['stdout'] = inner_output
+            ret["stdout"] = inner_output
             if status != "SUCCESS":
-                ret['failed'] = True
+                ret["failed"] = True
             else:
                 # No way to know whether changed - assume yes.
-                ret['changed'] = True
+                ret["changed"] = True
 
     module.exit_json(**ret)
 

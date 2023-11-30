@@ -87,7 +87,10 @@ def test_nexus_urls(host):
 
     if nexus_traefik == "true":
         # testing nexus https url
-        nexus_url = f"https://{nexus_traefik_host}:{traefik_port_https}/{nexus_traefik_path_prefix}/service/rest/v1/status"
+        nexus_url = (
+            f"https://{nexus_traefik_host}:{traefik_port_https}/{nexus_traefik_path_prefix}"
+            f"/service/rest/v1/status"
+        )
         response = host.run(f"{get_http_code} {nexus_url}")
         assert response.stdout == 200
 

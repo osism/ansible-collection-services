@@ -18,8 +18,10 @@ def test_dockernetwork(host):
 
 
 def test_dirs(host):
-    directories = [get_variable(host, "homer_docker_compose_directory"),
-                   get_variable(host, "homer_configuration_directory")]
+    directories = [
+        get_variable(host, "homer_docker_compose_directory"),
+        get_variable(host, "homer_configuration_directory"),
+    ]
 
     for d in directories:
         f = host.file(d)
@@ -41,7 +43,9 @@ def test_configfile(host):
 
 
 def test_dockercompose(host):
-    f = host.file(f"{get_variable(host, 'homer_docker_compose_directory')}/docker-compose.yml")
+    f = host.file(
+        f"{get_variable(host, 'homer_docker_compose_directory')}/docker-compose.yml"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640

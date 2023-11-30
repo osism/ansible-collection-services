@@ -8,6 +8,7 @@ def check_openstackclient_install_type(host):
     if get_variable(host, "openstackclient_install_type") != "package":
         pytest.skip("openstackclient_install_type mismatch")
 
+
 def test_repository_key_installed(host):
     check_openstackclient_install_type(host)
 

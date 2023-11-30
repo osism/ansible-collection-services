@@ -1,4 +1,10 @@
-from .util.util import get_ansible, get_variable, get_os_role_variable, jinja_replacement, jinja_list_concat
+from .util.util import (
+    get_ansible,
+    get_variable,
+    get_os_role_variable,
+    jinja_replacement,
+    jinja_list_concat,
+)
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -25,15 +31,22 @@ def test_conffile(host):
     with host.sudo("root"):
         actual_content = host.check_output("cat /etc/audit/audit.conf")
         assert actual_content.strip() != ""
-        assert "This file controls the configuration of the audit daemon" in actual_content
+        assert (
+            "This file controls the configuration of the audit daemon" in actual_content
+        )
 
 
 def test_adjustment(host):
     auditd_config = get_variable(host, "auditd_config")
 
     auditd_plugin_path = get_variable(host, "auditd_plugin_path")
-    if host.system_info.distribution.lower() == "ubuntu" and host.system_info.codename.lower() == "jammy":
-        auditd_plugin_path = get_os_role_variable(host, "auditd_plugin_path", "jammy.yml")
+    if (
+        host.system_info.distribution.lower() == "ubuntu"
+        and host.system_info.codename.lower() == "jammy"
+    ):
+        auditd_plugin_path = get_os_role_variable(
+            host, "auditd_plugin_path", "jammy.yml"
+        )
 
     for config in auditd_config:
         parameter = config["parameter"]
@@ -51,7 +64,9 @@ def test_rulefiles(host):
     auditd_rules_files_defaults = get_variable(host, "auditd_rules_files_defaults")
     auditd_rules_files_extra = get_variable(host, "auditd_rules_files_extra")
 
-    auditd_rules_files = jinja_list_concat(auditd_rules_files, [auditd_rules_files_defaults, auditd_rules_files_extra])
+    auditd_rules_files = jinja_list_concat(
+        auditd_rules_files, [auditd_rules_files_defaults, auditd_rules_files_extra]
+    )
 
     auditd_rules_path = get_variable(host, "auditd_rules_path")
 
@@ -73,7 +88,8 @@ def test_rulefiles(host):
     managed_difference = file_set - managed_files
 
     assert len(managed_difference) == 0 or (
-        len(managed_difference) == 1 and "osas-auditd-rhel7.rules" in managed_difference)
+        len(managed_difference) == 1 and "osas-auditd-rhel7.rules" in managed_difference
+    )
 
 
 def test_srv(host):

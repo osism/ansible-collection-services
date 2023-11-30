@@ -6,8 +6,10 @@ testinfra_runner, testinfra_hosts = get_ansible()
 
 
 def test_dirs(host):
-    directories = [get_variable(host, "cgit_docker_compose_directory"),
-                   get_variable(host, "cgit_configuration_directory")]
+    directories = [
+        get_variable(host, "cgit_docker_compose_directory"),
+        get_variable(host, "cgit_configuration_directory"),
+    ]
 
     for d in directories:
         f = host.file(d)
@@ -27,7 +29,9 @@ def test_configfile(host):
     assert f.group == get_variable(host, "operator_group")
     assert "cache-scanrc-ttl=1" in f.content_string
 
-    f = host.file(f"{get_variable(host, 'cgit_configuration_directory')}/httpd-cgit.conf")
+    f = host.file(
+        f"{get_variable(host, 'cgit_configuration_directory')}/httpd-cgit.conf"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o644
@@ -49,7 +53,9 @@ def test_dockernetwork(host):
 
 
 def test_dockercompose(host):
-    f = host.file(f"{get_variable(host, 'cgit_docker_compose_directory')}/docker-compose.yml")
+    f = host.file(
+        f"{get_variable(host, 'cgit_docker_compose_directory')}/docker-compose.yml"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
@@ -59,7 +65,9 @@ def test_dockercompose(host):
     cgit_image = get_variable(host, "cgit_image")
     docker_registry_cgit = get_variable(host, "docker_registry_cgit")
     cgit_tag = get_variable(host, "cgit_tag")
-    cgit_image = jinja_replacement(cgit_image, {"docker_registry_cgit": docker_registry_cgit, "cgit_tag": cgit_tag})
+    cgit_image = jinja_replacement(
+        cgit_image, {"docker_registry_cgit": docker_registry_cgit, "cgit_tag": cgit_tag}
+    )
 
     with host.sudo(get_variable(host, "operator_user")):
         assert f'image: "{cgit_image}' in f.content_string

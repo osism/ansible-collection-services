@@ -5,8 +5,9 @@ import testinfra.utils.ansible_runner
 
 def get_ansible():
     testinfra_runner = testinfra.utils.ansible_runner.AnsibleRunner(
-        os.environ['MOLECULE_INVENTORY_FILE'])
-    testinfra_hosts = testinfra_runner.get_hosts('all')
+        os.environ["MOLECULE_INVENTORY_FILE"]
+    )
+    testinfra_hosts = testinfra_runner.get_hosts("all")
 
     return testinfra_runner, testinfra_hosts
 
@@ -32,11 +33,15 @@ def get_variable(host, name, fact=False):
 
     role_name = os.environ["ROLE_NAME"]
 
-    test_vars = host.ansible("include_vars", f"../../molecule/delegated/vars/{role_name}.yml")["ansible_facts"]
+    test_vars = host.ansible(
+        "include_vars", f"../../molecule/delegated/vars/{role_name}.yml"
+    )["ansible_facts"]
     if name in test_vars:
         return test_vars[name]
 
-    default_vars = host.ansible("include_vars", f"../../roles/{role_name}/defaults/main.yml")["ansible_facts"]
+    default_vars = host.ansible(
+        "include_vars", f"../../roles/{role_name}/defaults/main.yml"
+    )["ansible_facts"]
     if name in default_vars:
         return default_vars[name]
 

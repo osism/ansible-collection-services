@@ -29,8 +29,12 @@ def test_rsyslog_configuration_files(host):
         assert rsyslog_conf_file.exists, "rsyslog.conf should exist"
         assert rsyslog_conf_file.is_file, "rsyslog.conf should be a file"
         assert rsyslog_conf_file.user == "root", "rsyslog.conf should be owned by root"
-        assert rsyslog_conf_file.group == "root", "rsyslog.conf should be in the root group"
-        assert rsyslog_conf_file.mode == 0o644, "rsyslog.conf should have 0644 permissions"
+        assert (
+            rsyslog_conf_file.group == "root"
+        ), "rsyslog.conf should be in the root group"
+        assert (
+            rsyslog_conf_file.mode == 0o644
+        ), "rsyslog.conf should have 0644 permissions"
 
         # Check Fluentd and additional log server configurations if enabled
         rsyslog_fluentd = get_variable(host, "rsyslog_fluentd")

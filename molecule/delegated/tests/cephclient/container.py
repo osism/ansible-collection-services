@@ -13,9 +13,11 @@ def check_cephclient_install_type(host):
 def test_dirs(host):
     check_cephclient_install_type(host)
 
-    directories = [get_variable(host, "cephclient_configuration_directory"),
-                   get_variable(host, "cephclient_data_directory"),
-                   get_variable(host, "cephclient_docker_compose_directory")]
+    directories = [
+        get_variable(host, "cephclient_configuration_directory"),
+        get_variable(host, "cephclient_data_directory"),
+        get_variable(host, "cephclient_docker_compose_directory"),
+    ]
 
     for d in directories:
         f = host.file(d)
@@ -29,7 +31,9 @@ def test_dirs(host):
 def test_configfile(host):
     check_cephclient_install_type(host)
 
-    f = host.file(f"{get_variable(host, 'cephclient_configuration_directory')}/ceph.conf")
+    f = host.file(
+        f"{get_variable(host, 'cephclient_configuration_directory')}/ceph.conf"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
@@ -45,7 +49,9 @@ def test_keyringfile(host):
 
     cephclient_keyring_name = get_variable(host, "cephclient_keyring_name")
 
-    f = host.file(f"{get_variable(host, 'cephclient_configuration_directory')}/ceph.{cephclient_keyring_name}.keyring")
+    f = host.file(
+        f"{get_variable(host, 'cephclient_configuration_directory')}/ceph.{cephclient_keyring_name}.keyring"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
@@ -60,7 +66,9 @@ def test_keyringfile(host):
 def test_dockercompose(host):
     check_cephclient_install_type(host)
 
-    f = host.file(f"{get_variable(host, 'cephclient_docker_compose_directory')}/docker-compose.yml")
+    f = host.file(
+        f"{get_variable(host, 'cephclient_docker_compose_directory')}/docker-compose.yml"
+    )
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
