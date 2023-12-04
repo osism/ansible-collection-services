@@ -296,6 +296,13 @@
     files:
       - '^roles\/wireguard\/.*$'
 
+- job:
+    name: ansible-collection-services-molecule-zuul
+    parent: ansible-molecule
+    vars:
+      ansible_role: zuul
+      ansible_molecule_ansible_version: "8.5.0"
+
 - project:
     merge-mode: squash-merge
     default-branch: main
