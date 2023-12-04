@@ -133,6 +133,13 @@
       ansible_molecule_ansible_version: "8.5.0"
 
 - job:
+    name: ansible-collection-services-molecule-netbox
+    parent: ansible-molecule
+    vars:
+      ansible_role: netbox
+      ansible_molecule_ansible_version: "8.5.0"
+
+- job:
     name: ansible-collection-services-molecule-netdata
     parent: ansible-molecule
     vars:
@@ -342,6 +349,12 @@
         #       - '^molecule\/requirements\.txt$'
         #       - '^molecule\/openstackclient\/.*$'
         #       - '^roles\/openstackclient\/.*$'
+        - ansible-collection-services-molecule-netbox:
+             files:
+               - '^molecule\/delegated\/.*$'
+               - '^molecule\/requirements\.txt$'
+               - '^molecule\/netbox\/.*$'
+               - '^roles\/netbox\/.*$'
         #- ansible-collection-services-molecule-netdata:
         #     files:
         #       - '^molecule\/delegated\/.*$'
@@ -420,6 +433,12 @@
         #     - '^molecule\/requirements\.txt$'
         #     - '^molecule\/wireguard\/.*$'
         #     - '^roles\/wireguard\/.*$'
+        #- ansible-collection-services-molecule-zuul:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/zuul\/.*$'
+        #      - '^roles\/zuul\/.*$'
         - ansible-lint
         - flake8
         - python-black
@@ -534,6 +553,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/openstack_health_monitor\/.*$'
         #      - '^roles\/openstack_health_monitor\/.*$'
+        - ansible-collection-services-molecule-netbox:
+            files:
+              - '^molecule\/delegated\/.*$'
+              - '^molecule\/requirements\.txt$'
+              - '^molecule\/netbox\/.*$'
+              - '^roles\/netbox\/.*$'
         #- ansible-collection-services-molecule-openstackclient:
         #    files:
         #      - '^molecule\/delegated\/.*$'
@@ -618,6 +643,12 @@
         #      - '^molecule\/requirements\.txt$'
         #      - '^molecule\/wireguard\/.*$'
         #      - '^roles\/wireguard\/.*$'
+        #- ansible-collection-services-molecule-zuul:
+        #    files:
+        #      - '^molecule\/delegated\/.*$'
+        #      - '^molecule\/requirements\.txt$'
+        #      - '^molecule\/zuul\/.*$'
+        #      - '^roles\/zuul\/.*$'
         - ansible-lint
         - flake8
         - python-black
