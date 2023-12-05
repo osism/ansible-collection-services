@@ -8,7 +8,9 @@ def test_apt_transport_https_package_installed(host):
     osquery_configure_repository = get_variable(host, "osquery_configure_repository")
     if osquery_configure_repository:
         apt_transport_https_package = host.package("apt-transport-https")
-        assert apt_transport_https_package.is_installed, "apt-transport-https package should be installed"
+        assert (
+            apt_transport_https_package.is_installed
+        ), "apt-transport-https package should be installed"
 
 
 def test_osquery_gpgkey(host):
@@ -33,11 +35,17 @@ def test_osquery_gpgkey(host):
 def test_osquery_package_installed(host):
     osquery_package_name = get_variable(host, "osquery_package_name")
     osquery_package = host.package(osquery_package_name)
-    assert osquery_package.is_installed, f"Package {osquery_package_name} should be installed"
+    assert (
+        osquery_package.is_installed
+    ), f"Package {osquery_package_name} should be installed"
 
 
 def test_osquery_service_running_and_enabled(host):
     osquery_service_name = get_variable(host, "osquery_service_name")
     osquery_service = host.service(osquery_service_name)
-    assert osquery_service.is_running, f"Service {osquery_service_name} should be running"
-    assert osquery_service.is_enabled, f"Service {osquery_service_name} should be enabled"
+    assert (
+        osquery_service.is_running
+    ), f"Service {osquery_service_name} should be running"
+    assert (
+        osquery_service.is_enabled
+    ), f"Service {osquery_service_name} should be enabled"

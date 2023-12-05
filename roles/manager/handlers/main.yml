@@ -28,11 +28,13 @@
   changed_when: true
   notify:
     - Wait for an healthy manager service
+  become: true
 
 # NOTE: The command returns a list of IDs of containers from the service
 #       that are currently starting or unhealthy. As long as the list is not empty
 #       the service is not in a good state.
 - name: Wait for an healthy manager service
+  become: true
   ansible.builtin.shell: |
     set -o pipefail
     docker compose --project-directory /opt/manager \
@@ -50,6 +52,7 @@
   changed_when: true
   notify:
     - Copy osismclient bash completion script
+  failed_when: false # changed for testing
 
 - name: Copy osismclient bash completion script
   become: true

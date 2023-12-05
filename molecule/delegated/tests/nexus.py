@@ -59,7 +59,7 @@ def test_dockercompose(host):
     nexus_container_name = get_variable(host, "nexus_container_name")
 
     with host.sudo(get_variable(host, "operator_user")):
-        assert f'container_name: "{nexus_container_name}' in f.content_string
+        assert f'container_name: "{nexus_container_name}"' in f.content_string
 
 
 def test_nexus_service(host):

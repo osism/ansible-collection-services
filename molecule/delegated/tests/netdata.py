@@ -45,7 +45,7 @@ def test_directories_and_files(host):
     assert cloud_dir.mode == 0o775
 
     assert not opt_out_file.exists or (
-            opt_out_file.user == "root" and opt_out_file.group == "root"
+        opt_out_file.user == "root" and opt_out_file.group == "root"
     )
 
 
@@ -58,6 +58,7 @@ def test_netdata_service_running(host):
     service = host.service(get_variable(host, "netdata_service_name"))
     assert service.is_running
     assert service.is_enabled
+
 
 # Commented out as include in Role (tasks/main.yml) is missing for server.yml
 # def test_netdata_sysctl_setting(host):
