@@ -6,8 +6,14 @@
     state: restarted
   when: manager_service_restart|bool
   notify:
-    - Ensure that all containers are up
+    - Wait for manager service to start
     - Register that manager service was restarted
+
+- name: Wait for manager service to start
+  ansible.builtin.pause:
+    minutes: 1
+  notify:
+    - Ensure that all containers are up
 
 # NOTE: This handler prevents a 2nd manager restart in the
 #       osism.manager.manager playbook.
