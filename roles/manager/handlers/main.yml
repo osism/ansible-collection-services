@@ -6,7 +6,7 @@
     state: restarted
   when: manager_service_restart|bool
   notify:
-    - Wait for an healthy manager service
+    - Ensure that all containers are up
     - Register that manager service was restarted
 
 # NOTE: This handler prevents a 2nd manager restart in the
@@ -14,6 +14,13 @@
 - name: Register that manager service was restarted
   ansible.builtin.set_fact:
     manager_service_restart: false
+
+- name: Ensure that all containers are up
+  ansible.builtin.command:
+    cmd: docker compose --project-directory /opt/manager up -d
+  changed_when: true
+  notify:
+    - Wait for an healthy manager service
 
 # NOTE: The command returns a list of IDs of containers from the service
 #       that are currently starting or unhealthy. As long as the list is not empty
