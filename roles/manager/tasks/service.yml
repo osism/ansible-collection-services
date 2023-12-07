@@ -36,6 +36,8 @@
         name: "{{ manager_service_name }}"
         state: started
         enabled: true
+      notify:
+        - Ensure that all containers are up
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the
