@@ -37,7 +37,7 @@
         state: started
         enabled: true
       notify:
-        - Ensure that all containers are up
+        - Wait for manager service to start
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the
@@ -51,6 +51,8 @@
     - name: Do a manual start of the manager service
       ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ manager_docker_compose_directory }} up -d --remove-orphans"
       changed_when: true
+      notify:
+        - Wait for manager service to start
 
     # This does not change anything on the service side, but the unit is
     # then in the expected state.
