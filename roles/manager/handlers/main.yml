@@ -12,6 +12,7 @@
 - name: Wait for manager service to start
   ansible.builtin.pause:
     minutes: 1
+  changed_when: true
   notify:
     - Ensure that all containers are up
 
