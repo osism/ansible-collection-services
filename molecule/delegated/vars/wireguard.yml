@@ -1,4 +1,6 @@
 ---
 operator_user: runner
 operator_group: docker
-wireguard_users: ["zuul"]
+wireguard_users:
+  - name: zuul
+    ip: "127.0.0.1"
