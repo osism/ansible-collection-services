@@ -39,8 +39,8 @@ def test_configuration_files(host):
         assert file.uid == 200
         assert file.gid == 200
         assert file.mode == 0o644
-        assert (
-            "nexus.scripts.allowCreation=true" or "NEXUS_PATH=" in file.content_string
+        assert ("nexus.scripts.allowCreation=true" in file.content_string) or (
+            "NEXUS_PATH=" in file.content_string
         )
 
 
