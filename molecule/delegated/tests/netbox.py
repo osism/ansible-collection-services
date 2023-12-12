@@ -54,8 +54,8 @@ def test_postgres_config(host):
     assert entrypoint.user == get_variable(host, "operator_user")
     assert entrypoint.group == get_variable(host, "operator_group")
 
-    init_sql = host.file(f"{config_dir}/docker-entrypoint-initdb.d/init.sql.osism")
     if host.file(get_variable(host, "netbox_postgres_init_sql")).exists:
+        init_sql = host.file(f"{config_dir}/docker-entrypoint-initdb.d/init.sql.osism")
         assert init_sql.exists
         assert not init_sql.is_directory
         assert init_sql.mode == 0o644
@@ -113,14 +113,16 @@ def test_netbox_config(host):
     assert nginx_unit.group == get_variable(host, "operator_group")
     assert '  "access_log": "/dev/stdout"' in nginx_unit.content_string
 
-    initializers = get_variable(host, "netbox_initializers")
-    for init in initializers:
-        f = host.file(f"{config_dir}/initializers/{init.rstrip()}.yml")
-        assert f.exists
-        assert not f.is_directory
-        assert f.mode == 0o644
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+    netbox_init = get_variable(host, "netbox_init")
+    if netbox_init:
+        initializers = get_variable(host, "netbox_initializers")
+        for init in initializers:
+            f = host.file(f"{config_dir}/initializers/{init.rstrip()}.yml")
+            assert f.exists
+            assert not f.is_directory
+            assert f.mode == 0o644
+            assert f.user == get_variable(host, "operator_user")
+            assert f.group == get_variable(host, "operator_group")
 
     script_dir = Path(f"{config_dir}/startup-scripts/")
     startup_scripts = list(script_dir.glob("*.py"))
@@ -135,34 +137,34 @@ def test_netbox_config(host):
 
 def test_netbox_secrets(host):
     secrets_dir = get_variable(host, "netbox_secrets_directory")
-    directories = [
+    files = [
         f"{secrets_dir}/NETBOX_POSTGRES_PASSWORD",
         f"{secrets_dir}/NETBOX_SECRET_KEY",
         f"{secrets_dir}/NETBOX_TOKEN",
     ]
 
-    for d in directories:
+    for d in files:
         f = host.file(d)
-    assert f.exists
-    assert not f.is_directory
-    assert f.mode == 0o644
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
-    assert (
-        f'{get_variable(host, "netbox_postgres_password")}'
-        or f'{get_variable(host, "netbox_secret_key")}'
-        or f'{get_variable(host, "netbox_user_api_token")}' in f.content_string
-    )
+        assert f.exists
+        assert not f.is_directory
+        assert f.mode == 0o644
+        assert f.user == get_variable(host, "operator_user")
+        assert f.group == get_variable(host, "operator_group")
+        assert (
+            (f'{get_variable(host, "netbox_postgres_password")}' in f.content_string)
+            or (f'{get_variable(host, "netbox_secret_key")}' in f.content_string)
+            or (f'{get_variable(host, "netbox_user_api_token")}' in f.content_string)
+        )
 
 
 def test_dockernetwork(host):
-    netbox_traefik = get_variable(host, "traefik_external_network_name")
+    netbox_traefik = get_variable(host, "netbox_traefik")
     if not netbox_traefik:
         pytest.skip("netbox_traefik not configured")
 
     with host.sudo("root"):
         stdout = host.check_output("docker network ls")
-        assert "netbox_default" in stdout
+        assert get_variable(host, "traefik_external_network_name") in stdout
 
 
 def test_dockercompose(host):
