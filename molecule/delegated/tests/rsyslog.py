@@ -46,6 +46,12 @@ def test_rsyslog_configuration_files(host):
             assert (
                 fluentd_conf_file.mode == 0o644
             ), "70-fluentd.conf should have 0644 permissions"
+            assert (
+                fluentd_conf_file.user == "root"
+            ), "70-fluentd.conf should be owned by root"
+            assert (
+                fluentd_conf_file.group == "root"
+            ), "70-fluentd.conf should be in the root group"
 
         if rsyslog_additional_host:
             additional_log_server_conf_file = host.file(
@@ -57,3 +63,9 @@ def test_rsyslog_configuration_files(host):
             assert (
                 additional_log_server_conf_file.mode == 0o644
             ), "71-additional-log-server.conf should have 0644 permissions"
+            assert (
+                additional_log_server_conf_file.user == "root"
+            ), "71-additional-log-server.conf should be owned by root"
+            assert (
+                additional_log_server_conf_file.group == "root"
+            ), "71-additional-log-server.conf should be in the root group"
