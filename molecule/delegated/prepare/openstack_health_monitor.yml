@@ -1,0 +1,46 @@
+---
+- name: Update package cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Ensure docker
+  ansible.builtin.include_role:
+    name: docker
+  vars:
+    docker_user: zuul
+    docker_group: zuul
+
+- name: Ensure docker-compose
+  ansible.builtin.include_role:
+    name: osism.commons.docker_compose
+  vars:
+    docker_compose_service_user: zuul
+    docker_compose_service_group: zuul
+
+- name: Create openstack directory
+  become: true
+  ansible.builtin.file:
+    path: /opt/configuration/environments/openstack
+    state: directory
+    mode: 0755
+    owner: zuul
+    group: zuul
+
+- name: Create mock clouds.yml file
+  become: true
+  ansible.builtin.copy:
+    content: ---
+    dest: /opt/configuration/environments/openstack/clouds.yml
+    mode: 0640
+    owner: zuul
+    group: zuul
+
+- name: Create mock secure.yml file
+  become: true
+  ansible.builtin.copy:
+    content: ---
+    dest: /opt/configuration/environments/openstack/secure.yml
+    mode: 0640
+    owner: zuul
+    group: zuul

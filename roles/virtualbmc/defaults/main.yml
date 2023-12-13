@@ -22,6 +22,7 @@ virtualbmc_docker_compose_directory: /opt/virtualbmc
 
 virtualbmc_network: 172.31.101.128/28
 virtualbmc_service_name: "docker-compose@virtualbmc"
+nova_libvirt_container_volume: nova_libvirt_run
 
 virtualbmc_host: 127.0.0.1
 virtualbmc_port: 6230-6239

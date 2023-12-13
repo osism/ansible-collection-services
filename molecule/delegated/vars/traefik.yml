@@ -1,0 +1,7 @@
+---
+operator_user: zuul
+operator_group: zuul
+traefik_certificates:
+  dashboard:
+    cert: "-----BEGIN CERTIFICATE-----"
+    key: "-----BEGIN PRIVATE KEY-----"

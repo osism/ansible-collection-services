@@ -17,12 +17,12 @@ services:
       - "{{ nexus_host }}:{{ nexus_port + 7 }}:{{ nexus_port + 7 }}"
       - "{{ nexus_host }}:{{ nexus_port + 8 }}:{{ nexus_port + 8 }}"
       - "{{ nexus_host }}:{{ nexus_port + 9 }}:{{ nexus_port + 9 }}"
-    volumes:
-      - "/etc/hosts:/etc/hosts:ro"
     healthcheck:
       test: curl --silent --fail localhost:8081/nexus/
     volumes:
+      - "/etc/hosts:/etc/hosts:ro"
       - "data:/nexus-data"
+      - "{{ nexus_configuration_directory }}:/nexus-data/etc"
       - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
 {% if nexus_traefik|bool %}
     env_file:

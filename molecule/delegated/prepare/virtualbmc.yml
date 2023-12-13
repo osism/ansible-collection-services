@@ -1,0 +1,27 @@
+---
+- name: Update package cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Ensure docker
+  ansible.builtin.include_role:
+    name: docker
+  vars:
+    docker_user: zuul
+    docker_group: zuul
+
+- name: Ensure docker-compose
+  ansible.builtin.include_role:
+    name: osism.commons.docker_compose
+  vars:
+    docker_compose_service_user: zuul
+    docker_compose_service_group: zuul
+
+- name: Create fake nova_libvirt_volume
+  ansible.builtin.file:
+    path: /tmp/nova_libvirt_run
+    state: directory
+    owner: zuul
+    group: zuul
+    mode: 0755

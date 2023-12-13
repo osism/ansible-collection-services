@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    Added unittests for Molecule delegated scenario with testinfra (molecule/delegated/tests)

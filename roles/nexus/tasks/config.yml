@@ -11,13 +11,24 @@
     - "{{ nexus_docker_compose_directory }}"
     - "{{ nexus_configuration_directory }}"
 
+# owner and group set to 200 in Dockerfile of docker-nexus
+# permissions necessary for initialization of docker-nexus
+- name: Set UID for nexus_configuration_directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ nexus_configuration_directory }}"
+    owner: "200"
+    group: "200"
+    recurse: yes
+
 - name: Copy configuration files
+  become: true
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "{{ nexus_configuration_directory }}/{{ item }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "200"
+    group: "200"
   loop:
     - nexus.properties
     - nexus.env
