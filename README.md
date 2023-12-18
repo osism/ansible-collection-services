@@ -38,6 +38,7 @@ The following Ansible roles are included in this collection.
 | rsyslog                  | ![Test role rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rsyslog/badge.svg)       |
 | scaphandre               |                                                                                                                            |
 | smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)         |
+| thanos_sidecar           |                                                                                                                            |
 | traefik                  |                                                                                                                            |
 | tuned                    | ![Test role tuned](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20tuned/badge.svg)           |
 | virtualbmc               |                                                                                                                            |

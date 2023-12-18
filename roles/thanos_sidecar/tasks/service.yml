@@ -1,0 +1,16 @@
+---
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ thanos_sidecar_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart thanos_sidecar service
+
+- name: Start/enable thanos_sidecar service
+  become: true
+  ansible.builtin.service:
+    name: "{{ thanos_sidecar_service_name }}"
+    state: started
+    enabled: true
