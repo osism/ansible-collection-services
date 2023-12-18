@@ -163,7 +163,7 @@ def test_max_user_watches_and_instances(host):
 
 
 # testing service.yml tasks
-def test_dockernetwork(host):
+def test_docker_network(host):
     ara_server_traefik = get_variable(host, "ara_server_traefik")
     if not ara_server_traefik:
         pytest.skip("ara_server_traefik not configured")
@@ -185,7 +185,7 @@ def test_mariadb_health(host):
         with host.sudo("root"):
             db_healthcheck = host.run(
                 f"docker exec manager-mariadb-1 mysqladmin status -h "
-                f"localhost -u {f'{mysql_user}'} -p {f'{mysql_password}'}"
+                f"localhost -u {f'{mysql_user}'} -p{f'{mysql_password}'}"
             )
     elif ara_server_mariadb_tag and ara_server_mariadb_tag >= "11.0.0":
         with host.sudo("root"):
@@ -201,7 +201,7 @@ def test_mariadb_health(host):
         )
 
 
-def test_dockercompose(host):
+def test_docker_compose(host):
     f = host.file(
         f"{get_variable(host, 'manager_docker_compose_directory')}/docker-compose.yml"
     )

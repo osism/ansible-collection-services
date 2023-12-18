@@ -1,5 +1,6 @@
 ---
 - name: Create traefik external network
+  become: true
   community.docker.docker_network:
     name: "{{ traefik_external_network_name }}"
     ipam_config:

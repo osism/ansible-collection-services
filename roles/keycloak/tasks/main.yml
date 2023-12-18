@@ -10,3 +10,18 @@
 - name: Include service tasks
   ansible.builtin.include_tasks: service.yml
   tags: service
+
+# Test section #################################################################
+- name: Debug Keycloak service
+  become: true
+  changed_when: false
+  ansible.builtin.shell:
+    cmd: |
+      set -e; \
+      systemctl status docker-compose@keycloak; \
+      systemctl is-active docker-compose@keycloak; \
+      journalctl -xe | grep docker-compose@keycloak; \
+      docker ps -a; \
+      docker container inspect keycloak
+  args:
+    executable: /bin/bash
