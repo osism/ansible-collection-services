@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Allow use of arguments in the osism update commands.
