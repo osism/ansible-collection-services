@@ -4,42 +4,45 @@ Documentation: https://osism.github.io/docs/guides/configuration-guides/services
 
 The following Ansible roles are included in this collection.
 
-| Rolename                 | Test                                                                                                                       |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| adminer                  |                                                                                                                            |
-| auditd                   | ![Test role auditd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20auditd/badge.svg)         |
-| bird                     |                                                                                                                            |
-| cephclient               |                                                                                                                            |
-| cgit                     |                                                                                                                            |
-| chrony                   | ![Test role chrony](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20chrony/badge.svg)         |
-| clamav                   | ![Test role clamav](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20clamav/badge.svg)         |
-| containerd               | ![Test role containerd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20containerd/badge.svg) |
-| dnsdist                  |                                                                                                                            |
-| docker                   |                                                                                                                            |
-| fail2ban                 | ![Test role fail2ban](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20fail2ban/badge.svg)     |
-| falco                    |                                                                                                                            |
-| frr                      | ![Test role frr](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20frr/badge.svg)               |
-| hddtemp                  | ![Test role hddtemp](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20hddtemp/badge.svg)       |
-| homer                    |                                                                                                                            |
-| journald                 | ![Test role journald](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20journald/badge.svg)     |
-| keycloak                 |                                                                                                                            |
-| lldpd                    | ![Test role lldpd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20lldpd/badge.svg)           |
-| manager                  |                                                                                                                            |
-| metering                 |                                                                                                                            |
-| netbox                   |                                                                                                                            |
-| netdata                  | ![Test role netdata](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20netdata/badge.svg)       |
-| nexus                    |                                                                                                                            |
-| openldap                 |                                                                                                                            |
-| openstack_health_monitor |                                                                                                                            |
-| openstackclient          |                                                                                                                            |
-| osquery                  | ![Test role osquery](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20osquery/badge.svg)       |
-| phpmyadmin               |                                                                                                                            |
-| rng                      | ![Test role rng](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rng/badge.svg)               |
-| rsyslog                  | ![Test role rsyslog](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20rsyslog/badge.svg)       |
-| scaphandre               |                                                                                                                            |
-| smartd                   | ![Test role smartd](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20smartd/badge.svg)         |
+| Rolename                 | Molecule Unit Test                                                                                                                       |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| adminer                  | [adminer.py](molecule/delegated/tests/adminer.py)                                                                                        |
+| auditd                   | [auditd.py](molecule/delegated/tests/auditd.py)                                                                                          |
+| bird                     | [bird.py](molecule/delegated/tests/bird.py)                                                                                              |
+| cephclient               | [container.py](molecule/delegated/tests/cephclient/container.py), [package.py](molecule/delegated/tests/cephclient/package.py)           |
+| cgit                     | [cgit.py](molecule/delegated/tests/cgit.py)                                                                                              |
+| chrony                   | [main.py](molecule/delegated/tests/chrony/main.py), [debian.py](molecule/delegated/tests/chrony/debian.py)                               |
+| clamav                   | [clamav.py](molecule/delegated/tests/clamav.py)                                                                                          |
+| containerd               | [containerd.py](molecule/delegated/tests/containerd.py)                                                                                  |
+| dnsdist                  | [dnsdist.py](molecule/delegated/tests/dnsdist.py)                                                                                        |
+| docker                   | [docker.py](molecule/delegated/tests/docker.py)                                                                                          |
+| fail2ban                 | [fail2ban.py](molecule/delegated/tests/fail2ban.py)                                                                                      |
+| falco                    | [falco.py](molecule/delegated/tests/falco.py)                                                                                            |
+| frr                      | [frr.py](molecule/delegated/tests/frr.py)                                                                                                |
+| hddtemp                  | [debian.py](molecule/delegated/tests/hddtemp/debian.py), [redhat.py](molecule/delegated/tests/hddtemp/redhat.py)                         |
+| homer                    | [homer.py](molecule/delegated/tests/homer.py)                                                                                            |
+| journald                 | [journald.py](molecule/delegated/tests/journald.py)                                                                                      |
+| keycloak                 | [keycloak.py](molecule/delegated/tests/keycloak.py)                                                                                      |
+| lldpd                    | [lldpd.py](molecule/delegated/tests/lldpd.py)                                                                                            |
+| manager                  | [manager.py](molecule/delegated/tests/manager.py)                                                                                        |
+| metering                 |                                                                                                                                          |
+| netbox                   | [netbox.py](molecule/delegated/tests/netbox.py)                                                                                          |
+| netdata                  | [netdata.py](molecule/delegated/tests/netdata.py)                                                                                        |
+| nexus                    | [nexus.py](molecule/delegated/tests/nexus.py)                                                                                            |
+| openldap                 | [openldap.py](molecule/delegated/tests/openldap.py)                                                                                      |
+| openstack_health_monitor | [openstack_health_monitor.py](molecule/delegated/tests/openstack_health_monitor.py)                                                      |
+| openstackclient          | [container.py](molecule/delegated/tests/openstackclient/container.py), [package.py](molecule/delegated/tests/openstackclient/package.py) |
+| osquery                  | [osquery.py](molecule/delegated/tests/osquery.py)                                                                                        |
+| phpmyadmin               | [phpmyadmin.py](molecule/delegated/tests/phpmyadmin.py)                                                                                  |
+| rng                      | [rng.py](molecule/delegated/tests/rng.py)                                                                                                |
+| rsyslog                  | [rsyslog.py](molecule/delegated/tests/rsyslog.py)                                                                                        |
+| scaphandre               | [scaphandre.py](molecule/delegated/tests/scaphandre.py)                                                                                  |
+| smartd                   | [smartd.py](molecule/delegated/tests/smartd.py)                                                                                          |
+| squid                    | [squid.py](molecule/delegated/tests/squid.py)                                                                                            |
+| tang                     |                                                                                                                                          |
 | thanos_sidecar           |                                                                                                                            |
-| traefik                  |                                                                                                                            |
-| tuned                    | ![Test role tuned](https://github.com/osism/ansible-collection-services/workflows/Test%20role%20tuned/badge.svg)           |
-| virtualbmc               |                                                                                                                            |
-| zuul                     |                                                                                                                            |
+| traefik                  | [traefik.py](molecule/delegated/tests/traefik.py)                                                                                        |
+| tuned                    | [tuned.py](molecule/delegated/tests/tuned.py)                                                                                            |
+| virtualbmc               | [virtualbmc.py](molecule/delegated/tests/virtualbmc.py)                                                                                  |
+| wireguard                | [wireguard.py](molecule/delegated/tests/wireguard.py)                                                                                    |
+| zuul                     | [zuul.py](molecule/delegated/tests/zuul.py)                                                                                              |
