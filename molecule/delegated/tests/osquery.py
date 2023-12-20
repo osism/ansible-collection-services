@@ -8,9 +8,7 @@ def test_apt_transport_https_package_installed(host):
     osquery_configure_repository = get_variable(host, "osquery_configure_repository")
     if osquery_configure_repository:
         apt_transport_https_package = host.package("apt-transport-https")
-        assert (
-            apt_transport_https_package.is_installed
-        ), "apt-transport-https package should be installed"
+        assert apt_transport_https_package.is_installed
 
 
 def test_osquery_gpgkey(host):
@@ -22,30 +20,26 @@ def test_osquery_gpgkey(host):
     url = get_variable(host, "osquery_debian_repository_key")
     key_content = get_from_url(url)
 
+    # cut first 4 lines of key_content because of unpredictable changes of comment and version in it
+    key_content_modified = "\n".join(key_content.split("\n")[4:])
+
     gpg_key_file = host.file("/etc/apt/trusted.gpg.d/osquery.asc")
 
-    assert gpg_key_file.exists, "GPG key file for osquery does not exist"
+    assert gpg_key_file.exists
     assert not gpg_key_file.is_directory
     assert gpg_key_file.mode == 0o644
     assert gpg_key_file.user == "root"
     assert gpg_key_file.group == "root"
-    assert gpg_key_file.content_string == key_content
+    assert key_content_modified in gpg_key_file.content_string
 
 
 def test_osquery_package_installed(host):
     osquery_package_name = get_variable(host, "osquery_package_name")
     osquery_package = host.package(osquery_package_name)
-    assert (
-        osquery_package.is_installed
-    ), f"Package {osquery_package_name} should be installed"
+    assert osquery_package.is_installed
 
 
-def test_osquery_service_running_and_enabled(host):
-    osquery_service_name = get_variable(host, "osquery_service_name")
-    osquery_service = host.service(osquery_service_name)
-    assert (
-        osquery_service.is_running
-    ), f"Service {osquery_service_name} should be running"
-    assert (
-        osquery_service.is_enabled
-    ), f"Service {osquery_service_name} should be enabled"
+def test_osquery_service(host):
+    service = host.service(get_variable(host, "osquery_service_name"))
+    assert service.is_running
+    assert service.is_enabled
