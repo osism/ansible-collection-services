@@ -3,55 +3,51 @@ from .util.util import get_ansible, get_variable
 testinfra_runner, testinfra_hosts = get_ansible()
 
 
-def test_smartmontools_package_installed(host):
-    smartd_package_name = get_variable(host, "smartd_package_name")
-    smartd_package = host.package(smartd_package_name)
-    assert (
-        smartd_package.is_installed
-    ), f"Package {smartd_package_name} should be installed"
+def test_smartmontools_installation(host):
+    smartd_package = host.package(get_variable(host, "smartd_package_name"))
+    assert smartd_package.is_installed
 
 
-def test_smartd_service_running_and_enabled(host):
-    smartd_service_name = get_variable(host, "smartd_service_name")
-    smartd_service = host.service(smartd_service_name)
-    assert smartd_service.is_running, f"Service {smartd_service_name} should be running"
-    assert smartd_service.is_enabled, f"Service {smartd_service_name} should be enabled"
-
-
-def test_smartd_service_logs(host):
+def test_smartd_logs(host):
     smartd_service_name = get_variable(host, "smartd_service_name")
     command = f'journalctl -u {smartd_service_name} --no-pager --since "1 minute ago"'
     result = host.run(command)
-
     assert result.rc == 0, "Failed to run journalctl for smartd service"
     assert "error" not in result.stdout.lower(), "Error found in smartd service logs"
 
 
-def test_smartd_log_directory_exists(host):
+def test_smartd_directory(host):
     log_directory = host.file("/var/log/smartd")
-    assert log_directory.exists, "/var/log/smartd directory should exist"
-    assert log_directory.is_directory, "/var/log/smartd should be a directory"
-    assert (
-        log_directory.user == "root"
-    ), "/var/log/smartd directory should be owned by root"
-    assert (
-        log_directory.group == "root"
-    ), "/var/log/smartd directory should be in the root group"
-    assert (
-        log_directory.mode == 0o755
-    ), "/var/log/smartd directory should have 755 permissions"
+    assert log_directory.exists
+    assert log_directory.is_directory
+    assert log_directory.user == "root"
+    assert log_directory.group == "root"
+    assert log_directory.mode == 0o755
 
 
-def test_smartmontools_config_file(host):
+def test_smartmontools_config(host):
     config_file = host.file("/etc/default/smartmontools")
-    assert config_file.exists, "smartmontools configuration file should exist"
-    assert config_file.is_file, "smartmontools configuration should be a file"
+    assert config_file.exists
+    assert config_file.is_file
+    assert config_file.user == "root"
+    assert config_file.group == "root"
+    assert config_file.mode == 0o644
     assert (
-        config_file.user == "root"
-    ), "smartmontools configuration file should be owned by root"
-    assert (
-        config_file.group == "root"
-    ), "smartmontools configuration file should be in the root group"
-    assert (
-        config_file.mode == 0o644
-    ), "smartmontools configuration file should have 644 permissions"
+        "# Defaults for smartmontools initscript (/etc/init.d/smartmontools)"
+        in config_file.content_string
+    )
+
+
+"""
+The ConditionVirtualization is a systemd condition that checks whether the system is
+running in a virtualized environment. It can be used as part of the systemd service
+unit configuration to control whether a service should start based on whether the
+system is virtualized or not.
+
+The smartd service has a condition set: ConditionVirtualization=no. Hence the smartd
+service will only start if the system is not virtualized and the following test will fail.
+"""
+# def test_smartd_service(host):
+#    service = host.service(get_variable(host, "smartd_service_name"))
+#    assert service.is_running
+#    assert service.is_enabled
