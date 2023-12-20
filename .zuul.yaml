@@ -372,6 +372,18 @@
       - '^molecule\/squid\/.*$'
 
 - job:
+    name: ansible-collection-services-molecule-thanos_sidecar
+    parent: ansible-molecule
+    vars:
+      ansible_role: thanos_sidecar
+      ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^molecule\/delegated\/.*$'
+      - '^molecule\/requirements\.txt$'
+      - '^molecule\/thanos_sidecar\/.*$'
+      - '^roles\/thanos_sidecar\/.*$'
+
+- job:
     name: ansible-collection-services-molecule-traefik
     parent: ansible-molecule
     vars:
@@ -469,6 +481,7 @@
         - ansible-collection-services-molecule-scaphandre
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-squid
+        - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
@@ -513,6 +526,7 @@
         - ansible-collection-services-molecule-scaphandre
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-squid
+        - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc

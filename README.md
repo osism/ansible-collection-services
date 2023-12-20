@@ -40,7 +40,7 @@ The following Ansible roles are included in this collection.
 | smartd                   | [smartd.py](molecule/delegated/tests/smartd.py)                                                                                          |
 | squid                    | [squid.py](molecule/delegated/tests/squid.py)                                                                                            |
 | tang                     |                                                                                                                                          |
-| thanos_sidecar           |                                                                                                                            |
+| thanos_sidecar           | [thanos_sidecar.py](molecule/delegated/tests/thanos_sidecar.py)                                                                                                                           |
 | traefik                  | [traefik.py](molecule/delegated/tests/traefik.py)                                                                                        |
 | tuned                    | [tuned.py](molecule/delegated/tests/tuned.py)                                                                                            |
 | virtualbmc               | [virtualbmc.py](molecule/delegated/tests/virtualbmc.py)                                                                                  |
