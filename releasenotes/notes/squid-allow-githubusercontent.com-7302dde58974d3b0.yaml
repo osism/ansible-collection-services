@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    In the squid service allow access to githubusercontent.com, required by the k3s service.

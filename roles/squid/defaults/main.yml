@@ -32,6 +32,7 @@ squid_allowed_addresses_defaults:
   - .archive.ubuntu.com
   - .cloudfront.net
   - .debian.org
+  - .githubusercontent.com
   - .opendev.org
   - .quay.io
   - .regiocloud.tech
