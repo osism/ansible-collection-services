@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    With the parameter `netbox_postgres_volume_type` in the netbox role
+    it is now possible to use a tmpfs volume for the postgres service
+    This is intended for use in the CI to speed up processes there.
