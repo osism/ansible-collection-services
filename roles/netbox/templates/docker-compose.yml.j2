@@ -7,7 +7,12 @@ services:
       - "{{ netbox_configuration_directory }}/postgres.env"
     volumes:
       - "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
+{% if netbox_postgres_volume_type == 'volume' %}
       - postgres:/var/lib/postgresql/data
+{% elif netbox_postgres_volume_type == 'tmpfs' %}
+    tmpfs:
+      - /var/lib/postgresql/data
+{% endif %}
     secrets:
       - POSTGRES_PASSWORD
     healthcheck:
@@ -90,7 +95,9 @@ services:
 {% endif %}
 
 volumes:
+{% if netbox_postgres_volume_type == 'volume' %}
   postgres:
+{% endif %}
   redis:
 
 secrets:
