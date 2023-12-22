@@ -394,8 +394,13 @@ services:
     image: "{{ ara_server_mariadb_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/mariadb.env"
+{% if ara_server_mariadb_volume_type == 'volume' %}
     volumes:
       - "mariadb:/var/lib/mysql"
+{% elif ara_server_mariadb_volume_type == 'tmpfs' %}
+    tmpfs:
+      - /var/lib/mysql
+{% endif %}
     healthcheck:
       test: {{ ara_server_mariadb_healthcheck }}
 {% endif %}
@@ -441,7 +446,7 @@ volumes:
 {% endif %}
   cache:
   logs:
-{% if enable_ara|bool and ara_server_database_type == 'mysql' %}
+{% if enable_ara|bool and ara_server_database_type == 'mysql' and ara_server_mariadb_volume_type == 'volume' %}
   mariadb:
 {% endif %}
   redis:
