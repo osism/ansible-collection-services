@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    With the parameter `ara_server_mariadb_volume_type` in the manager role
+    it is now possible to use a tmpfs volume for the mariadb service used by
+    the ARA service. This is intended for use in the CI to speed up processes
+    there.
