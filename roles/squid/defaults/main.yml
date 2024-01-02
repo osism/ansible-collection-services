@@ -27,24 +27,3 @@ squid_port: 3128
 squid_tag: 5.7-23.04_beta  # don't get fooled by "beta". this is actually production ready
 squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
 squid_container_name: squid
-
-squid_allowed_addresses_defaults:
-  - .archive.ubuntu.com
-  - .cloudfront.net
-  - .debian.org
-  - .opendev.org
-  - .quay.io
-  - .regiocloud.tech
-  - .services.osism.tech
-  - auth.docker.io
-  - download.docker.com
-  - galaxy.ansible.com
-  - github.com
-  - harbor.regio.digital
-  - index.docker.io
-  - packagecloud.io
-  - production.cloudflare.docker.com
-  - pypi.org
-  - registry-1.docker.io
-squid_allowed_addresses_extra: []
-squid_allowed_addresses: "{{ squid_allowed_addresses_defaults + squid_allowed_addresses_extra }}"
