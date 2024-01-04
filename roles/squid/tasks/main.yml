@@ -22,9 +22,13 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
-    - osism_allow_list.conf
     - osism.conf
   notify: Restart squid service
+
+- name: Remove osism_allow_list.conf configuration file
+  ansible.builtin.file:
+    path: "{{ squid_configuration_directory }}/conf.d/osism_allow_list.conf"
+    state: absent
 
 - name: Copy docker-compose.yml file
   ansible.builtin.template:

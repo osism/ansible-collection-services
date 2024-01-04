@@ -19,7 +19,7 @@ def test_required_directories(host):
 
 
 def test_configuration_files(host):
-    files = ["osism_allow_list.conf", "osism.conf"]
+    files = ["osism.conf"]
     for file_name in files:
         file_path = (
             f"{get_variable(host, 'squid_configuration_directory')}/conf.d/{file_name}"
