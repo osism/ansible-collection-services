@@ -1,4 +1,9 @@
 ---
+- name: Inform about new parameter homer_url_opensearch_dashboards
+  ansible.builtin.debug:
+    msg: "The support for the homer_url_kibana has been removed. Please use the homer_url_opensearch_dashboards parameter."
+  when: "homer_url_kibana is defined"
+
 - name: Create traefik external network
   community.docker.docker_network:
     name: "{{ traefik_external_network_name }}"

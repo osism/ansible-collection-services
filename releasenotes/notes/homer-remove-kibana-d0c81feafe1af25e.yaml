@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Parameter `homer_kibana_url` has been removed from role homer.
+    The parameter `homer_opensearch_dashboards_url` can now be used.

@@ -92,7 +92,7 @@ The following Variables define the urls to the webservices that OSISM provides:
 .. zuul:rolevar:: homer_url_keycloak
    :default: http://{{ keycloak_host | default(ansible_default_ipv4.address) }}:{{ keycloak_port | default(8170) }}
 
-.. zuul:rolevar:: homer_url_kibana
+.. zuul:rolevar:: homer_url_opensearch_dashboards
    :default: http://{{ kolla_internal_vip_address }}:5601
 
 .. zuul:rolevar:: homer_url_netbox
