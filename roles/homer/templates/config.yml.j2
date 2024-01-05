@@ -41,11 +41,11 @@ links:
     target: "_blank"
   - name: "Documentation"
     icon: "fas fa-book"
-    url: "https://docs.osism.tech/"
+    url: "https://osism.github.io/docs/intro/"
     target: "_blank"
   - name: "Bug report"
     icon: "fas fa-bug"
-    url: "https://github.com/osism/issues"
+    url: "https://github.com/osism/issues/issues"
     target: "_blank"
 
 # Services
@@ -124,7 +124,7 @@ services:
         target: "_blank"
 {%   endif %}
 {% endif %}
-{% if homer_url_grafana|length > 0 or homer_url_kibana|length > 0 or homer_url_netdata|length > 0 or homer_url_prometheus|length > 0 %}
+{% if homer_url_grafana|length > 0 or homer_url_opensearch_dashboards|length > 0 or homer_url_netdata|length > 0 or homer_url_prometheus|length > 0 %}
   - name: "Insights"
     icon: "fas fa-warehouse"
     items:
@@ -136,12 +136,12 @@ services:
         url: "{{ homer_url_grafana }}"
         target: "_blank"
 {%   endif %}
-{%   if homer_url_kibana|length > 0 %}
-      - name: "Kibana"
-        logo: "kibana.png"
+{%   if homer_url_opensearch_dashboards|length > 0 %}
+      - name: "OpenSearch Dashboards"
+        logo: "opensearch.png"
         subtitle: "Visualized logs"
         tag: "dashboard"
-        url: "{{ homer_url_kibana }}"
+        url: "{{ homer_url_opensearch_dashboards }}"
         target: "_blank"
 {%   endif %}
 {%   if homer_url_netdata|length > 0 %}
