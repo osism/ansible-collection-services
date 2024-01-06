@@ -5,6 +5,8 @@
     vars:
       ansible_role: adminer
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/adminer\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-auditd
@@ -12,6 +14,8 @@
     vars:
       ansible_role: auditd
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/auditd\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-bird
@@ -19,6 +23,8 @@
     vars:
       ansible_role: bird
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/bird\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-cephclient
@@ -26,6 +32,8 @@
     vars:
       ansible_role: cephclient
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/cephclient\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-dnsdist
@@ -33,6 +41,8 @@
     vars:
       ansible_role: dnsdist
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/dnsdist\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-docker
@@ -40,6 +50,8 @@
     vars:
       ansible_role: docker
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/docker\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-cgit
@@ -47,6 +59,8 @@
     vars:
       ansible_role: cgit
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/cgit\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-chrony
@@ -54,6 +68,8 @@
     vars:
       ansible_role: chrony
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/chrony\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-clamav
@@ -61,6 +77,8 @@
     vars:
       ansible_role: clamav
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/clamav\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-containerd
@@ -68,6 +86,8 @@
     vars:
       ansible_role: containerd
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/containerd\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-fail2ban
@@ -75,6 +95,8 @@
     vars:
       ansible_role: fail2ban
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/fail2ban\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-falco
@@ -82,6 +104,8 @@
     vars:
       ansible_role: falco
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/falco\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-frr
@@ -89,6 +113,8 @@
     vars:
       ansible_role: frr
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/frr\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-hddtemp
@@ -96,6 +122,8 @@
     vars:
       ansible_role: hddtemp
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/hddtemp\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-homer
@@ -103,6 +131,8 @@
     vars:
       ansible_role: homer
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/homer\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-journald
@@ -110,6 +140,8 @@
     vars:
       ansible_role: journald
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/journald\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-lldpd
@@ -117,6 +149,8 @@
     vars:
       ansible_role: lldpd
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/lldpd\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-openstack_health_monitor
@@ -124,6 +158,8 @@
     vars:
       ansible_role: openstack_health_monitor
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/openstack_health_monitor\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-openstackclient
@@ -131,6 +167,8 @@
     vars:
       ansible_role: openstackclient
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/openstackclient\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-netbox
@@ -138,6 +176,8 @@
     vars:
       ansible_role: netbox
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/netbox\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-netdata
@@ -145,6 +185,8 @@
     vars:
       ansible_role: netdata
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/netdata\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-nexus
@@ -152,6 +194,8 @@
     vars:
       ansible_role: nexus
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/nexus\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-osquery
@@ -159,6 +203,8 @@
     vars:
       ansible_role: osquery
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/osquery\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-phpmyadmin
@@ -166,6 +212,8 @@
     vars:
       ansible_role: phpmyadmin
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/phpmyadmin\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-rng
@@ -173,6 +221,8 @@
     vars:
       ansible_role: rng
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/rng\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-rsyslog
@@ -180,6 +230,8 @@
     vars:
       ansible_role: rsyslog
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/rsyslog\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-scaphandre
@@ -187,6 +239,8 @@
     vars:
       ansible_role: scaphandre
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/scaphandre\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-smartd
@@ -194,6 +248,8 @@
     vars:
       ansible_role: smartd
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/smartd\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-squid
@@ -201,6 +257,8 @@
     vars:
       ansible_role: squid
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/squid\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-traefik
@@ -208,6 +266,8 @@
     vars:
       ansible_role: traefik
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/traefik\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-tuned
@@ -215,6 +275,8 @@
     vars:
       ansible_role: tuned
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/tuned\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-virtualbmc
@@ -222,6 +284,8 @@
     vars:
       ansible_role: virtualbmc
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/virtualbmc\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-wireguard
@@ -229,426 +293,88 @@
     vars:
       ansible_role: wireguard
       ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/wireguard\/.*$'
 
 - project:
     merge-mode: squash-merge
     default-branch: main
     check:
       jobs:
-        - ansible-collection-services-molecule-adminer:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/adminer\/.*$'
-             - '^roles\/adminer\/.*$'
-        - ansible-collection-services-molecule-auditd:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/auditd\/.*$'
-             - '^roles\/auditd\/.*$'
-        - ansible-collection-services-molecule-bird:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/bird\/.*$'
-             - '^roles\/bird\/.*$'
-        - ansible-collection-services-molecule-cephclient:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/cephclient\/.*$'
-             - '^roles\/cephclient\/.*$'
-        - ansible-collection-services-molecule-cgit:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/cgit\/.*$'
-             - '^roles\/cgit\/.*$'
-        - ansible-collection-services-molecule-chrony:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/chrony\/.*$'
-             - '^roles\/chrony\/.*$'
-        - ansible-collection-services-molecule-clamav:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/clamav\/.*$'
-             - '^roles\/clamav\/.*$'
-        - ansible-collection-services-molecule-containerd:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/containerd\/.*$'
-             - '^roles\/containerd\/.*$'
-        - ansible-collection-services-molecule-dnsdist:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/dnsdist\/.*$'
-             - '^roles\/dnsdist\/.*$'
-        - ansible-collection-services-molecule-docker:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/docker\/.*$'
-             - '^roles\/docker\/.*$'
-        - ansible-collection-services-molecule-fail2ban:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/fail2ban\/.*$'
-             - '^roles\/fail2ban\/.*$'
-        - ansible-collection-services-molecule-falco:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/falco\/.*$'
-             - '^roles\/falco\/.*$'
-        - ansible-collection-services-molecule-frr:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/frr\/.*$'
-             - '^roles\/frr\/.*$'
-        - ansible-collection-services-molecule-hddtemp:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/hddtemp\/.*$'
-             - '^roles\/hddtemp\/.*$'
-        - ansible-collection-services-molecule-homer:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/homer\/.*$'
-             - '^roles\/homer\/.*$'
-        - ansible-collection-services-molecule-journald:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/journald\/.*$'
-             - '^roles\/journald\/.*$'
-        - ansible-collection-services-molecule-lldpd:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/lldpd\/.*$'
-              - '^roles\/lldpd\/.*$'
-        - ansible-collection-services-molecule-openstack_health_monitor:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/openstack_health_monitor\/.*$'
-              - '^roles\/openstack_health_monitor\/.*$'
-        # - ansible-collection-services-molecule-openstackclient:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/openstackclient\/.*$'
-        #       - '^roles\/openstackclient\/.*$'
-        - ansible-collection-services-molecule-netbox:
-             files:
-               - '^molecule\/delegated\/.*$'
-               - '^molecule\/requirements\.txt$'
-               - '^molecule\/netbox\/.*$'
-               - '^roles\/netbox\/.*$'
-        # - ansible-collection-services-molecule-netdata:
-        #     files:
-        #       - '^molecule\/delegated\/.*$'
-        #       - '^molecule\/requirements\.txt$'
-        #       - '^molecule\/netdata\/.*$'
-        #       - '^roles\/netdata\/.*$'
-        - ansible-collection-services-molecule-nexus:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/nexus\/.*$'
-              - '^roles\/nexus\/.*$'
-        - ansible-collection-services-molecule-osquery:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/osquery\/.*$'
-              - '^roles\/osquery\/.*$'
-        - ansible-collection-services-molecule-phpmyadmin:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/phpmyadmin\/.*$'
-             - '^roles\/phpmyadmin\/.*$'
-        - ansible-collection-services-molecule-rng:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/rng\/.*$'
-              - '^roles\/rng\/.*$'
-        - ansible-collection-services-molecule-rsyslog:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/rsyslog\/.*$'
-              - '^roles\/rsyslog\/.*$'
-        - ansible-collection-services-molecule-scaphandre:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/scaphandre\/.*$'
-              - '^roles\/scaphandre\/.*$'
-        # - ansible-collection-services-molecule-smartd:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/smartd\/.*$'
-        #      - '^roles\/smartd\/.*$'
-        - ansible-collection-services-molecule-squid:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/squid\/.*$'
-             - '^roles\/squid\/.*$'
-        - ansible-collection-services-molecule-traefik:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/traefik\/.*$'
-             - '^roles\/traefik\/.*$'
-        - ansible-collection-services-molecule-tuned:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/tuned\/.*$'
-             - '^roles\/tuned\/.*$'
-        - ansible-collection-services-molecule-virtualbmc:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/virtualbmc\/.*$'
-             - '^roles\/virtualbmc\/.*$'
-        - ansible-collection-services-molecule-wireguard:
-           files:
-            - '^molecule\/delegated\/.*$'
-            - '^molecule\/requirements\.txt$'
-            - '^molecule\/wireguard\/.*$'
-            - '^roles\/wireguard\/.*$'
-        # - ansible-collection-services-molecule-zuul:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/zuul\/.*$'
-        #      - '^roles\/zuul\/.*$'
+        - ansible-collection-services-molecule-adminer
+        - ansible-collection-services-molecule-auditd
+        - ansible-collection-services-molecule-bird
+        - ansible-collection-services-molecule-cephclient
+        - ansible-collection-services-molecule-cgit
+        - ansible-collection-services-molecule-chrony
+        - ansible-collection-services-molecule-clamav
+        - ansible-collection-services-molecule-containerd
+        - ansible-collection-services-molecule-dnsdist
+        - ansible-collection-services-molecule-docker
+        - ansible-collection-services-molecule-fail2ban
+        - ansible-collection-services-molecule-falco
+        - ansible-collection-services-molecule-frr
+        - ansible-collection-services-molecule-hddtemp
+        - ansible-collection-services-molecule-homer
+        - ansible-collection-services-molecule-journald
+        - ansible-collection-services-molecule-lldpd
+        - ansible-collection-services-molecule-openstack_health_monitor
+        # - ansible-collection-services-molecule-openstackclient
+        - ansible-collection-services-molecule-netbox
+        # - ansible-collection-services-molecule-netdata
+        - ansible-collection-services-molecule-nexus
+        - ansible-collection-services-molecule-osquery
+        - ansible-collection-services-molecule-phpmyadmin
+        - ansible-collection-services-molecule-rng
+        - ansible-collection-services-molecule-rsyslog
+        - ansible-collection-services-molecule-scaphandre
+        # - ansible-collection-services-molecule-smartd
+        - ansible-collection-services-molecule-squid
+        - ansible-collection-services-molecule-traefik
+        - ansible-collection-services-molecule-tuned
+        - ansible-collection-services-molecule-virtualbmc
+        - ansible-collection-services-molecule-wireguard
+        # - ansible-collection-services-molecule-zuul
         - ansible-lint
         - flake8
         - python-black
         - yamllint
     gate:
       jobs:
-        - ansible-collection-services-molecule-adminer:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/adminer\/.*$'
-             - '^roles\/adminer\/.*$'
-        - ansible-collection-services-molecule-auditd:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/auditd\/.*$'
-             - '^roles\/auditd\/.*$'
-        - ansible-collection-services-molecule-bird:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/bird\/.*$'
-             - '^roles\/bird\/.*$'
-        - ansible-collection-services-molecule-cephclient:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/cephclient\/.*$'
-             - '^roles\/cephclient\/.*$'
-        - ansible-collection-services-molecule-cgit:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/cgit\/.*$'
-             - '^roles\/cgit\/.*$'
-        - ansible-collection-services-molecule-chrony:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/chrony\/.*$'
-             - '^roles\/chrony\/.*$'
-        - ansible-collection-services-molecule-clamav:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/clamav\/.*$'
-             - '^roles\/clamav\/.*$'
-        - ansible-collection-services-molecule-containerd:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/containerd\/.*$'
-             - '^roles\/containerd\/.*$'
-        - ansible-collection-services-molecule-dnsdist:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/dnsdist\/.*$'
-             - '^roles\/dnsdist\/.*$'
-        - ansible-collection-services-molecule-docker:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/docker\/.*$'
-             - '^roles\/docker\/.*$'
-        - ansible-collection-services-molecule-fail2ban:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/fail2ban\/.*$'
-             - '^roles\/fail2ban\/.*$'
-        - ansible-collection-services-molecule-falco:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/falco\/.*$'
-             - '^roles\/falco\/.*$'
-        - ansible-collection-services-molecule-frr:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/frr\/.*$'
-             - '^roles\/frr\/.*$'
-        - ansible-collection-services-molecule-hddtemp:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/hddtemp\/.*$'
-             - '^roles\/hddtemp\/.*$'
-        - ansible-collection-services-molecule-homer:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/homer\/.*$'
-             - '^roles\/homer\/.*$'
-        - ansible-collection-services-molecule-journald:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/journald\/.*$'
-             - '^roles\/journald\/.*$'
-        - ansible-collection-services-molecule-lldpd:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/lldpd\/.*$'
-             - '^roles\/lldpd\/.*$'
-        - ansible-collection-services-molecule-openstack_health_monitor:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/openstack_health_monitor\/.*$'
-             - '^roles\/openstack_health_monitor\/.*$'
-        - ansible-collection-services-molecule-netbox:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/netbox\/.*$'
-              - '^roles\/netbox\/.*$'
-        # - ansible-collection-services-molecule-openstackclient:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/openstackclient\/.*$'
-        #      - '^roles\/openstackclient\/.*$'
-        # - ansible-collection-services-molecule-netdata:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/netdata\/.*$'
-        #      - '^roles\/netdata\/.*$'
-        - ansible-collection-services-molecule-nexus:
-            files:
-              - '^molecule\/delegated\/.*$'
-              - '^molecule\/requirements\.txt$'
-              - '^molecule\/nexus\/.*$'
-              - '^roles\/nexus\/.*$'
-        - ansible-collection-services-molecule-osquery:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/osquery\/.*$'
-             - '^roles\/osquery\/.*$'
-        - ansible-collection-services-molecule-phpmyadmin:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/phpmyadmin\/.*$'
-             - '^roles\/phpmyadmin\/.*$'
-        - ansible-collection-services-molecule-rng:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/rng\/.*$'
-             - '^roles\/rng\/.*$'#
-        - ansible-collection-services-molecule-rsyslog:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/rsyslog\/.*$'
-             - '^roles\/rsyslog\/.*$'
-        - ansible-collection-services-molecule-scaphandre:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/scaphandre\/.*$'
-             - '^roles\/scaphandre\/.*$'
-        # - ansible-collection-services-molecule-smartd:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/smartd\/.*$'
-        #      - '^roles\/smartd\/.*$'
-        - ansible-collection-services-molecule-squid:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/squid\/.*$'
-             - '^roles\/squid\/.*$'
-        - ansible-collection-services-molecule-tuned:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/tuned\/.*$'
-             - '^roles\/tuned\/.*$'
-        - ansible-collection-services-molecule-virtualbmc:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/virtualbmc\/.*$'
-             - '^roles\/virtualbmc\/.*$'
-        - ansible-collection-services-molecule-traefik:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/traefik\/.*$'
-             - '^roles\/traefik\/.*$'
-        - ansible-collection-services-molecule-wireguard:
-           files:
-             - '^molecule\/delegated\/.*$'
-             - '^molecule\/requirements\.txt$'
-             - '^molecule\/wireguard\/.*$'
-             - '^roles\/wireguard\/.*$'
-        # - ansible-collection-services-molecule-zuul:
-        #    files:
-        #      - '^molecule\/delegated\/.*$'
-        #      - '^molecule\/requirements\.txt$'
-        #      - '^molecule\/zuul\/.*$'
-        #      - '^roles\/zuul\/.*$'
+        - ansible-collection-services-molecule-adminer
+        - ansible-collection-services-molecule-auditd
+        - ansible-collection-services-molecule-bird
+        - ansible-collection-services-molecule-cephclient
+        - ansible-collection-services-molecule-cgit
+        - ansible-collection-services-molecule-chrony
+        - ansible-collection-services-molecule-clamav
+        - ansible-collection-services-molecule-containerd
+        - ansible-collection-services-molecule-dnsdist
+        - ansible-collection-services-molecule-docker
+        - ansible-collection-services-molecule-fail2ban
+        - ansible-collection-services-molecule-falco
+        - ansible-collection-services-molecule-frr
+        - ansible-collection-services-molecule-hddtemp
+        - ansible-collection-services-molecule-homer
+        - ansible-collection-services-molecule-journald
+        - ansible-collection-services-molecule-lldpd
+        - ansible-collection-services-molecule-openstack_health_monitor
+        - ansible-collection-services-molecule-netbox
+        # - ansible-collection-services-molecule-openstackclient
+        # - ansible-collection-services-molecule-netdata
+        - ansible-collection-services-molecule-nexus
+        - ansible-collection-services-molecule-osquery
+        - ansible-collection-services-molecule-phpmyadmin
+        - ansible-collection-services-molecule-rng
+        - ansible-collection-services-molecule-rsyslog
+        - ansible-collection-services-molecule-scaphandre
+        # - ansible-collection-services-molecule-smartd
+        - ansible-collection-services-molecule-squid
+        - ansible-collection-services-molecule-tuned
+        - ansible-collection-services-molecule-virtualbmc
+        - ansible-collection-services-molecule-traefik
+        - ansible-collection-services-molecule-wireguard
+        # - ansible-collection-services-molecule-zuul
         - ansible-lint
         - flake8
         - python-black
