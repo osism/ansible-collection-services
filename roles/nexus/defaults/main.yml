@@ -3,7 +3,6 @@
 # docker
 
 docker_network_mtu: 1500
-
 docker_registry_nexus: quay.io
 
 ##########################
@@ -21,6 +20,8 @@ nexus_configuration_directory: /opt/nexus/configuration
 nexus_host: 127.0.0.1
 nexus_port: 8190
 
+nexus_bind_host: 0.0.0.0
+
 # renovate: datasource=docker depName=quay.io/osism/nexus
 nexus_tag: '3.63.0'
 nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
@@ -30,16 +31,12 @@ nexus_network: 172.31.101.32/28
 nexus_container_name: nexus
 nexus_service_name: "docker-compose@nexus"
 
-# NOTE: Scripts that are already included in the Nexus container
+# NOTE: provision scripts that are included in the Nexus container image
 nexus_provision_scripts:
   - anonymous.json
   - cleanup.json
-  - docker-hub.json
-  - docker-quay.json
-  - ubuntu-archive.json
-  - ubuntu-docker.json
 
-# NOTE: Scripts that are included in this role
+# NOTE: provision cripts that are included in this role
 nexus_provision_groovy_scripts:
   - create_repos_from_list
   - setup_http_proxy
@@ -54,11 +51,13 @@ nexus_http_proxy_host: "proxy.example.com"
 nexus_http_proxy_port: 8080
 nexus_http_proxy_username: ""
 nexus_http_proxy_password: ""
+
 nexus_with_https_proxy: false
 nexus_https_proxy_host: "proxy.example.com"
 nexus_https_proxy_port: 8080
 nexus_https_proxy_username: ""
 nexus_https_proxy_password: ""
+
 nexus_proxy_exclude_hosts:
   - "localhost"
   - "127.*"
@@ -93,6 +92,14 @@ nexus_repos_docker_defaults:
   foreign_layer_url_whitelist: []  # Nexus gui default. For proxies only
 
 nexus_repos_docker_proxy:
+  - name: docker-hub
+    http_port: 8191
+    v1_enabled: false
+    index_type: "HUB"
+    remote_url: "https://registry-1.docker.io"
+    use_nexus_certificates_to_access_index: false
+    force_basic_auth: false
+    cache_foreign_layers: true
   - name: docker-quay
     http_port: 8192
     v1_enabled: false
@@ -101,11 +108,11 @@ nexus_repos_docker_proxy:
     use_nexus_certificates_to_access_index: false
     force_basic_auth: false
     cache_foreign_layers: true
-  - name: docker-hub
-    http_port: 8191
+  - name: docker-osism
+    http_port: 8193
     v1_enabled: false
     index_type: "HUB"
-    remote_url: "https://registry-1.docker.io"
+    remote_url: "https://osism.harbor.regio.digital"
     use_nexus_certificates_to_access_index: false
     force_basic_auth: false
     cache_foreign_layers: true
@@ -125,12 +132,5 @@ nexus_repos_apt_proxy:
 
 nexus_traefik: false
 
-nexus_traefik_path_prefix: nexus
-nexus_traefik_host: ""
-
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
-
-traefik_host: 127.0.0.1
-traefik_port_http: 80
-traefik_port_https: 443

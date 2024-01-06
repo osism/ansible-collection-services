@@ -1,4 +1,3 @@
-import pytest
 from .util.util import get_ansible, get_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
@@ -42,10 +41,6 @@ def test_configuration_files(host):
 
 
 def test_dockernetwork(host):
-    nexus_traefik = get_variable(host, "traefik_external_network_name")
-    if not nexus_traefik:
-        pytest.skip("nexus_traefik not configured")
-
     with host.sudo("root"):
         stdout = host.check_output("docker network ls")
         assert "nexus_default" in stdout
@@ -76,23 +71,10 @@ def test_nexus_service(host):
 def test_nexus_urls(host):
     nexus_host = get_variable(host, "nexus_host")
     nexus_port = get_variable(host, "nexus_port")
-    nexus_traefik = get_variable(host, "nexus_traefik")
-    nexus_traefik_host = get_variable(host, "nexus_traefik_host")
-    traefik_port_https = get_variable(host, "traefik_port_https")
-    nexus_traefik_path_prefix = get_variable(host, "nexus_traefik_path_prefix")
     get_http_code = 'curl -o /dev/null -s -w "%{http_code}"'
 
-    if nexus_traefik == "true":
-        # testing nexus https url
-        nexus_url = (
-            f"https://{nexus_traefik_host}:{traefik_port_https}/{nexus_traefik_path_prefix}"
-            f"/service/rest/v1/status"
-        )
-        response = host.run(f"{get_http_code} {nexus_url}")
-        assert response.stdout == 200
+    # testing nexus http url
+    nexus_url = f"http://{nexus_host}:{nexus_port}/service/rest/v1/status"
+    response = host.run(f"{get_http_code} {nexus_url}")
 
-    if nexus_traefik == "false":
-        # testing nexus http url
-        nexus_url = f"http://{nexus_host}:{nexus_port}/service/rest/v1/status"
-        response = host.run(f"{get_http_code} {nexus_url}")
-        assert response.stdout == 200
+    assert response.stdout == "200"
