@@ -261,18 +261,3 @@ Name of the Nexus network for Traefik.
    :default: 172.31.254.0/24
 
 The Traefik network segment for external traffic.
-
-.. zuul:rolevar:: traefik_host
-   :default: 127.0.0.1
-
-Host Address where the Traefik proxy is located. 
-
-.. zuul:rolevar:: traefik_port_http
-   :default: 80
-
-Port which traefik will use for HTTP connections.
-
-.. zuul:rolevar:: traefik_port_https
-   :default: 443
-
-This Port will used for HTTPS connections.

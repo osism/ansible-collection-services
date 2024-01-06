@@ -8,21 +8,21 @@ services:
 {% if not nexus_traefik|bool %}
       - "{{ nexus_host }}:{{ nexus_port }}:8081"
 {% endif %}
-      - "{{ nexus_host }}:{{ nexus_port + 1 }}:{{ nexus_port + 1 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 2 }}:{{ nexus_port + 2 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 3 }}:{{ nexus_port + 3 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 4 }}:{{ nexus_port + 4 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 5 }}:{{ nexus_port + 5 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 6 }}:{{ nexus_port + 6 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 7 }}:{{ nexus_port + 7 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 8 }}:{{ nexus_port + 8 }}"
-      - "{{ nexus_host }}:{{ nexus_port + 9 }}:{{ nexus_port + 9 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 1 }}:{{ nexus_port + 1 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 2 }}:{{ nexus_port + 2 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 3 }}:{{ nexus_port + 3 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 4 }}:{{ nexus_port + 4 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 5 }}:{{ nexus_port + 5 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 6 }}:{{ nexus_port + 6 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 7 }}:{{ nexus_port + 7 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 8 }}:{{ nexus_port + 8 }}"
+      - "{{ nexus_bind_host }}:{{ nexus_port + 9 }}:{{ nexus_port + 9 }}"
     healthcheck:
-      test: curl --silent --fail localhost:8081/nexus/
+      test: curl --silent --fail localhost:8081
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "data:/nexus-data"
-      - "{{ nexus_configuration_directory }}:/nexus-data/etc"
+      - "logback:/nexus-data/etc/logback"
       - "{{ nexus_configuration_directory }}/nexus.properties:/nexus-data/etc/nexus.properties:ro"
 {% if nexus_traefik|bool %}
     env_file:
@@ -33,12 +33,12 @@ services:
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.nexus.entrypoints=http"
-      - "traefik.http.routers.nexus.rule=Host(`{{ nexus_traefik_host }}`)"
+      - "traefik.http.routers.nexus.rule=Host(`{{ nexus_host }}`)"
       - "traefik.http.routers.nexus.middlewares=nexus-redirect-to-https@docker"
       - "traefik.http.services.nexus-secure.loadbalancer.server.port=8081"
       - "traefik.http.routers.nexus-secure.entrypoints=https"
       - "traefik.http.routers.nexus-secure.tls=true"
-      - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_traefik_host }}`)"
+      - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_host }}`)"
     networks:
       - default
       - {{ traefik_external_network_name }}
@@ -46,6 +46,7 @@ services:
 
 volumes:
   data:
+  logback:
 
 networks:
   default:
