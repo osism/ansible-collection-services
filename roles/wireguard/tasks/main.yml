@@ -61,6 +61,7 @@
     group: "{{ item.name }}"
     mode: 0600
   loop: "{{ wireguard_users }}"
+  no_log: true
 
 - name: Start and enable wg-quick@wg0.service service
   become: true
