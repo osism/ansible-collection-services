@@ -7,7 +7,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/adminer\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/adminer\/.*$'
 
@@ -19,7 +19,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/auditd\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/auditd\/.*$'
 
@@ -31,7 +31,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/bird\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/bird\/.*$'
 
@@ -43,7 +43,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/cephclient\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/cephclient\/.*$'
 
@@ -55,7 +55,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/cgit\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/cgit\/.*$'
 
@@ -67,7 +67,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/chrony\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/chrony\/.*$'
 
@@ -79,7 +79,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/clamav\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/clamav\/.*$'
 
@@ -91,7 +91,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/containerd\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/containerd\/.*$'
 
@@ -103,7 +103,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/dnsdist\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/dnsdist\/.*$'
 
@@ -115,7 +115,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/docker\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/docker\/.*$'
 
@@ -127,7 +127,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/fail2ban\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/fail2ban\/.*$'
 
@@ -139,7 +139,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/falco\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/falco\/.*$'
 
@@ -151,7 +151,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/frr\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/frr\/.*$'
 
@@ -163,7 +163,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/hddtemp\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/hddtemp\/.*$'
 
@@ -175,7 +175,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/homer\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/homer\/.*$'
 
@@ -187,7 +187,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/journald\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/journald\/.*$'
 
@@ -198,7 +198,7 @@
       ansible_role: keycloak
       ansible_molecule_ansible_version: "8.7.0"
     files:
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/keycloak\/.*$'
       - '^roles\/keycloak\/.*$'
@@ -211,7 +211,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/lldpd\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/lldpd\/.*$'
 
@@ -222,7 +222,7 @@
       ansible_role: manager
       ansible_molecule_ansible_version: "8.7.0"
     files:
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/manager\/.*$'
       - '^roles\/manager\/.*$'
@@ -234,7 +234,7 @@
       ansible_role: metering
       ansible_molecule_ansible_version: "8.7.0"
     files:
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/metering\/.*$'
       - '^roles\/metering\/.*$'
@@ -247,7 +247,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/netbox\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/netbox\/.*$'
 
@@ -259,7 +259,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/netdata\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/netdata\/.*$'
 
@@ -271,7 +271,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/nexus\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/nexus\/.*$'
 
@@ -283,7 +283,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/openldap\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/openldap\/.*$'
 
@@ -295,7 +295,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/openstack_health_monitor\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/openstack_health_monitor\/.*$'
 
@@ -307,7 +307,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/openstackclient\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/tests\/openstackclient.*$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/openstackclient\/.*$'
 
@@ -319,7 +319,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/osquery\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/osquery\/.*$'
 
@@ -331,7 +331,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/phpmyadmin\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/phpmyadmin\/.*$'
 
@@ -343,7 +343,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/rng\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/rng\/.*$'
 
@@ -355,7 +355,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/rsyslog\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/rsyslog\/.*$'
 
@@ -367,7 +367,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/scaphandre\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/scaphandre\/.*$'
 
@@ -379,7 +379,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/smartd\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/smartd\/.*$'
 
@@ -391,7 +391,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/squid\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/squid\/.*$'
 
@@ -402,7 +402,7 @@
       ansible_role: thanos_sidecar
       ansible_molecule_ansible_version: "8.7.0"
     files:
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/thanos_sidecar\/.*$'
       - '^roles\/thanos_sidecar\/.*$'
@@ -415,7 +415,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/traefik\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/traefik\/.*$'
 
@@ -427,7 +427,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/tuned\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/tuned\/.*$'
 
@@ -439,7 +439,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/virtualbmc\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/virtualbmc\/.*$'
 
@@ -451,7 +451,7 @@
       ansible_molecule_ansible_version: "8.7.0"
     files:
       - '^roles\/wireguard\/.*$'
-      - '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/wireguard\/.*$'
 
@@ -463,8 +463,8 @@
       ansible_molecule_ansible_version: "8.5.0"
     files:
       - '^roles\/zuul\/.*$'
-      #- '^molecule\/delegated\/.*$'
-      - '^molecule\/delegated\/[^\/]*yml$'
+      #- '^molecule\/delegated\/[^\/]*yml$'
+      - '^molecule\/delegated\/tests\/zuul.*$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/zuul\/.*$'
 
@@ -492,7 +492,7 @@
         - ansible-collection-services-molecule-keycloak
         #- ansible-collection-services-molecule-lldpd
         #- ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-metering
+        #- ansible-collection-services-molecule-metering
         #- ansible-collection-services-molecule-netbox
         #- ansible-collection-services-molecule-netdata
         #- ansible-collection-services-molecule-nexus
@@ -537,7 +537,7 @@
         - ansible-collection-services-molecule-keycloak
         #- ansible-collection-services-molecule-lldpd
         #- ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-metering
+        #- ansible-collection-services-molecule-metering
         #- ansible-collection-services-molecule-netbox
         #- ansible-collection-services-molecule-netdata
         #- ansible-collection-services-molecule-nexus
