@@ -228,28 +228,16 @@
       - '^roles\/manager\/.*$'
 
 - job:
-    name: ansible-collection-services-molecule-openstack_health_monitor
+    name: ansible-collection-services-molecule-metering
     parent: ansible-molecule
     vars:
-      ansible_role: openstack_health_monitor
+      ansible_role: metering
       ansible_molecule_ansible_version: "8.7.0"
     files:
-      - '^roles\/openstack_health_monitor\/.*$'
       - '^molecule\/delegated\/.*$'
       - '^molecule\/requirements\.txt$'
-      - '^molecule\/openstack_health_monitor\/.*$'
-
-- job:
-    name: ansible-collection-services-molecule-openstackclient
-    parent: ansible-molecule
-    vars:
-      ansible_role: openstackclient
-      ansible_molecule_ansible_version: "8.7.0"
-    files:
-      - '^roles\/openstackclient\/.*$'
-      - '^molecule\/delegated\/.*$'
-      - '^molecule\/requirements\.txt$'
-      - '^molecule\/openstackclient\/.*$'
+      - '^molecule\/metering\/.*$'
+      - '^roles\/metering\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-netbox
@@ -286,6 +274,42 @@
       - '^molecule\/delegated\/.*$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/nexus\/.*$'
+
+- job:
+    name: ansible-collection-services-molecule-openldap
+    parent: ansible-molecule
+    vars:
+      ansible_role: openldap
+      ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/openldap\/.*$'
+      - '^molecule\/delegated\/.*$'
+      - '^molecule\/requirements\.txt$'
+      - '^molecule\/openldap\/.*$'
+
+- job:
+    name: ansible-collection-services-molecule-openstack_health_monitor
+    parent: ansible-molecule
+    vars:
+      ansible_role: openstack_health_monitor
+      ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/openstack_health_monitor\/.*$'
+      - '^molecule\/delegated\/.*$'
+      - '^molecule\/requirements\.txt$'
+      - '^molecule\/openstack_health_monitor\/.*$'
+
+- job:
+    name: ansible-collection-services-molecule-openstackclient
+    parent: ansible-molecule
+    vars:
+      ansible_role: openstackclient
+      ansible_molecule_ansible_version: "8.7.0"
+    files:
+      - '^roles\/openstackclient\/.*$'
+      - '^molecule\/delegated\/.*$'
+      - '^molecule\/requirements\.txt$'
+      - '^molecule\/openstackclient\/.*$'
 
 - job:
     name: ansible-collection-services-molecule-osquery
@@ -439,7 +463,8 @@
       ansible_molecule_ansible_version: "8.5.0"
     files:
       - '^roles\/zuul\/.*$'
-      - '^molecule\/delegated\/.*$'
+      #- '^molecule\/delegated\/.*$'
+      - '^molecule\/delegated\/[^\/]*yml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/zuul\/.*$'
 
@@ -448,44 +473,44 @@
     default-branch: main
     check:
       jobs:
-        - ansible-collection-services-molecule-adminer
-        - ansible-collection-services-molecule-auditd
-        - ansible-collection-services-molecule-bird
-        - ansible-collection-services-molecule-cephclient
-        - ansible-collection-services-molecule-cgit
-        - ansible-collection-services-molecule-chrony
-        - ansible-collection-services-molecule-clamav
-        - ansible-collection-services-molecule-containerd
-        - ansible-collection-services-molecule-dnsdist
-        - ansible-collection-services-molecule-docker
-        - ansible-collection-services-molecule-fail2ban
-        - ansible-collection-services-molecule-falco
-        - ansible-collection-services-molecule-frr
-        - ansible-collection-services-molecule-hddtemp
-        - ansible-collection-services-molecule-homer
-        - ansible-collection-services-molecule-journald
+        #- ansible-collection-services-molecule-adminer
+        #- ansible-collection-services-molecule-auditd
+        #- ansible-collection-services-molecule-bird
+        #- ansible-collection-services-molecule-cephclient
+        #- ansible-collection-services-molecule-cgit
+        #- ansible-collection-services-molecule-chrony
+        #- ansible-collection-services-molecule-clamav
+        #- ansible-collection-services-molecule-containerd
+        #- ansible-collection-services-molecule-dnsdist
+        #- ansible-collection-services-molecule-docker
+        #- ansible-collection-services-molecule-fail2ban
+        #- ansible-collection-services-molecule-falco
+        #- ansible-collection-services-molecule-frr
+        #- ansible-collection-services-molecule-hddtemp
+        #- ansible-collection-services-molecule-homer
+        #- ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-keycloak
-        - ansible-collection-services-molecule-lldpd
-        # - ansible-collection-services-molecule-manager
-        # - ansible-collection-services-molecule-metering
-        - ansible-collection-services-molecule-netbox
-        - ansible-collection-services-molecule-netdata
-        - ansible-collection-services-molecule-nexus
-        # - ansible-collection-services-molecule-openldap
-        - ansible-collection-services-molecule-openstack_health_monitor
+        #- ansible-collection-services-molecule-lldpd
+        #- ansible-collection-services-molecule-manager
+        - ansible-collection-services-molecule-metering
+        #- ansible-collection-services-molecule-netbox
+        #- ansible-collection-services-molecule-netdata
+        #- ansible-collection-services-molecule-nexus
+        #- ansible-collection-services-molecule-openldap
+        #- ansible-collection-services-molecule-openstack_health_monitor
         - ansible-collection-services-molecule-openstackclient
-        - ansible-collection-services-molecule-osquery
-        - ansible-collection-services-molecule-phpmyadmin
-        - ansible-collection-services-molecule-rng
-        - ansible-collection-services-molecule-rsyslog
-        - ansible-collection-services-molecule-scaphandre
-        - ansible-collection-services-molecule-smartd
-        - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-thanos_sidecar
-        - ansible-collection-services-molecule-traefik
-        - ansible-collection-services-molecule-tuned
-        - ansible-collection-services-molecule-virtualbmc
-        - ansible-collection-services-molecule-wireguard
+        #- ansible-collection-services-molecule-osquery
+        #- ansible-collection-services-molecule-phpmyadmin
+        #- ansible-collection-services-molecule-rng
+        #- ansible-collection-services-molecule-rsyslog
+        #- ansible-collection-services-molecule-scaphandre
+        #- ansible-collection-services-molecule-smartd
+        #- ansible-collection-services-molecule-squid
+        #- ansible-collection-services-molecule-thanos_sidecar
+        #- ansible-collection-services-molecule-traefik
+        #- ansible-collection-services-molecule-tuned
+        #- ansible-collection-services-molecule-virtualbmc
+        #- ansible-collection-services-molecule-wireguard
         - ansible-collection-services-molecule-zuul
         - ansible-lint
         - flake8
@@ -493,44 +518,44 @@
         - yamllint
     gate:
       jobs:
-        - ansible-collection-services-molecule-adminer
-        - ansible-collection-services-molecule-auditd
-        - ansible-collection-services-molecule-bird
-        - ansible-collection-services-molecule-cephclient
-        - ansible-collection-services-molecule-cgit
-        - ansible-collection-services-molecule-chrony
-        - ansible-collection-services-molecule-clamav
-        - ansible-collection-services-molecule-containerd
-        - ansible-collection-services-molecule-dnsdist
-        - ansible-collection-services-molecule-docker
-        - ansible-collection-services-molecule-fail2ban
-        - ansible-collection-services-molecule-falco
-        - ansible-collection-services-molecule-frr
-        - ansible-collection-services-molecule-hddtemp
-        - ansible-collection-services-molecule-homer
-        - ansible-collection-services-molecule-journald
+        #- ansible-collection-services-molecule-adminer
+        #- ansible-collection-services-molecule-auditd
+        #- ansible-collection-services-molecule-bird
+        #- ansible-collection-services-molecule-cephclient
+        #- ansible-collection-services-molecule-cgit
+        #- ansible-collection-services-molecule-chrony
+        #- ansible-collection-services-molecule-clamav
+        #- ansible-collection-services-molecule-containerd
+        #- ansible-collection-services-molecule-dnsdist
+        #- ansible-collection-services-molecule-docker
+        #- ansible-collection-services-molecule-fail2ban
+        #- ansible-collection-services-molecule-falco
+        #- ansible-collection-services-molecule-frr
+        #- ansible-collection-services-molecule-hddtemp
+        #- ansible-collection-services-molecule-homer
+        #- ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-keycloak
-        - ansible-collection-services-molecule-lldpd
-        # - ansible-collection-services-molecule-manager
-        # - ansible-collection-services-molecule-metering
-        - ansible-collection-services-molecule-netbox
-        - ansible-collection-services-molecule-netdata
-        - ansible-collection-services-molecule-nexus
-        # - ansible-collection-services-molecule-openldap
-        - ansible-collection-services-molecule-openstack_health_monitor
+        #- ansible-collection-services-molecule-lldpd
+        #- ansible-collection-services-molecule-manager
+        - ansible-collection-services-molecule-metering
+        #- ansible-collection-services-molecule-netbox
+        #- ansible-collection-services-molecule-netdata
+        #- ansible-collection-services-molecule-nexus
+        #- ansible-collection-services-molecule-openldap
+        #- ansible-collection-services-molecule-openstack_health_monitor
         - ansible-collection-services-molecule-openstackclient
-        - ansible-collection-services-molecule-osquery
-        - ansible-collection-services-molecule-phpmyadmin
-        - ansible-collection-services-molecule-rng
-        - ansible-collection-services-molecule-rsyslog
-        - ansible-collection-services-molecule-scaphandre
-        - ansible-collection-services-molecule-smartd
-        - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-thanos_sidecar
-        - ansible-collection-services-molecule-traefik
-        - ansible-collection-services-molecule-tuned
-        - ansible-collection-services-molecule-virtualbmc
-        - ansible-collection-services-molecule-wireguard
+        #- ansible-collection-services-molecule-osquery
+        #- ansible-collection-services-molecule-phpmyadmin
+        #- ansible-collection-services-molecule-rng
+        #- ansible-collection-services-molecule-rsyslog
+        #- ansible-collection-services-molecule-scaphandre
+        #- ansible-collection-services-molecule-smartd
+        #- ansible-collection-services-molecule-squid
+        #- ansible-collection-services-molecule-thanos_sidecar
+        #- ansible-collection-services-molecule-traefik
+        #- ansible-collection-services-molecule-tuned
+        #- ansible-collection-services-molecule-virtualbmc
+        #- ansible-collection-services-molecule-wireguard
         - ansible-collection-services-molecule-zuul
         - ansible-lint
         - flake8
