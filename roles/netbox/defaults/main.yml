@@ -113,7 +113,7 @@ netbox_postgres_init_sql: "{{ configuration_directory }}/environments/infrastruc
 # redis
 
 # renovate: datasource=docker depName=redis
-netbox_redis_tag: '7.2.3-alpine'
+netbox_redis_tag: '7.2.4-alpine'
 netbox_redis_image: "{{ docker_registry_redis }}/library/redis:{{ netbox_redis_tag }}"
 
 ##########################
