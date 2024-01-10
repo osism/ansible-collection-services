@@ -52,7 +52,6 @@
   changed_when: true
   notify:
     - Copy osismclient bash completion script
-  failed_when: false # changed for testing
 
 - name: Copy osismclient bash completion script
   become: true

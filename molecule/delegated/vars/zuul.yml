@@ -1,3 +1,2 @@
 ---
 zuul_base_conf_dir: /home/zuul
-playbook_dir: /home/zuul/

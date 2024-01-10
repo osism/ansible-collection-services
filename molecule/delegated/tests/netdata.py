@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable
+from .util.util import get_ansible, get_variable, get_from_url
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -10,16 +10,11 @@ def test_netdata_installation(host):
 
 def test_repository_configuration(host):
     if get_variable(host, "netdata_configure_repository"):
-        repo_key_url = get_variable(host, "netdata_debian_repository_key")
         repo = get_variable(host, "netdata_debian_repository")
-        debian_version = host.system_info.distribution_version
-
-        if debian_version < "22.04":
-            assert host.run(f"apt-key list | grep {repo_key_url}").rc == 0
-        else:
-            gpg_key_file = "/etc/apt/trusted.gpg.d/netdata.asc"
-            assert host.file(gpg_key_file).exists
-
+        key_file = host.file("/etc/apt/trusted.gpg.d/netdata.asc")
+        key_content = get_from_url(get_variable(host, "netdata_debian_repository_key"))
+        assert key_file.exists
+        assert key_file.content_string == key_content
         assert host.run(f"apt-cache policy | grep {repo.split(' ')[1]}").rc == 0
 
 

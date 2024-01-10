@@ -25,7 +25,7 @@ The following Ansible roles are included in this collection.
 | keycloak                 | [keycloak.py](molecule/delegated/tests/keycloak.py)                                                                                      |
 | lldpd                    | [lldpd.py](molecule/delegated/tests/lldpd.py)                                                                                            |
 | manager                  | [manager.py](molecule/delegated/tests/manager.py)                                                                                        |
-| metering                 |                                                                                                                                          |
+| metering                 | [metering.py](molecule/delegated/tests/metering.py)                                                                                      |
 | netbox                   | [netbox.py](molecule/delegated/tests/netbox.py)                                                                                          |
 | netdata                  | [netdata.py](molecule/delegated/tests/netdata.py)                                                                                        |
 | nexus                    | [nexus.py](molecule/delegated/tests/nexus.py)                                                                                            |
@@ -40,9 +40,9 @@ The following Ansible roles are included in this collection.
 | smartd                   | [smartd.py](molecule/delegated/tests/smartd.py)                                                                                          |
 | squid                    | [squid.py](molecule/delegated/tests/squid.py)                                                                                            |
 | tang                     |                                                                                                                                          |
-| thanos_sidecar           | [thanos_sidecar.py](molecule/delegated/tests/thanos_sidecar.py)                                                                                                                           |
+| thanos_sidecar           | [thanos_sidecar.py](molecule/delegated/tests/thanos_sidecar.py)                                                                          |
 | traefik                  | [traefik.py](molecule/delegated/tests/traefik.py)                                                                                        |
 | tuned                    | [tuned.py](molecule/delegated/tests/tuned.py)                                                                                            |
 | virtualbmc               | [virtualbmc.py](molecule/delegated/tests/virtualbmc.py)                                                                                  |
 | wireguard                | [wireguard.py](molecule/delegated/tests/wireguard.py)                                                                                    |
-| zuul                     | [zuul.py](molecule/delegated/tests/zuul.py)                                                                                              |
+| zuul                     |                                                                                                                                          |

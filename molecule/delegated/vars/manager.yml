@@ -1,6 +1,3 @@
 ---
 operator_user: zuul
 operator_group: zuul
-
-# testing
-#ara_server_mariadb_tag: '10.11'

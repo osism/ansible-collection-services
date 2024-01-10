@@ -1,6 +1,7 @@
 import pytest
 import re
-from .util.util import get_ansible, get_variable
+from .util.util import get_ansible, get_variable, get_os_role_variable
+from packaging.version import Version
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -138,20 +139,18 @@ def test_manager_config(host):
             assert f.group == get_variable(host, "operator_group")
 
     # config-wrapper
-    #
-    # Note: There is no wrapper.yml with wrapper vars in the playbook.
-    #       Task in config-wrapper.yml wants to include these.
-    #
-    # wrapper_scripts = get_variable(host, "manager_wrapper_scripts")
-    #
-    # for script in wrapper_scripts:
-    #     f = host.file(script)
-    #     assert f.exists
-    #     assert not f.is_directory
-    #     assert f.mode == 0o755
-    #     assert f.user == get_variable(host, "operator_user")
-    #     assert f.group == get_variable(host, "operator_group")
-    #     assert "#!/usr/bin/env bash" in f.content_string
+    wrapper_scripts = get_os_role_variable(
+        host, "manager_wrapper_scripts", "wrapper.yml"
+    )
+
+    for script in wrapper_scripts:
+        f = host.file(f"/usr/local/bin/{script}")
+        assert f.exists
+        assert not f.is_directory
+        assert f.mode == 0o755
+        assert f.user == get_variable(host, "operator_user")
+        assert f.group == get_variable(host, "operator_group")
+        assert "#!/usr/bin/env bash" in f.content_string
 
 
 def test_max_user_watches_and_instances(host):
@@ -181,17 +180,19 @@ def test_mariadb_health(host):
     mysql_password = get_variable(host, "ara_server_mariadb_password")
     db_healthcheck = ""
 
-    if ara_server_mariadb_tag and ara_server_mariadb_tag < "11.0.0":
-        with host.sudo("root"):
-            db_healthcheck = host.run(
-                f"docker exec manager-mariadb-1 mysqladmin status -h "
-                f"localhost -u {f'{mysql_user}'} -p{f'{mysql_password}'}"
-            )
-    elif ara_server_mariadb_tag and ara_server_mariadb_tag >= "11.0.0":
-        with host.sudo("root"):
-            db_healthcheck = host.run(
-                "docker exec manager-mariadb-1 healthcheck.sh --connect --innodb_initialized"
-            )
+    if ara_server_mariadb_tag:
+        version = Version(ara_server_mariadb_tag)
+        if version < Version("11.0.0"):
+            with host.sudo("root"):
+                db_healthcheck = host.run(
+                    f"docker exec manager-mariadb-1 mysqladmin status -h "
+                    f"localhost -u {mysql_user} -p{mysql_password}"
+                )
+        elif version >= Version("11.0.0"):
+            with host.sudo("root"):
+                db_healthcheck = host.run(
+                    "docker exec manager-mariadb-1 healthcheck.sh --connect --innodb_initialized"
+                )
 
     if db_healthcheck:
         assert db_healthcheck.rc == 0

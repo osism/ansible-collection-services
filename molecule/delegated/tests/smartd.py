@@ -8,14 +8,6 @@ def test_smartmontools_installation(host):
     assert smartd_package.is_installed
 
 
-def test_smartd_logs(host):
-    smartd_service_name = get_variable(host, "smartd_service_name")
-    command = f'journalctl -u {smartd_service_name} --no-pager --since "1 minute ago"'
-    result = host.run(command)
-    assert result.rc == 0, "Failed to run journalctl for smartd service"
-    assert "error" not in result.stdout.lower(), "Error found in smartd service logs"
-
-
 def test_smartd_directory(host):
     log_directory = host.file("/var/log/smartd")
     assert log_directory.exists

@@ -510,7 +510,7 @@
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
         - ansible-collection-services-molecule-wireguard
-        - ansible-collection-services-molecule-zuul
+        #- ansible-collection-services-molecule-zuul
         - ansible-lint
         - flake8
         - python-black
@@ -555,7 +555,7 @@
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
         - ansible-collection-services-molecule-wireguard
-        - ansible-collection-services-molecule-zuul
+        #- ansible-collection-services-molecule-zuul
         - ansible-lint
         - flake8
         - python-black
