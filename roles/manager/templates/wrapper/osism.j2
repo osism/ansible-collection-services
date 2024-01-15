@@ -28,4 +28,8 @@ if [[ "$@" = *"update docker"* ]]; then
     exec /usr/local/bin/osism-update-docker "$@"
 fi
 
+if [[ -n "$OSISM_APPLY_RETRY" ]]; then
+    PARAMETERS="$PARAMETERS --env OSISM_APPLY_RETRY=$OSISM_APPLY_RETRY"
+fi
+
 docker exec $PARAMETERS osismclient osism "$@"
