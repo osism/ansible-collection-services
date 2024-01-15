@@ -49,12 +49,10 @@
   when: docker_configure_repository|bool
   register: result_add_repository
 
-# NOTE: make sure that the package cache is up to date so that newer Docker versions will be available in any case
-- name: Update package cache  # noqa: no-handler
+- name: Force update package cache  # noqa: no-handler
   become: true
   ansible.builtin.apt:
     update_cache: true
-    cache_valid_time: "{{ apt_cache_valid_time }}"
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   when: result_add_repository.changed
 

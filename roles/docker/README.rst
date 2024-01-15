@@ -2,11 +2,6 @@ Ansible role for installation and configuration of Docker and all required compo
 
 **Role Variables**
 
-.. zuul:rolevar:: apt_cache_valid_time
-   :default: 3600
-
-Update the apt cache if it is older than the cache_valid_time.
-
 .. zuul:rolevar:: docker_debug
    :default: false
 
