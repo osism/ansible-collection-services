@@ -4,7 +4,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: adminer
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/adminer\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -16,7 +16,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: auditd
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/auditd\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -28,7 +28,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: bird
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/bird\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -40,7 +40,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: cephclient
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/cephclient\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -52,7 +52,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: cgit
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/cgit\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -64,7 +64,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: chrony
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/chrony\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -76,7 +76,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: clamav
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/clamav\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -88,7 +88,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: containerd
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/containerd\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -100,7 +100,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: dnsdist
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/dnsdist\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -112,7 +112,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: docker
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/docker\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -124,7 +124,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: fail2ban
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/fail2ban\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -136,7 +136,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: falco
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/falco\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -148,7 +148,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: frr
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/frr\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -160,7 +160,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: hddtemp
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/hddtemp\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -172,7 +172,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: homer
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/homer\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -184,7 +184,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: journald
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/journald\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -196,7 +196,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: keycloak
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/keycloak\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -208,7 +208,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: lldpd
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/lldpd\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -220,7 +220,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: manager
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/manager\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -232,7 +232,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: metering
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/metering\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -244,7 +244,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: netbox
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/netbox\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -256,7 +256,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: netdata
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/netdata\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -268,7 +268,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: nexus
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/nexus\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -280,7 +280,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: openldap
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/openldap\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -292,7 +292,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: openstack_health_monitor
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/openstack_health_monitor\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -304,7 +304,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: openstackclient
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/openstackclient\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -316,7 +316,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: osquery
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/osquery\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -328,7 +328,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: phpmyadmin
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/phpmyadmin\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -340,7 +340,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: rng
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/rng\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -352,7 +352,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: rsyslog
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/rsyslog\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -364,7 +364,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: scaphandre
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/scaphandre\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -376,7 +376,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: smartd
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/smartd\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -388,7 +388,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: squid
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/squid\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -400,7 +400,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: thanos_sidecar
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/thanos_sidecar\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -412,7 +412,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: traefik
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/traefik\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -424,7 +424,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: tuned
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/tuned\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -436,7 +436,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: virtualbmc
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/virtualbmc\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -448,7 +448,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: wireguard
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/wireguard\/.*$'
       - '^molecule\/requirements\.txt$'
@@ -460,7 +460,7 @@
     parent: ansible-molecule
     vars:
       ansible_role: zuul
-      ansible_molecule_ansible_version: "8.7.0"
+      ansible_molecule_ansible_version: "9.1.0"
     files:
       - '^roles\/zuul\/.*$'
       - '^molecule\/requirements\.txt$'
