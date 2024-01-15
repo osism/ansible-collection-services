@@ -49,6 +49,7 @@
         state: stopped
 
     - name: Do a manual start of the manager service
+      become: true
       ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ manager_docker_compose_directory }} up -d --remove-orphans"
       changed_when: true
       notify:

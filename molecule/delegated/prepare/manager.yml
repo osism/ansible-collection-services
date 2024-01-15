@@ -18,8 +18,11 @@
     docker_compose_service_user: zuul
     docker_compose_service_group: zuul
 
-- name: Install jq
+- name: Reinstall tzdata
   become: true
-  ansible.builtin.apt:
-    name: jq
-    state: present
+  ansible.builtin.shell: apt-get install --reinstall tzdata
+
+- name: Install library packaging with pip
+  ansible.builtin.pip:
+    name: packaging
+    virtualenv: /home/zuul/venv

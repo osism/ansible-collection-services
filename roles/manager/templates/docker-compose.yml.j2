@@ -354,9 +354,9 @@ services:
       - "{{ manager_configuration_directory }}/ara-server.env"
       - "{{ manager_configuration_directory }}/ara.env"
     volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      - "/etc/hosts:/etc/hosts:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
       - "{{ state_directory }}/ara-server:/state:rw"
 {% if not ara_server_traefik|bool %}
     ports:

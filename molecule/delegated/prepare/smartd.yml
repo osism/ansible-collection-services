@@ -3,3 +3,10 @@
   become: true
   ansible.builtin.apt:
     update_cache: true
+
+# apt-utils does not get installed, processing with apt kinda fails
+- name: Ensure apt-utils is installed
+  become: true
+  ansible.builtin.apt:
+    name: apt-utils
+    state: present
