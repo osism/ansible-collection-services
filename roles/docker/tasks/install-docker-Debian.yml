@@ -81,7 +81,9 @@
   ansible.builtin.dpkg_selections:
     name: "{{ containerd_package_name }}"
     selection: install
-  when: docker_manage_containerd|bool
+  when:
+    - docker_manage_containerd|bool
+    - containerd_package_name in ansible_facts.packages
   tags: molecule-idempotence-notest
 
 # NOTE: At this point the last available version of containerd should be installed
