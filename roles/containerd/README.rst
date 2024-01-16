@@ -39,3 +39,8 @@ URL that points to the docker repository.
    :default: 42463
 
 The group ID for GRPC.
+
+.. zuul:rolevar:: containerd_enable_kata
+   :default: false
+
+Enable Kata Containers runtime.

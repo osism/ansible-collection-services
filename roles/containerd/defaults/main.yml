@@ -1,10 +1,19 @@
 ---
 containerd_package_name: containerd.io
 containerd_service_name: containerd
-containerd_grpc_gid: 42463
 
 containerd_packages_fail:
   - containerd
+
+##########################
+# configuration
+#
+containerd_grpc_gid: 42463
+
+##########################
+# features
+
+containerd_enable_kata: false
 
 ##########################
 # repository
