@@ -1,6 +1,7 @@
 ---
 services:
   mariadb:
+    restart: unless-stopped
     container_name: "{{ container_name.mariadb }}"
     image: "{{ zuul_mariadb_image }}"
     env_file: "{{ zuul_base_conf_dir }}/mariadb.env"
@@ -9,6 +10,7 @@ services:
       - "{{ zuul_mariadb_volume }}:/var/lib/mysql"
 {% endif %}
   zookeeper:
+    restart: unless-stopped
     container_name: "{{ container_name.zookeeper }}"
     image: "{{ zuul_zookeeper_image }}"
     hostname: {{ zuul_zookeeper_fqdn }}
@@ -17,6 +19,7 @@ services:
       - "{{ zuul_component_conf_dirs.zookeeper }}/zoo.cfg:/conf/zoo.cfg:z"
     command: zkServer.sh start-foreground
   nodepool_builder:
+    restart: unless-stopped
     container_name: "{{ container_name.nodepool_builder }}"
     command: "/usr/local/bin/nodepool-builder -f -l /etc/nodepool/logging.conf"
     depends_on:
@@ -32,6 +35,7 @@ services:
       - "/etc/openstack:/etc/openstack:ro"
       - "/var/log/nodepool:/var/log/nodepool:rw"
   nodepool_launcher:
+    restart: unless-stopped
     container_name: "{{ container_name.nodepool_launcher }}"
     command: "/usr/local/bin/nodepool-launcher -f -l /etc/nodepool/logging.conf"
     depends_on:
@@ -43,6 +47,7 @@ services:
       - "/etc/openstack:/etc/openstack:ro"
       - "/var/log/nodepool:/var/log/nodepool:rw"
   zuul_scheduler:
+    restart: unless-stopped
     container_name: "{{ container_name.zuul_scheduler }}"
     depends_on:
       - zookeeper
@@ -57,6 +62,7 @@ services:
       - "{{ zuul_component_conf_dirs.scheduler }}/wait-to-start.sh:/wait-to-start.sh:ro"
       - "/var/log/zuul:/var/log/zuul"
   zuul_web:
+    restart: unless-stopped
     container_name: "{{ container_name.zuul_web }}"
     depends_on:
       - zuul_scheduler
@@ -70,6 +76,7 @@ services:
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "/var/log/zuul:/var/log/zuul"
   zuul_executor:
+    restart: unless-stopped
     container_name: "{{ container_name.zuul_executor }}"
     privileged: true
     env_file: "{{ zuul_base_conf_dir }}/executor.env"
@@ -83,6 +90,7 @@ services:
       - "{{ zuul_log_volume }}:/srv/static/logs:z"
       - "/var/log/zuul:/var/log/zuul"
   log_server:
+    restart: unless-stopped
     container_name: "{{ container_name.log_server }}"
     image: "{{ zuul_log_server_image }}"
     ports:
