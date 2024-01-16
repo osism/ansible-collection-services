@@ -6,6 +6,3 @@
 MountFlags=shared
 ExecStart=
 ExecStart=/usr/bin/dockerd {{ docker_parameters | default("") }}
-{% if docker_configure_proxy|bool %}
-Environment="HTTP_PROXY={{ docker_proxy_http }}" "HTTPS_PROXY={{ docker_proxy_https }}" "NO_PROXY={{ docker_proxy_no_proxy|join(',') }}"
-{% endif %}

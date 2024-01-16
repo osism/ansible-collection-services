@@ -1,6 +1,6 @@
 {
-{% if docker_opts|length %}
-{% for key, value in docker_opts|dictsort %}
+{% if docker_opts | length %}
+{% for key, value in docker_opts | dictsort %}
 {% if value is sameas false %}
     "{{ key }}": false,
 {% elif value is sameas true %}
@@ -11,7 +11,7 @@
     "{{ key }}": {{ value }},
 {% elif value is sequence %}
     "{{ key }}": [
-{% for nvalue in value|sort %}
+{% for nvalue in value | sort %}
       "{{ nvalue }}"{% if not loop.last %}, {% endif %}
 
 {% endfor %}
@@ -21,7 +21,7 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if docker_disable_default_network is defined and docker_disable_default_network|bool %}
+{% if docker_disable_default_network is defined and docker_disable_default_network | bool %}
     "bridge": "none",
 {% endif %}
     "debug": {{ docker_debug }},
@@ -45,11 +45,18 @@
     "log-driver": "{{ docker_log_driver }}",
     "log-level": "{{ docker_log_level }}",
     "log-opts": {
-{% for key, value in docker_log_opts|dictsort %}
+{% for key, value in docker_log_opts | dictsort %}
       "{{ key }}": "{{ value }}"{% if not loop.last %}, {% endif %}
 
 {% endfor %}
     },
+{% if docker_configure_proxy | bool %}
+    "proxies": {
+      "http-proxy": "{{ docker_proxy_http }}",
+      "https-proxy": "{{ docker_proxy_https }}",
+      "no-proxy": "{{ docker_proxy_no_proxy | join(',') }}"
+    },
+{% endif %}
     "registry-mirrors": [{% for mirror in docker_registry_mirrors %}"{{ mirror }}"{% if not loop.last %}, {% endif %}{% endfor %}],
     "storage-driver": "{{ docker_storage_driver }}",
     "default-runtime": "{{ docker_default_runtime }}"
