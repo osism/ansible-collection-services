@@ -1,0 +1,9 @@
+---
+deprecations:
+  - |
+    Running INTERACTIVE mode (docker exec -it) on docker-wrapper-scripts is no longer possible.
+fixes:
+  - |
+    Adding command line option "-t" on docker exec results into adding \r\n newlines on output, making shell parsing more difficult.
+    The default options "-it" are not necessary on wrapper-scripts and have been removed therefore. 
+
