@@ -56,7 +56,7 @@
 - name: Copy osismclient bash completion script
   become: true
   ansible.builtin.shell:
-    cmd: "INTERACTIVE=false osism complete > /etc/bash_completion.d/osism"
+    cmd: "osism complete > /etc/bash_completion.d/osism"
   register: result
   changed_when: true
   failed_when: result.rc != 0
