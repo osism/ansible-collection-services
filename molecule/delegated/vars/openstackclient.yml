@@ -1,3 +1,8 @@
 ---
 operator_user: zuul
 operator_group: zuul
+
+# testing
+openstackclient_install_type: package
+# openstackclient_debian_repository_arch: arm64
+# ansible_distribution_release: focal
