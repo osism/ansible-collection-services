@@ -129,7 +129,7 @@ docker_proxy_no_proxy: "{{ docker_proxy_no_proxy_default + docker_proxy_no_proxy
 
 docker_configure_repository: true
 
-docker_debian_repository_arch: amd64
+docker_debian_repository_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
 docker_debian_repository_key: https://download.docker.com/linux/ubuntu/gpg
 docker_debian_repository: "deb [ arch={{ docker_debian_repository_arch }} ] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
 
