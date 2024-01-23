@@ -43,9 +43,8 @@ cephclient_service_name: "docker-compose@cephclient"
 
 cephclient_configure_repository: true
 
-cephclient_debian_repository_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
 cephclient_debian_repository_key: https://download.ceph.com/keys/release.asc
-cephclient_debian_repository: "deb [ arch={{ cephclient_debian_repository_arch }} ] https://download.ceph.com/debian-{{ cephclient_version }} {{ ansible_distribution_release }} main"
+cephclient_debian_repository: "deb https://download.ceph.com/debian-{{ cephclient_version }} {{ ansible_distribution_release }} main"
 
 cephclient_debian_packages:
   - ceph

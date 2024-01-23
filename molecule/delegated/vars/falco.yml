@@ -1,3 +1,2 @@
 ---
 falco_configure_repository: true
-falco_debian_repository_arch: arm64

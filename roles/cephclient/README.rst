@@ -106,11 +106,6 @@ Name from the Cephclient service to deal with it.
 
 configures if the repository should be added or not.
 
-.. zuul:rolevar:: cephclient_debian_repository_arch
-   :default: amd64
-
-Architecture from the target system.
-
 .. zuul:rolevar:: cephclient_debian_repository_key
    :default: https://download.ceph.com/keys/release.asc
 

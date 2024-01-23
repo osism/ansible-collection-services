@@ -239,18 +239,13 @@ A list of IP addresses which aren't transfered via the proxy.
 Configure the system for installing Docker. Install dependencies, add
 the repository key and the repository itselfs.
 
-.. zuul:rolevar:: docker_debian_repository_arch
-   :default: amd64
-
-Architecture from the target system.
-
 .. zuul:rolevar:: docker_debian_repository_key
    :default: https://download.docker.com/linux/ubuntu/gpg
 
 The url from which you will get the package.
 
 .. zuul:rolevar:: docker_debian_repository
-   :default: "deb [ arch={{ docker_debian_repository_arch }} ]
+   :default: "deb
               https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }}
               stable"
 

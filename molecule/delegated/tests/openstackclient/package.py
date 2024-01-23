@@ -1,5 +1,6 @@
 import pytest
 from ..util.util import get_ansible, get_variable
+from packaging.version import Version
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -11,14 +12,13 @@ def check_openstackclient_install_type(host):
 
 def test_repository_key_installed(host):
     check_openstackclient_install_type(host)
-
-    debian_version = host.system_info.distribution_version
-    if debian_version < "22.04":
+    debian_version = host.system_info.release
+    if Version(debian_version) < Version("22.04"):
         key = get_variable(host, "openstackclient_debian_repository_key")
         assert host.run(f"apt-key list | grep {key}").rc == 0
     else:
-        gpg_key_file = "/etc/apt/trusted.gpg.d/openstackclient.asc"
-        assert host.file(gpg_key_file).exists
+        package = host.package("ubuntu-cloud-keyring")
+        assert package.is_installed
 
 
 def test_repository_added(host):

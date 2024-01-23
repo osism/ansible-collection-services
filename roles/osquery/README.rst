@@ -19,10 +19,6 @@ The name of the package for osquery.
 Prepare the system for installing osquery. Add the repository key
 and the repository itself.
 
-.. zuul:rolevar:: osquery_debian_repository_arch
-   :default: amd64
-
-Architecture of the target system.
 
 .. zuul:rolevar:: osquery_debian_repository_key
    :default: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x1484120ac4e9f8a1a577aeee97a80c63c9d8b80b
@@ -30,7 +26,7 @@ Architecture of the target system.
 URL that points to the osquery repository key.
 
 .. zuul:rolevar:: osquery_debian_repository
-   :default: deb [ arch={{ osquery_debian_repository_arch }} ]
+   :default: deb
              https://pkg.osquery.io/deb deb main
 
 URL that points to the osquery repository.
