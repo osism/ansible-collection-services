@@ -8,7 +8,7 @@
     - openstackclient_configure_repository|bool
     - ansible_distribution_version is version('22.04', '<')
 
-- name: Install required packages
+- name: Install keyring package
   become: true
   ansible.builtin.apt:
     name: "ubuntu-cloud-keyring"
