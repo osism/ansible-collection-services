@@ -180,3 +180,11 @@
   when:
     - docker_registry_username is defined and docker_registry_username|string|length > 0
     - docker_registry_password is defined and docker_registry_password|string|length > 0
+
+- name: Ensure that some packages are not installed
+  become: true
+  ansible.builtin.apt:
+    name:
+      - docker-buildx-plugin
+      - docker-ce-rootless-extras
+    state: absent
