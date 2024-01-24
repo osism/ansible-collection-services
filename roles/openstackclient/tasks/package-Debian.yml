@@ -8,14 +8,12 @@
     - openstackclient_configure_repository|bool
     - ansible_distribution_version is version('22.04', '<')
 
-- name: Add repository gpg key
+- name: Install keyring package
   become: true
-  ansible.builtin.get_url:
-    url: "{{ openstackclient_debian_repository_key }}"
-    dest: /etc/apt/trusted.gpg.d/openstackclient.asc
-    mode: 0644
-    owner: root
-    group: root
+  ansible.builtin.apt:
+    name: "ubuntu-cloud-keyring"
+    state: present
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   when:
     - openstackclient_configure_repository|bool
     - ansible_distribution_version is version('22.04', '>=')

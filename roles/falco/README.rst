@@ -23,10 +23,6 @@ The name of the package for Falco.
 Configure the system for installing Falco. Install dependencies, add
 the repository key and the repository itselfs. As default it is disabled.
 
-.. zuul:rolevar:: falco_debian_repository_arch
-   :default: amd64
-
-Architecture of the target system.
 
 .. zuul:rolevar:: falco_debian_repository_key
    :default: https://falco.org/repo/falcosecurity-3672BA8F.asc
@@ -34,7 +30,7 @@ Architecture of the target system.
 The url from which you will get the repository-key.
 
 .. zuul:rolevar:: falco_debian_repository
-   :default: deb [ arch={{ falco_debian_repository_arch }} ]
+   :default: deb
              https://dl.bintray.com/falcosecurity/deb stable main
 
 Name from the required package for the Falco installation.

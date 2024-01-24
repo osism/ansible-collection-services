@@ -94,18 +94,13 @@ The network to use for the OpenStackClient container.
 Configure the system for installing OpenStackClient. Install dependencies,
 add the repository key and the repository itselfs.
 
-.. zuul:rolevar:: openstackclient_debian_repository_arch
-   :default: amd64
-
-Architecture from the target system.
-
 .. zuul:rolevar:: openstackclient_debian_repository_key
    :default: 391A9AA2147192839E9DB0315EDB1B62EC4926EA
 
 The url from which you will get the package.
 
 .. zuul:rolevar:: openstackclient_debian_repository
-   :default: deb [ arch={{ openstackclient_debian_repository_arch }} ]
+   :default: deb
              http://ubuntu-cloud.archive.canonical.com/ubuntu
              {{ ansible_distribution_release }}-updates/
              {{ openstackclient_version }} main

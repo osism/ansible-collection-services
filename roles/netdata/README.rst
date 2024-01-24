@@ -25,15 +25,11 @@ Package for the installation of Netdata.
 
 Configure the system for installing Netdata.
 
-.. zuul:rolevar:: netdata_debian_repository_arch
-   :default: amd64
-
-Architecture from the target system.
 
 .. zuul:rolevar:: netdata_debian_repository_key
    :default: https://packagecloud.io/netdata/netdata-edge/gpgkey
 .. zuul:rolevar:: netdata_debian_repository
-   :default: deb [ arch={{ netdata_debian_repository_arch }} ]
+   :default: deb
              https://packagecloud.io/netdata/netdata-edge/ubuntu/
              {{ ansible_distribution_release }} main
 
