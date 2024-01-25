@@ -9,7 +9,7 @@ rulesdir:
   - ./.ansible-lint-rules/
 skip_list:
   - galaxy[no-changelog]
-  - var-naming
+# - var-naming
   - yaml # disabled because we use yamllint
   - key-order[task] # disabled because we use our own rule
   - package-latest
