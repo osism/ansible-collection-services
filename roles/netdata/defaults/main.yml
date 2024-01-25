@@ -22,7 +22,7 @@ netdata_package_name: netdata
 netdata_configure_repository: false
 
 netdata_debian_repository_key: https://packagecloud.io/netdata/netdata-edge/gpgkey
-netdata_debian_repository: "deb https://packagecloud.io/netdata/netdata-edge/ubuntu/ main"
+netdata_debian_repository: "deb https://packagecloud.io/netdata/netdata-edge/ubuntu/ {{ ansible_distribution_release }} main"
 
 ##########################
 # parameters
