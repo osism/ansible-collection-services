@@ -13,3 +13,7 @@ serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
 secureClientPort=2281
 ssl.keyStore.location=/var/certs/keystores/{{ zuul_zookeeper_fqdn }}.pem
 ssl.trustStore.location=/var/certs/certs/cacert.pem
+{% if zuul_zookeeper_metrics | bool %}
+metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider
+metricsProvider.httpPort={{ zuul_zookeeper_metrics_port }}
+{% endif %}

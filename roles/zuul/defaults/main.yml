@@ -68,6 +68,9 @@ zuul_metrics_statsd_host: ""
 zuul_metrics_statsd_port: "8125"
 zuul_metrics_statsd_prefix: ""
 
+zuul_zookeeper_metrics: false
+zuul_zookeeper_metrics_port: 7000
+
 ###############################################################################
 # docker
 ###############################################################################

@@ -14,6 +14,10 @@ services:
     container_name: "{{ container_name.zookeeper }}"
     image: "{{ zuul_zookeeper_image }}"
     hostname: {{ zuul_zookeeper_fqdn }}
+{% if zuul_zookeeper_metrics | bool %}
+    ports:
+      - "{{ zuul_zookeeper_metrics_port }}:{{ zuul_zookeeper_metrics_port }}"
+{% endif %}
     volumes:
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "{{ zuul_component_conf_dirs.zookeeper }}/zoo.cfg:/conf/zoo.cfg:z"
