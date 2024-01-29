@@ -1,6 +1,6 @@
 ---
-operator_user: zuul
-operator_group: zuul
+traefik_operator_user: zuul
+traefik_operator_group: zuul
 traefik_certificates:
   dashboard:
     cert: "-----BEGIN CERTIFICATE-----"

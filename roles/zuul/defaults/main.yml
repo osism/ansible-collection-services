@@ -75,8 +75,8 @@ zuul_zookeeper_metrics_port: 7000
 # docker
 ###############################################################################
 
-docker_registry: index.docker.io
-docker_registry_zuul: quay.io
+zuul_docker_registry: index.docker.io
+zuul_docker_registry_zuul: quay.io
 
 zuul_log_server_tag: "alpine"
 zuul_mariadb_tag: "10.6"
@@ -84,13 +84,13 @@ zuul_nodepool_tag: "9.0.0"
 zuul_zookeeper_tag: "3.7.1"
 zuul_zuul_tag: "9.1.0"
 
-zuul_executor_image: "{{ docker_registry_zuul }}/zuul-ci/zuul-executor:{{ zuul_zuul_tag }}"
+zuul_executor_image: "{{ zuul_docker_registry_zuul }}/zuul-ci/zuul-executor:{{ zuul_zuul_tag }}"
 zuul_log_server_image: "{{ docker_registry }}/httpd:{{ zuul_log_server_tag }}"
 zuul_mariadb_image: "{{ docker_registry }}/mariadb:{{ zuul_mariadb_tag }}"
-zuul_nodepool_builder_image: "{{ docker_registry_zuul }}/zuul-ci/nodepool-builder:{{ zuul_nodepool_tag }}"
-zuul_nodepool_launcher_image: "{{ docker_registry_zuul }}/zuul-ci/nodepool-launcher:{{ zuul_nodepool_tag }}"
-zuul_scheduler_image: "{{ docker_registry_zuul }}/zuul-ci/zuul-scheduler:{{ zuul_zuul_tag }}"
-zuul_web_image: "{{ docker_registry_zuul }}/zuul-ci/zuul-web:{{ zuul_zuul_tag }}"
+zuul_nodepool_builder_image: "{{ zuul_docker_registry_zuul }}/zuul-ci/nodepool-builder:{{ zuul_nodepool_tag }}"
+zuul_nodepool_launcher_image: "{{ zuul_docker_registry_zuul }}/zuul-ci/nodepool-launcher:{{ zuul_nodepool_tag }}"
+zuul_scheduler_image: "{{ zuul_docker_registry_zuul }}/zuul-ci/zuul-scheduler:{{ zuul_zuul_tag }}"
+zuul_web_image: "{{ zuul_docker_registry_zuul }}/zuul-ci/zuul-web:{{ zuul_zuul_tag }}"
 zuul_zookeeper_image: "{{ docker_registry }}/zookeeper:{{ zuul_zookeeper_tag }}"
 
 zuul_database:
@@ -99,7 +99,7 @@ zuul_database:
   root_pass: rootpassword
   db_name: zuul
 
-container_name:
+zuul_container_name:
   mariadb: "zuul_mariadb"
   zookeeper: "zuul_zookeeper"
   nodepool_builder: "zuul_nodepool_builder"

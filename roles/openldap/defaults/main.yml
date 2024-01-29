@@ -2,17 +2,17 @@
 ##########################
 # operator
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+openldap_operator_user: dragon
+openldap_operator_group: "{{ openldap_operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+openldap_docker_network_mtu: 1500
 
-docker_registry_openldap: quay.io
-docker_registry_udm_rest: quay.io
-docker_registry_umc: quay.io
+openldap_docker_registry_openldap: quay.io
+openldap_docker_registry_udm_rest: quay.io
+openldap_docker_registry_umc: quay.io
 
 ##########################
 # openldap
@@ -30,7 +30,7 @@ openldap_ldap_port: 389
 openldap_ldaps_port: 636
 
 openldap_tag: build-25862
-openldap_image: "{{ docker_registry_openldap }}/univention/upx-ldap-server:{{ openldap_tag }}"
+openldap_image: "{{ openldap_docker_registry_openldap }}/univention/upx-ldap-server:{{ openldap_tag }}"
 
 openldap_domain_name: osism.local
 openldap_base_dn: dc=osism,dc=local
@@ -198,34 +198,34 @@ openldap_dh_parameters: '-----BEGIN DH PARAMETERS-----
 ##########################
 # UDM
 
-udm_rest_host: 127.0.0.1
-udm_rest_port: 9979
+openldap_udm_rest_host: 127.0.0.1
+openldap_udm_rest_port: 9979
 
-udm_rest_container_name: udm-rest
-udm_rest_tag: build-24328
-udm_rest_image: "{{ docker_registry_udm_rest }}/univention/upx-udm-rest:{{ udm_rest_tag }}"
+openldap_udm_rest_container_name: udm-rest
+openldap_udm_rest_tag: build-24328
+openldap_udm_rest_image: "{{ openldap_docker_registry_udm_rest }}/univention/upx-udm-rest:{{ openldap_udm_rest_tag }}"
 
 ##########################
 # UMC
 
-umc_web_host: 127.0.0.1
-umc_web_port: 8090
+openldap_umc_web_host: 127.0.0.1
+openldap_umc_web_port: 8090
 
-umc_web_container_name: umc-web
-umc_web_tag: build-24437
-umc_web_image: "{{ docker_registry_umc }}/univention/upx-umc-web:{{ umc_web_tag }}"
+openldap_umc_web_container_name: umc-web
+openldap_umc_web_tag: build-24437
+openldap_umc_web_image: "{{ openldap_docker_registry_umc }}/univention/upx-umc-web:{{ openldap_umc_web_tag }}"
 
-umc_gateway_host: 127.0.0.1
-umc_gateway_http_port: 8191
-umc_gateway_https_port: 8192
+openldap_umc_gateway_host: 127.0.0.1
+openldap_umc_gateway_http_port: 8191
+openldap_umc_gateway_https_port: 8192
 
-umc_gateway_container_name: umc-gateway
-umc_gateway_tag: build-24437
-umc_gateway_image: "{{ docker_registry_umc }}/univention/upx-umc-gateway:{{ umc_gateway_tag }}"
+openldap_umc_gateway_container_name: umc-gateway
+openldap_umc_gateway_tag: build-24437
+openldap_umc_gateway_image: "{{ openldap_docker_registry_umc }}/univention/upx-umc-gateway:{{ openldap_umc_gateway_tag }}"
 
-umc_server_host: 127.0.0.1
-umc_server_port: 6670
+openldap_umc_server_host: 127.0.0.1
+openldap_umc_server_port: 6670
 
-umc_server_container_name: umc-server
-umc_server_tag: build-24437
-umc_server_image: "{{ docker_registry_umc }}/univention/upx-umc-server:{{ umc_server_tag }}"
+openldap_umc_server_container_name: umc-server
+openldap_umc_server_tag: build-24437
+openldap_umc_server_image: "{{ openldap_docker_registry_umc }}/univention/upx-umc-server:{{ openldap_umc_server_tag }}"

@@ -21,8 +21,8 @@ def test_openstackclient_directories(host):
         dir = host.file(directory)
         assert dir.exists
         assert dir.is_directory
-        assert dir.user == get_variable(host, "operator_user")
-        assert dir.group == get_variable(host, "operator_group")
+        assert dir.user == get_variable(host, "openstackclient_operator_user")
+        assert dir.group == get_variable(host, "openstackclient_operator_group")
         assert dir.mode == 0o750
 
 
@@ -33,8 +33,12 @@ def test_docker_compose_file(host):
     docker_compose_file = host.file(docker_compose_file_path)
     assert docker_compose_file.exists
     assert not docker_compose_file.is_directory
-    assert docker_compose_file.user == get_variable(host, "operator_user")
-    assert docker_compose_file.group == get_variable(host, "operator_group")
+    assert docker_compose_file.user == get_variable(
+        host, "openstackclient_operator_user"
+    )
+    assert docker_compose_file.group == get_variable(
+        host, "openstackclient_operator_group"
+    )
     assert docker_compose_file.mode == 0o640
 
 
@@ -52,8 +56,8 @@ def test_openstack_wrapper_script(host):
     wrapper_script_path = "/usr/local/bin/openstack"
     wrapper_script = host.file(wrapper_script_path)
     assert wrapper_script.exists
-    assert wrapper_script.user == get_variable(host, "operator_user")
-    assert wrapper_script.group == get_variable(host, "operator_group")
+    assert wrapper_script.user == get_variable(host, "openstackclient_operator_user")
+    assert wrapper_script.group == get_variable(host, "openstackclient_operator_group")
     assert wrapper_script.mode == 0o755
 
 

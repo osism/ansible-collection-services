@@ -24,8 +24,8 @@ def test_dirs(host):
     assert d.exists
     assert d.is_directory
     assert d.mode == 0o755
-    assert d.user == get_variable(host, "operator_user")
-    assert d.group == get_variable(host, "operator_group")
+    assert d.user == get_variable(host, "phpmyadmin_operator_user")
+    assert d.group == get_variable(host, "phpmyadmin_operator_group")
 
 
 def test_dockercompose(host):
@@ -36,10 +36,10 @@ def test_dockercompose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "phpmyadmin_operator_user")
+    assert f.group == get_variable(host, "phpmyadmin_operator_group")
 
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "phpmyadmin_operator_user")):
         assert "container_name: phpmyadmin" in f.content_string
 
 

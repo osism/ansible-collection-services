@@ -2,15 +2,15 @@
 ##########################
 # operator
 
-operator_user: mato
-operator_group: "{{ operator_user }}"
+thanos_sidecar_operator_user: mato
+thanos_sidecar_operator_group: "{{ thanos_sidecar_operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+thanos_sidecar_docker_network_mtu: 1500
 
-docker_registry_thanos_sidecar: quay.io
+thanos_sidecar_docker_registry_thanos_sidecar: quay.io
 
 ##########################
 # thanos_sidecar
@@ -31,4 +31,4 @@ thanos_sidecar_http_port: 10902
 
 # renovate: datasource=docker depName=quay.io/thanos/thanos
 thanos_sidecar_tag: 'v0.32.5'
-thanos_sidecar_image: "{{ docker_registry_thanos_sidecar }}/thanos/thanos:{{ thanos_sidecar_tag }}"
+thanos_sidecar_image: "{{ thanos_sidecar_docker_registry_thanos_sidecar }}/thanos/thanos:{{ thanos_sidecar_tag }}"

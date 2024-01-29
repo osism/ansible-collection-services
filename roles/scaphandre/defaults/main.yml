@@ -2,15 +2,15 @@
 ##########################
 # operator
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+scaphandre_operator_user: dragon
+scaphandre_operator_group: "{{ operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+scaphandre_docker_network_mtu: 1500
 
-docker_registry_scaphandre: index.docker.io
+scaphandre_docker_registry_scaphandre: index.docker.io
 
 ##########################
 # scaphandre
@@ -34,4 +34,4 @@ scaphandre_flags: "{{ scaphandre_flags_defaults + scaphandre_flags_extra }}"
 
 # renovate: datasource=docker depName=index.docker.io/hubblo/scaphandre
 scaphandre_tag: '0.5.0'
-scaphandre_image: "{{ docker_registry_scaphandre }}/hubblo/scaphandre:{{ scaphandre_tag }}"
+scaphandre_image: "{{ scaphandre_docker_registry_scaphandre }}/hubblo/scaphandre:{{ scaphandre_tag }}"

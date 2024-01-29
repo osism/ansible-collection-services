@@ -152,82 +152,82 @@ The container image to use.
 
 **UMC Variables**
 
-.. zuul:rolevar:: umc_web_host
+.. zuul:rolevar:: openldap_umc_web_host
    :default: 127.0.0.1
 
 # FIX ME
 
-.. zuul:rolevar:: umc_web_port
+.. zuul:rolevar:: openldap_umc_web_port
    :default: 8090
 
 Port which UMC-web will use for connections.
 
-.. zuul:rolevar:: umc_web_container_name
+.. zuul:rolevar:: openldap_umc_web_container_name
    :default: umc-web
 
 Name of the container in which UMC-web will run.
 
-.. zuul:rolevar:: umc_web_tag
+.. zuul:rolevar:: openldap_umc_web_tag
    :default: build-24437
 
 Version which should used.
 
-.. zuul:rolevar:: umc_web_image
-   :default: {{ docker_registry_umc }}/univention/upx-umc-web:{{ umc_web_tag }}
+.. zuul:rolevar:: openldap_umc_web_image
+   :default: {{ docker_registry_umc }}/univention/upx-umc-web:{{ openldap_umc_web_tag }}
 
 The container image to use.
 
-.. zuul:rolevar:: umc_gateway_host
+.. zuul:rolevar:: openldap_umc_gateway_host
    :default: 127.0.0.1
 
 # FIX ME
 
-.. zuul:rolevar:: umc_gateway_http_port
+.. zuul:rolevar:: openldap_umc_gateway_http_port
    :default: 8191
 
 HTTP port for UMC.
 
-.. zuul:rolevar:: umc_gateway_https_port
+.. zuul:rolevar:: openldap_umc_gateway_https_port
    :default: 8192
 
 HTTPS port for UMC.
 
-.. zuul:rolevar:: umc_gateway_container_name
-   :default: umc-gateway
+.. zuul:rolevar:: openldap_umc_gateway_container_name
+   :default: openldap_umc-gateway
 
 Name of the container in which UMC-gateway will run.
 
-.. zuul:rolevar:: umc_gateway_tag
+.. zuul:rolevar:: openldap_umc_gateway_tag
    :default: build-24437
 
 Version which should used.
 
-.. zuul:rolevar:: umc_gateway_image
+.. zuul:rolevar:: openldap_umc_gateway_image
    :default: {{ docker_registry_umc }}/univention/upx-umc-gateway:{{ umc_gateway_tag }}
 
 The container image to use.
 
-.. zuul:rolevar:: umc_server_host
+.. zuul:rolevar:: openldap_umc_server_host
    :default: 127.0.0.1
 
 The host where UMC will be reachable.
 
-.. zuul:rolevar:: umc_server_port
+.. zuul:rolevar:: openldap_umc_server_port
    :default: 6670
 
 Port which UMC will use for connections.
 
-.. zuul:rolevar:: umc_server_container_name
+.. zuul:rolevar:: openldap_umc_server_container_name
    :default: umc-server
 
 Name of the container in which UMC will run.
 
-.. zuul:rolevar:: umc_server_tag
+.. zuul:rolevar:: openldap_umc_server_tag
    :default: build-24437
 
 Version of UMC which should used.
 
-.. zuul:rolevar:: umc_server_image
-   :default: {{ docker_registry_umc }}/univention/upx-umc-server:{{ umc_server_tag }}
+.. zuul:rolevar:: openldap_umc_server_image
+   :default: {{ openldap_docker_registry_umc }}/univention/upx-umc-server:{{ openldap_umc_server_tag }}
 
 The container image to use.

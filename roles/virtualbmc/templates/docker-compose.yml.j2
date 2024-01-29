@@ -8,7 +8,7 @@ services:
     ports:
       - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:6230-6239/udp"
     volumes:
-      - "{{ nova_libvirt_container_volume }}:/var/run/libvirt"
+      - "{{ virtualbmc_nova_libvirt_container_volume }}:/var/run/libvirt"
 
 volumes:
   nova_libvirt_run:
@@ -18,7 +18,7 @@ networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ virtualbmc_docker_network_mtu }}
     ipam:
       driver: default
       config:

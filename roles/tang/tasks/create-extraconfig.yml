@@ -13,7 +13,7 @@
   become: true
   ansible.builtin.template:
     src: tangd.socket.conf.j2
-    dest: "{{ systemd_destination }}/{{ tang_service_name }}"
+    dest: "{{ tang_systemd_destination }}/{{ tang_service_name }}"
     owner: root
     group: root
     mode: 0644
