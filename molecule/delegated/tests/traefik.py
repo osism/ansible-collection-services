@@ -7,10 +7,10 @@ def test_traefik_directories_created(host):
     directories = [
         get_variable(host, "traefik_docker_compose_directory"),
         get_variable(host, "traefik_certificates_directory"),
-        get_variable(host, "traefik_configuration_directory"),
+        get_variable(host, "traefik_configuration_directory_traefik"),
     ]
-    operator_user = get_variable(host, "operator_user")
-    operator_group = get_variable(host, "operator_group")
+    operator_user = get_variable(host, "traefik_operator_user")
+    operator_group = get_variable(host, "traefik_operator_group")
 
     for directory in directories:
         dir = host.file(directory)
@@ -36,10 +36,10 @@ def test_traefik_docker_compose_file(host):
     assert docker_compose_file.exists, "docker-compose.yml for traefik should exist"
     assert docker_compose_file.is_file, "docker-compose.yml should be a file"
     assert docker_compose_file.user == get_variable(
-        host, "operator_user"
+        host, "traefik_operator_user"
     ), "docker-compose.yml should be owned by the operator user"
     assert docker_compose_file.group == get_variable(
-        host, "operator_group"
+        host, "traefik_operator_group"
     ), "docker-compose.yml should be in the operator group"
     assert (
         docker_compose_file.mode == 0o640
@@ -48,7 +48,7 @@ def test_traefik_docker_compose_file(host):
 
 def test_traefik_configuration_files(host):
     traefik_configuration_directory = get_variable(
-        host, "traefik_configuration_directory"
+        host, "traefik_configuration_directory_traefik"
     )
     config_files = ["traefik.yml", "traefik.env", "certificates.yml"]
 
@@ -57,10 +57,10 @@ def test_traefik_configuration_files(host):
         assert file_path.exists, f"Configuration file {f} should exist"
         assert file_path.is_file, f"{f} should be a file"
         assert file_path.user == get_variable(
-            host, "operator_user"
+            host, "traefik_operator_user"
         ), f"{f} should be owned by the operator user"
         assert file_path.group == get_variable(
-            host, "operator_group"
+            host, "traefik_operator_group"
         ), f"{f} should be in the operator group"
         assert file_path.mode == 0o644, f"{f} should have 0644 permissions"
 
@@ -77,10 +77,10 @@ def test_certificate_files(host):
             assert f.exists, f"Certificate file {key}.{suffix} should exist"
             assert f.is_file, f"{key}.{suffix} should be a file"
             assert f.user == get_variable(
-                host, "operator_user"
+                host, "traefik_operator_user"
             ), f"{key}.{suffix} should be owned by the operator user"
             assert f.group == get_variable(
-                host, "operator_group"
+                host, "traefik_operator_group"
             ), f"{key}.{suffix} should be in the operator group"
             assert f.mode == 0o644, f"{key}.{suffix} should have 0644 permissions"
 

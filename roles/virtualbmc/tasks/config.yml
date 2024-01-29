@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ virtualbmc_operator_user }}"
+    group: "{{ virtualbmc_operator_group }}"
     mode: 0750
   loop:
     - "{{ virtualbmc_docker_compose_directory }}"

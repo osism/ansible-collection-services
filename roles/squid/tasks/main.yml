@@ -6,8 +6,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ squid_operator_user }}"
+    group: "{{ squid_operator_group }}"
     mode: 0750
   loop:
     - "{{ squid_configuration_directory }}"
@@ -19,8 +19,8 @@
     src: "{{ item }}.j2"
     dest: "{{ squid_configuration_directory }}/conf.d/{{ item }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ squid_operator_user }}"
+    group: "{{ squid_operator_group }}"
   loop:
     - osism.conf
   notify: Restart squid service
@@ -34,8 +34,8 @@
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ squid_docker_compose_directory }}/docker-compose.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ squid_operator_user }}"
+    group: "{{ squid_operator_group }}"
     mode: 0640
   notify: Restart squid service
 

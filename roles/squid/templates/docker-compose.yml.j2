@@ -16,7 +16,7 @@ networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ squid_docker_network_mtu }}
     ipam:
       driver: default
       config:

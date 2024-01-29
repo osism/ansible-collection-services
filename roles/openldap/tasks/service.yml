@@ -3,8 +3,8 @@
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ openldap_docker_compose_directory }}/docker-compose.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ openldap_operator_user }}"
+    group: "{{ openldap_operator_group }}"
     mode: 0640
   notify: Restart openldap service
 

@@ -1,4 +1,4 @@
 ---
-operator_user: zuul
-operator_group: zuul
-nova_libvirt_container_volume: /tmp/nova_libvirt_run
+virtualbmc_operator_user: zuul
+virtualbmc_operator_group: zuul
+virtualbmc_nova_libvirt_container_volume: /tmp/nova_libvirt_run

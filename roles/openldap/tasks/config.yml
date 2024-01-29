@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ openldap_operator_user }}"
+    group: "{{ openldap_operator_group }}"
     mode: 0750
   loop:
     - "{{ openldap_configuration_directory }}"
@@ -20,8 +20,8 @@
     src: "{{ item.src }}"
     dest: "{{ openldap_configuration_directory }}/{{ item.dest }}"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ openldap_operator_user }}"
+    group: "{{ openldap_operator_group }}"
   loop:
     - src: env/openldap.env.j2
       dest: openldap.env
@@ -45,8 +45,8 @@
     src: config-secret.j2
     dest: "{{ openldap_secrets_directory }}/{{ item.filename }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ openldap_operator_user }}"
+    group: "{{ openldap_operator_group }}"
   loop:
     - filename: CAcert.pem
       secret: "{{ openldap_cacert_pem }}"

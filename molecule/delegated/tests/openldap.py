@@ -19,8 +19,8 @@ def test_dirs(host):
         assert f.exists
         assert f.is_directory
         assert f.mode == 0o750
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+        assert f.user == get_variable(host, "openldap_operator_user")
+        assert f.group == get_variable(host, "openldap_operator_group")
 
 
 def test_env_and_ucr_files(host):
@@ -41,8 +41,8 @@ def test_env_and_ucr_files(host):
         assert f.exists
         assert not f.is_directory
         assert f.mode == 0o640
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+        assert f.user == get_variable(host, "openldap_operator_user")
+        assert f.group == get_variable(host, "openldap_operator_group")
         assert "openldap_domain_name" or "openldap_ldap_port" in f.content_string
 
 
@@ -60,8 +60,8 @@ def test_secret_files(host):
         assert f.exists
         assert not f.is_directory
         assert f.mode == 0o644
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+        assert f.user == get_variable(host, "openldap_operator_user")
+        assert f.group == get_variable(host, "openldap_operator_group")
         assert (
             "-----BEGIN CERTIFICATE-----"
             or "-----BEGIN RSA PRIVATE KEY-----"
@@ -76,12 +76,12 @@ def test_dockercompose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "openldap_operator_user")
+    assert f.group == get_variable(host, "openldap_operator_group")
 
     openldap_container_name = get_variable(host, "openldap_container_name")
 
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "openldap_operator_user")):
         assert f'container_name: "{openldap_container_name}' in f.content_string
 
 

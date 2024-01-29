@@ -2,16 +2,16 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
+phpmyadmin_docker_network_mtu: 1500
 
-docker_registry: index.docker.io
-docker_registry_phpmyadmin: "{{ docker_registry }}"
+phpmyadmin_docker_registry: index.docker.io
+phpmyadmin_docker_registry_phpmyadmin: "{{ phpmyadmin_docker_registry }}"
 
 ##########################
 # operator user
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+phpmyadmin_operator_user: dragon
+phpmyadmin_operator_group: "{{ phpmyadmin_operator_user }}"
 
 ##########################
 # phpmyadmin
@@ -24,7 +24,7 @@ phpmyadmin_port: 8110
 
 # renovate: datasource=docker depName=phpmyadmin/phpmyadmin
 phpmyadmin_tag: '5.2'
-phpmyadmin_image: "{{ docker_registry_phpmyadmin }}/phpmyadmin/phpmyadmin:{{ phpmyadmin_tag }}"
+phpmyadmin_image: "{{ phpmyadmin_docker_registry_phpmyadmin }}/phpmyadmin/phpmyadmin:{{ phpmyadmin_tag }}"
 
 phpmyadmin_network: 172.31.100.32/28
 
@@ -35,5 +35,5 @@ phpmyadmin_service_name: "docker-compose@phpmyadmin"
 
 phpmyadmin_traefik: false
 
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+phpmyadmin_traefik_external_network_name: traefik
+phpmyadmin_traefik_external_network_cidr: 172.31.254.0/24

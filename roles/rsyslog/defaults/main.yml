@@ -14,11 +14,11 @@ rsyslog_package_name: rsyslog
 
 rsyslog_fluentd: true
 
-rsyslog_fluentd_host: 127.0.0.1
-rsyslog_fluentd_port: 5140
+rsyslog_fluentd_host_rsyslog: 127.0.0.1
+rsyslog_fluentd_port_rsyslog: 5140
 
-fluentd_port: "{{ rsyslog_fluentd_port }}"
-fluentd_host: "{{ rsyslog_fluentd_host }}"
+rsyslog_fluentd_port: "{{ rsyslog_fluentd_host_rsyslog }}"
+rsyslog_fluentd_host: "{{ rsyslog_fluentd_port_rsyslog }}"
 
 ##########################
 # additional rsyslog
