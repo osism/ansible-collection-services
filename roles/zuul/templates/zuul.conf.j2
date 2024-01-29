@@ -42,3 +42,10 @@ client_id={{ zuul_webserver_fqdn }}
 issuer_id=zuul_operator
 secret={{ zuul_auth_secret }}
 {% endif %}
+{% if zuul_metrics_statsd_host | length > 0 %}
+
+[statsd]
+server={{ zuul_metrics_statsd_host }}
+port={{ zuul_metrics_statsd_port }}
+{% if zuul_metrics_statsd_prefix | length > 0 %}prefix={{ zuul_metrics_statsd_prefix }}{% endif %}
+{% endif %}

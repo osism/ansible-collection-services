@@ -68,6 +68,8 @@
     - mariadb
     - scheduler
     - web
+    - nodepool_builder
+    - nodepool_launcher
 
 - name: Template docker-compose.yaml
   ansible.builtin.template:
