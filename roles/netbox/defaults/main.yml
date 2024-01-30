@@ -114,7 +114,7 @@ netbox_postgres_init_sql: "{{ netbox_configuration_directory }}/environments/inf
 
 # renovate: datasource=docker depName=redis
 netbox_redis_tag: '7.2.4-alpine'
-netbox_redis_image: "{{ docker_registry_redis }}/library/redis:{{ netbox_redis_tag }}"
+netbox_redis_image: "{{ netbox_docker_registry_redis }}/library/redis:{{ netbox_redis_tag }}"
 
 ##########################
 # traefik

@@ -2,16 +2,16 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
+adminer_docker_network_mtu: 1500
 
-docker_registry: index.docker.io
-docker_registry_adminer: "{{ docker_registry }}"
+adminer_docker_registry: index.docker.io
+adminer_docker_registry_adminer: "{{ adminer_docker_registry }}"
 
 ##########################
 # operator user
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+adminer_operator_user: dragon
+adminer_operator_group: "{{ adminer_operator_user }}"
 
 ##########################
 # adminer
@@ -24,7 +24,7 @@ adminer_port: 8111
 
 # renovate: datasource=docker depName=adminer
 adminer_tag: '4.7'
-adminer_image: "{{ docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
+adminer_image: "{{ admin_docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
 
 adminer_network: 172.31.100.64/28
 

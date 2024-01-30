@@ -14,8 +14,8 @@ def test_metering_dirs(host):
         assert d.exists
         assert d.is_directory
         assert d.mode == 0o750
-        assert d.user == get_variable(host, "operator_user")
-        assert d.group == get_variable(host, "operator_group")
+        assert d.user == get_variable(host, "metering_operator_user")
+        assert d.group == get_variable(host, "metering_operator_group")
 
 
 def test_settings_config(host):
@@ -24,8 +24,8 @@ def test_settings_config(host):
     assert config.exists
     assert not config.is_directory
     assert config.mode == 0o640
-    assert config.user == get_variable(host, "operator_user")
-    assert config.group == get_variable(host, "operator_group")
+    assert config.user == get_variable(host, "metering_operator_user")
+    assert config.group == get_variable(host, "metering_operator_group")
     assert "file = pushed_billing_data" in config.content_string
 
 
@@ -36,11 +36,11 @@ def test_docker_compose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "metering_operator_user")
+    assert f.group == get_variable(host, "metering_operator_group")
 
     container_name = get_variable(host, "metering_container_name")
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "metering_operator_user")):
         assert container_name in f.content_string
 
 

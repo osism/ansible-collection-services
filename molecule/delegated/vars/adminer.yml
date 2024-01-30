@@ -1,3 +1,3 @@
 ---
-operator_user: zuul
-operator_group: zuul
+adminer_operator_user: zuul
+adminer_operator_group: zuul

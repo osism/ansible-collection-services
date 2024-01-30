@@ -2,10 +2,10 @@
 - name: Copy postgres environment files
   ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
-    dest: "{{ netbox_configuration_directory }}/{{ item }}.env"
+    dest: "{{ netbox_configuration_directory_netbox }}/{{ item }}.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   loop:
     - postgres
 
@@ -14,8 +14,8 @@
     src: config-postgres-secret.j2
     dest: "{{ netbox_secrets_directory }}/{{ item.filename }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   loop:
     - filename: POSTGRES_PASSWORD
       secret: "{{ netbox_postgres_password }}"
@@ -24,10 +24,10 @@
 - name: Create docker-entrypoint-initdb.d directory
   become: true
   ansible.builtin.file:
-    path: "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d"
+    path: "{{ netbox_configuration_directory_netbox }}/docker-entrypoint-initdb.d"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
     mode: 0755
 
 - name: Check if init.sql file exists
@@ -40,7 +40,7 @@
 - name: Copy init.sql file
   ansible.builtin.copy:
     src: "{{ netbox_postgres_init_sql }}"
-    dest: "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d/init.sql.osism"
+    dest: "{{ netbox_configuration_directory_netbox }}/docker-entrypoint-initdb.d/init.sql.osism"
     mode: 0644
   when:
     - netbox_postgres_init_sql_check.stat.exists
@@ -48,7 +48,7 @@
 - name: Create init-netbox-database.sh script
   ansible.builtin.template:
     src: config-netbox-database.j2
-    dest: "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d/init-netbox-database.sh"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    dest: "{{ netbox_configuration_directory_netbox }}/docker-entrypoint-initdb.d/init-netbox-database.sh"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
     mode: 0755

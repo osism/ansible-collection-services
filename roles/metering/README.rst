@@ -11,13 +11,13 @@ to set the MTU for Docker.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: metering_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
 .. zuul:rolevar:: operator_group
-   :default: operator_user
+   :default: metering_operator_user
 
 Group from the user which will own the configuration directory and
 handles with Docker.
