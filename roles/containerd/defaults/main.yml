@@ -9,7 +9,7 @@ containerd_packages_fail:
 ##########################
 # repository
 
-docker_configure_repository: true
+containerd_docker_configure_repository: true
 
-docker_debian_repository_key: https://download.docker.com/linux/ubuntu/gpg
-docker_debian_repository: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+containerd_docker_debian_repository_key: https://download.docker.com/linux/ubuntu/gpg
+containerd_docker_debian_repository: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"

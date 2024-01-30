@@ -21,7 +21,7 @@
 - name: Add repository gpg key with apt-key
   become: true
   ansible.builtin.apt_key:
-    url: "{{ docker_debian_repository_key }}"
+    url: "{{ containerd_docker_debian_repository_key }}"
   when:
     - docker_configure_repository|bool
     - ansible_distribution_version is version('22.04', '<')
@@ -29,7 +29,7 @@
 - name: Add repository gpg key
   become: true
   ansible.builtin.get_url:
-    url: "{{ docker_debian_repository_key }}"
+    url: "{{ containerd_docker_debian_repository_key }}"
     dest: /etc/apt/trusted.gpg.d/docker.asc
     mode: 0644
     owner: root
@@ -41,7 +41,7 @@
 - name: Add repository
   become: true
   ansible.builtin.apt_repository:
-    repo: "{{ docker_debian_repository }}"
+    repo: "{{ containerd_docker_debian_repository }}"
     state: present
     filename: docker
     update_cache: true
