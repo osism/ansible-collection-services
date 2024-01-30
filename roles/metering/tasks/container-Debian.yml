@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ metering_operator_user }}"
+    group: "{{ metering_operator_group }}"
     mode: 0750
   loop:
     - "{{ metering_configuration_directory }}"
@@ -16,8 +16,8 @@
   ansible.builtin.template:
     src: settings.conf.j2
     dest: "{{ metering_configuration_directory }}/settings.conf"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ metering_operator_user }}"
+    group: "{{ metering_operator_group }}"
     mode: 0640
   notify: Restart metering service
 
@@ -25,8 +25,8 @@
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ metering_docker_compose_directory }}/docker-compose.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ metering_operator_user }}"
+    group: "{{ metering_operator_group }}"
     mode: 0640
   notify: Restart metering service
 

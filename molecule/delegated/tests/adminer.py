@@ -9,8 +9,8 @@ def test_directory(host):
     f = host.file(path)
     assert f.exists
     assert f.is_directory
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "adminer_operator_user")
+    assert f.group == get_variable(host, "adminer_operator_group")
     assert f.mode == 0o755
 
 
@@ -20,8 +20,8 @@ def test_file(host):
     f = host.file(f"{path}/docker-compose.yml")
     assert f.exists
     assert not f.is_directory
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "adminer_operator_user")
+    assert f.group == get_variable(host, "adminer_operator_group")
     assert f.mode == 0o640
 
     adminer_database_host = get_variable(host, "adminer_database_host")
