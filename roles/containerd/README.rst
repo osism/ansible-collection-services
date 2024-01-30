@@ -18,12 +18,12 @@ The name of the package for containerd.
 Prepare the system for installing containerd. Add the repository key
 and the repository itself.
 
-.. zuul:rolevar:: docker_debian_repository_key
+.. zuul:rolevar:: containerd_docker_debian_repository_key
   :default: https://download.docker.com/linux/ubuntu/gpg
 
 URL that points to the docker repository key.
 
-.. zuul:rolevar:: docker_debian_repository
+.. zuul:rolevar:: containerd_docker_debian_repository
    :default: "deb
              https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }}
              stable"
