@@ -4,49 +4,49 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
     mode: 0755
   loop:
-    - "{{ netbox_configuration_directory }}/initializers"
-    - "{{ netbox_configuration_directory }}/startup-scripts"
+    - "{{ netbox_configuration_directory_netbox }}/initializers"
+    - "{{ netbox_configuration_directory_netbox }}/startup-scripts"
 
 - name: Copy netbox environment files
   ansible.builtin.template:
     src: "env/{{ item }}.env.j2"
-    dest: "{{ netbox_configuration_directory }}/{{ item }}.env"
+    dest: "{{ netbox_configuration_directory_netbox }}/{{ item }}.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   loop:
     - netbox
 
 - name: Copy netbox configuration file
   ansible.builtin.template:
     src: configuration.py.j2
-    dest: "{{ netbox_configuration_directory }}/configuration.py"
+    dest: "{{ netbox_configuration_directory_netbox }}/configuration.py"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   notify: Restart netbox service
 
 - name: Copy nginx unit configuration file (<= 1.26)
   ansible.builtin.template:
     src: nginx-unit-1.26.json.j2
-    dest: "{{ netbox_configuration_directory }}/nginx-unit.json"
+    dest: "{{ netbox_configuration_directory_netbox }}/nginx-unit.json"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   notify: Restart netbox service
   when: '"ldap" in netbox_tag'
 
 - name: Copy nginx unit configuration file (> 1.26)
   ansible.builtin.template:
     src: nginx-unit.json.j2
-    dest: "{{ netbox_configuration_directory }}/nginx-unit.json"
+    dest: "{{ netbox_configuration_directory_netbox }}/nginx-unit.json"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   notify: Restart netbox service
   when: '"ldap" not in netbox_tag'
 
@@ -55,8 +55,8 @@
     src: config-netbox-secret.j2
     dest: "{{ netbox_secrets_directory }}/{{ item.filename }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   loop:
     - filename: NETBOX_POSTGRES_PASSWORD
       secret: "{{ netbox_postgres_password }}"
@@ -69,10 +69,10 @@
 - name: Deploy initializers for netbox
   ansible.builtin.template:
     src: "initializers/{{ item }}.yml.j2"
-    dest: "{{ netbox_configuration_directory }}/initializers/{{ item }}.yml"
+    dest: "{{ netbox_configuration_directory_netbox }}/initializers/{{ item }}.yml"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   loop: "{{ netbox_initializers }}"
   notify: Restart netbox service
   when: netbox_init|bool
@@ -81,8 +81,8 @@
 - name: Deploy startup scripts for netbox
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ netbox_configuration_directory }}/startup-scripts/{{ item | basename }}"
+    dest: "{{ netbox_configuration_directory_netbox }}/startup-scripts/{{ item | basename }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
   with_fileglob: "files/startup-scripts/*.py"
