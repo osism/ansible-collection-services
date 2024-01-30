@@ -30,5 +30,5 @@
     method: POST
     status_code: 200,204
     force_basic_auth: true
-    body: "{{ args | to_json }}"
+    body: "{{ task_args | to_json }}"
     validate_certs: false

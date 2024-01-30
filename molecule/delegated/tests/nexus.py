@@ -7,8 +7,8 @@ def test_required_directories(host):
     docker_dir = host.file(get_variable(host, "nexus_docker_compose_directory"))
     assert docker_dir.exists
     assert docker_dir.is_directory
-    assert docker_dir.user == get_variable(host, "operator_user")
-    assert docker_dir.group == get_variable(host, "operator_group")
+    assert docker_dir.user == get_variable(host, "nexus_operator_user")
+    assert docker_dir.group == get_variable(host, "nexus_operator_group")
     assert docker_dir.mode == 0o755
 
     config_dir = host.file(get_variable(host, "nexus_configuration_directory"))
@@ -53,12 +53,12 @@ def test_dockercompose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "nexus_operator_user")
+    assert f.group == get_variable(host, "nexus_operator_group")
 
     nexus_container_name = get_variable(host, "nexus_container_name")
 
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "nexus_operator_user")):
         assert f'container_name: "{nexus_container_name}"' in f.content_string
 
 

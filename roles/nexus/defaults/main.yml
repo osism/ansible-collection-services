@@ -2,14 +2,14 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
-docker_registry_nexus: quay.io
+nexus_docker_network_mtu: 1500
+nexus_docker_registry_nexus: quay.io
 
 ##########################
 # operator user
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+nexus_operator_user: dragon
+nexus_operator_group: "{{ nexus_operator_user }}"
 
 ##########################
 # nexus
@@ -24,7 +24,7 @@ nexus_bind_host: 0.0.0.0
 
 # renovate: datasource=docker depName=quay.io/osism/nexus
 nexus_tag: '3.64.0'
-nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
+nexus_image: "{{ nexus_docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
 nexus_network: 172.31.101.32/28
 
@@ -132,5 +132,5 @@ nexus_repos_apt_proxy:
 
 nexus_traefik: false
 
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+nexus_traefik_external_network_name: traefik
+nexus_traefik_external_network_cidr: 172.31.254.0/24

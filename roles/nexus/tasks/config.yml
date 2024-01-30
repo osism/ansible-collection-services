@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ nexus_operator_user }}"
+    group: "{{ nexus_operator_group }}"
     mode: 0755
   with_items:
     - "{{ nexus_docker_compose_directory }}"

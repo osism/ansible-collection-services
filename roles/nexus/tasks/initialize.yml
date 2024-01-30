@@ -30,7 +30,7 @@
   ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: update_admin_password
-    args:
+    task_args:
       new_password: "{{ nexus_admin_password }}"
 
 - name: Set new admin password
@@ -54,7 +54,7 @@
   ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: setup_http_proxy
-    args:
+    task_args:
       with_http_proxy: "{{ nexus_with_http_proxy }}"
       http_proxy_host: "{{ nexus_http_proxy_host }}"
       http_proxy_port: "{{ nexus_http_proxy_port }}"
@@ -71,7 +71,7 @@
   ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: setup_realms
-    args:
+    task_args:
       docker_bearer_token_realm: "{{ nexus_docker_bearer_token_realm }}"
 
 - name: Process definitions for docker  # noqa: osism-fqcn
@@ -117,7 +117,7 @@
   ansible.builtin.include_tasks: call-script.yml
   vars:
     script_name: create_repos_from_list
-    args: "{{ _nexus_repos_global_list }}"
+    task_args: "{{ _nexus_repos_global_list }}"
 
 - name: Set osism.nexus.status fact
   ansible.builtin.include_role:

@@ -29,7 +29,7 @@ services:
       - "{{ nexus_configuration_directory }}/nexus.env"
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.docker.network={{ nexus_traefik_external_network_name }}"
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nexus-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.nexus.entrypoints=http"
@@ -41,7 +41,7 @@ services:
       - "traefik.http.routers.nexus-secure.rule=Host(`{{ nexus_host }}`)"
     networks:
       - default
-      - {{ traefik_external_network_name }}
+      - {{ nexus_traefik_external_network_name }}
 {% endif %}
 
 volumes:
@@ -52,12 +52,12 @@ networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ nexus_docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet: {{ nexus_network }}
 {% if nexus_traefik|bool %}
-  {{ traefik_external_network_name }}:
+  {{ nexus_traefik_external_network_name }}:
     external: true
 {% endif %}
