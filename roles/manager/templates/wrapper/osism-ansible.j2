@@ -13,4 +13,4 @@ fi
 
 echo "Please note that this script is deprecated and will be removed in the future. Please use the OSISM CLI."
 
-docker exec $PARAMETERS {{ osism_ansible_container_name }} /run-ansible.sh "$@"
+docker exec $PARAMETERS {{ manager_osism_ansible_container_name }} /run-ansible.sh "$@"

@@ -6,19 +6,19 @@ services:
 
   inventory_reconciler:
     restart: unless-stopped
-    image: "{{ inventory_reconciler_image }}"
+    image: "{{ manager_inventory_reconciler_image }}"
     tmpfs:
       - /inventory.pre:uid=45000,gid=45000
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
-{% if inventory_reconciler_tag != 'latest' and inventory_reconciler_tag is version('5.2.0', operator='le') %}
+{% if manager_inventory_reconciler_tag != 'latest' and manager_inventory_reconciler_tag is version('5.2.0', operator='le') %}
       - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
 {% else %}
       - "{{ configuration_directory }}:/opt/configuration:ro"
 {% endif %}
-{% if enable_celery|bool %}
+{% if manager_enable_celery|bool %}
     healthcheck:
       test: pgrep celery
     environment:
@@ -29,7 +29,7 @@ services:
     environment:
       - CELERY=0
 {% endif %}
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
     env_file:
@@ -40,21 +40,21 @@ services:
   # ansible services (kolla-ansible, ..)
 
   osism-ansible: &ansible
-    container_name: "{{ osism_ansible_container_name }}"
+    container_name: "{{ manager_osism_ansible_container_name }}"
     restart: unless-stopped
-    image: "{{ osism_ansible_image }}"
-    mem_limit: {{ ansible_services_defaults[0].mem_limit }}
-    mem_reservation: {{ ansible_services_defaults[0].mem_reservation }}
-    cpus: "{{ ansible_services_defaults[0].cpus}}"
+    image: "{{ manager_osism_ansible_image }}"
+    mem_limit: {{ manager_ansible_services_defaults[0].mem_limit }}
+    mem_reservation: {{ manager_ansible_services_defaults[0].mem_reservation }}
+    cpus: "{{ manager_ansible_services_defaults[0].cpus}}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
-{% if enable_ara|bool %}
+{% if manager_enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
-{% if enable_celery|bool %}
+{% if manager_enable_celery|bool %}
     command: osism worker osism-ansible
     environment:
       - CELERY=1
@@ -70,16 +70,16 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "/etc/timezone:/etc/timezone:ro"
-      - "cache:{{ cache_directory }}"
-      - "logs:{{ logs_directory }}"
+      - "cache:{{ manager_cache_directory }}"
+      - "logs:{{ manager_logs_directory }}"
       - "share:/share"
-      - "{{ archive_directory }}:/archive:rw"
+      - "{{ manager_archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
-      - "{{ state_directory }}/netbox:/state:ro"
+      - "{{ manager_state_directory }}/netbox:/state:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
@@ -88,16 +88,16 @@ services:
         condition: service_started
       redis:
         condition: service_healthy
-{% if enable_ara|bool %}
+{% if manager_enable_ara|bool %}
       ara-server:
         condition: service_started
 {% endif %}
-{% if enable_vault|bool %}
+{% if manager_enable_vault|bool %}
       vault:
         condition: service_started
 {% endif %}
 
-{% for service in ansible_services %}
+{% for service in manager_ansible_services %}
 {% if service.enable|bool %}
   {{ service.name }}:
     <<: *ansible
@@ -106,7 +106,7 @@ services:
     mem_limit: {{ service.mem_limit }}
     mem_reservation: {{ service.mem_reservation }}
     cpus: "{{ service.cpus }}"
-{% if enable_celery|bool %}
+{% if manager_enable_celery|bool %}
     command: osism worker {{ service.name }}
     healthcheck:
       test: pgrep celery
@@ -116,18 +116,18 @@ services:
 {% endif %}
 {% endfor %}
 
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
   ##########################################
   # Netbox
 
   netbox:
     restart: unless-stopped
-    image: "{{ osism_netbox_image }}"
+    image: "{{ manager_osism_netbox_image }}"
     command: osism worker netbox
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ configuration_directory }}/netbox:/netbox:ro"
-      - "{{ state_directory }}/netbox:/state:rw"
+      - "{{ manager_state_directory }}/netbox:/state:rw"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
     secrets:
       - NETBOX_TOKEN
@@ -142,20 +142,20 @@ services:
   ##########################################
   # services that necessarily require Celery
 
-{% if enable_celery|bool %}
+{% if manager_enable_celery|bool %}
 
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
   ##########################################
   # conductor service for netbox integration
 
   conductor:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism worker conductor
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
-      - "{{ state_directory }}/conductor:/state:rw"
+      - "{{ manager_state_directory }}/conductor:/state:rw"
     secrets:
       - NETBOX_TOKEN
     healthcheck:
@@ -166,17 +166,17 @@ services:
       - "{{ manager_configuration_directory }}/openstack.env"
 {% endif %}
 
-{% if enable_listener|bool %}
+{% if manager_enable_listener|bool %}
   ##########################################
   # openstack event listener service
 
   listener:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism service listener
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
@@ -184,7 +184,7 @@ services:
       test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism service listener'
     env_file:
       - "{{ manager_configuration_directory }}/listener.env"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 {% endif %}
@@ -194,13 +194,13 @@ services:
 
   openstack:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism worker openstack
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
@@ -208,7 +208,7 @@ services:
       test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism service openstack'
     env_file:
       - "{{ manager_configuration_directory }}/openstack.env"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 
@@ -217,7 +217,7 @@ services:
 
   watchdog:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism service watchdog
     volumes:
       - "{{ configuration_directory }}:/opt/configuration:ro"
@@ -229,30 +229,30 @@ services:
 
   api:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism service api
     ports:
-      - "{{ osism_api_host }}:{{ osism_api_port }}:8000"
+      - "{{ manager_osism_api_host }}:{{ manager_osism_api_port }}:8000"
     healthcheck:
       test: pgrep uvicorn
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 
-{% if beat_enable|bool %}
+{% if manager_beat_enable|bool %}
   ##########################################
   # beat service
 
   beat:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism service beat
     healthcheck:
       test: pgrep celery
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
     env_file:
@@ -266,19 +266,19 @@ services:
   osismclient:
     container_name: osismclient
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: sleep infinity
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/client.env"
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
-{% if enable_ara|bool %}
+{% if manager_enable_ara|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
     volumes:
@@ -287,42 +287,42 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "/etc/timezone:/etc/timezone:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "cache:{{ cache_directory }}"
+      - "cache:{{ manager_cache_directory }}"
       - "interface:/interface:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "share:/share"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
 
-{% if flower_enable|bool %}
+{% if manager_flower_enable|bool %}
   ##########################################
   # flower service
 
   flower:
     restart: unless-stopped
-    image: "{{ osism_image }}"
+    image: "{{ manager_osism_image }}"
     command: osism service flower
-{% if not flower_traefik|bool %}
+{% if not manager_flower_traefik|bool %}
     ports:
-      - "{{ flower_host }}:{{ flower_port }}:5555"
+      - "{{ manager_flower_host }}:{{ manager_flower_port }}:5555"
 {% endif %}
     healthcheck:
       test: pgrep celery
-{% if flower_traefik|bool %}
+{% if manager_flower_traefik|bool %}
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.docker.network={{ manager_traefik_external_network_name }}"
       - "traefik.http.middlewares.flower-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.flower.entrypoints=http"
-      - "traefik.http.routers.flower.rule=Host(`{{ flower_host }}`)"
+      - "traefik.http.routers.flower.rule=Host(`{{ manager_flower_host }}`)"
       - "traefik.http.routers.flower.middlewares=flower-redirect-to-https@docker"
       - "traefik.http.routers.flower-secure.entrypoints=https"
       - "traefik.http.routers.flower-secure.tls=true"
-      - "traefik.http.routers.flower-secure.rule=Host(`{{ flower_host }}`)"
+      - "traefik.http.routers.flower-secure.rule=Host(`{{ manager_flower_host }}`)"
       - "traefik.http.services.flower-secure.loadbalancer.server.port=5555"
     networks:
       - default
-      - {{ traefik_external_network_name }}
+      - {{ manager_traefik_external_network_name }}
 {% endif %}
 {% endif %}
 {% endif %}
@@ -343,13 +343,13 @@ services:
         aliases:
           - cache
 
-{% if enable_ara|bool %}
+{% if manager_enable_ara|bool %}
   ##########################################
   # ARA service
 
   ara-server:
     restart: unless-stopped
-    image: "{{ ara_server_image }}"
+    image: "{{ manager_ara_server_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/ara-server.env"
       - "{{ manager_configuration_directory }}/ara.env"
@@ -357,31 +357,31 @@ services:
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
-      - "{{ state_directory }}/ara-server:/state:rw"
-{% if not ara_server_traefik|bool %}
+      - "{{ manager_state_directory }}/ara-server:/state:rw"
+{% if not manager_ara_server_traefik|bool %}
     ports:
-      - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
+      - "{{ manager_ara_server_host }}:{{ manager_ara_server_port }}:8000"
 {% endif %}
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
-{% if ara_server_traefik|bool %}
+{% if manager_ara_server_traefik|bool %}
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.docker.network={{ manager_traefik_external_network_name }}"
       - "traefik.http.middlewares.ara-server-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.ara-server-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.ara-server.entrypoints=http"
-      - "traefik.http.routers.ara-server.rule=Host(`{{ ara_server_host }}`)"
+      - "traefik.http.routers.ara-server.rule=Host(`{{ manager_ara_server_host }}`)"
       - "traefik.http.routers.ara-server.middlewares=ara-server-redirect-to-https@docker"
       - "traefik.http.routers.ara-server-secure.entrypoints=https"
       - "traefik.http.routers.ara-server-secure.tls=true"
       - "traefik.http.services.ara-server-secure.loadbalancer.server.port=8000" 
-      - "traefik.http.routers.ara-server-secure.rule=Host(`{{ ara_server_host }}`)"
+      - "traefik.http.routers.ara-server-secure.rule=Host(`{{ manager_ara_server_host }}`)"
     networks:
       - default
-      - {{ traefik_external_network_name }}
+      - {{ manager_traefik_external_network_name }}
 {% endif %}
-{% if ara_server_database_type == 'mysql' %}
+{% if manager_ara_server_database_type == 'mysql' %}
     depends_on:
       mariadb:
         condition: service_healthy
@@ -391,13 +391,13 @@ services:
 
   mariadb:
     restart: unless-stopped
-    image: "{{ ara_server_mariadb_image }}"
+    image: "{{ manager_ara_server_mariadb_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/mariadb.env"
-{% if ara_server_mariadb_volume_type == 'volume' %}
+{% if manager_ara_server_mariadb_volume_type == 'volume' %}
     volumes:
       - "mariadb:/var/lib/mysql"
-{% elif ara_server_mariadb_volume_type == 'tmpfs' %}
+{% elif manager_ara_server_mariadb_volume_type == 'tmpfs' %}
     tmpfs:
       - /var/lib/mysql
 {% endif %}
@@ -406,17 +406,17 @@ services:
 {% endif %}
 {% endif %}
 
-{% if enable_vault|bool %}
+{% if manager_enable_vault|bool %}
   ##########################################
   # vault service
 
   vault:
-    container_name: "{{ vault_container_name }}"
-    image: "{{ vault_image }}"
+    container_name: "{{ manager_vault_container_name }}"
+    image: "{{ manager_vault_image }}"
     command: server -config=/etc/vault.hcl
     restart: unless-stopped
     ports:
-      - "{{ vault_host }}:{{ vault_port }}:8200"
+      - "{{ manager_vault_host }}:{{ manager_vault_port }}:8200"
     env_file:
       - "{{ manager_configuration_directory }}/vault.env"
     volumes:
@@ -440,19 +440,19 @@ services:
 volumes:
   inventory_reconciler:
   interface:
-{% if enable_vault|bool %}
+{% if manager_enable_vault|bool %}
   vault_file:
   vault_logs:
 {% endif %}
   cache:
   logs:
-{% if enable_ara|bool and ara_server_database_type == 'mysql' and ara_server_mariadb_volume_type == 'volume' %}
+{% if manager_enable_ara|bool and manager_ara_server_database_type == 'mysql' and manager_ara_server_mariadb_volume_type == 'volume' %}
   mariadb:
 {% endif %}
   redis:
   share:
 
-{% if enable_netbox|bool %}
+{% if manager_enable_netbox|bool %}
 ##########################################
 # Secrets
 
@@ -468,12 +468,12 @@ networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ manager_docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ manager_network }}
-{% if ara_server_traefik|bool %}
-  {{ traefik_external_network_name }}:
+{% if manager_ara_server_traefik|bool %}
+  {{ manager_traefik_external_network_name }}:
     external: true
 {% endif %}

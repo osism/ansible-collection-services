@@ -4,35 +4,35 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
     mode: 0750
   loop:
-    - "{{ ansible_directory }}"
-    - "{{ archive_directory }}"
+    - "{{ manager_ansible_directory }}"
+    - "{{ manager_archive_directory }}"
     - "{{ manager_configuration_directory }}"
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_secrets_directory }}"
     - "{{ secrets_directory }}"
-    - "{{ state_directory }}"
+    - "{{ manager_state_directory }}"
 
 - name: Copy client environment file
   ansible.builtin.template:
     src: env/client.env.j2
     dest: "{{ manager_configuration_directory }}/client.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
 
 - name: Include ara config tasks
   ansible.builtin.include_tasks: config-ara.yml
   tags: ara
-  when: enable_ara|bool
+  when: manager_enable_ara|bool
 
 - name: Include vault config tasks
   ansible.builtin.include_tasks: config-vault.yml
   tags: vault
-  when: enable_vault|bool
+  when: manager_enable_vault|bool
 
 - name: Include ansible config tasks
   ansible.builtin.include_tasks: config-ansible.yml
@@ -41,12 +41,12 @@
 - name: Include netbox config tasks
   ansible.builtin.include_tasks: config-netbox.yml
   tags: netbox
-  when: enable_netbox|bool
+  when: manager_enable_netbox|bool
 
 - name: Include celery config tasks
   ansible.builtin.include_tasks: config-celery.yml
   tags: celery
-  when: enable_celery|bool
+  when: manager_enable_celery|bool
 
 - name: Include wrapper config tasks
   ansible.builtin.include_tasks: config-wrapper.yml

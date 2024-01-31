@@ -9,6 +9,6 @@
     src: "wrapper/{{ item }}.j2"
     dest: "/usr/local/bin/{{ item }}"
     mode: 0755
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
   loop: "{{ manager_wrapper_scripts }}"

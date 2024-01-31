@@ -468,7 +468,7 @@ Disables Celery integration for deployment.
 The Version which should used.
 
 .. zuul:rolevar:: osism_image
-   :default: {{ docker_registry_osism }}/osism/osism:{{ osism_tag }}
+   :default: {{ docker_registry_osism }}/osism/osism:{{ manager_osism_tag }}
 
 The container image which should used.
 
@@ -478,7 +478,7 @@ The container image which should used.
 Version which should be used.
 
 .. zuul:rolevar:: osism_netbox_image
-   :default: {{ docker_registry_osism_netbox }}/osism/osism-netbox:{{ osism_netbox_tag }}
+   :default: {{ docker_registry_osism_netbox }}/osism/osism-netbox:{{ manager_osism_netbox_tag }}
 
 The container image which should used.
 
@@ -530,13 +530,13 @@ Address of the HashiCorp Vault server.
 
 Port which Vault will use for connections from outside.
 
-.. zuul:rolevar:: vault_tag
+.. zuul:rolevar:: manager_vault_tag
    :default: 1.10.3
 
 The Version which should used.
 
 .. zuul:rolevar:: vault_image
-   :default: {{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}
+   :default: {{ docker_registry_vault }}/hashicorp/vault:{{ manager_vault_tag }}
 
 The container image to use.
 

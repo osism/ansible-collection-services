@@ -4,8 +4,8 @@
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
   loop:
     - ara
     - ara-server
@@ -15,6 +15,6 @@
     src: env/mariadb.env.j2
     dest: "{{ manager_configuration_directory }}/mariadb.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-  when: ara_server_database_type == "mysql"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
+  when: manager_ara_server_database_type == "mysql"

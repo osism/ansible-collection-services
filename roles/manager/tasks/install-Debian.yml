@@ -2,6 +2,6 @@
 - name: Install required packages
   become: true
   ansible.builtin.apt:
-    name: "{{ required_packages_manager }}"
+    name: "{{ manager_required_packages_manager }}"
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"

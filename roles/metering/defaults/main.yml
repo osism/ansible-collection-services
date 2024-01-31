@@ -2,8 +2,8 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
-docker_registry_metering: quay.io
+metering_docker_network_mtu: 1500
+metering_docker_registry_metering: quay.io
 
 ##########################
 # operator user
@@ -24,7 +24,7 @@ metering_data_directory: /opt/metering/data
 metering_docker_compose_directory: /opt/metering
 
 metering_tag: zed
-metering_image: "{{ docker_registry_metering }}/osism/metering:{{ metering_tag }}"
+metering_image: "{{ metering_docker_registry_metering }}/osism/metering:{{ metering_tag }}"
 
 metering_container_name: metering
 
