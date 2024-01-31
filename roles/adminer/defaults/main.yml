@@ -24,7 +24,7 @@ adminer_port: 8111
 
 # renovate: datasource=docker depName=adminer
 adminer_tag: '4.7'
-adminer_image: "{{ admin_docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
+adminer_image: "{{ adminer_docker_registry_adminer }}/library/adminer:{{ adminer_tag }}"
 
 adminer_network: 172.31.100.64/28
 
