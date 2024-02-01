@@ -334,8 +334,6 @@ services:
     restart: unless-stopped
     image: "{{ manager_redis_image }}"
     command: redis-server --appendonly yes
-    volumes:
-      - "redis:/data"
     healthcheck:
       test: redis-cli ping
     networks:
@@ -449,7 +447,6 @@ volumes:
 {% if enable_ara|bool and ara_server_database_type == 'mysql' and ara_server_mariadb_volume_type == 'volume' %}
   mariadb:
 {% endif %}
-  redis:
   share:
 
 {% if enable_netbox|bool %}
