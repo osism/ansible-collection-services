@@ -13,7 +13,7 @@
     - "{{ manager_configuration_directory }}"
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_secrets_directory }}"
-    - "{{ secrets_directory }}"
+    - "{{ manager_secrets_directory_manager }}"
     - "{{ manager_state_directory }}"
 
 - name: Copy client environment file

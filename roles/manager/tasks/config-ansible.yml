@@ -3,7 +3,7 @@
   become: true
   ansible.builtin.template:
     src: config-ssh-key.j2
-    dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
+    dest: "{{ manager_secrets_directory_manager }}/id_rsa.{{ item.key }}"
     owner: "{{ manager_operator_user }}"
     mode: 0600
   loop: "{{ manager_private_keys | dict2items }}"

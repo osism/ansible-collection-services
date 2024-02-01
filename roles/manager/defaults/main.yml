@@ -31,9 +31,9 @@ manager_service_restart: true
 manager_ansible_directory: /opt/ansible
 manager_archive_directory: /opt/archive
 manager_cache_directory: /opt/ansible/cache
-configuration_directory: /opt/configuration
+manager_configuration_directory_manager: /opt/configuration
 manager_logs_directory: /opt/ansible/logs
-secrets_directory: /opt/ansible/secrets
+manager_secrets_directory_manager: /opt/ansible/secrets
 manager_state_directory: /opt/state
 
 manager_docker_compose_directory: /opt/manager

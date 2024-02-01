@@ -42,13 +42,13 @@
 
 - name: Check for conductor.yml
   ansible.builtin.stat:
-    path: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+    path: "{{ manager_configuration_directory_manager }}/environments/manager/files/conductor.yml"
   register: result
 
 - name: Copy conductor configuration file
   ansible.builtin.copy:
     remote_src: true
-    src: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+    src: "{{ manager_configuration_directory_manager }}/environments/manager/files/conductor.yml"
     dest: "{{ manager_configuration_directory }}/conductor.yml"
     mode: 0644
     owner: "{{ manager_operator_user }}"

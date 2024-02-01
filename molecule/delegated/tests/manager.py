@@ -10,7 +10,7 @@ testinfra_runner, testinfra_hosts = get_ansible()
 def test_manager_config(host):
     config_dir = get_variable(host, "manager_configuration_directory")
     manager_dir = get_variable(host, "manager_secrets_directory")
-    secrets_dir = get_variable(host, "secrets_directory")
+    secrets_dir = get_variable(host, "manager_secrets_directory_manager")
     directories = [
         get_variable(host, "manager_ansible_directory"),
         get_variable(host, "manager_archive_directory"),
@@ -63,7 +63,7 @@ def test_manager_config(host):
             assert "MYSQL_DATABASE=" in f.content_string
 
     # config-vault
-    if host.file(get_variable(host, "enable_vault")) == "true":
+    if host.file(get_variable(host, "manager_enable_vault")) == "true":
         vault_files = [
             host.file(f"{config_dir}/vault.env"),
             host.file(f"{config_dir}/vault.hcl"),
@@ -167,7 +167,9 @@ def test_docker_network(host):
     if not ara_server_traefik:
         pytest.skip("manager_ara_server_traefik not configured")
 
-    traefik_external_network_name = get_variable(host, "manager_traefik_external_network_name")
+    traefik_external_network_name = get_variable(
+        host, "manager_traefik_external_network_name"
+    )
 
     with host.sudo("root"):
         stdout = host.check_output("docker network ls")

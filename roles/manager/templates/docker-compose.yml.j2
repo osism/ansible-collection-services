@@ -14,9 +14,9 @@ services:
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
 {% if manager_inventory_reconciler_tag != 'latest' and manager_inventory_reconciler_tag is version('5.2.0', operator='le') %}
-      - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
+      - "{{ manager_configuration_directory_manager }}/inventory:/opt/configuration/inventory:ro"
 {% else %}
-      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ manager_configuration_directory_manager }}:/opt/configuration:ro"
 {% endif %}
 {% if manager_enable_celery|bool %}
     healthcheck:
@@ -74,9 +74,9 @@ services:
       - "logs:{{ manager_logs_directory }}"
       - "share:/share"
       - "{{ manager_archive_directory }}:/archive:rw"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ manager_configuration_directory_manager }}:/opt/configuration:ro"
       - "{{ manager_state_directory }}/netbox:/state:ro"
-      - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "{{ manager_secrets_directory_manager }}:/ansible/secrets:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "interface:/interface"
 {% if manager_enable_netbox|bool %}
@@ -126,7 +126,7 @@ services:
     command: osism worker netbox
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      - "{{ configuration_directory }}/netbox:/netbox:ro"
+      - "{{ manager_configuration_directory_manager }}/netbox:/netbox:ro"
       - "{{ manager_state_directory }}/netbox:/state:rw"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
     secrets:
@@ -199,7 +199,7 @@ services:
     volumes:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
-      - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
+      - "{{ manager_configuration_directory_manager }}/environments/openstack:/etc/openstack:ro"
 {% if manager_enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
@@ -220,7 +220,7 @@ services:
     image: "{{ manager_osism_image }}"
     command: osism service watchdog
     volumes:
-      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ manager_configuration_directory_manager }}:/opt/configuration:ro"
     healthcheck:
       test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism service watchdog'
 
@@ -291,8 +291,8 @@ services:
       - "interface:/interface:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "share:/share"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
-      - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "{{ manager_configuration_directory_manager }}:/opt/configuration:ro"
+      - "{{ manager_secrets_directory_manager }}:/ansible/secrets:ro"
 
 {% if manager_flower_enable|bool %}
   ##########################################
