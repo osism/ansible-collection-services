@@ -477,7 +477,7 @@
 #        - ansible-collection-services-molecule-bird
 #        - ansible-collection-services-molecule-cephclient
 #        - ansible-collection-services-molecule-cgit
-#        - ansible-collection-services-molecule-chrony
+        - ansible-collection-services-molecule-chrony
 #        - ansible-collection-services-molecule-clamav
 #        - ansible-collection-services-molecule-containerd
 #        - ansible-collection-services-molecule-dnsdist
@@ -519,7 +519,7 @@
 #        - ansible-collection-services-molecule-bird
 #        - ansible-collection-services-molecule-cephclient
 #        - ansible-collection-services-molecule-cgit
-#        - ansible-collection-services-molecule-chrony
+        - ansible-collection-services-molecule-chrony
 #        - ansible-collection-services-molecule-clamav
 #        - ansible-collection-services-molecule-containerd
 #        - ansible-collection-services-molecule-dnsdist
