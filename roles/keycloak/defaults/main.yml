@@ -2,16 +2,16 @@
 ##########################
 # operator
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+keycloak_operator_user: dragon
+keycloak_operator_group: "{{ keycloak_operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+keycloak_docker_network_mtu: 1500
 
-docker_registry_keycloak: quay.io
-docker_registry_postgres: index.docker.io
+keycloak_docker_registry_keycloak: quay.io
+keycloak_docker_registry_postgres: index.docker.io
 
 ##########################
 # keycloak
@@ -29,7 +29,7 @@ keycloak_port: 8170
 
 # renovate: datasource=docker depName=quay.io/keycloak/keycloak
 keycloak_tag: 19.0.3-legacy
-keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
+keycloak_image: "{{ keycloak_docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
 
 keycloak_username: admin
 keycloak_password: password
@@ -37,8 +37,8 @@ keycloak_password: password
 ##########################
 # postgres
 
-postgres_tag: 14-alpine
-postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
+keycloak_postgres_tag: 14-alpine
+keycloak_postgres_image: "{{ keycloak_docker_registry_postgres }}/library/postgres:{{ keycloak_postgres_tag }}"
 
 keycloak_postgres_password: password
 keycloak_postgres_username: keycloak
@@ -55,5 +55,5 @@ keycloak_use_preconfigured_databases: false
 
 keycloak_traefik: false
 
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+keycloak_traefik_external_network_name: traefik
+keycloak_traefik_external_network_cidr: 172.31.254.0/24

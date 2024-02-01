@@ -3,12 +3,12 @@ components. Keycloak is an Identity and Access Management (IAM) tool.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: keycloak_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
+.. zuul:rolevar:: keycloak_operator_group
    :default: operator_user
 
 Group from the user which will own the configuration directory and
@@ -17,18 +17,18 @@ handles with Docker.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: keycloak_docker_network_mtu
    :default: 1500
 
 Because of Docker dose not check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
-.. zuul:rolevar:: docker_registry_keycloak
+.. zuul:rolevar:: keycloak_docker_registry_keycloak
    :default: quay.io
 
 Path to the registry that stores the Docker container images for Keycloak.
 
-.. zuul:rolevar:: docker_registry_postgres
+.. zuul:rolevar:: keycloak_docker_registry_postgres
    :default: index.docker.io
 
 The registry for the Postgres Docker container.
@@ -83,7 +83,7 @@ Port which Keycloak will use for connections from outside.
 Version from Keycloak in form of a tag which should be used.
 
 .. zuul:rolevar:: keycloak_image
-   :default: {{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}
+   :default: {{ keycloak_docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}
 
 The container image to use.
 
@@ -102,13 +102,13 @@ For more security you should change it after the first login.
 
 **Postgres Variables**
 
-.. zuul:rolevar:: postgres_tag
+.. zuul:rolevar:: keycloak_postgres_tag
    :default: 14-alpine
 
 Version from Postgres in form of a tag which should be used.
 
-.. zuul:rolevar:: postgres_image
-   :default: {{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}
+.. zuul:rolevar:: keycloak_postgres_image
+   :default: {{ keycloak_docker_registry_postgres }}/library/postgres:{{ keycloak_postgres_tag }}
 
 The container image to use.
 
@@ -151,12 +151,12 @@ The database provided with Keycloak will be disabled.
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: traefik_external_network_name
+.. zuul:rolevar:: keycloak_traefik_external_network_name
    :default: traefik
 
 Name of the Docker network for Traefik.
 
-.. zuul:rolevar:: traefik_external_network_cidr
+.. zuul:rolevar:: keycloak_traefik_external_network_cidr
    :default: 172.31.254.0/24
 
 The Traefik network segment for external traffic.

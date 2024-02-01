@@ -472,7 +472,7 @@
     default-branch: main
     check:
       jobs:
-        - ansible-collection-services-molecule-adminer
+#        - ansible-collection-services-molecule-adminer
 #        - ansible-collection-services-molecule-auditd
 #        - ansible-collection-services-molecule-bird
 #        - ansible-collection-services-molecule-cephclient
@@ -488,10 +488,10 @@
 #        - ansible-collection-services-molecule-hddtemp
 #        - ansible-collection-services-molecule-homer
 #        - ansible-collection-services-molecule-journald
-#        - ansible-collection-services-molecule-keycloak
+        - ansible-collection-services-molecule-keycloak
 #        - ansible-collection-services-molecule-lldpd
-        - ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-metering
+#        - ansible-collection-services-molecule-manager
+#        - ansible-collection-services-molecule-metering
 #        - ansible-collection-services-molecule-netbox
 #        - ansible-collection-services-molecule-netdata
 #        - ansible-collection-services-molecule-nexus
@@ -514,7 +514,7 @@
         - yamllint
     gate:
       jobs:
-        - ansible-collection-services-molecule-adminer
+#        - ansible-collection-services-molecule-adminer
 #        - ansible-collection-services-molecule-auditd
 #        - ansible-collection-services-molecule-bird
 #        - ansible-collection-services-molecule-cephclient
@@ -530,10 +530,10 @@
 #        - ansible-collection-services-molecule-hddtemp
 #        - ansible-collection-services-molecule-homer
 #        - ansible-collection-services-molecule-journald
-#        - ansible-collection-services-molecule-keycloak
+        - ansible-collection-services-molecule-keycloak
 #        - ansible-collection-services-molecule-lldpd
-        - ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-metering
+#        - ansible-collection-services-molecule-manager
+#        - ansible-collection-services-molecule-metering
 #        - ansible-collection-services-molecule-netbox
 #        - ansible-collection-services-molecule-netdata
 #        - ansible-collection-services-molecule-nexus
