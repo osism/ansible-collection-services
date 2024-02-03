@@ -47,14 +47,12 @@
     update_cache: true
     mode: 0644
   when: docker_configure_repository|bool
-  register: result_add_repository
 
-- name: Force update package cache  # noqa: no-handler
+- name: Update package cache
   become: true
   ansible.builtin.apt:
     update_cache: true
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  when: result_add_repository.changed
 
 - name: Pin package version
   become: true
