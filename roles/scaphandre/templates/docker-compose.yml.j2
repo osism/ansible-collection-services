@@ -7,13 +7,7 @@ services:
     entrypoint: scaphandre {{ scaphandre_exporter }} {{ scaphandre_flags|join(" ") }}
     ports:
       - "{{ scaphandre_host }}:{{ scaphandre_port }}:8080/tcp"
-    volumes:
-      - type: bind
-        source: /proc
-        target: /proc
-      - type: bind
-        source: /sys/class/powercap
-        target: /sys/class/powercap
+    privileged: true
 
 networks:
   default:
