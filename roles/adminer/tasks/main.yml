@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ adminer_operator_user }}"
+    group: "{{ adminer_operator_group }}"
     mode: 0755
   loop:
     - "{{ adminer_docker_compose_directory }}"
@@ -14,8 +14,8 @@
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ adminer_docker_compose_directory }}/docker-compose.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ adminer_operator_user }}"
+    group: "{{ adminer_operator_group }}"
     mode: 0640
   notify: Restart adminer service
 

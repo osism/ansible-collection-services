@@ -3,23 +3,23 @@ This role install and configure Dnsdist
 
 **Role Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: dnsdist_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
+.. zuul:rolevar:: dnsdist_operator_group
    :default: operator_user
 
 Group from the user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: dnsdist_docker_network_mtu
    :default: 1500
 
 Because of Docker don't check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
-.. zuul:rolevar:: docker_registry_dnsdist
+.. zuul:rolevar:: dnsdist_docker_registry_dnsdist
    :default: quay.io
 
 Path to the registry that stores the Docker container images for Dnsdist.

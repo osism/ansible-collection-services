@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ keycloak_operator_user }}"
+    group: "{{ keycloak_operator_group }}"
     mode: 0750
   loop:
     - "{{ keycloak_configuration_directory }}"
@@ -17,16 +17,16 @@
     src: env/keycloak.env.j2
     dest: "{{ keycloak_configuration_directory }}/keycloak.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ keycloak_operator_user }}"
+    group: "{{ keycloak_operator_group }}"
 
 - name: Copy postgres environment file
   ansible.builtin.template:
     src: env/postgres.env.j2
     dest: "{{ keycloak_configuration_directory }}/postgres.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ keycloak_operator_user }}"
+    group: "{{ keycloak_operator_group }}"
   when: not keycloak_galera_backend_enable|bool
 
 - name: Copy secret files
@@ -34,8 +34,8 @@
     src: secret-config.j2
     dest: "{{ keycloak_secrets_directory }}/{{ item.filename }}"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ keycloak_operator_user }}"
+    group: "{{ keycloak_operator_group }}"
   loop:
     - filename: POSTGRES_PASSWORD
       secret: "{{ keycloak_postgres_password }}"

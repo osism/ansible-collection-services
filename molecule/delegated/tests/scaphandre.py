@@ -8,8 +8,8 @@ def test_scaphandre_directories_created(host):
         get_variable(host, "scaphandre_docker_compose_directory"),
         get_variable(host, "scaphandre_configuration_directory"),
     ]
-    operator_user = get_variable(host, "operator_user")
-    operator_group = get_variable(host, "operator_group")
+    operator_user = get_variable(host, "scaphandre_operator_user")
+    operator_group = get_variable(host, "scaphandre_operator_group")
 
     for directory in directories:
         dir = host.file(directory)
@@ -30,12 +30,12 @@ def test_scaphandre_docker_compose_file(host):
 
     assert docker_compose_file.exists, "docker-compose.yml for scaphandre should exist"
     assert docker_compose_file.is_file, "docker-compose.yml should be a file"
-    assert docker_compose_file.user == get_variable(host, "operator_user"), (
+    assert docker_compose_file.user == get_variable(host, "scaphandre_operator_user"), (
         "docker-compose.yml should be " "owned by the operator user"
     )
-    assert docker_compose_file.group == get_variable(host, "operator_group"), (
-        "docker-compose.yml should be " "in the operator group"
-    )
+    assert docker_compose_file.group == get_variable(
+        host, "scaphandre_operator_group"
+    ), ("docker-compose.yml should be " "in the operator group")
     assert (
         docker_compose_file.mode == 0o640
     ), "docker-compose.yml should have 0640 permissions"

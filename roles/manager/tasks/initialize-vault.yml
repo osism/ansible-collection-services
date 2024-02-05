@@ -1,7 +1,7 @@
 ---
 - name: Initialize vault
   community.docker.docker_container_exec:
-    container: "{{ vault_container_name }}"
+    container: "{{ manager_vault_container_name }}"
     command: sh -c 'VAULT_ADDR=http://localhost:8200 vault operator init -format yaml'
   register: result
 
@@ -12,14 +12,14 @@
 - name: Output vault key shares
   ansible.builtin.debug:
     var: vault_key_shares
-  when: vault_output_key_shares|bool
+  when: manager_vault_output_key_shares|bool
 
 - name: Write vault key shares
   ansible.builtin.template:
     src: config-vault-key.j2
-    dest: "{{ vault_key_shares_path }}"
+    dest: "{{ manager_vault_key_shares_path }}"
     mode: 0600
-  when: vault_write_key_shares|bool
+  when: manager_vault_write_key_shares|bool
 
 - name: Set osism.vault.status fact
   ansible.builtin.include_role:

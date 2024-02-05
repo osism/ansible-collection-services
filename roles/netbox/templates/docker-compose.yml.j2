@@ -1,12 +1,12 @@
 ---
 services:
   postgres:
-    image: "{{ postgres_image }}"
+    image: "{{ netbox_postgres_image }}"
     restart: unless-stopped
     env_file:
-      - "{{ netbox_configuration_directory }}/postgres.env"
+      - "{{ netbox_configuration_directory_netbox }}/postgres.env"
     volumes:
-      - "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
+      - "{{ netbox_configuration_directory_netbox }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
 {% if netbox_postgres_volume_type == 'volume' %}
       - postgres:/var/lib/postgresql/data
 {% elif netbox_postgres_volume_type == 'tmpfs' %}
@@ -37,19 +37,19 @@ services:
     restart: unless-stopped
     user: "{{ netbox_userid }}"
     env_file:
-      - "{{ netbox_configuration_directory }}/netbox.env"
+      - "{{ netbox_configuration_directory_netbox }}/netbox.env"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
     volumes:
-      - "{{ netbox_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
-      - "{{ netbox_configuration_directory }}/nginx-unit.json:/etc/unit/nginx-unit.json:ro"
+      - "{{ netbox_configuration_directory_netbox }}/configuration.py:/etc/netbox/config/configuration.py:ro"
+      - "{{ netbox_configuration_directory_netbox }}/nginx-unit.json:/etc/unit/nginx-unit.json:ro"
 {% if netbox_init|bool %}
-      - "{{ netbox_configuration_directory }}/initializers:/opt/netbox/initializers:ro"
+      - "{{ netbox_configuration_directory_netbox }}/initializers:/opt/netbox/initializers:ro"
       # NOTE: Workaround until script is available upstream
-      - "{{ netbox_configuration_directory }}/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
+      - "{{ netbox_configuration_directory_netbox }}/startup-scripts/270_tags.py:/opt/netbox/startup_scripts/270_tags.py:ro"
 {% endif %}
     secrets:
       - NETBOX_POSTGRES_PASSWORD
@@ -63,7 +63,7 @@ services:
 {% else %}
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network={{ traefik_external_network_name }}"
+      - "traefik.docker.network={{ netbox_traefik_external_network_name }}"
       - "traefik.http.middlewares.netbox-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.netbox-redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.netbox.entrypoints=http"
@@ -75,7 +75,7 @@ services:
       - "traefik.http.routers.netbox-secure.rule=Host(`{{ netbox_host }}`)"
     networks:
       - default
-      - {{ traefik_external_network_name }}
+      - {{ netbox_traefik_external_network_name }}
 {% endif %}
 
   netbox-worker:
@@ -114,12 +114,12 @@ networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ netbox_docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ netbox_network }}
 {% if netbox_traefik|bool %}
-  {{ traefik_external_network_name }}:
+  {{ netbox_traefik_external_network_name }}:
     external: true
 {% endif %}

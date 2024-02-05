@@ -3,17 +3,17 @@ Phpmyadmin is a tool to manage MySQL and MariaDB database over the web.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: phpmyadmin_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry
+.. zuul:rolevar:: phpmyadmin_docker_registry
    :default: index.docker.io
 
 Have a look at ``docker_registry_phpmyadmin``
 
-.. zuul:rolevar:: docker_registry_phpmyadmin
+.. zuul:rolevar:: phpmyadmin_docker_registry_phpmyadmin
    :default: docker_registry
 
 The registry for the Phpmyadmin Docker container.
@@ -21,13 +21,13 @@ The registry for the Phpmyadmin Docker container.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: phpmyadmin_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: phpmyadmin_operator_group
+   :default: phpmyadmin_operator_user
 
 Group from the user which will own the configuration directory.
 
@@ -84,12 +84,12 @@ Name from the Phpmyadmin service to deal with it.
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: traefik_external_network_name
+.. zuul:rolevar:: phpmyadmin_traefik_external_network_name
    :default: traefik
 
 Name of Phpmyadmin network for Traefik.
 
-.. zuul:rolevar:: traefik_external_network_cidr
+.. zuul:rolevar:: phpmyadmin_traefik_external_network_cidr
    :default: 172.31.254.0/24
 
 The Traefik network segment for external traffic.

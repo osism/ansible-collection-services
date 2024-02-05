@@ -7,7 +7,7 @@ This ansible role will installing and configuring Chrony.
 
 Package name of the required package for the installation of Chrony.
 
-.. zuul:rolevar:: configuration_directory
+.. zuul:rolevar:: chrony_configuration_directory
    :default: /opt/configuration
 
 Path to the directory which will contains the configuration files.

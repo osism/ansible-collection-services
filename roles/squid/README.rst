@@ -3,23 +3,23 @@ Allow other services to access only allowed addresses.
 
 **Role Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: squid_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: squid_operator_group
+   :default: squid_operator_user
 
 Group from the user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: squid_docker_network_mtu
    :default: 1500
 
 Because of Docker don't check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
-.. zuul:rolevar:: docker_registry_squid
+.. zuul:rolevar:: squid_docker_registry_squid
    :default: index.docker.io
 
 Path to the registry that stores the Docker container images for Squid.

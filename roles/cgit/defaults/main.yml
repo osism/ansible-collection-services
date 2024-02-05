@@ -2,15 +2,15 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
+cgit_docker_network_mtu: 1500
 
-docker_registry_cgit: quay.io
+cgit_docker_registry_cgit: quay.io
 
 ##########################
 # operator user
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+cgit_operator_user: dragon
+cgit_operator_group: "{{ cgit_operator_user }}"
 
 ##########################
 # cgit
@@ -23,7 +23,7 @@ cgit_port: 8210
 
 # renovate: datasource=docker depName=quay.io/osism/cgit
 cgit_tag: '1.2.3'
-cgit_image: "{{ docker_registry_cgit }}/osism/cgit:{{ cgit_tag }}"
+cgit_image: "{{ cgit_docker_registry_cgit }}/osism/cgit:{{ cgit_tag }}"
 
 cgit_network: 172.31.101.112/28
 
@@ -41,5 +41,5 @@ cgit_repositories: "{{ cgit_repositories_defaults | combine(cgit_repositories_ex
 
 cgit_traefik: false
 
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+cgit_traefik_external_network_name: traefik
+cgit_traefik_external_network_cidr: 172.31.254.0/24

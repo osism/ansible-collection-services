@@ -14,8 +14,8 @@ def test_dirs(host):
         assert f.exists
         assert f.is_directory
         assert f.mode == 0o750
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+        assert f.user == get_variable(host, "dnsdist_operator_user")
+        assert f.group == get_variable(host, "dnsdist_operator_group")
 
 
 def test_configfile(host):
@@ -25,8 +25,8 @@ def test_configfile(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o644
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "dnsdist_operator_user")
+    assert f.group == get_variable(host, "dnsdist_operator_group")
     assert "addLocal('0.0.0.0:53')" in f.content_string
 
 
@@ -37,12 +37,12 @@ def test_dockercompose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "dnsdist_operator_user")
+    assert f.group == get_variable(host, "dnsdist_operator_group")
 
     dnsdist_container_name = get_variable(host, "dnsdist_container_name")
 
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "dnsdist_operator_user")):
         assert f'container_name: "{dnsdist_container_name}' in f.content_string
 
 

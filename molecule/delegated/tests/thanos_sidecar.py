@@ -14,8 +14,8 @@ def test_thanos_sidecar_config(host):
         assert d.exists
         assert d.is_directory
         assert d.mode == 0o750
-        assert d.user == get_variable(host, "operator_user")
-        assert d.group == get_variable(host, "operator_group")
+        assert d.user == get_variable(host, "thanos_sidecar_operator_user")
+        assert d.group == get_variable(host, "thanos_sidecar_operator_group")
 
 
 # testing service.yml tasks
@@ -26,12 +26,12 @@ def test_docker_compose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "thanos_sidecar_operator_user")
+    assert f.group == get_variable(host, "thanos_sidecar_operator_group")
     assert "thanos_sidecar:" in f.content_string
 
     container_name = get_variable(host, "thanos_sidecar_container_name")
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "thanos_sidecar_operator_user")):
         assert container_name in f.content_string
 
 

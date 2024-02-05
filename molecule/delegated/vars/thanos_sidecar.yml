@@ -1,3 +1,3 @@
 ---
-operator_user: zuul
-operator_group: zuul
+thanos_sidecar_operator_user: zuul
+thanos_sidecar_operator_group: zuul

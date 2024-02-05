@@ -3,13 +3,13 @@ You can choose between container installation and package installation.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: cephclient_docker_network_mtu
    :default: 1500
 
 Because of Docker don't check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
-.. zuul:rolevar:: docker_registry_cephclient
+.. zuul:rolevar:: cephclient_docker_registry_cephclient
    :default: quay.io
 
 Path to the registry that stores the Docker container images for Cephclient.
@@ -17,12 +17,12 @@ Path to the registry that stores the Docker container images for Cephclient.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: cephclient_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
+.. zuul:rolevar:: cephclient_operator_group
    :default: operator_user
 
 Group from the user which will own the configuration directory and
@@ -79,7 +79,7 @@ Path to where the docker-compose-files from Cephclient will be stored.
 The version from Cephclient in form of a tag which should be used.
 
 .. zuul:rolevar:: cephclient_image
-   :default: {{ docker_registry_cephclient }}/osism/cephclient:{{ cephclient_tag }}
+   :default: {{ cephclient_docker_registry_cephclient }}/osism/cephclient:{{ cephclient_tag }}
 
 The container image to use.
 

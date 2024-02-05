@@ -88,7 +88,7 @@ A list of hosts on which the Docker Engine will be run.
 
 Service name for Docker to deal with it.
 
-.. zuul:rolevar:: containerd_service_name
+.. zuul:rolevar:: docker_containerd_service_name
    :default: containerd
 
 For using Docker you will need the Containerd service too.
@@ -104,7 +104,7 @@ Package for the installation of Docker.
 
 Package name of the docker-cli.
 
-.. zuul:rolevar:: containerd_package_name
+.. zuul:rolevar:: docker_containerd_package_name
    :default: containerd.io
 
 The name of the package for Containerd.
@@ -256,7 +256,7 @@ Name of the Docker debian repository.
 
 Container-execution-runtime which should be used.
 
-.. zuul:rolevar:: containerd_grpc_gid
+.. zuul:rolevar:: docker_containerd_grpc_gid
    :default: 42463
 
 The group id for Go-lang RPC(Remote Procedure Call).

@@ -5,26 +5,26 @@ Traefik is a reverse proxy and loadbalancer for managing microservices.
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry
+.. zuul:rolevar:: traefik_docker_registry
    :default: index.docker.io
 
 The registry for the Traefik Docker container.
 
-.. zuul:rolevar:: docker_registry_traefik
-   :default: docker_registry
+.. zuul:rolevar:: traefik_docker_registry_traefik
+   :default: traefik_docker_registry
 
 Look at ``docker_registry``.
 
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: traefik_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: traefik_operator_group
+   :default: traefik_operator_user
 
 Group from the user which will own the configuration directory.
 

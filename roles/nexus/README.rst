@@ -5,31 +5,31 @@ This role is based on the following two roles:
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: nexus_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry
+.. zuul:rolevar:: nexus_docker_registry
    :default: index.docker.io
 
 Look at docker_registry_nexus.
 
-.. zuul:rolevar:: docker_registry_nexus
-   :default: docker_registry
+.. zuul:rolevar:: nexus_docker_registry_nexus
+   :default: nexus_docker_registry
 
 The registry for the Nexus Docker container.
 
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: nexus_registryoperator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: nexus_operator_group
+   :default: nexus_operator_user
 
 Group from the user which will own the configuration directory.
 
@@ -252,12 +252,12 @@ Apt repositories that should be added to Nexus proxy.
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: traefik_external_network_name
+.. zuul:rolevar:: nexus_traefik_external_network_name
    :default: traefik
 
 Name of the Nexus network for Traefik.
 
-.. zuul:rolevar:: traefik_external_network_cidr
+.. zuul:rolevar:: nexus_traefik_external_network_cidr
    :default: 172.31.254.0/24
 
 The Traefik network segment for external traffic.

@@ -1,17 +1,17 @@
 ---
 - name: Create traefik external network
   community.docker.docker_network:
-    name: "{{ traefik_external_network_name }}"
+    name: "{{ netbox_traefik_external_network_name }}"
     ipam_config:
-      - subnet: "{{ traefik_external_network_cidr }}"
+      - subnet: "{{ netbox_traefik_external_network_cidr }}"
   when: netbox_traefik|bool
 
 - name: Copy docker-compose.yml file
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ netbox_docker_compose_directory }}/docker-compose.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
     mode: 0640
   notify: Restart netbox service
 

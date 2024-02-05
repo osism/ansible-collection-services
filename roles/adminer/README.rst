@@ -3,27 +3,27 @@ Adminer is a tool for database management.
 
 **Role Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: adminer_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry
+.. zuul:rolevar:: adminer_docker_registry
    :default: index.docker.io
 
 Default name of the registry for container images.
 
-.. zuul:rolevar:: docker_registry_adminer
+.. zuul:rolevar:: adminer_docker_registry_adminer
    :default: docker_registry
 
 Name of the registry for the adminer container image.
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: adminer_operator_user
    :default: dragon
 
 The user that should own the configuration directory.
 
-.. zuul:rolevar:: operator_group
+.. zuul:rolevar:: adminer_operator_group
    :default: operator_user
 
 The group that should own the configuration directory.

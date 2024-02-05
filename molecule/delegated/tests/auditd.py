@@ -16,7 +16,7 @@ def test_pkg(host):
     package = host.package(package_name)
     assert package.is_installed
 
-    package_name = get_variable(host, "audispd_plugins_package_name")
+    package_name = get_variable(host, "auditd_audispd_plugins_package_name")
     assert package_name != ""
 
     package = host.package(package_name)

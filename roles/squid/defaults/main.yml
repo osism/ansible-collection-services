@@ -2,15 +2,15 @@
 ##########################
 # operator
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+squid_operator_user: dragon
+squid_operator_group: "{{ operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+squid_docker_network_mtu: 1500
 
-docker_registry_squid: index.docker.io
+squid_docker_registry_squid: index.docker.io
 
 ##########################
 # squid
@@ -25,5 +25,5 @@ squid_host: 127.0.0.1
 squid_port: 3128
 
 squid_tag: 5.7-23.04_beta  # don't get fooled by "beta". this is actually production ready
-squid_image: "{{ docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
+squid_image: "{{ squid_docker_registry_squid }}/ubuntu/squid:{{ squid_tag }}"
 squid_container_name: squid

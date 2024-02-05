@@ -11,7 +11,7 @@ def test_configfile(host):
     assert f.user == "root"
     assert f.group == "root"
 
-    journald_SystemMaxUse = get_variable(host, "journald_SystemMaxUse")
+    journald_SystemMaxUse = get_variable(host, "journald_system_max_use")
     assert f"SystemMaxUse={journald_SystemMaxUse}" in f.content_string
 
 

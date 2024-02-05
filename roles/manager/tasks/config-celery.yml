@@ -23,8 +23,8 @@
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
   loop:
     - conductor
     - openstack
@@ -34,25 +34,25 @@
     src: env/listener.env.j2
     dest: "{{ manager_configuration_directory }}/listener.env"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-  when: enable_listener|bool
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
+  when: manager_enable_listener|bool
 
 # NOTE: Since we deploy the manager, we use the conductor.yml directly from the manager.
 
 - name: Check for conductor.yml
   ansible.builtin.stat:
-    path: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+    path: "{{ manager_configuration_directory_manager }}/environments/manager/files/conductor.yml"
   register: result
 
 - name: Copy conductor configuration file
   ansible.builtin.copy:
     remote_src: true
-    src: "{{ configuration_directory }}/environments/manager/files/conductor.yml"
+    src: "{{ manager_configuration_directory_manager }}/environments/manager/files/conductor.yml"
     dest: "{{ manager_configuration_directory }}/conductor.yml"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
   when: result.stat.exists
 
 - name: Copy empty conductor configuration file
@@ -61,6 +61,6 @@
       ---
     dest: "{{ manager_configuration_directory }}/conductor.yml"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
   when: not result.stat.exists

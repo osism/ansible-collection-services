@@ -1,8 +1,8 @@
 ---
 chrony_package_name: chrony
 
-configuration_directory: /opt/configuration
-chrony_local_conf_template: "{{ configuration_directory }}/environments/generic/templates/chrony.conf.j2"
+chrony_configuration_directory: /opt/configuration
+chrony_local_conf_template: "{{ chrony_configuration_directory }}/environments/generic/templates/chrony.conf.j2"
 
 # Use the following NTP servers.
 chrony_servers:

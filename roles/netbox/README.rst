@@ -4,35 +4,35 @@ empower network automation.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: netbox_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: netbox_operator_group
+   :default: netbox_operator_user
 
 Group from the user which will own the configuration directory.
 
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: netbox_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry_netbox
+.. zuul:rolevar:: netbox_docker_registry_netbox
    :default: quay.io
 
 Name of the registry for the Netbox container image.
 
-.. zuul:rolevar:: docker_registry_postgres
+.. zuul:rolevar:: netbox_docker_registry_postgres
    :default: index.docker.io
 
 Name of the registry for the Postgres container image.
 
-.. zuul:rolevar:: docker_registry_redis
+.. zuul:rolevar:: netbox_docker_registry_redis
    :default: index.docker.io
 
 Name of the registry for the Redis container image.
@@ -276,12 +276,12 @@ Configuration for all Plugins of netbox.
 
 **Postgres Variables**
 
-.. zuul:rolevar:: postgres_tag
+.. zuul:rolevar:: netbox_postgres_tag
    :default: 15.3-alpine
 
 Version of Postgres which should be used.
 
-.. zuul:rolevar:: postgres_image
+.. zuul:rolevar:: netbox_postgres_image
    :default: {{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}
 
 The container image to use.
@@ -327,7 +327,7 @@ The container image to use.
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: traefik_external_network_name
+.. zuul:rolevar:: netbox_traefik_external_network_name
    :default: traefik
 
 Name of Netbox network for Traefik.

@@ -18,15 +18,15 @@ def test_keycloak_config(host):
         assert d.exists
         assert d.is_directory
         assert d.mode == 0o750
-        assert d.user == get_variable(host, "operator_user")
-        assert d.group == get_variable(host, "operator_group")
+        assert d.user == get_variable(host, "keycloak_operator_user")
+        assert d.group == get_variable(host, "keycloak_operator_group")
 
     keycloak_env = host.file(f"{config_dir}/keycloak.env")
     assert keycloak_env.exists
     assert not keycloak_env.is_directory
     assert keycloak_env.mode == 0o640
-    assert keycloak_env.user == get_variable(host, "operator_user")
-    assert keycloak_env.group == get_variable(host, "operator_group")
+    assert keycloak_env.user == get_variable(host, "keycloak_operator_user")
+    assert keycloak_env.group == get_variable(host, "keycloak_operator_group")
     assert (
         "KEYCLOAK_USER=" in keycloak_env.content_string
         and "KEYCLOAK_PASSWORD=" in keycloak_env.content_string
@@ -38,8 +38,8 @@ def test_keycloak_config(host):
         assert f.exists
         assert not f.is_directory
         assert f.mode == 0o640
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+        assert f.user == get_variable(host, "keycloak_operator_user")
+        assert f.group == get_variable(host, "keycloak_operator_group")
         assert (
             "POSTGRES_PASSWORD_FILE=/run/secrets/POSTGRES_PASSWORD" in f.content_string
         )
@@ -56,8 +56,8 @@ def test_keycloak_config(host):
             assert f.exists
             assert not f.is_directory
             assert f.mode == 0o644
-            assert f.user == get_variable(host, "operator_user")
-            assert f.group == get_variable(host, "operator_group")
+            assert f.user == get_variable(host, "keycloak_operator_user")
+            assert f.group == get_variable(host, "keycloak_operator_group")
 
 
 # Note: Tasks in create-database.yml were not tested.
@@ -86,7 +86,9 @@ def test_docker_network(host):
     if not keycloak_traefik:
         pytest.skip("keycloak_traefik not configured")
 
-    traefik_external_network_name = get_variable(host, "traefik_external_network_name")
+    traefik_external_network_name = get_variable(
+        host, "keycloak_traefik_external_network_name"
+    )
 
     with host.sudo("root"):
         stdout = host.check_output("docker network ls")
@@ -100,11 +102,11 @@ def test_docker_compose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "keycloak_operator_user")
+    assert f.group == get_variable(host, "keycloak_operator_group")
 
     container_name = get_variable(host, "keycloak_container_name")
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "keycloak_operator_user")):
         assert container_name in f.content_string
 
 

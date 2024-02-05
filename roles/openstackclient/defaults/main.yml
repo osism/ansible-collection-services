@@ -2,15 +2,15 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
+openstackclient_docker_network_mtu: 1500
 
-docker_registry_openstackclient: quay.io
+openstackclient_docker_registry_openstackclient: quay.io
 
 ##########################
 # operator user
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+openstackclient_operator_user: dragon
+openstackclient_operator_group: "{{ openstackclient_operator_user }}"
 
 ##########################
 # openstackclient
@@ -26,7 +26,7 @@ openstackclient_data_directory: /opt/openstackclient/data
 openstackclient_docker_compose_directory: /opt/openstackclient
 
 openstackclient_tag: "{{ openstackclient_version }}"
-openstackclient_image: "{{ docker_registry_openstackclient }}/osism/openstackclient:{{ openstackclient_tag }}"
+openstackclient_image: "{{ openstackclient_docker_registry_openstackclient }}/osism/openstackclient:{{ openstackclient_tag }}"
 
 openstackclient_container_name: openstackclient
 

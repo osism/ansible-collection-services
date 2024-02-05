@@ -28,14 +28,14 @@ services:
       - "traefik.http.routers.keycloak-secure.rule=Host(`{{ keycloak_host }}`)"
     networks:
       - default
-      - {{ traefik_external_network_name }}
+      - {{ keycloak_traefik_external_network_name }}
 {% endif %}
     depends_on:
       - postgres
 {% if not keycloak_galera_backend_enable |bool %}
   postgres:
     container_name: "{{ keycloak_container_name }}_postgres"
-    image: "{{ postgres_image }}"
+    image: "{{ keycloak_postgres_image }}"
     restart: unless-stopped
     env_file:
       - "{{ keycloak_configuration_directory }}/postgres.env"
@@ -58,12 +58,12 @@ networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ keycloak_docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ keycloak_network }}
 {% if keycloak_traefik|bool %}
-  {{ traefik_external_network_name }}:
+  {{ keycloak_traefik_external_network_name }}:
     external: true
 {% endif %}

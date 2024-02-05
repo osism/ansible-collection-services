@@ -35,15 +35,19 @@ def test_failpkg(host):
 
 
 def test_repo(host):
-    docker_configure_repository = get_variable(host, "docker_configure_repository")
+    docker_configure_repository = get_variable(
+        host, "containerd_docker_configure_repository"
+    )
 
     if not docker_configure_repository:
-        pytest.skip("docker_configure_repository is not true")
+        pytest.skip("containerd_docker_configure_repository is not true")
 
     package = host.package("apt-transport-https")
     assert package.is_installed
 
-    key_content = get_from_url(get_variable(host, "docker_debian_repository_key"))
+    key_content = get_from_url(
+        get_variable(host, "containerd_docker_debian_repository_key")
+    )
 
     f = host.file("/etc/apt/trusted.gpg.d/docker.asc")
     assert f.exists

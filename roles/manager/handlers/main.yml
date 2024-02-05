@@ -60,5 +60,5 @@
   register: result
   changed_when: true
   failed_when: result.rc != 0
-  when: enable_celery|bool
+  when: manager_enable_celery|bool
   ignore_errors: true

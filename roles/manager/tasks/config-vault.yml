@@ -4,13 +4,13 @@
     src: "env/vault.env.j2"
     dest: "{{ manager_configuration_directory }}/vault.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"
 
 - name: Copy Vault configuration file
   ansible.builtin.template:
     src: "vault.hcl.j2"
     dest: "{{ manager_configuration_directory }}/vault.hcl"
     mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ manager_operator_user }}"
+    group: "{{ manager_operator_group }}"

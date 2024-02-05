@@ -4,12 +4,12 @@ Openstack API endpoints.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: openstack_health_monitor_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry_openstack_health_monitor
+.. zuul:rolevar:: openstack_health_monitor_docker_registry_openstack_health_monitor
    :default: quay.io
 
 The registry for the Openstack-health-monitor Docker container.
@@ -17,13 +17,13 @@ The registry for the Openstack-health-monitor Docker container.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: openstack_health_monitor_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: openstack_health_monitor_operator_group
+   :default: openstack_health_monitor_operator_user
 
 Group from the user which will own the configuration directory.
 
@@ -51,23 +51,23 @@ Credentials for the clouds.yml configured in the secure.yml.
 
 These are variables for the openstack-health-monitor:
 
-.. zuul:rolevar:: openstack_health_monitor_ADDJHVOLSIZE
+.. zuul:rolevar:: openstack_health_monitor_addjhvolsize
    :default: 0
-.. zuul:rolevar:: openstack_health_monitor_ADDVMVOLSIZE
+.. zuul:rolevar:: openstack_health_monitor_addvmvolsize
    :default: 0
-.. zuul:rolevar:: openstack_health_monitor_AZS
+.. zuul:rolevar:: openstack_health_monitor_azs
    :default: nova
-.. zuul:rolevar:: openstack_health_monitor_DATADIR
+.. zuul:rolevar:: openstack_health_monitor_datadir
    :default: /data
-.. zuul:rolevar:: openstack_health_monitor_FLAVOR
+.. zuul:rolevar:: openstack_health_monitor_flavor
    :default: 1C-1GB-5GB
-.. zuul:rolevar:: openstack_health_monitor_IMG
+.. zuul:rolevar:: openstack_health_monitor_img
    :default: Ubuntu 20.04
-.. zuul:rolevar:: openstack_health_monitor_JHFLAVOR
+.. zuul:rolevar:: openstack_health_monitor_jhflavor
    :default: 1C-1GB-5GB
-.. zuul:rolevar:: openstack_health_monitor_JHIMG
+.. zuul:rolevar:: openstack_health_monitor_jhimg
    :default: Ubuntu 20.04
-.. zuul:rolevar:: openstack_health_monitor_OS_CLOUD
+.. zuul:rolevar:: openstack_health_monitor_os_cloud
    :default: openstack_health_monitor
 .. zuul:rolevar:: openstack_health_monitor_arguments
    :default: -O -C -D -N 1 -i 1 -n 2

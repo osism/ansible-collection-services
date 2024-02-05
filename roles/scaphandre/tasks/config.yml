@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ scaphandre_operator_user }}"
+    group: "{{ scaphandre_operator_group }}"
     mode: 0750
   loop:
     - "{{ scaphandre_docker_compose_directory }}"

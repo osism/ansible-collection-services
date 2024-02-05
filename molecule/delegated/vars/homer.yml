@@ -1,4 +1,4 @@
 ---
-operator_user: zuul
-operator_group: zuul
+homer_operator_user: zuul
+homer_operator_group: zuul
 kolla_internal_vip_address: 127.0.0.1

@@ -4,12 +4,12 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ netbox_operator_user }}"
+    group: "{{ netbox_operator_group }}"
     mode: 0750
   loop:
     - "{{ netbox_docker_compose_directory }}"
-    - "{{ netbox_configuration_directory }}"
+    - "{{ netbox_configuration_directory_netbox }}"
     - "{{ netbox_secrets_directory }}"
 
 - name: Include postgres config tasks

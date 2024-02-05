@@ -9,12 +9,12 @@ services:
       - "{{ traefik_host }}:{{ traefik_port_https }}:443"
       - "{{ traefik_host }}:{{ traefik_port_http }}:80"
     env_file:
-      - "{{ traefik_configuration_directory }}/traefik.env"
+      - "{{ traefik_configuration_directory_traefik }}/traefik.env"
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
-      - "{{ traefik_configuration_directory }}/osism.yml:/etc/traefik/osism.yml:ro"
-      - "{{ traefik_configuration_directory }}/traefik.yml:/etc/traefik/traefik.yml:ro"
-      - "{{ traefik_configuration_directory }}/certificates.yml:/etc/traefik/dynamic/certificates.yml:ro"
+      - "{{ traefik_configuration_directory_traefik }}/osism.yml:/etc/traefik/osism.yml:ro"
+      - "{{ traefik_configuration_directory_traefik }}/traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "{{ traefik_configuration_directory_traefik }}/certificates.yml:/etc/traefik/dynamic/certificates.yml:ro"
 {% if traefik_certificates.keys() | length >0 %}
       - "{{ traefik_certificates_directory }}:/etc/traefik/certificates:ro"
 {% endif %}

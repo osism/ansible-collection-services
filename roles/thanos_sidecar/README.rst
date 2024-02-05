@@ -5,25 +5,25 @@ allow Thanos queriers to query Prometheus data.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
-   :default: dragon
+.. zuul:rolevar:: thanos_sidecar_operator_user
+   :default: mato
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: thanos_sidecar_operator_group
+   :default: thanos_sidecar_operator_user
 
 Group from the user which will own the configuration directory.
 
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: thanos_sidecar_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry_thanos_sidecar
+.. zuul:rolevar:: thanos_sidecar_docker_registry_thanos_sidecar
    :default: quay.io
 
 The registry for the Thanos sidecar container image.
@@ -88,6 +88,6 @@ Port where Thanos sidecar HTTP endpoint will be reachable from outside.
 Version from the Thanos sidecar which should be installed.
 
 .. zuul:rolevar:: thanos_sidecar_image
-   :default: {{ docker_registry_thanos_sidecar }}/thanos/thanos:{{ thanos_sidecar_tag }}
+   :default: {{ thanos_sidecar_docker_registry_thanos_sidecar }}/thanos/thanos:{{ thanos_sidecar_tag }}
 
 The container image to use.

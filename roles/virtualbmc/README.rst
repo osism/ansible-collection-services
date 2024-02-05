@@ -3,25 +3,25 @@ Virtualbmc is a bare metall controller for virtual machines.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: virtualbmc_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: virtualbmc_operator_group
+   :default: virtualbmc_operator_user
 
 Group from the user which will own the configuration directory.
 
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: virtualbmc_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry_virtualbmc
+.. zuul:rolevar:: virtualbmc_docker_registry_virtualbmc
    :default: quay.io
 
 The registry for the Virtualbmc Docker container.

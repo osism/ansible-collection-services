@@ -3,48 +3,48 @@ required comopnents.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_registry
+.. zuul:rolevar:: manager_docker_registry
    :default: index.docker.io
 
 The Docker registry which stores container files which are needed for the manager.
 
-.. zuul:rolevar:: docker_registry_ansible
+.. zuul:rolevar:: manager_docker_registry_ansible
    :default: quay.io
 
 Container registry which stores container files which are needed for the manager.
 
-.. zuul:rolevar:: docker_registry_service
-   :default: docker_registry
+.. zuul:rolevar:: manager_docker_registry_service
+   :default: manager_docker_registry
 
 Look at docker_registry.
 
 The following Variables declares for which service, which registry is to use:
 
-.. zuul:rolevar:: docker_registry_ara_server
-   :default: docker_registry_ansible
+.. zuul:rolevar:: manager_docker_registry_ara_server
+   :default: manager_docker_registry_ansible
 
-.. zuul:rolevar:: docker_registry_inventory_reconciler
-   :default: docker_registry_ansible
+.. zuul:rolevar:: manager_docker_registry_inventory_reconciler
+   :default: manager_docker_registry_ansible
 
-.. zuul:rolevar:: docker_registry_mariadb
-   :default: docker_registry_service
+.. zuul:rolevar:: manager_docker_registry_mariadb
+   :default: manager_docker_registry_service
 
-.. zuul:rolevar:: docker_registry_osism
-   :default: docker_registry_ansible
+.. zuul:rolevar:: manager_docker_registry_osism
+   :default: manager_docker_registry_ansible
 
-.. zuul:rolevar:: docker_registry_osism_netbox
-   :default: docker_registry_ansible
+.. zuul:rolevar:: manager_docker_registry_osism_netbox
+   :default: manager_docker_registry_ansible
 
-.. zuul:rolevar:: docker_registry_receptor
-   :default: docker_registry_ansible
+.. zuul:rolevar:: manager_docker_registry_receptor
+   :default: manager_docker_registry_ansible
 
-.. zuul:rolevar:: docker_registry_redis
-   :default: docker_registry_service
+.. zuul:rolevar:: manager_docker_registry_redis
+   :default: manager_docker_registry_service
 
-.. zuul:rolevar:: docker_registry_vault
-   :default: docker_registry_service
+.. zuul:rolevar:: manager_docker_registry_vault
+   :default: manager_docker_registry_service
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: manager_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
@@ -120,13 +120,13 @@ This directory will contain the configuration files for the Manager.
 
 **Operator user Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: manager_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: manager_operator_group
+   :default: manager_operator_user
 
 Group from the user which will own the configuration directory and
 handles with Docker.
@@ -165,22 +165,22 @@ Required packages for the Manager installation.
 
 **Netbox Integration Variables**
 
-.. zuul:rolevar:: enable_netbox
-   :default: netbox_enable
+.. zuul:rolevar:: manager_enable_netbox
+   :default: manager_netbox_enable
 
 Look at netbox_enable.
 
-.. zuul:rolevar:: netbox_enable
+.. zuul:rolevar:: manager_netbox_enable
    :default: false
 
 Disables Netbox integration for deployment.
 
-.. zuul:rolevar:: netbox_api_url
+.. zuul:rolevar:: manager_netbox_api_url
    :default: ""
 
 Url to reach the Netbox API.
 
-.. zuul:rolevar:: netbox_api_token
+.. zuul:rolevar:: manager_netbox_api_token
    :default: ""
 
 Access token for Netbox API.
@@ -211,14 +211,14 @@ OpenSearch protocol.
 
 **Inventory-reconciler Variables**
 
-.. zuul:rolevar:: inventory_reconciler_tag
+.. zuul:rolevar:: manager_inventory_reconciler_tag
    :default: latest
 
 Version from the Inventory-reconciler in form of a tag which should be used.
 
-.. zuul:rolevar:: inventory_reconciler_image
-   :default: {{ docker_registry_inventory_reconciler }}
-                  /osism/inventory-reconciler:{{ inventory_reconciler_tag }}
+.. zuul:rolevar:: manager_inventory_reconciler_image
+   :default: {{ manager_docker_registry_inventory_reconciler }}
+                  /osism/inventory-reconciler:{{ manager_inventory_reconciler_tag }}
 
 The container image to use.
 
@@ -232,70 +232,70 @@ Note: The osism-ansible service is always enabled and cannot be disabled.
 .. code-block:: yaml
 
    - name: ceph-ansible
-     container_name: "{{ ceph_ansible_container_name }}"
-     tag: "{{ ceph_ansible_tag }}"
-     image: "{{ ceph_ansible_image }}"
-     enable: "{{ enable_ceph_ansible }}"
+     container_name: "{{ manager_ceph_ansible_container_name }}"
+     tag: "{{ manager_ceph_ansible_tag }}"
+     image: "{{ manager_ceph_ansible_image }}"
+     enable: "{{ manager_enable_ceph_ansible }}"
    - name: kolla-ansible
-     container_name: "{{ kolla_ansible_container_name }}"
-     tag: "{{ kolla_ansible_tag }}"
-     image: "{{ kolla_ansible_image }}"
-     enable: "{{ enable_kolla_ansible }}"
+     container_name: "{{ manager_kolla_ansible_container_name }}"
+     tag: "{{ manager_kolla_ansible_tag }}"
+     image: "{{ manager_kolla_ansible_image }}"
+     enable: "{{ manager_enable_kolla_ansible }}"
 
 Required services for OSISM.
 
-.. zuul:rolevar:: ansible_services_extra
+.. zuul:rolevar:: manager_ansible_services_extra
    :default: []
 
 Here you can define extra services besides ceph-ansible and kolla-ansible.
 
-.. zuul:rolevar:: ansible_services
-   :default: ansible_services_defaults + ansible_services_extra
+.. zuul:rolevar:: manager_ansible_services
+   :default: manager_ansible_services_defaults + manager_ansible_services_extra
 
-A compose of ansible_services_defaults and ansible_services_extra.
+A compose of manager_ansible_services_defaults and manager_ansible_services_extra.
 
 
 **osism-ansible Variables**
 
-.. zuul:rolevar:: osism_ansible_container_name
-   :default: osism-ansible
+.. zuul:rolevar:: manager_osism_ansible_container_name
+   :default: manager_osism-ansible
 
 Name of the container in which osism-ansible will run.
 
-.. zuul:rolevar:: osism_ansible_tag
+.. zuul:rolevar:: manager_osism_ansible_tag
    :default: latest
 
 Version from osism-ansible in form of a tag which should be used.
 
-.. zuul:rolevar:: osism_ansible_image
-   :default: {{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}
+.. zuul:rolevar:: manager_osism_ansible_image
+   :default: {{ manager_docker_registry_ansible }}/osism/osism-ansible:{{ manager_osism_ansible_tag }}
 
 The container image to use.
 
 
 **ceph-ansible Variables**
 
-.. zuul:rolevar:: enable_ceph_ansible
-   :default: ceph_ansible_enable
+.. zuul:rolevar:: manager_enable_ceph_ansible
+   :default: manager_ceph_ansible_enable
 
 Have a look at ceph_ansible_enable.
 
-.. zuul:rolevar:: ceph_ansible_enable
+.. zuul:rolevar:: manager_ceph_ansible_enable
    :default: true
 
 Enables ceph-ansible integration for deployment.
 
-.. zuul:rolevar:: ceph_ansible_container_name
+.. zuul:rolevar:: manager_ceph_ansible_container_name
    :default: ceph-ansible
 
 Name of the container in which ceph-ansible will run.
 
-.. zuul:rolevar:: ceph_ansible_tag
+.. zuul:rolevar:: manager_ceph_ansible_tag
    :default: pacific
 
 Version in form of a tag which should be used.
 
-.. zuul:rolevar:: ceph_ansible_image
+.. zuul:rolevar:: manager_ceph_ansible_image
    :default: {{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}
 
 The container image to use.
@@ -303,28 +303,28 @@ The container image to use.
 
 **kolla-ansible Variables**
 
-.. zuul:rolevar:: enable_kolla_ansible
-   :default: kolla_ansible_enable
+.. zuul:rolevar:: manager_enable_kolla_ansible
+   :default: manager_kolla_ansible_enable
 
 Look at kolla_ansible_enable.
 
-.. zuul:rolevar:: kolla_ansible_enable
+.. zuul:rolevar:: manager_kolla_ansible_enable
    :default: true
 
 Enables kolla-ansible integration for deployment.
 
-.. zuul:rolevar:: kolla_ansible_container_name
+.. zuul:rolevar:: manager_kolla_ansible_container_name
    :default: kolla-ansible
 
 Name of the container in which kolla-ansible will run.
 
-.. zuul:rolevar:: kolla_ansible_tag
+.. zuul:rolevar:: manager_kolla_ansible_tag
    :default: xena
 
 Version in form of a tag which should be used.
 
-.. zuul:rolevar:: kolla_ansible_image
-   :default: {{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}
+.. zuul:rolevar:: manager_kolla_ansible_image
+   :default: {{ manager_docker_registry_ansible }}/osism/kolla-ansible:{{ manager_kolla_ansible_tag }}
 
 The container image to use.
 
@@ -344,165 +344,165 @@ The container image to use.
 
 **Ara Variables**
 
-.. zuul:rolevar:: enable_ara
-   :default: ara_enable
+.. zuul:rolevar:: manager_enable_ara
+   :default: manager_ara_enable
 
 Look at ara_enable.
 
-.. zuul:rolevar:: ara_enable
+.. zuul:rolevar:: manager_ara_enable
    :default: true
 
 Enables Ara integration for deployment.
 
-.. zuul:rolevar:: ara_username
+.. zuul:rolevar:: manager_ara_username
    :default: ara
 
 Defines the ara user.
 
-.. zuul:rolevar:: ara_password
+.. zuul:rolevar:: manager_ara_password
    :default: password
 
 The password for ara.
 
-.. zuul:rolevar:: ara_server_traefik
+.. zuul:rolevar:: manager_ara_server_traefik
    :default: false
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: ara_server_host
+.. zuul:rolevar:: manager_ara_server_host
    :default: ansible_default_ipv4.address
 
 Hostname for the Ara server.
 
-.. zuul:rolevar:: ara_server_port
+.. zuul:rolevar:: manager_ara_server_port
    :default: 8120
 
 Port for the Ara server.
 
-.. zuul:rolevar:: ara_worker_connections
+.. zuul:rolevar:: manager_ara_worker_connections
    :default: 1000
 
 Number of ara-server worker connections.
 
-.. zuul:rolevar:: ara_workers
+.. zuul:rolevar:: manager_ara_workers
    :default: 5
 
 Number of ara-server workers.
 
-.. zuul:rolevar:: ara_worker_class
+.. zuul:rolevar:: manager_ara_worker_class
    :default: gevent
 
 Worker class for the ara-server service.
 
-.. zuul:rolevar:: ara_threads
+.. zuul:rolevar:: manager_ara_threads
    :default: 1
 
 Number of ara-server threads.
 
-.. zuul:rolevar:: ara_server_tag
+.. zuul:rolevar:: manager_ara_server_tag
    :default: 1.5.8
 
 Version which should be used.
 
-.. zuul:rolevar:: ara_server_image
-   :default: {{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}
+.. zuul:rolevar:: manager_ara_server_image
+   :default: {{ manager_docker_registry_ara_server }}/osism/ara-server:{{ manager_ara_server_tag }}
 
 The container image to use.
 
-.. zuul:rolevar:: ara_server_database_type
+.. zuul:rolevar:: manager_ara_server_database_type
    :default: mysql
 
 Select the database backend for Ara.
 
-.. zuul:rolevar:: ara_server_mariadb_host
+.. zuul:rolevar:: manager_ara_server_mariadb_host
    :default: ansible_default_ipv4.address
 
 Address of the MariaDB database for Ara.
 
-.. zuul:rolevar:: ara_server_mariadb_port
+.. zuul:rolevar:: manager_ara_server_mariadb_port
    :default: 3306
 
 Port from the MariaDB database.
 
-.. zuul:rolevar:: ara_server_mariadb_username
+.. zuul:rolevar:: manager_ara_server_mariadb_username
    :default: ara
 
 Database username for Aras MariaDB.
 
-.. zuul:rolevar:: ara_server_mariadb_password
+.. zuul:rolevar:: manager_ara_server_mariadb_password
    :default: password
 
 Password for the database.
 
-.. zuul:rolevar:: ara_server_mariadb_databasename
-   :default: ara_server_mariadb_username
+.. zuul:rolevar:: manager_ara_server_mariadb_databasename
+   :default: manager_ara_server_mariadb_username
 
 Name for the database Ara should use.
 
-.. zuul:rolevar:: ara_server_mariadb_tag
+.. zuul:rolevar:: manager_ara_server_mariadb_tag
    :default: 10.8.3
 
 The Version which should be used.
 
-.. zuul:rolevar:: ara_server_mariadb_image
-   :default: {{ docker_registry_mariadb }}/library/mariadb:{{ ara_server_mariadb_tag }}
+.. zuul:rolevar:: manager_ara_server_mariadb_image
+   :default: {{ manager_docker_registry_mariadb }}/library/mariadb:{{ manager_ara_server_mariadb_tag }}
 
 The container image to use.
 
 
 **Celery Variables**
 
-.. zuul:rolevar:: enable_celery
-   :default: celery_enable
+.. zuul:rolevar:: manager_enable_celery
+   :default: manager_celery_enable
 
 Have a look at celery_enable.
 
-.. zuul:rolevar:: celery_enable
+.. zuul:rolevar:: manager_celery_enable
    :default: true
 
 Disables Celery integration for deployment.
 
-.. zuul:rolevar:: osism_tag
+.. zuul:rolevar:: manager_osism_tag
    :default: latest
 
 The Version which should used.
 
-.. zuul:rolevar:: osism_image
-   :default: {{ docker_registry_osism }}/osism/osism:{{ osism_tag }}
+.. zuul:rolevar:: manager_osism_image
+   :default: {{ manager_docker_registry_osism }}/osism/osism:{{ manager_osism_tag }}
 
 The container image which should used.
 
-.. zuul:rolevar:: osism_netbox_tag
+.. zuul:rolevar:: manager_osism_netbox_tag
    :default: latest
 
 Version which should be used.
 
-.. zuul:rolevar:: osism_netbox_image
-   :default: {{ docker_registry_osism_netbox }}/osism/osism-netbox:{{ osism_netbox_tag }}
+.. zuul:rolevar:: manager_osism_netbox_image
+   :default: {{ manager_docker_registry_osism_netbox }}/osism/osism-netbox:{{ manager_osism_netbox_tag }}
 
 The container image which should used.
 
-.. zuul:rolevar:: flower_host
+.. zuul:rolevar:: manager_flower_host
    :default: ansible_default_ipv4.address
 
 Address of the Flower server for Celery queue.
 
-.. zuul:rolevar:: flower_port
+.. zuul:rolevar:: manager_flower_port
    :default: 5555
 
 Port which Flower will use for connections from outside.
 
-.. zuul:rolevar:: flower_traefik
+.. zuul:rolevar:: manager_flower_traefik
    :default: false
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: osism_api_host
+.. zuul:rolevar:: manager_osism_api_host
    :default: ansible_default_ipv4.address
 
 Address of the OSISM API.
 
-.. zuul:rolevar:: osism_api_port
+.. zuul:rolevar:: manager_osism_api_port
    :default: 8000
 
 Port for the OSISM API.
@@ -510,7 +510,7 @@ Port for the OSISM API.
 
 **Vault Variables**
 
-.. zuul:rolevar:: vault_container_name
+.. zuul:rolevar:: manager_vault_container_name
    :default: vault
 
 Name of the container in which Vault will run.
@@ -520,37 +520,37 @@ Name of the container in which Vault will run.
 
 Enables Vault integration for deployment.
 
-.. zuul:rolevar:: vault_host
+.. zuul:rolevar:: manager_vault_host
    :default: ansible_default_ipv4.address
 
 Address of the HashiCorp Vault server.
 
-.. zuul:rolevar:: vault_port
+.. zuul:rolevar:: manager_vault_port
    :default: 8200
 
 Port which Vault will use for connections from outside.
 
-.. zuul:rolevar:: vault_tag
+.. zuul:rolevar:: manager_vault_tag
    :default: 1.10.3
 
 The Version which should used.
 
-.. zuul:rolevar:: vault_image
-   :default: {{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}
+.. zuul:rolevar:: manager_vault_image
+   :default: {{ docker_registry_vault }}/hashicorp/vault:{{ manager_vault_tag }}
 
 The container image to use.
 
-.. zuul:rolevar:: vault_output_key_shares
+.. zuul:rolevar:: manager_vault_output_key_shares
    :default: false
 
 Disables the output of the Vault unlock keys.
 
-.. zuul:rolevar:: vault_write_key_shares
+.. zuul:rolevar:: manager_vault_write_key_shares
    :default: false
 
 Disables the writing Vault unlock keys to a file.
 
-.. zuul:rolevar:: vault_key_shares_path
+.. zuul:rolevar:: manager_vault_key_shares_path
    :default: {{ manager_secrets_directory }}/vault_key_shares.yml
 
 Location of the file which contains the Vault unlock keys.
@@ -566,7 +566,7 @@ Enviroments variables that will be added at the ansible container start.
 
 **Listener Variables**
 
-.. zuul:rolevar:: enable_listener
+.. zuul:rolevar:: manager_enable_listener
    :default: false
 
 Enable listener service.
@@ -603,12 +603,12 @@ These are the credentials to access the OpenStack installation.
 
 **Traefik Variables**
 
-.. zuul:rolevar:: traefik_external_network_name
+.. zuul:rolevar:: manager_traefik_external_network_name
    :default: traefik
 
 Name of the Manager network for Traefik.
 
-.. zuul:rolevar:: traefik_external_network_cidr
+.. zuul:rolevar:: manager_traefik_external_network_cidr
    :default: 172.31.254.0/24
 
 The Traefik network segment for external traffic.
@@ -636,12 +636,12 @@ Enable ironic integration.
 
 **Other services**
 
-.. zuul:rolevar:: beat_enable
+.. zuul:rolevar:: manager_beat_enable
    :default: true
 
 Enable beat service.
 
-.. zuul:rolevar:: flower_enable
+.. zuul:rolevar:: manager_flower_enable
    :default: false
 
 Enable flower service.
