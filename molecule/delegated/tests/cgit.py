@@ -16,8 +16,8 @@ def test_dirs(host):
         assert f.exists
         assert f.is_directory
         assert f.mode == 0o755
-        assert f.user == get_variable(host, "operator_user")
-        assert f.group == get_variable(host, "operator_group")
+        assert f.user == get_variable(host, "cgit_operator_user")
+        assert f.group == get_variable(host, "cgit_operator_group")
 
 
 def test_configfile(host):
@@ -25,8 +25,8 @@ def test_configfile(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o644
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "cgit_operator_user")
+    assert f.group == get_variable(host, "cgit_operator_group")
     assert "cache-scanrc-ttl=1" in f.content_string
 
     f = host.file(
@@ -35,8 +35,8 @@ def test_configfile(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o644
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "cgit_operator_user")
+    assert f.group == get_variable(host, "cgit_operator_group")
     assert "# set server name to start httpd from docker" in f.content_string
 
 
@@ -45,7 +45,9 @@ def test_dockernetwork(host):
     if not cgit_traefik:
         pytest.skip("cgit_traefik not configured")
 
-    traefik_external_network_name = get_variable(host, "traefik_external_network_name")
+    traefik_external_network_name = get_variable(
+        host, "cgit_traefik_external_network_name"
+    )
 
     with host.sudo("root"):
         stdout = host.check_output("docker network ls")
@@ -59,17 +61,18 @@ def test_dockercompose(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o640
-    assert f.user == get_variable(host, "operator_user")
-    assert f.group == get_variable(host, "operator_group")
+    assert f.user == get_variable(host, "cgit_operator_user")
+    assert f.group == get_variable(host, "cgit_operator_group")
 
     cgit_image = get_variable(host, "cgit_image")
-    docker_registry_cgit = get_variable(host, "docker_registry_cgit")
+    docker_registry_cgit = get_variable(host, "cgit_docker_registry_cgit")
     cgit_tag = get_variable(host, "cgit_tag")
     cgit_image = jinja_replacement(
-        cgit_image, {"docker_registry_cgit": docker_registry_cgit, "cgit_tag": cgit_tag}
+        cgit_image,
+        {"cgit_docker_registry_cgit": docker_registry_cgit, "cgit_tag": cgit_tag},
     )
 
-    with host.sudo(get_variable(host, "operator_user")):
+    with host.sudo(get_variable(host, "cgit_operator_user")):
         assert f'image: "{cgit_image}' in f.content_string
 
 

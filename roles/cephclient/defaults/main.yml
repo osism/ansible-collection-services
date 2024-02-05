@@ -2,15 +2,15 @@
 ##########################
 # docker
 
-docker_network_mtu: 1500
+cephclient_docker_network_mtu: 1500
 
-docker_registry_cephclient: quay.io
+cephclient_docker_registry_cephclient: quay.io
 
 ##########################
 # operator user
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+cephclient_operator_user: dragon
+cephclient_operator_group: "{{ cephclient_operator_user }}"
 
 ##########################
 # cephclient
@@ -30,7 +30,7 @@ cephclient_data_directory: /opt/cephclient/data
 cephclient_docker_compose_directory: /opt/cephclient
 
 cephclient_tag: "{{ cephclient_version }}"
-cephclient_image: "{{ docker_registry_cephclient }}/osism/cephclient:{{ cephclient_tag }}"
+cephclient_image: "{{ cephclient_docker_registry_cephclient }}/osism/cephclient:{{ cephclient_tag }}"
 
 cephclient_container_name: cephclient
 

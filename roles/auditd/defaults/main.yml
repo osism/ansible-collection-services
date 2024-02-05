@@ -25,7 +25,7 @@ auditd_rules_files: "{{ auditd_rules_files_defaults + auditd_rules_files_extra }
 # packages
 
 auditd_package_name: auditd
-audispd_plugins_package_name: audispd-plugins
+auditd_audispd_plugins_package_name: audispd-plugins
 
 ##########################
 # services

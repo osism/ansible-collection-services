@@ -59,7 +59,7 @@ auditd_rules_files_defaults and auditd_rules_files_extra.
 
 The required package for Auditd.
 
-.. zuul:rolevar:: audispd_plugins_package_name
+.. zuul:rolevar:: auditd_audispd_plugins_package_name
    :default: audispd-plugins
 
 Plugins for Auditd.

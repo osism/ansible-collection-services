@@ -32,19 +32,19 @@ services:
       - "traefik.http.middlewares.custom_repath.replacepathregex.replacement=/cgit/"
     networks:
       - default
-      - {{ traefik_external_network_name }}
+      - {{ cgit_traefik_external_network_name }}
 {% endif %}
 
 networks:
   default:
     driver: bridge
     driver_opts:
-      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+      com.docker.network.driver.mtu: {{ cgit_docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ cgit_network }}
 {% if cgit_traefik|bool %}
-  {{ traefik_external_network_name }}:
+  {{ cgit_traefik_external_network_name }}:
     external: true
 {% endif %}
