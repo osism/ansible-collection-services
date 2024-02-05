@@ -5,25 +5,25 @@ together in a single shell with a uniform command structure.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: openstackclient_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry_openstackclient
+.. zuul:rolevar:: openstackclient_docker_registry_openstackclient
    :default: quay.io
 
 The registry for the OpenStackClient Docker container.
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: openstackclient_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: openstackclient_operator_group
+   :default: openstackclient_operator_user
 
 Group from the user which will own the configuration directory.
 

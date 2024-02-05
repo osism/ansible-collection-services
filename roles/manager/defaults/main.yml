@@ -80,7 +80,7 @@ manager_netbox_api_token: ""
 
 ##########################
 # opensearch integration
-#
+
 manager_opensearch_enable: true
 
 manager_opensearch_address: 127.0.0.1

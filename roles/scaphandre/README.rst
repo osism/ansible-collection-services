@@ -4,25 +4,25 @@ Scaphandre is a metrology agent dedicated to electrical power consumption metric
 
 **Operator Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: scaphandre_operator_user
    :default: dragon
 
 The user which will own the configuration directory.
 
-.. zuul:rolevar:: operator_group
-   :default: operator_user
+.. zuul:rolevar:: scaphandre_operator_group
+   :default: scaphandre_operator_user
 
 Group from the user which will own the configuration directory.
 
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: scaphandre_docker_network_mtu
    :default: 1500
 
 Set this to the MTU for your outside connection.
 
-.. zuul:rolevar:: docker_registry_scaphandre
+.. zuul:rolevar:: scaphandre_docker_registry_scaphandre
    :default: index.docker.io
 
 The registry for the Scaphandre container image.

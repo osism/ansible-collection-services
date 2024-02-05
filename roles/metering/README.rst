@@ -2,7 +2,7 @@ Ansible Role for installation and configuration from the metering.
 
 **Docker Variables**
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: metering_docker_network_mtu
    :default: 1500
 
 Because of Docker don't check the default MTU from the system it is nessecary
@@ -16,7 +16,7 @@ to set the MTU for Docker.
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
+.. zuul:rolevar:: metering_operator_group
    :default: metering_operator_user
 
 Group from the user which will own the configuration directory and
