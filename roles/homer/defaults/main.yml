@@ -2,15 +2,15 @@
 ##########################
 # operator
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+homer_operator_user: dragon
+homer_operator_group: "{{ homer_operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+homer_docker_network_mtu: 1500
 
-docker_registry_homer: quay.io
+homer_docker_registry_homer: quay.io
 
 ##########################
 # homer
@@ -23,7 +23,7 @@ homer_port: 8080
 
 # renovate: datasource=docker depName=quay.io/osism/homer
 homer_tag: 'v23.10.1'
-homer_image: "{{ docker_registry_homer }}/osism/homer:{{ homer_tag }}"
+homer_image: "{{ homer_docker_registry_homer }}/osism/homer:{{ homer_tag }}"
 
 homer_container_name: homer
 
@@ -53,5 +53,5 @@ homer_url_vault: "http://{{ vault_host | default(ansible_default_ipv4.address) }
 
 homer_traefik: false
 
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+homer_traefik_external_network_name: traefik
+homer_traefik_external_network_cidr: 172.31.254.0/24

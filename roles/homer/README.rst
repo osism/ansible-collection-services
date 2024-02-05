@@ -3,23 +3,23 @@ Homer is a dashboard for that collects various managing tools.
 
 **Role Variables**
 
-.. zuul:rolevar:: operator_user
+.. zuul:rolevar:: homer_operator_user
    :default: dragon
 
 The user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: operator_group
+.. zuul:rolevar:: homer_operator_group
    :default: operator_user
 
 Group from the user which will own the configuration directory and handles with Docker.
 
-.. zuul:rolevar:: docker_network_mtu
+.. zuul:rolevar:: homer_docker_network_mtu
    :default: 1500
 
 Because of Docker don't check the default MTU from the system it is nessecary
 to set the MTU for Docker.
 
-.. zuul:rolevar:: docker_registry_homer
+.. zuul:rolevar:: homer_docker_registry_homer
    :default: quay.io
 
 Path to the registry that stores the Docker container images for Homer.
@@ -121,12 +121,12 @@ The following Variables define the urls to the webservices that OSISM provides:
 
 Set the configuration from Traefik to false. If true Traefik will be used.
 
-.. zuul:rolevar:: traefik_external_network_name
+.. zuul:rolevar:: homer_traefik_external_network_name
    :default: traefik
 
 Name of the Docker network for Traefik.
 
-.. zuul:rolevar:: traefik_external_network_cidr
+.. zuul:rolevar:: homer_traefik_external_network_cidr
    :default: 172.31.254.0/24
 
 The Traefik network segment for external traffic.
