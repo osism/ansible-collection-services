@@ -3,8 +3,8 @@
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{ dnsdist_docker_compose_directory }}/docker-compose.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+    owner: "{{ dnsdist_operator_user }}"
+    group: "{{ dnsdist_operator_group }}"
     mode: 0640
   notify: Restart dnsdist service
 

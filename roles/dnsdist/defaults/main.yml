@@ -2,15 +2,15 @@
 ##########################
 # operator
 
-operator_user: dragon
-operator_group: "{{ operator_user }}"
+dnsdist_operator_user: dragon
+dnsdist_operator_group: "{{ dnsdist_operator_user }}"
 
 ##########################
 # docker
 
-docker_network_mtu: 1500
+dnsdist_docker_network_mtu: 1500
 
-docker_registry_dnsdist: quay.io
+dnsdist_docker_registry_dnsdist: quay.io
 
 ##########################
 # dnsdist
@@ -30,7 +30,7 @@ dnsdist_port: 1053
 
 # renovate: datasource=docker depName=quay.io/osism/dnsdist
 dnsdist_tag: '1.8.0'
-dnsdist_image: "{{ docker_registry_dnsdist }}/osism/dnsdist:{{ dnsdist_tag }}"
+dnsdist_image: "{{ dnsdist_docker_registry_dnsdist }}/osism/dnsdist:{{ dnsdist_tag }}"
 
 dnsdist_servers:
   - 208.67.222.222
