@@ -10,7 +10,9 @@ def test_dockernetwork(host):
     if not homer_traefik:
         pytest.skip("homer_traefik not configured")
 
-    traefik_external_network_name = get_variable(host, "homer_traefik_external_network_name")
+    traefik_external_network_name = get_variable(
+        host, "homer_traefik_external_network_name"
+    )
 
     with host.sudo("root"):
         stdout = host.check_output("docker network ls")

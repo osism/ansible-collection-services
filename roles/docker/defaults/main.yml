@@ -5,8 +5,8 @@
 docker_debug: "false"
 docker_experimental: "false"
 docker_live_restore: "true"
-docker_user: "{{ operator_user | default('dragon') }}"
-docker_group: "{{ operator_group | default('dragon') }}"
+docker_user: "{{ docker_operator_user | default('dragon') }}"
+docker_group: "{{ docker_operator_group | default('dragon') }}"
 
 ##########################
 # restart
@@ -153,9 +153,9 @@ docker_default_runtime: runc
 
 docker_manage_containerd: true
 
-containerd_grpc_gid: 42463
-containerd_service_name: containerd
-containerd_package_name: containerd.io
+docker_containerd_grpc_gid: 42463
+docker_containerd_service_name: containerd
+docker_containerd_package_name: containerd.io
 
 ##########################
 # other options

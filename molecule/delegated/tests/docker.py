@@ -93,7 +93,7 @@ def test_srv(host):
 
     docker_manage_containerd = get_variable(host, "docker_manage_containerd")
     if docker_manage_containerd:
-        service = host.service(get_variable(host, "containerd_service_name"))
+        service = host.service(get_variable(host, "docker_containerd_service_name"))
 
         assert service.is_running
         assert service.is_enabled
@@ -101,9 +101,9 @@ def test_srv(host):
 
 def test_user(host):
     username = get_variable(host, "docker_user")
-    if username == "{{ operator_user | default('dragon') }}":
+    if username == "{{ docker_operator_user | default('dragon') }}":
         try:
-            username = get_variable(host, "operator_user")
+            username = get_variable(host, "docker_operator_user")
         except Exception:
             username = "dragon"
 
@@ -162,7 +162,7 @@ def test_containerd(host):
     if not docker_manage_containerd:
         pytest.skip("docker_manage_containerd is not true")
 
-    package = host.package(get_variable(host, "containerd_package_name"))
+    package = host.package(get_variable(host, "docker_containerd_package_name"))
     assert package.is_installed
 
 

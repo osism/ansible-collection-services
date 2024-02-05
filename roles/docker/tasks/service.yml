@@ -17,7 +17,7 @@
 - name: Start/enable containerd service
   become: true
   ansible.builtin.service:
-    name: "{{ containerd_service_name }}"
+    name: "{{ docker_containerd_service_name }}"
     state: started
     enabled: true
   when:
