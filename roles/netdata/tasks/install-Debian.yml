@@ -1,4 +1,12 @@
 ---
+- name: Remove old architecture-dependent repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64 ] https://packagecloud.io/netdata/netdata-edge/ubuntu/ {{ ansible_distribution_release }} main"
+    state: absent
+    filename: netdata
+  when: netdata_configure_repository|bool
+
 - name: Install apt-transport-https package
   become: true
   ansible.builtin.apt:

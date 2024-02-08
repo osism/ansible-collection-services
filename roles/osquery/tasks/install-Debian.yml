@@ -1,4 +1,12 @@
 ---
+- name: Remove old architecture-dependent repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64 ] https://pkg.osquery.io/deb deb main"
+    state: absent
+    filename: osquery
+  when: osquery_configure_repository|bool
+
 - name: Install apt-transport-https package
   become: true
   ansible.builtin.apt:

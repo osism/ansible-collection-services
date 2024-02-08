@@ -1,4 +1,11 @@
 ---
+- name: Remove old architecture-dependent repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64 ] http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/{{ openstackclient_version }} main"
+    state: absent
+  when: openstackclient_configure_repository|bool
+
 - name: Add repository key with apt-key
   become: true
   ansible.builtin.apt_key:

@@ -1,4 +1,12 @@
 ---
+- name: Remove old architecture-dependent repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64 ] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: absent
+    filename: docker
+  when: docker_configure_repository|bool
+
 - name: Gather the apt package facts
   ansible.builtin.package_facts:
     manager: auto
