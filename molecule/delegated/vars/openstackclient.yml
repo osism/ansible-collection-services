@@ -1,3 +1,7 @@
 ---
 operator_user: zuul
 operator_group: zuul
+
+# testing
+openstackclient_install_type: package
+openstackclient_version: bobcat
