@@ -1,4 +1,11 @@
 ---
+- name: Remove old architecture-dependent repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64 ] https://download.ceph.com/debian-{{ cephclient_version }} {{ ansible_distribution_release }} main"
+    state: absent
+  when: cephclient_configure_repository|bool
+
 - name: Add repository key with apt-key
   become: true
   ansible.builtin.apt_key:
