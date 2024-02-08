@@ -1,4 +1,12 @@
 ---
+- name: Remove old architecture-dependent repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64 ] https://download.falco.org/packages/deb stable main"
+    state: absent
+    filename: falco
+  when: falco_configure_repository|bool
+
 - name: Install apt-transport-https package
   become: true
   ansible.builtin.apt:
