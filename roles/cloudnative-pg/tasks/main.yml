@@ -1,0 +1,7 @@
+---
+- name: Deploy latest cloudnative-pg operator chart in namespace cnpg-system
+  kubernetes.core.helm:
+    release_name: cloudnative-pg
+    chart_ref: cnpg/cloudnative-pg
+    release_namespace: cnpg-system
+    create_namespace: true
