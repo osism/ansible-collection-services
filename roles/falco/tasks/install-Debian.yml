@@ -53,11 +53,17 @@
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   notify: "Restart service {{ falco_service_name }}"
 
-- name: Install kernel module using driver loader
+- name: Specify driver type with falcoctl
   become: true
   ansible.builtin.command:
-    cmd: falco-driver-loader module
+    cmd: "falcoctl driver config --type kmod"
   notify: "Restart service {{ falco_service_name }}"
+  changed_when: true
+
+- name: Install falco driver
+  become: true
+  ansible.builtin.command:
+    cmd: "falcoctl driver install"
   changed_when: true
 
 - name: Symlink kernel modules
