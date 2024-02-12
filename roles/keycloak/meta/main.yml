@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Christian Berendt
+  author: Arvid Requate
   description: Role osism.services.keycloak
   company: OSISM GmbH
   license: Apache License 2.0
@@ -13,4 +13,5 @@ galaxy_info:
   galaxy_tags:
     - osism
     - system
-dependencies: []
+dependencies:
+  - role: cloudnative-pg

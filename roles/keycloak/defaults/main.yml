@@ -6,54 +6,44 @@ operator_user: dragon
 operator_group: "{{ operator_user }}"
 
 ##########################
-# docker
-
-docker_network_mtu: 1500
-
-docker_registry_keycloak: quay.io
-docker_registry_postgres: index.docker.io
-
-##########################
-# keycloak
-
-keycloak_configuration_directory: /opt/keycloak/configuration
-keycloak_secrets_directory: /opt/keycloak/secrets
-keycloak_docker_compose_directory: /opt/keycloak
-
-keycloak_network: 172.31.100.144/28
-keycloak_container_name: keycloak
-keycloak_service_name: "docker-compose@keycloak"
-
-keycloak_host: 127.0.0.1
-keycloak_port: 8170
-
-# renovate: datasource=docker depName=quay.io/keycloak/keycloak
-keycloak_tag: 19.0.3-legacy
-keycloak_image: "{{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}"
-
-keycloak_username: admin
-keycloak_password: password
+# cloudnative-pg
+cnpg_postgres_image: "ghcr.io/cloudnative-pg/postgresql"
+cnpg_postgres_image_tag: "16.1"
+cnpg_cluster_name: "cnpg-keycloak"
+cnpg_storage_size: "1Gi"
 
 ##########################
 # postgres
 
-postgres_tag: 14-alpine
-postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
-
+cnpg_cluster_username: postgres
+cnpg_cluster_password: password
 keycloak_postgres_password: password
 keycloak_postgres_username: keycloak
 keycloak_postgres_databasename: keycloak
 
 ##########################
-# mariadb
+# k3s/metallb
 
-keycloak_galera_backend_enable: false
-keycloak_use_preconfigured_databases: false
+metallb_keycloak_external_IP: 192.168.16.100
 
 ##########################
-# traefik
+# keycloak
 
-keycloak_traefik: false
+# renovate: datasource=docker depName=registry.scs.community/scs-container-images/scs-keycloak
+image_registry_keycloak: registry.scs.community
+keycloak_image: "{{ image_registry_keycloak }}/scs-container-images/scs-keycloak"
+keycloak_image_tag: "23.0.6"
 
-traefik_external_network_name: traefik
-traefik_external_network_cidr: 172.31.254.0/24
+## work directory inside the osism-ansible container:
+keycloak_configuration_directory: /tmp/keycloak/configuration
+## The custom certificates need to be readable from within the osism-ansible container:
+custom_tls_certificates_directory: /opt/configuration/environments/custom/files/keycloak/
+custom_tls_key: "{{ custom_tls_certificates_directory }}/private_key.pem"
+custom_tls_certchain: "{{ custom_tls_certificates_directory }}/cert.crt"
+
+keycloak_namespace: keycloak
+keycloak_host: 127.0.0.1
+keycloak_port: 8170
+
+keycloak_username: admin
+keycloak_password: password

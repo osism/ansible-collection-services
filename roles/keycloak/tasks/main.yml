@@ -5,8 +5,3 @@
 
 - name: Include create database tasks
   ansible.builtin.include_tasks: "create-database.yml"
-  when: keycloak_galera_backend_enable|bool
-
-- name: Include service tasks
-  ansible.builtin.include_tasks: service.yml
-  tags: service
