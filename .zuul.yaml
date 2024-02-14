@@ -192,18 +192,6 @@
       - '^molecule\/delegated\/tests\/journald.*$'
 
 - job:
-    name: ansible-collection-services-molecule-keycloak
-    parent: ansible-molecule
-    vars:
-      ansible_role: keycloak
-      ansible_molecule_ansible_version: "9.2.0"
-    files:
-      - '^roles\/keycloak\/.*$'
-      - '^molecule\/requirements\.txt$'
-      - '^molecule\/delegated\/[^\/]*yml$'
-      - '^molecule\/delegated\/tests\/keycloak.*$'
-
-- job:
     name: ansible-collection-services-molecule-lldpd
     parent: ansible-molecule
     vars:
@@ -488,7 +476,6 @@
         - ansible-collection-services-molecule-hddtemp
         - ansible-collection-services-molecule-homer
         - ansible-collection-services-molecule-journald
-        - ansible-collection-services-molecule-keycloak
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager
         - ansible-collection-services-molecule-metering
@@ -530,7 +517,6 @@
         - ansible-collection-services-molecule-hddtemp
         - ansible-collection-services-molecule-homer
         - ansible-collection-services-molecule-journald
-        - ansible-collection-services-molecule-keycloak
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager
         - ansible-collection-services-molecule-metering
