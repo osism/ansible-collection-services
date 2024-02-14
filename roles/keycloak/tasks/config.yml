@@ -1,6 +1,5 @@
 ---
 - name: Create required directories
-  become: true
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -9,35 +8,20 @@
     mode: 0750
   loop:
     - "{{ keycloak_configuration_directory }}"
-    - "{{ keycloak_secrets_directory }}"
-    - "{{ keycloak_docker_compose_directory }}"
 
-- name: Copy keycloak environment file
+- name: Render manifest for cloudnative-pg
   ansible.builtin.template:
-    src: env/keycloak.env.j2
-    dest: "{{ keycloak_configuration_directory }}/keycloak.env"
+    src: cloudnative-pg-keycloak.yml.j2
+    dest: "{{ keycloak_configuration_directory }}/cloudnative-pg-keycloak.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
     mode: 0640
+
+- name: Render values file for codecentric helm chart
+  ansible.builtin.template:
+    src: codecentric-scs-keycloak.yml.j2
+    dest: "{{ keycloak_configuration_directory }}/codecentric-scs-keycloak.yml"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-
-- name: Copy postgres environment file
-  ansible.builtin.template:
-    src: env/postgres.env.j2
-    dest: "{{ keycloak_configuration_directory }}/postgres.env"
     mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-  when: not keycloak_galera_backend_enable|bool
-
-- name: Copy secret files
-  ansible.builtin.template:
-    src: secret-config.j2
-    dest: "{{ keycloak_secrets_directory }}/{{ item.filename }}"
-    mode: 0644
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-  loop:
-    - filename: POSTGRES_PASSWORD
-      secret: "{{ keycloak_postgres_password }}"
-  no_log: true
-  when: not keycloak_galera_backend_enable|bool
+  notify: Deploy latest keycloakx chart

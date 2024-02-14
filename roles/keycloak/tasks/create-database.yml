@@ -1,34 +1,6 @@
 ---
-- name: Creating keycloak database
-  become: true
-  kolla_toolbox:
-    module_name: mysql_db
-    module_args:
-      login_host: "{{ database_address }}"
-      login_port: "{{ database_port }}"
-      login_user: "{{ database_user }}"
-      login_password: "{{ database_password }}"
-      name: "{{ keycloak_database_name }}"
-  run_once: true
-  delegate_to: "{{ groups['keycloak'][0] }}"
-  when:
-    - not keycloak_use_preconfigured_databases | bool
-
-- name: Creating keycloak database user and setting permissions
-  become: true
-  kolla_toolbox:
-    module_name: mysql_user
-    module_args:
-      login_host: "{{ database_address }}"
-      login_port: "{{ database_port }}"
-      login_user: "{{ database_user }}"
-      login_password: "{{ database_password }}"
-      name: "{{ keycloak_database_user }}"
-      password: "{{ keycloak_database_password }}"
-      host: "%"
-      priv: "{{ keycloak_database_name }}.*:ALL"
-      append_privs: "yes"
-  run_once: true
-  delegate_to: "{{ groups['keycloak'][0] }}"
-  when:
-    - not keycloak_use_preconfigured_databases | bool
+- name: Deploy keycloak database on CloudNativePG cluster
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /share/kubeconfig
+    definition: "{{ lookup('file', keycloak_configuration_directory + '/cloudnative-pg-keycloak.yml') | from_yaml_all }}"

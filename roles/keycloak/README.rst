@@ -11,61 +11,47 @@ The user which will own the configuration directory and handles with Docker.
 .. zuul:rolevar:: operator_group
    :default: operator_user
 
-Group from the user which will own the configuration directory and
-handles with Docker.
-
-
-**Docker Variables**
-
-.. zuul:rolevar:: docker_network_mtu
-   :default: 1500
-
-Because of Docker dose not check the default MTU from the system it is nessecary
-to set the MTU for Docker.
-
-.. zuul:rolevar:: docker_registry_keycloak
-   :default: quay.io
-
-Path to the registry that stores the Docker container images for Keycloak.
-
-.. zuul:rolevar:: docker_registry_postgres
-   :default: index.docker.io
-
-The registry for the Postgres Docker container.
-
+Group from the user which will own the configuration directory.
 
 **Keycloak Variables**
 
+.. zuul:rolevar:: image_registry_keycloak
+   :default: registry.scs.community
+
+Path to the registry that stores the container images for Keycloak.
+
+.. zuul:rolevar:: keycloak_image
+   :default: {{ image_registry_keycloak }}/scs-container-images/scs-keycloak
+
+The container image to use.
+
+.. zuul:rolevar:: keycloak_image_tag
+   :default: 23.0.6
+
+Version from Keycloak in form of a tag which should be used.
+
 .. zuul:rolevar:: keycloak_configuration_directory
-   :default: /opt/keycloak/configuration
+   :default: /tmp/keycloak/configuration
 
-In this directory the configuration files for Keycloak will be stored.
+Work directory inside the osism-ansible container.
 
-.. zuul:rolevar:: keycloak_secrets_directory
-   :default: /opt/keycloak/secrets
+.. zuul:rolevar:: custom_tls_certificates_directory
+   :default: /opt/configuration/environments/custom/files/keycloak
 
-This directory will store the secrets file.
+This directory will be used to pass the TLS certiciates used for external access.
+The custom certificates need to be readable from within the osism-ansible container.
 
-.. zuul:rolevar:: keycloak_docker_compose_directory
-   :default: /opt/keycloak
+.. zuul:rolevar:: custom_tls_key
+   :default: "{{ custom_tls_certificates_directory }}/private_key.pem"
 
-Path to the directory where the docker-compose-files from Keycloak will
-be stored.
+The private TLS key, should be vault protected.
+See osism/testbed/contrib/ownca/README.md
 
-.. zuul:rolevar:: keycloak_network
-   :default: 172.31.100.144/28
+.. zuul:rolevar:: custom_tls_certchain
+   :default: "{{ custom_tls_certificates_directory }}/cert.crt"
 
-The subnet for Keycloak in the docker-compose file.
-
-.. zuul:rolevar:: keycloak_container_name
-   :default: keycloak
-
-Name of the container in which Keycloak will run.
-
-.. zuul:rolevar:: keycloak_service_name
-   :default: docker-compose@keycloak
-
-Name from the Keycloak service to deal with it.
+The public TLS certificate chain.
+See osism/testbed/contrib/ownca/README.md
 
 .. zuul:rolevar:: keycloak_host
    :default: 127.0.0.1
@@ -76,16 +62,6 @@ The host where Keycloak will be reachable.
    :default: 8170
 
 Port which Keycloak will use for connections from outside.
-
-.. zuul:rolevar:: keycloak_tag
-   :default: legacy
-
-Version from Keycloak in form of a tag which should be used.
-
-.. zuul:rolevar:: keycloak_image
-   :default: {{ docker_registry_keycloak }}/keycloak/keycloak:{{ keycloak_tag }}
-
-The container image to use.
 
 .. zuul:rolevar:: keycloak_username
    :default: admin
@@ -101,14 +77,6 @@ For more security you should change it after the first login.
 
 
 **Postgres Variables**
-
-.. zuul:rolevar:: postgres_tag
-   :default: 14-alpine
-
-Version from Postgres in form of a tag which should be used.
-
-.. zuul:rolevar:: postgres_image
-   :default: {{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}
 
 The container image to use.
 
@@ -129,34 +97,9 @@ You should change it for more security.
 
 The name for the Postgres database from Keycloak.
 
+**k3s/metallb Variables**
 
-**MariaDB Variables**
+.. zuul:rolevar:: metallb_keycloak_external_IP
+   :default: 192.168.16.100
 
-.. zuul:rolevar:: keycloak_galera_backend_enable
-   :default: false
-
-Disable the Galera database.
-Galera provides high availability for mariadb or mysql databases.
-
-.. zuul:rolevar:: keycloak_use_preconfigured_databases
-   :default: false
-
-The database provided with Keycloak will be disabled. 
-
-
-**Traefik Variables**
-
-.. zuul:rolevar:: keycloak_traefik
-   :default: false
-
-Set the configuration from Traefik to false. If true Traefik will be used.
-
-.. zuul:rolevar:: traefik_external_network_name
-   :default: traefik
-
-Name of the Docker network for Traefik.
-
-.. zuul:rolevar:: traefik_external_network_cidr
-   :default: 172.31.254.0/24
-
-The Traefik network segment for external traffic.
+Public IP for Keycloak.
