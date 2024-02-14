@@ -1,6 +1,7 @@
+---
 galaxy_info:
   author: Arvid Requate
-  description: Role osism.services.cloudnative-pg, an operator for PostgreSQL
+  description: Role osism.services.cloudnative_pg, an operator for PostgreSQL
   license: Apache License 2.0
   min_ansible_version: 2.10.0
   platforms:
@@ -9,5 +10,6 @@ galaxy_info:
         - focal
         - jammy
   galaxy_tags:
+    - helm
+    - kubernetes
     - osism
-    - system

@@ -12,6 +12,5 @@ galaxy_info:
         - jammy
   galaxy_tags:
     - osism
-    - system
-dependencies:
-  - role: cloudnative-pg
+    - kubernetes
+    - helm
