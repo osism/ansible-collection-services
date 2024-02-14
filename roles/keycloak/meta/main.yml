@@ -14,3 +14,5 @@ galaxy_info:
     - osism
     - kubernetes
     - helm
+  dependencies:
+    - osism.services.cloudnative_pg
