@@ -1,0 +1,43 @@
+---
+# PostgreSQL cluster
+apiVersion: v1
+data:
+  password: "{{ cnpg_cluster_password | b64encode }}"
+  username: "{{ cnpg_cluster_username | b64encode }}"
+kind: Secret
+metadata:
+  name: "{{ cnpg_cluster_name }}-superuser"
+  namespace: "{{ keycloak_namespace }}"
+type: kubernetes.io/basic-auth
+---
+# PostgreSQL database
+apiVersion: v1
+data:
+  password: "{{ keycloak_postgres_password | b64encode }}"
+  username: "{{ keycloak_postgres_username | b64encode }}"
+kind: Secret
+metadata:
+  name: "{{ cnpg_cluster_name }}-app-user"
+  namespace: "{{ keycloak_namespace }}"
+type: kubernetes.io/basic-auth
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: "{{ cnpg_cluster_name }}"
+  namespace: "{{ keycloak_namespace }}"
+spec:
+  imageName: "{{ cnpg_postgres_image }}:{{ cnpg_postgres_image_tag }}"
+  instances: 3
+  storage:
+    size: "{{ cnpg_storage_size }}"
+
+  superuserSecret:
+    name: "{{ cnpg_cluster_name }}-superuser"
+
+  bootstrap:
+    initdb:
+      database: {{ keycloak_postgres_databasename }}
+      owner: {{ keycloak_postgres_username }}
+      secret:
+        name: "{{ cnpg_cluster_name }}-app-user"
