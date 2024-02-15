@@ -1,4 +1,11 @@
 ---
+- name: "Create namespace {{ keycloak_namespace }}"
+  kubernetes.core.k8s:
+    name: "{{ keycloak_namespace }}"
+    kind: Namespace
+    state: present
+    kubeconfig: /share/kubeconfig
+
 - name: Deploy keycloak database on CloudNativePG cluster
   kubernetes.core.k8s:
     state: present
