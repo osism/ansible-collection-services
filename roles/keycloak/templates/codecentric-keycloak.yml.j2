@@ -1,4 +1,6 @@
 ---
+# possible values: https://github.com/codecentric/helm-charts/blob/master/charts/keycloakx/values.yaml
+
 image:
   repository: "{{ keycloak_image }}"
   tag: "{{ keycloak_image_tag }}"
@@ -44,9 +46,6 @@ extraEnv: |
       -XX:MaxRAMPercentage=50.0
       -Djava.awt.headless=true
       -Djgroups.dns.query={{ '{{ include "keycloak.fullname" . }}' }}-headless
-
-dbchecker:
-  enabled: true
 
 database:
   vendor: postgres
