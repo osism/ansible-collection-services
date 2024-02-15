@@ -1,7 +1,0 @@
----
-- name: Deploy latest keycloakx chart
-  kubernetes.core.helm:
-    release_name: keycloak
-    chart_ref: codecentric/keycloakx
-    release_namespace: "{{ keycloak_namespace }}"
-    release_values: {"{{ lookup('file', keycloak_configuration_directory + '/codecentric-scs-keycloak.yml') | from_yaml_all }}"}

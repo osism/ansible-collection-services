@@ -19,9 +19,8 @@
 
 - name: Render values file for codecentric helm chart
   ansible.builtin.template:
-    src: codecentric-scs-keycloak.yml.j2
-    dest: "{{ keycloak_configuration_directory }}/codecentric-scs-keycloak.yml"
+    src: codecentric-keycloak.yml.j2
+    dest: "{{ keycloak_configuration_directory }}/codecentric-keycloak.yml"
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0640
-  notify: Deploy latest keycloakx chart

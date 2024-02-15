@@ -7,7 +7,10 @@ operator_group: "{{ operator_user }}"
 
 ##########################
 # cloudnative-pg
-cnpg_postgres_image: "ghcr.io/cloudnative-pg/postgresql"
+
+container_registry_cnpg_postgres: ghcr.io
+cnpg_postgres_image: "{{ container_registry_cnpg_postgres }}/cloudnative-pg/postgresql"
+# renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
 cnpg_postgres_image_tag: "16.1"
 cnpg_cluster_name: "cnpg-keycloak"
 cnpg_storage_size: "1Gi"
@@ -17,6 +20,7 @@ cnpg_storage_size: "1Gi"
 
 cnpg_cluster_username: postgres
 cnpg_cluster_password: password
+
 keycloak_postgres_password: password
 keycloak_postgres_username: keycloak
 keycloak_postgres_databasename: keycloak
@@ -29,9 +33,9 @@ metallb_keycloak_external_IP: 192.168.16.100
 ##########################
 # keycloak
 
+container_registry_keycloak: registry.scs.community
+keycloak_image: "{{ container_registry_keycloak }}/scs-container-images/scs-keycloak"
 # renovate: datasource=docker depName=registry.scs.community/scs-container-images/scs-keycloak
-image_registry_keycloak: registry.scs.community
-keycloak_image: "{{ image_registry_keycloak }}/scs-container-images/scs-keycloak"
 keycloak_image_tag: "23.0.6"
 
 ## work directory inside the osism-ansible container:
