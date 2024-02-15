@@ -4,4 +4,9 @@
   tags: config
 
 - name: Include create database tasks
-  ansible.builtin.include_tasks: "create-database.yml"
+  ansible.builtin.include_tasks: create-database.yml
+  tags: create-database
+
+- name: Include deploy tasks
+  ansible.builtin.include_tasks: deploy.yml
+  tags: deploy
