@@ -1,4 +1,38 @@
 ---
+- secret:
+    name: SECRET_ANSIBLE_COLLECTION_SERVICES
+    data:
+      DOCKER_USERNAME: !encrypted/pkcs1-oaep
+        - O9ZcSsIP/E1HxkgR3QCPFuNu17Zmf+gTdri/Lvl/zAhK+IDN0CgF3EXpD1Gf3rE1xY5+/
+          ghrUyppQEvvtLUOwB5Es4vj/8S+DEvfCzHTpXyLDfDice8vkDwUoe5HYqLRzRKHTNTMP8
+          2TZeaOjNiaWv6ANUYYwLvCFpFRpWrXibl7pVd9fZXCSxb98Mme63xpyAR65WL7WTbYxwL
+          inyVwYitj+UO16h5pefSBnbDRyQVCO/V5pazIQr28XXfuhPCMOOoWNe4/3jFEJT+d7VE+
+          mKbu2nxjE24V/Jvn7p52u45bIOih4DX+YaoUWZbRDZh9yAtaVJ7PrVzL2V9ij30YvMJ6C
+          CzVbkj9N2cGeM+ERNnlo5nGOCqodXEazUPvraHJ7elJzi3syuPe+UMQOmvrIZXNtEMS3J
+          cg4ptQyHgCLciZrIMuppbsnA+CT/u1YeD/lIHb+7YaL3JT5pZulp2v/BnTypTPO4o5a76
+          xXmdy325qo/lLfi3FIDn8fs8P12WvPzqa3ICMPF8I+dc/8Bki52VJHpKPyWGoPw6RaZGs
+          r970WcghbtdExKRxtGssD45rFcyADiXp17oLZvKdCnhemFQJZ6pbcPE3wKYdG4S2AQohv
+          26p9MMjgo9x6Ix3mT9YLoGf8QrnS6f0DueGKLCrKLV8ft2vzNFQhEmeqXQXhzk=
+      DOCKER_PASSWORD: !encrypted/pkcs1-oaep
+        - gtR92vgRjnFkIj8HiSZsGg49vZt51lLZX+AHhIhoaD6zB1QNkzS8WJkHdORpr/BtQESba
+          sMi44JIUveS7M/L8oO5Par/UTHIfqIDBcaz2DtVHmFfjcNOT7lEkdhdWj6wlHraCdHs3A
+          hIOG2f/+ZJ8ASGjGCGBjzpjYSzCjIydkyf84flOkyZtppcwZn4lfPzXHBNY8XUV7SiKC0
+          bvmbxadqqn/ZwhPW/SFNLUQUO9lsJgBI+pRA8Z09ZMWNUtRJK3QHJY7dWEl+ZZzejzlJ2
+          JqaplV3gKwvRwoE35WhbbsdgsLJQlgmqv/KirBzvs8mQelrO5rX9Ioxvc81p2iMFrTDWA
+          WhiwSRz58XdIK7/aCw3iTf6IadF2lziUR+W9qknUk/vBvjr83DibJ3ImmKSs6i5ClS9nO
+          RaJ8vWb90SzhdMGQR3KyX8yNVdh8eOUWePmpdlTNfDXBBjLE3iyRGBdkrWN6HjSqaZEJ6
+          sg7zhyHbYXNZ1NsX7YUDQb/bkaPOnIZyHzx232zuTkZVpbjJE7MdVSEGHky4b5ewtPUV2
+          2V6eu4z1nQL1SBqm1MUPotbR5Sabc9/Wzj+8AIAKzoaMscaSyxj16Ktmic/9dI/+OZ3Y5
+          FqYxd4XclwSbiyGVhWzSiKoYd3iZwgeVd74EJPbVeJleKBTYpHvpYF2irgYxAI=
+
+- job:
+    name: ansible-collection-services-container-image-osism-ansible-push
+    parent: abstract-container-image-osism-ansible-push
+    secrets:
+      - name: secret
+        secret: SECRET_ANSIBLE_COLLECTION_SERVICES
+        pass-to-parent: true
+
 - job:
     name: ansible-collection-services-molecule-adminer
     parent: ansible-molecule
@@ -546,3 +580,7 @@
         - flake8
         - python-black
         - yamllint
+    post:
+      jobs:
+        - ansible-collection-services-container-image-osism-ansible-push:
+            branches: main
