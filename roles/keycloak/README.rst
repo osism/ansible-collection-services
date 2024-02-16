@@ -15,13 +15,13 @@ Group from the user which will own the configuration directory.
 
 **Keycloak Variables**
 
-.. zuul:rolevar:: image_registry_keycloak
+.. zuul:rolevar:: container_registry_keycloak
    :default: registry.scs.community
 
 Path to the registry that stores the container images for Keycloak.
 
 .. zuul:rolevar:: keycloak_image
-   :default: {{ image_registry_keycloak }}/scs-container-images/scs-keycloak
+   :default: {{ container_registry_keycloak }}/scs-container-images/scs-keycloak
 
 The container image to use.
 
@@ -35,20 +35,20 @@ Version from Keycloak in form of a tag which should be used.
 
 Work directory inside the osism-ansible container.
 
-.. zuul:rolevar:: custom_tls_certificates_directory
-   :default: /opt/configuration/environments/custom/files/keycloak
+.. zuul:rolevar:: keycloak_tls_certificates_directory
+   :default: /opt/configuration/environments/infrastructure/files/keycloak
 
 This directory will be used to pass the TLS certiciates used for external access.
 The custom certificates need to be readable from within the osism-ansible container.
 
-.. zuul:rolevar:: custom_tls_key
-   :default: "{{ custom_tls_certificates_directory }}/private_key.pem"
+.. zuul:rolevar:: keycloak_tls_key
+   :default: "{{ keycloak_tls_certificates_directory }}/private_key.pem"
 
 The private TLS key, should be vault protected.
 See osism/testbed/contrib/ownca/README.md
 
-.. zuul:rolevar:: custom_tls_certchain
-   :default: "{{ custom_tls_certificates_directory }}/cert.crt"
+.. zuul:rolevar:: keycloak_tls_certchain
+   :default: "{{ keycloak_tls_certificates_directory }}/cert.crt"
 
 The public TLS certificate chain.
 See osism/testbed/contrib/ownca/README.md

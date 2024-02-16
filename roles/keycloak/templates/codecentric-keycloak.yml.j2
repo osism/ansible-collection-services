@@ -24,8 +24,8 @@ command:
   - "--log-level=DEBUG"
   - "--hostname-strict=false"
   - "--hostname-strict-https=false"
-  - "--https-certificate-file=/etc/pki/ca-trust/extracted/pem/custom-ca-cert.pem"
-  - "--https-certificate-key-file=/etc/pki/ca-trust/extracted/pem/custom-tls.key"
+  - "--https-certificate-file=/etc/pki/ca-trust/extracted/pem/ca-cert.pem"
+  - "--https-certificate-key-file=/etc/pki/ca-trust/extracted/pem/tls.key"
   - "--spi-events-listener-jboss-logging-success-level=info"
   - "--spi-events-listener-jboss-logging-error-level=warn"
 
@@ -64,10 +64,10 @@ secrets:
       password: {{ keycloak_password }}
   tls-certs:
     stringData:
-      custom-ca-cert.pem: |
-        {{ lookup('file', custom_tls_certchain ) | indent(4*2) }}
-      custom-tls.key: |
-        {{ lookup('file', custom_tls_key ) | indent(4*2) }}
+      ca-cert.pem: |
+        {{ lookup('file', keycloak_tls_certchain ) | indent(4*2) }}
+      tls.key: |
+        {{ lookup('file', keycloak_tls_key ) | indent(4*2) }}
 
 extraVolumes: |
     - name: tls-certs

@@ -5,4 +5,4 @@
     chart_ref: codecentric/keycloakx
     release_namespace: "{{ keycloak_namespace }}"
     values_files:
-      - "{{ keycloak_configuration_directory }}//codecentric-keycloak.yml"
+      - "{{ keycloak_configuration_directory }}/codecentric-keycloak.yml"
