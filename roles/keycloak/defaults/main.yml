@@ -40,10 +40,11 @@ keycloak_image_tag: "23.0.6"
 
 ## work directory inside the osism-ansible container:
 keycloak_configuration_directory: /tmp/keycloak/configuration
+
 ## The custom certificates need to be readable from within the osism-ansible container:
-custom_tls_certificates_directory: /opt/configuration/environments/custom/files/keycloak/
-custom_tls_key: "{{ custom_tls_certificates_directory }}/private_key.pem"
-custom_tls_certchain: "{{ custom_tls_certificates_directory }}/cert.crt"
+keycloak_tls_certificates_directory: /opt/configuration/environments/infrastructure/files/keycloak
+keycloak_tls_key: "{{ keycloak_tls_certificates_directory }}/private_key.pem"
+keycloak_tls_certchain: "{{ keycloak_tls_certificates_directory }}/cert.crt"
 
 keycloak_namespace: keycloak
 keycloak_host: 127.0.0.1
