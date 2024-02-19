@@ -155,7 +155,13 @@
 
 - job:
     name: ansible-collection-services-molecule-fail2ban
-    parent: ansible-molecule
+    parent: centos_molecule
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy-large
+          label: ubuntu-jammy-large
+        - name: centos-9-stream
+          label: centos-9-stream
     vars:
       ansible_role: fail2ban
       ansible_molecule_ansible_version: "9.2.0"
