@@ -6,11 +6,38 @@
     state: stopped
     enabled: true
 
-- name: Run freshclam
+- name: Update and wait for freshclam DB to be in sync
   become: true
-  ansible.builtin.command:
-    cmd: /usr/bin/freshclam
-  changed_when: true
+  block:
+    - name: Run freshclam
+      ansible.builtin.command:
+        cmd: /usr/bin/freshclam
+      register: freshclam_result
+      changed_when: true
+      ignore_errors: true
+
+    - name: Wait for a freshclam DB to be in sync
+      ansible.builtin.shell: |
+        set -o pipefail
+        ls -lah /var/lib/clamav/
+      args:
+        executable: /bin/bash
+      register: ls_result
+      until: ls_result.rc == 0
+      retries: 10
+      delay: 20
+      changed_when: false
+      when: freshclam_result.rc == 0
+
+    - name: Run freshclam permissions
+      ansible.builtin.command:
+        cmd: chmod +r /var/lib/clamav/*
+
+  rescue:
+    - name: Handle freshclam failure
+      ansible.builtin.debug:
+        msg: "freshclam command failed, cannot proceed to check DB sync."
+      when: freshclam_result is defined and freshclam_result.rc != 0
 
 - name: Set osism.clamav.status fact
   ansible.builtin.include_role:
