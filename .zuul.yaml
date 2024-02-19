@@ -33,6 +33,11 @@
         secret: SECRET_ANSIBLE_COLLECTION_SERVICES
         pass-to-parent: true
 
+# Testing centos-molecule
+- job:
+    name: centos-molecule
+    run: playbooks/centos-molecule/run.yml
+
 - job:
     name: ansible-collection-services-molecule-adminer
     parent: ansible-molecule
@@ -59,7 +64,13 @@
 
 - job:
     name: ansible-collection-services-molecule-bird
-    parent: ansible-molecule
+    parent: centos-molecule
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy-large
+          label: ubuntu-jammy-large
+        - name: centos-9-stream
+          label: centos-9-stream
     vars:
       ansible_role: bird
       ansible_molecule_ansible_version: "9.3.0"
@@ -107,7 +118,13 @@
 
 - job:
     name: ansible-collection-services-molecule-clamav
-    parent: ansible-molecule
+    parent: centos-molecule
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy-large
+          label: ubuntu-jammy-large
+        - name: centos-9-stream
+          label: centos-9-stream
     vars:
       ansible_role: clamav
       ansible_molecule_ansible_version: "9.3.0"
@@ -155,7 +172,7 @@
 
 - job:
     name: ansible-collection-services-molecule-fail2ban
-    parent: centos_molecule
+    parent: centos-molecule
     nodeset:
       nodes:
         - name: ubuntu-jammy-large
@@ -437,7 +454,13 @@
 
 - job:
     name: ansible-collection-services-molecule-tuned
-    parent: ansible-molecule
+    parent: centos-molecule
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy-large
+          label: ubuntu-jammy-large
+        - name: centos-9-stream
+          label: centos-9-stream
     vars:
       ansible_role: tuned
       ansible_molecule_ansible_version: "9.3.0"
