@@ -10,7 +10,6 @@ driver:
       ansible_connection: local
 platforms:
   - name: "molecule-${ANSIBLE_ROLE}"
-  - name: "molecule-${ANSIBLE_ROLE}-rockylinux"
 provisioner:
   name: ansible
   env:
