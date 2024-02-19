@@ -9,4 +9,3 @@ clamav_localsocket: /var/run/clamav/clamd.ctl
 clamav_configuration_path: /etc/clamav/clamd.conf
 
 clamav_daemon_service_name: clamav-daemon
-clamav_freshclam_service_name: clamav-freshclam

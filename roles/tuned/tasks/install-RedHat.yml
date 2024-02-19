@@ -1,0 +1,6 @@
+---
+- name: Install package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ tuned_package_name }}"
+    state: present

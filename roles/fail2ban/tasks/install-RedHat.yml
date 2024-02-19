@@ -15,8 +15,15 @@
       ansible.builtin.dnf:
         update_cache: true
 
-- name: Install required packages
+- name: Install fail2ban package
   become: true
   ansible.builtin.dnf:
-    name: "{{ clamav_package_names }}"
+    name: "{{ fail2ban_package_name }}"
     state: present
+
+- name: Ensure fail2ban service is enabled and started
+  become: true
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: started
+    enabled: yes
