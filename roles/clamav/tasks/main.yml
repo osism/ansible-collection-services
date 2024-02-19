@@ -5,7 +5,7 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
-- name: Upate configuration
+- name: Update configuration
   become: true
   ansible.builtin.lineinfile:
     path: "{{ clamav_configuration_path }}"
@@ -35,3 +35,8 @@
     name: "{{ clamav_daemon_service_name }}"
     state: started
     enabled: true
+  failed_when: false
+
+- name: print failed
+  become: true
+  ansible.builtin.command: journalctl -xeu clamd@scan.service
