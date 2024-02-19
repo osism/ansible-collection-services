@@ -1,0 +1,5 @@
+---
+# defaults file for ansible-molecule
+zuul_work_dir: "{{ zuul.project.src_dir }}"
+ansible_molecule_venv: "$HOME/venv"
+ansible_molecule_ansible_version: "8.4.0"
