@@ -19,7 +19,7 @@
     path: "{{ nexus_configuration_directory }}"
     owner: "200"
     group: "200"
-    recurse: yes
+    recurse: true
 
 - name: Copy configuration files
   become: true
