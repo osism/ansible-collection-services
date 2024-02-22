@@ -29,5 +29,3 @@ bird_bfd_idle_tx_interval: 200
 bird_bfd_min_rx_interval: 20
 bird_bfd_min_tx_interval: 20
 bird_bfd_multiplier: 3
-
-# Test
