@@ -5,3 +5,13 @@
     name: "{{ bird_package_name }}"
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+
+- name: Copy bird.conf configuration file
+  become: true
+  ansible.builtin.template:
+    src: bird.conf.j2
+    dest: /etc/bird/bird.conf
+    owner: bird
+    group: bird
+    mode: 0640
+  notify: Restart bird service
