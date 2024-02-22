@@ -6,4 +6,3 @@ clamav_configuration_defaults:
     line: 'LocalSocket {{ clamav_localsocket }}'
 clamav_configuration_extra: []
 clamav_configuration: "{{ clamav_configuration_defaults + clamav_configuration_extra }}"
-clamav_freshclam_service_name: clamav-freshclam
