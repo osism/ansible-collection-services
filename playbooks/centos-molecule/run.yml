@@ -1,5 +1,0 @@
----
-- name: Run centos-molecule
-  hosts: all
-  roles:
-    - centos_molecule
