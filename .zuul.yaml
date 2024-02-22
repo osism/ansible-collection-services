@@ -714,7 +714,7 @@
         # - ansible-collection-services-molecule-containerd
         # - ansible-collection-services-molecule-dnsdist
         # - ansible-collection-services-molecule-docker
-        - ansible-collection-services-molecule-fail2ban
+        # - ansible-collection-services-molecule-fail2ban
         # - ansible-collection-services-molecule-falco
         # - ansible-collection-services-molecule-frr
         # - ansible-collection-services-molecule-hddtemp
@@ -755,7 +755,7 @@
         # - ansible-collection-services-molecule-containerd
         # - ansible-collection-services-molecule-dnsdist
         # - ansible-collection-services-molecule-docker
-        - ansible-collection-services-molecule-fail2ban
+        # - ansible-collection-services-molecule-fail2ban
         # - ansible-collection-services-molecule-falco
         # - ansible-collection-services-molecule-frr
         # - ansible-collection-services-molecule-hddtemp
