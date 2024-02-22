@@ -29,14 +29,22 @@
     state: started
     enabled: true
 
+- name: Find clamav definition files
+  ansible.builtin.find:
+    paths: /var/lib/clamav/
+    patterns: "*.cvd"
+  register: find_results
+
+- name: Update clamav definition files permissions
+  become: true
+  ansible.builtin.file:
+    path: "{{ item['path'] }}"
+    mode: u+r,g+r,o+r
+  with_items: "{{ find_results['files'] }}"
+
 - name: Start/enable clamav daemon service
   become: true
   ansible.builtin.service:
     name: "{{ clamav_daemon_service_name }}"
     state: started
     enabled: true
-  failed_when: false
-
-- name: print failed
-  become: true
-  ansible.builtin.command: journalctl -xeu clamd@scan.service

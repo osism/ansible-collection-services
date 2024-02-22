@@ -1,19 +1,22 @@
 ---
-- name: Setup EPEL Repository and Update Package Cache
+- name: Install EPEL repository
   become: true
-  block:
-    - name: Install EPEL repository
-      ansible.builtin.dnf:
-        name: epel-release
-        state: present
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+  changed_when: true
 
-    - name: Enable EPEL repository
-      command:
-        cmd: dnf config-manager --set-enabled epel
+- name: Enable EPEL repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled epel
+  changed_when: true
 
-    - name: Update package cache after installing EPEL repo
-      ansible.builtin.dnf:
-        update_cache: true
+- name: Update package cache after installing EPEL repo
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+  changed_when: true
 
 - name: Install required packages
   become: true
