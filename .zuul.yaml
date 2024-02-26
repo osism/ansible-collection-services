@@ -754,7 +754,7 @@
         # - ansible-collection-services-molecule-squid
         # - ansible-collection-services-molecule-thanos_sidecar
         # - ansible-collection-services-molecule-traefik
-        - ansible-collection-services-molecule-tuned
+        # - ansible-collection-services-molecule-tuned
         # - ansible-collection-services-molecule-virtualbmc
         # - ansible-collection-services-molecule-wireguard
         - ansible-lint
@@ -795,7 +795,7 @@
         # - ansible-collection-services-molecule-squid
         # - ansible-collection-services-molecule-thanos_sidecar
         # - ansible-collection-services-molecule-traefik
-        - ansible-collection-services-molecule-tuned
+        # - ansible-collection-services-molecule-tuned
         # - ansible-collection-services-molecule-virtualbmc
         # - ansible-collection-services-molecule-wireguard
         - ansible-lint
