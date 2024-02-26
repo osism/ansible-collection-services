@@ -1,7 +1,6 @@
 from .util.util import (
     get_ansible,
     get_variable,
-    get_os_role_variable,
     jinja_replacement,
     jinja_list_concat,
 )
@@ -10,7 +9,11 @@ testinfra_runner, testinfra_hosts = get_ansible()
 
 
 def test_pkg(host):
-    package_name = get_variable(host, "auditd_package_name")
+    package_name = None
+    if get_variable(host, "ansible_os_family", True) == "Debian":
+        package_name = get_variable(host, "auditd_package_name_debian")
+    elif get_variable(host, "ansible_os_family", True) == "RedHat":
+        package_name = get_variable(host, "auditd_package_name_redhat")
     assert package_name != ""
 
     package = host.package(package_name)
@@ -40,13 +43,6 @@ def test_adjustment(host):
     auditd_config = get_variable(host, "auditd_config")
 
     auditd_plugin_path = get_variable(host, "auditd_plugin_path")
-    if (
-        host.system_info.distribution.lower() == "ubuntu"
-        and host.system_info.codename.lower() == "jammy"
-    ):
-        auditd_plugin_path = get_os_role_variable(
-            host, "auditd_plugin_path", "jammy.yml"
-        )
 
     for config in auditd_config:
         parameter = config["parameter"]
