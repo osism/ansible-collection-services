@@ -1,0 +1,18 @@
+---
+- name: Install smartmontools package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ smartd_package_name }}"
+    state: present
+
+- name: Allow manual restart of auditd service
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/auditd.service
+    regexp: '^ConditionVirtualization=no'
+    line: '#ConditionVirtualization=no'
+  become: true
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: true
