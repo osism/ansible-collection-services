@@ -1,0 +1,24 @@
+---
+- name: Install auditd package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ auditd_package_name_redhat }}"
+    state: present
+
+- name: Install audispd-plugins package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ audispd_plugins_package_name }}"
+    state: present
+
+- name: Allow manual restart of auditd service
+  become: true
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/auditd.service
+    regexp: '^RefuseManualStop=yes'
+    line: '#RefuseManualStop=yes'
+
+- name: Reload systemd daemon
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: yes
