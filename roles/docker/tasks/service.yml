@@ -1,4 +1,9 @@
 ---
+- name: Reload systemd daemon
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+
 - name: Start/enable service
   become: true
   ansible.builtin.service:
@@ -12,7 +17,6 @@
     name: "{{ docker_service_name }}.socket"
     state: started
     enabled: true
-  when: ansible_os_family == 'Debian'
 
 - name: Start/enable containerd service
   become: true
@@ -22,4 +26,3 @@
     enabled: true
   when:
     - docker_manage_containerd|bool
-    - ansible_os_family == 'Debian'

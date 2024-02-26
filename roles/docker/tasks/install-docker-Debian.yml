@@ -1,4 +1,7 @@
 ---
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Remove old architecture-dependent repository
   become: true
   ansible.builtin.apt_repository:
@@ -77,7 +80,7 @@
   ansible.builtin.copy:
     content: |
       Package: {{ docker_package_name }}-cli
-      Pin: version {{ docker_version }}*
+      Pin: version {{ docker_cli_version }}*
       Pin-Priority: 1001
     dest: /etc/apt/preferences.d/docker-cli
     mode: 0644
