@@ -1,9 +1,9 @@
 ---
 - name: Restart auditd service
-  become: true
   ansible.builtin.service:
     name: "{{ auditd_service_name }}"
     state: restarted
+  become: true
 
 - name: Generate auditd rules
   become: true
