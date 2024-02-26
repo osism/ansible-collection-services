@@ -1,0 +1,6 @@
+---
+- name: Install rsyslog package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ rsyslog_package_name }}"
+    state: present
