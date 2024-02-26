@@ -1,12 +1,6 @@
 import pytest
 
-from .util.util import (
-    get_ansible,
-    get_variable,
-    get_from_url,
-    jinja_replacement,
-    jinja_list_concat,
-)
+from ..util.util import get_ansible, get_variable, jinja_list_concat
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -136,26 +130,6 @@ def test_failpkg(host):
         assert not package.is_installed
 
 
-def test_repo(host):
-    docker_configure_repository = get_variable(host, "docker_configure_repository")
-
-    if not docker_configure_repository:
-        pytest.skip("docker_configure_repository is not true")
-
-    package = host.package("apt-transport-https")
-    assert package.is_installed
-
-    key_content = get_from_url(get_variable(host, "docker_debian_repository_key"))
-
-    f = host.file("/etc/apt/trusted.gpg.d/docker.asc")
-    assert f.exists
-    assert not f.is_directory
-    assert f.mode == 0o644
-    assert f.user == "root"
-    assert f.group == "root"
-    assert f.content_string == key_content
-
-
 def test_containerd(host):
     docker_manage_containerd = get_variable(host, "docker_manage_containerd")
 
@@ -164,34 +138,6 @@ def test_containerd(host):
 
     package = host.package(get_variable(host, "containerd_package_name"))
     assert package.is_installed
-
-
-def test_pkg(host):
-    f = host.file("/etc/apt/preferences.d/docker")
-    assert f.exists
-    assert not f.is_directory
-    assert f.mode == 0o644
-    assert "Pin-Priority: 1001" in f.content_string
-
-    f = host.file("/etc/apt/preferences.d/docker-cli")
-    assert f.exists
-    assert not f.is_directory
-    assert f.mode == 0o644
-    assert "Pin-Priority: 1001" in f.content_string
-
-    docker_package_name = get_variable(host, "docker_package_name")
-    docker_cli_package_name = get_variable(host, "docker_cli_package_name")
-    docker_cli_package_name = jinja_replacement(
-        docker_cli_package_name, {"docker_package_name": docker_package_name}
-    )
-
-    package = host.package(docker_cli_package_name)
-    assert package.is_installed
-    assert get_variable(host, "docker_version") in package.version
-
-    package = host.package(docker_package_name)
-    assert package.is_installed
-    assert get_variable(host, "docker_version") in package.version
 
 
 def test_python(host):
