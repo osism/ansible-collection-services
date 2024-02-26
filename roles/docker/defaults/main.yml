@@ -62,6 +62,7 @@ docker_cli_package_name: "{{ docker_package_name }}-cli"
 docker_packages_fail:
   - containerd
   - docker.io
+  - docker-engine
 
 ##########################
 # python package
@@ -131,6 +132,8 @@ docker_configure_repository: true
 
 docker_debian_repository_key: https://download.docker.com/linux/ubuntu/gpg
 docker_debian_repository: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+
+docker_redhat_repository: "https://download.docker.com/linux/centos/docker-ce.repo"
 
 ##########################
 # network

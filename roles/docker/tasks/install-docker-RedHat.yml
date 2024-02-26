@@ -1,0 +1,98 @@
+---
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check whether packages are installed that should not be installed
+  ansible.builtin.fail:
+    msg: "{{ ansible_facts.packages[item] | length }} versions of {{ item }} are installed!"
+  when: "item in ansible_facts.packages"
+  loop: "{{ docker_packages_fail }}"
+
+- name: Install yum utilities
+  become: true
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - yum-utils
+    - python3-dnf-plugin-versionlock
+
+- name: Add repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: Docker
+    description: Docker yum repository
+    metalink: "{{ docker_redhat_repository }}"
+  when: docker_configure_repository|bool
+
+- name: Update package cache
+  become: true
+  ansible.builtin.command: dnf makecache
+
+- name: Install container.d
+  become: true
+  ansible.builtin.yum:
+    name: "{{ containerd_package_name }}"
+    state: present
+  when: docker_manage_containerd|bool
+
+- name: Pin container.d
+  community.general.yum_versionlock:
+    state: present
+    name:
+    - "{{ containerd_package_name }}"
+  when: docker_manage_containerd|bool
+
+- name: Pin other docker packages
+  community.general.yum_versionlock:
+    state: present
+    name:
+    - "{{ docker_cli_package_name }}-{{ docker_version }}*"
+    - "{{ docker_package_name }}-{{ docker_version }}*"
+
+- name: Install python3 docker bindings package
+  become: true
+  ansible.builtin.yum:
+    name: "{{ docker_python3_package_name }}"
+    state: present
+  when: not docker_python_install_from_pip|bool
+
+- name: Install python bindings with pip  # noqa: key-order[task], osism-fqcn
+  become: true
+  block:
+    - name: Remove python docker packages (install python bindings from pip)
+      ansible.builtin.yum:
+        name: "{{ docker_python_package_names }}"
+        state: absent
+
+    - name: Install python3-pip package (install python bindings from pip)
+      ansible.builtin.yum:
+        name: python3-pip
+        state: present
+
+    - name: Install docker packages (install python bindings from pip)
+      ansible.builtin.pip:
+        name: "{{ docker_pip_package_name }}"
+        extra_args: "{{ docker_pip_extra_args }}"
+        executable: pip3
+        state: present
+
+  when: docker_python_install_from_pip|bool
+
+- name: Install packages required by docker login
+  become: true
+  ansible.builtin.yum:
+    name: ["gnupg2", "pass"]
+    state: present
+  when:
+    - docker_registry_username is defined and docker_registry_username|string|length > 0
+    - docker_registry_password is defined and docker_registry_password|string|length > 0
+
+- name: Ensure that some packages are not installed
+  become: true
+  ansible.builtin.yum:
+    name:
+      - docker-buildx-plugin
+      - docker-ce-rootless-extras
+    state: absent
