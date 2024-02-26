@@ -77,6 +77,19 @@ def get_from_url(url, binary=False):
     return content
 
 
+def get_centos_repo_key(host, summary):
+    all_keys = host.run("rpm -qa gpg-pubkey | xargs -I{} sh -c 'rpm -qi {}'").stdout
+    split_on = "{}\nDescription :\n-----BEGIN PGP PUBLIC KEY BLOCK-----\n".format(
+        summary
+    )
+    installed_key = all_keys.split(split_on)[1].split(
+        "-----END PGP PUBLIC KEY BLOCK-----"
+    )[0]
+    installed_key = "\n".join(installed_key.split("\n")[2:])
+
+    return installed_key
+
+
 def jinja_replacement(original_variable, replacements):
     original_variable = original_variable.replace("{{ ", "{").replace(" }}", "}")
     original_variable = original_variable.format(**replacements)
