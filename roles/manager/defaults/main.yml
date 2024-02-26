@@ -38,6 +38,7 @@ state_directory: /opt/state
 
 manager_docker_compose_directory: /opt/manager
 manager_configuration_directory: /opt/manager/configuration
+manager_data_directory: /opt/manager/data
 manager_secrets_directory: /opt/manager/secrets
 
 ##########################

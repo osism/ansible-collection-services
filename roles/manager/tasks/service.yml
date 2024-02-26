@@ -18,6 +18,42 @@
   when:
     - "ara_server_mariadb_tag is version('11.0.0', '>=')"
 
+- name: Copy ensure-healthcheck-user.sh script
+  ansible.builtin.copy:
+    src: ensure-healthcheck-user.sh
+    dest: "{{ manager_data_directory }}/ensure-healthcheck-user.sh"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: ara_server_database_type == "mysql"
+
+- name: Get infos on container manager-mariadb-1
+  become: true
+  community.docker.docker_container_info:
+    name: manager-mariadb-1
+  register: result
+  when: ara_server_database_type == "mysql"
+
+- name: Copy ensure-healthcheck-user.sh script into the manager-mariadb-1 container
+  become: true
+  community.docker.docker_container_copy_into:
+    container: manager-mariadb-1
+    path: "{{ manager_data_directory }}/ensure-healthcheck-user.sh"
+    container_path: /usr/local/bin/ensure-healthcheck-user.sh
+  when:
+    - ara_server_database_type == "mysql"
+    - result.exists
+
+- name: Run ensure-healthcheck-user.sh if manager-mariadb-1 container exists
+  become: true
+  community.docker.docker_container_exec:
+    container: manager-mariadb-1
+    command: /bin/bash -c "/usr/local/bin/ensure-healthcheck-user.sh"
+  register: result
+  when:
+    - ara_server_database_type == "mysql"
+    - result.exists
+
 - name: Copy docker-compose.yml file
   ansible.builtin.template:
     src: docker-compose.yml.j2

@@ -1,4 +1,22 @@
 ---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ ansible_directory }}"
+    - "{{ archive_directory }}"
+    - "{{ manager_configuration_directory }}"
+    - "{{ manager_data_directory }}"
+    - "{{ manager_docker_compose_directory }}"
+    - "{{ manager_secrets_directory }}"
+    - "{{ secrets_directory }}"
+    - "{{ state_directory }}"
+
 - name: Include install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
   tags: install
