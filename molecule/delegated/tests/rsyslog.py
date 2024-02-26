@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable
+from .util.util import get_ansible, get_variable, get_os_role_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -35,6 +35,12 @@ def test_rsyslog_configuration_files(host):
         assert (
             rsyslog_conf_file.mode == 0o644
         ), "rsyslog.conf should have 0644 permissions"
+
+        rsyslog_user = get_os_role_variable(host, "rsyslog_user")
+        rsyslog_file_owner = "$FileOwner {}".format(rsyslog_user)
+
+        assert "MODULES" in rsyslog_conf_file.content_string
+        assert rsyslog_file_owner in rsyslog_conf_file.content_string
 
         # Check Fluentd and additional log server configurations if enabled
         rsyslog_fluentd = get_variable(host, "rsyslog_fluentd")
