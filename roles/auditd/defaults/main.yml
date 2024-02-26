@@ -5,7 +5,7 @@ auditd_syslog: false
 ##########################
 # configuration
 
-auditd_plugin_path: /etc/audisp/plugins.d
+auditd_plugin_path: /etc/audit/plugins.d
 auditd_config:
   - parameter: active
     value: "{{ 'yes' if auditd_syslog | bool else 'no' }}"
@@ -24,7 +24,8 @@ auditd_rules_files: "{{ auditd_rules_files_defaults + auditd_rules_files_extra }
 ##########################
 # packages
 
-auditd_package_name: auditd
+auditd_package_name_debian: auditd
+auditd_package_name_redhat: audit
 audispd_plugins_package_name: audispd-plugins
 
 ##########################
