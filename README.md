@@ -15,7 +15,7 @@ The following Ansible roles are included in this collection.
 | clamav                   | [clamav.py](molecule/delegated/tests/clamav.py)                                                                                          |
 | containerd               | [containerd.py](molecule/delegated/tests/containerd.py)                                                                                  |
 | dnsdist                  | [dnsdist.py](molecule/delegated/tests/dnsdist.py)                                                                                        |
-| docker                   | [docker.py](molecule/delegated/tests/docker.py)                                                                                          |
+| docker                   | [docker.py](molecule/delegated/tests/docker/debian.py)                                                                                          |
 | fail2ban                 | [fail2ban.py](molecule/delegated/tests/fail2ban.py)                                                                                      |
 | falco                    | [falco.py](molecule/delegated/tests/falco.py)                                                                                            |
 | frr                      | [frr.py](molecule/delegated/tests/frr.py)                                                                                                |
