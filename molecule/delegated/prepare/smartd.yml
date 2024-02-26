@@ -3,6 +3,13 @@
   become: true
   ansible.builtin.apt:
     update_cache: true
+  when: "'Debian' in ansible_os_family"
+
+- name: Update package cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+  when: "'RedHat' in ansible_os_family"
 
 # apt-utils does not get installed, processing with apt kinda fails
 - name: Ensure apt-utils is installed
@@ -10,3 +17,4 @@
   ansible.builtin.apt:
     name: apt-utils
     state: present
+  when: "'Debian' in ansible_os_family"
