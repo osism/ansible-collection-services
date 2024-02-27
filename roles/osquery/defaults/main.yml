@@ -16,3 +16,6 @@ osquery_configure_repository: true
 
 osquery_debian_repository_key: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x1484120ac4e9f8a1a577aeee97a80c63c9d8b80b"
 osquery_debian_repository: "deb https://pkg.osquery.io/deb deb main"
+
+osquery_redhat_repository_key: "https://pkg.osquery.io/rpm/GPG"
+osquery_redhat_repository: "https://pkg.osquery.io/rpm/osquery-s3-rpm.repo"

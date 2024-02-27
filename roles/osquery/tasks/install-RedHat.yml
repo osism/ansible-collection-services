@@ -1,0 +1,41 @@
+---
+- name: Remove old osquery repository file if exists
+  become: true
+  ansible.builtin.file:
+    path: "/etc/yum.repos.d/osquery.repo"
+    state: absent
+  when: osquery_configure_repository|bool
+
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ osquery_redhat_repository_key }}"
+    state: present
+  when: osquery_configure_repository|bool
+
+- name: Add osquery repository
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ osquery_redhat_repository }}"
+    dest: "/etc/yum.repos.d/osquery.repo"
+  when: osquery_configure_repository|bool
+
+- name: Update package manager cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: yes
+  when: osquery_configure_repository|bool
+
+- name: "Install package {{ osquery_package_name }}"
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ osquery_package_name }}"
+    state: latest
+  notify: "Restart service {{ osquery_service_name }}"
+
+- name: "Start/enable service {{ osquery_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ osquery_service_name }}"
+    state: started
+    enabled: true
