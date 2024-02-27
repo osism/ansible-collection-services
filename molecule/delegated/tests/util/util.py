@@ -64,7 +64,16 @@ def get_os_role_variable(host, name, filename=None):
 
 
 def get_from_url(url, binary=False):
-    resource = urllib.request.urlopen(url)
+    # Create a request object with a faked User-Agent header, some websites like https://pkg.osquery.io/rpm/GPG
+    # Will need this, otherwise they will return http 403 forbidden
+    req = urllib.request.Request(
+        url,
+        headers={
+            'User-Agent': 'Mozilla/5.0 (Linux x86_64) Chrome/103.0.0.0'
+        }
+    )
+    # Open the URL with the custom request object
+    resource = urllib.request.urlopen(req)
 
     if not binary:
         encoding = resource.headers.get_content_charset()

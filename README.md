@@ -31,7 +31,7 @@ The following Ansible roles are included in this collection.
 | nexus                    | [nexus.py](molecule/delegated/tests/nexus.py)                                                                                            |
 | openstack_health_monitor | [openstack_health_monitor.py](molecule/delegated/tests/openstack_health_monitor.py)                                                      |
 | openstackclient          | [container.py](molecule/delegated/tests/openstackclient/container.py), [package.py](molecule/delegated/tests/openstackclient/package.py) |
-| osquery                  | [osquery.py](molecule/delegated/tests/osquery.py)                                                                                        |
+| osquery                  | [osquery.py](molecule/delegated/tests/osquery/main.py)                                                                                        |
 | phpmyadmin               | [phpmyadmin.py](molecule/delegated/tests/phpmyadmin.py)                                                                                  |
 | rng                      | [rng.py](molecule/delegated/tests/rng.py)                                                                                                |
 | rsyslog                  | [rsyslog.py](molecule/delegated/tests/rsyslog.py)                                                                                        |

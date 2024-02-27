@@ -1,10 +1,15 @@
 import pytest
-from .util.util import get_ansible, get_variable, get_from_url
+from ..util.util import get_ansible, get_variable, get_from_url
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
+def check_ansible_os_family(host):
+    if get_variable(host, "ansible_os_family", True) != "Debian":
+        pytest.skip("ansible_os_family mismatch")
+
 
 def test_apt_transport_https_package_installed(host):
+    check_ansible_os_family(host)
     osquery_configure_repository = get_variable(host, "osquery_configure_repository")
     if osquery_configure_repository:
         apt_transport_https_package = host.package("apt-transport-https")
@@ -12,6 +17,7 @@ def test_apt_transport_https_package_installed(host):
 
 
 def test_osquery_gpgkey(host):
+    check_ansible_os_family(host)
     osquery_configure_repository = get_variable(host, "osquery_configure_repository")
 
     if not osquery_configure_repository:
@@ -31,15 +37,3 @@ def test_osquery_gpgkey(host):
     assert gpg_key_file.user == "root"
     assert gpg_key_file.group == "root"
     assert key_content_modified in gpg_key_file.content_string
-
-
-def test_osquery_package_installed(host):
-    osquery_package_name = get_variable(host, "osquery_package_name")
-    osquery_package = host.package(osquery_package_name)
-    assert osquery_package.is_installed
-
-
-def test_osquery_service(host):
-    service = host.service(get_variable(host, "osquery_service_name"))
-    assert service.is_running
-    assert service.is_enabled
