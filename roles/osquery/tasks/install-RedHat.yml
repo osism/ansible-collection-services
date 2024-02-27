@@ -1,0 +1,38 @@
+---
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ osquery_redhat_repository_key }}"
+    state: present
+  when: osquery_configure_repository|bool
+
+- name: Install yum utilities
+  become: true
+  ansible.builtin.yum:
+    name: yum-utils
+    state: present
+
+- name: Add osquery repository
+  become: true
+  ansible.builtin.command: yum-config-manager --add-repo {{ osquery_redhat_repository }}
+  changed_when: true
+
+- name: Update package manager cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: yes
+  when: osquery_configure_repository|bool
+
+- name: "Install package {{ osquery_package_name }}"
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ osquery_package_name }}"
+    state: latest
+  notify: "Restart service {{ osquery_service_name }}"
+
+- name: "Start/enable service {{ osquery_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ osquery_service_name }}"
+    state: started
+    enabled: true
