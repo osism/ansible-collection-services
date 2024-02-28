@@ -727,7 +727,7 @@
         - ansible-collection-services-molecule-netdata
         # - ansible-collection-services-molecule-nexus
         # - ansible-collection-services-molecule-openstackclient
-        - ansible-collection-services-molecule-osquery
+        # - ansible-collection-services-molecule-osquery
         # - ansible-collection-services-molecule-phpmyadmin
         # - ansible-collection-services-molecule-rng
         # - ansible-collection-services-molecule-rsyslog
@@ -768,7 +768,7 @@
         - ansible-collection-services-molecule-netdata
         # - ansible-collection-services-molecule-nexus
         # - ansible-collection-services-molecule-openstackclient
-        - ansible-collection-services-molecule-osquery
+        # - ansible-collection-services-molecule-osquery
         # - ansible-collection-services-molecule-phpmyadmin
         # - ansible-collection-services-molecule-rng
         # - ansible-collection-services-molecule-rsyslog

@@ -1,0 +1,56 @@
+---
+- name: Install EPEL repository
+  become: true
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+  changed_when: true
+
+- name: Enable EPEL repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled epel
+  changed_when: true
+
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ netdata_redhat_repository_key }}"
+    state: present
+  when: netdata_configure_repository|bool
+
+- name: Add netdata repository
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ netdata_redhat_repository }}"
+    dest: "/etc/yum.repos.d/netdata.repo"
+  when: netdata_configure_repository|bool
+
+- name: Update package manager cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: yes
+
+- name: Ensure Netdata configuration directory exists
+  become: true
+  ansible.builtin.file:
+    path: /usr/lib64/netdata/conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: "Install package {{ netdata_package_name }}"
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ netdata_package_name }}"
+    state: latest
+  notify: "Restart service {{ netdata_service_name }}"
+
+- name: "Start/enable service {{ netdata_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ netdata_service_name }}"
+    state: started
+    enabled: true
+

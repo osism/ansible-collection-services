@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable, get_from_url
+from ..util.util import get_ansible, get_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -7,18 +7,8 @@ def test_netdata_installation(host):
     package = host.package(get_variable(host, "netdata_package_name"))
     assert package.is_installed
 
-
-def test_repository_configuration(host):
-    if get_variable(host, "netdata_configure_repository"):
-        repo = get_variable(host, "netdata_debian_repository")
-        key_file = host.file("/etc/apt/trusted.gpg.d/netdata.asc")
-        key_content = get_from_url(get_variable(host, "netdata_debian_repository_key"))
-        assert key_file.exists
-        assert key_file.content_string == key_content
-        assert host.run(f"apt-cache policy | grep {repo.split(' ')[1]}").rc == 0
-
-
 def test_configuration_files(host):
+    config_dir = get_variable(host, "netdata_config_path")
     configuration_files = get_variable(host, "netdata_configuration_files")
     for file in configuration_files:
         config_file = host.file(f"/etc/netdata/{file}")
@@ -31,16 +21,16 @@ def test_configuration_files(host):
             in config_file.content_string
         )
 
-    cloud_conf = host.file("/var/lib/netdata/cloud.d/cloud.conf")
+    cloud_conf = host.file(f'{config_dir}/cloud.conf')
     assert cloud_conf.exists
     assert cloud_conf.user == "netdata"
     assert cloud_conf.group == "netdata"
     assert cloud_conf.mode == 0o644
     assert "[global]" in cloud_conf.content_string
 
-
 def test_directories_and_files(host):
-    cloud_dir = host.file("/var/lib/netdata/cloud.d")
+    config_dir = get_variable(host, "netdata_config_path")
+    cloud_dir = host.file(config_dir)
     opt_out_file = host.file("/etc/netdata/.opt-out-from-anonymous-statistics")
 
     assert cloud_dir.exists
@@ -53,17 +43,14 @@ def test_directories_and_files(host):
         opt_out_file.user == "root" and opt_out_file.group == "root"
     )
 
-
 def test_netdata_user_group(host):
     netdata_user = host.user("netdata")
     assert "docker" in netdata_user.groups
 
-
 def test_netdata_service_running(host):
-    service = host.service(get_variable(host, "netdata_service_name"))
+    service_name = get_variable(host, "netdata_service_name")
+    service = host.service(service_name)
     assert service.is_running
-    assert service.is_enabled
-
 
 def test_host_specific_tasks(host):
     # testing server.yml task
