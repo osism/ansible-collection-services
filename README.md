@@ -27,7 +27,7 @@ The following Ansible roles are included in this collection.
 | manager                  | [manager.py](molecule/delegated/tests/manager.py)                                                                                        |
 | metering                 | [metering.py](molecule/delegated/tests/metering.py)                                                                                      |
 | netbox                   | [netbox.py](molecule/delegated/tests/netbox.py)                                                                                          |
-| netdata                  | [netdata.py](molecule/delegated/tests/netdata.py)                                                                                        |
+| netdata                  | [netdata.py](molecule/delegated/tests/netdata/main.py)                                                                                        |
 | nexus                    | [nexus.py](molecule/delegated/tests/nexus.py)                                                                                            |
 | openldap                 | [openldap.py](molecule/delegated/tests/openldap.py)                                                                                      |
 | openstack_health_monitor | [openstack_health_monitor.py](molecule/delegated/tests/openstack_health_monitor.py)                                                      |

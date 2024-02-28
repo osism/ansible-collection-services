@@ -7,3 +7,18 @@
 
 - name: Include host type specific tasks
   ansible.builtin.include_tasks: "{{ netdata_host_type }}.yml"
+
+- name: Debug services
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      sleep 30
+      systemctl status netdata
+      journalctl -xeu netdata
+  changed_when: false
+  register: debug_services
+
+- name: Print Debug services
+  become: true
+  ansible.builtin.debug:
+    var: debug_services
