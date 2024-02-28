@@ -10,10 +10,10 @@
   notify: "Restart service {{ netdata_service_name }}"
   loop: "{{ netdata_configuration_files }}"
 
-- name: Create /var/lib/netdata/cloud.d directory
+- name: Create netdata config directory
   become: true
   ansible.builtin.file:
-    path: /var/lib/netdata/cloud.d
+    path: "{{ netdata_config_path }}"
     state: directory
     owner: netdata
     group: netdata
@@ -23,7 +23,7 @@
   become: true
   ansible.builtin.template:
     src: cloud.conf.j2
-    dest: /var/lib/netdata/cloud.d/cloud.conf
+    dest: "{{ netdata_config_path }}/cloud.conf"
     owner: netdata
     group: netdata
     mode: 0644

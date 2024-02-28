@@ -1,9 +1,4 @@
 ---
-- name: Update package cache
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-
 - name: Create required group
   become: true
   ansible.builtin.group:
