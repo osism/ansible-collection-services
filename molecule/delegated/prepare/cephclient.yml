@@ -3,6 +3,13 @@
   become: true
   ansible.builtin.apt:
     update_cache: true
+  when: "'Debian' in ansible_os_family"
+
+- name: Update package cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+  when: "'RedHat' in ansible_os_family"
 
 - name: Ensure docker
   ansible.builtin.include_role:
@@ -23,3 +30,11 @@
   ansible.builtin.apt:
     name: jq
     state: present
+  when: "'Debian' in ansible_os_family"
+
+- name: Install jq
+  become: true
+  ansible.builtin.dnf:
+    name: jq
+    state: present
+  when: "'RedHat' in ansible_os_family"
