@@ -1,0 +1,53 @@
+---
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ cephclient_repository_key }}"
+    state: present
+  when: cephclient_configure_repository|bool
+
+- name: Install yum utilities
+  become: true
+  ansible.builtin.yum:
+    name: yum-utils
+    state: present
+  when: cephclient_configure_repository|bool
+
+- name: Add ceph repository
+  become: true
+  ansible.builtin.command: yum-config-manager --add-repo {{ cephclient_redhat_repository }}
+  changed_when: true
+  when: cephclient_configure_repository|bool
+
+- name: Update package manager cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: yes
+  when: cephclient_configure_repository|bool
+
+- name: Install required packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ cephclient_packages }}"
+    state: present
+
+- name: Copy configuration files
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+    group: root
+  loop:
+    - src: ceph.conf.j2
+      dest: "/etc/ceph/ceph.conf"
+
+- name: Copy keyring file
+  become: true
+  ansible.builtin.template:
+    src: ceph-keyring-config.j2
+    dest: "/etc/ceph/ceph.{{ cephclient_keyring_name }}.keyring"
+    owner: root
+    group: root
+    mode: 0600
