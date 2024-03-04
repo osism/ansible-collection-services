@@ -1,0 +1,67 @@
+---
+- name: Install EPEL repository
+  become: true
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+  changed_when: true
+  when: docker_configure_repository|bool
+
+- name: Enable EPEL repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled epel
+  changed_when: true
+  when: docker_configure_repository|bool
+
+- name: Install yum utilities
+  become: true
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - yum-utils
+    - python3-dnf-plugin-versionlock
+
+- name: Install Docker repository
+  become: true
+  ansible.builtin.command: "yum-config-manager --add-repo {{ docker_redhat_repository }}"
+  changed_when: true
+  when: docker_configure_repository|bool
+
+- name: Add Docker GPG key
+  become: true
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ docker_redhat_repository_key }}"
+  changed_when: true
+  when: docker_configure_repository|bool
+
+- name: Update package cache
+  become: true
+  ansible.builtin.command: dnf makecache
+  changed_when: true
+
+- name: Gather the dnf package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check whether packages are installed that should not be installed
+  ansible.builtin.fail:
+    msg: "{{ ansible_facts.packages[item] | length }} versions of {{ item }} are installed!"
+  when: "item in ansible_facts.packages"
+  loop: "{{ containerd_packages_fail }}"
+
+
+# NOTE: At this point the last available version of containerd should be installed
+- name: Install containerd package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ containerd_package_name }}"
+    state: present
+
+- name: Lock containerd package
+  become: true
+  ansible.builtin.command: "dnf versionlock {{ containerd_package_name }}"
+  changed_when: true
+  tags: molecule-idempotence-notest
