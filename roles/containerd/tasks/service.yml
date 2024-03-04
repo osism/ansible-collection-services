@@ -5,4 +5,3 @@
     name: "{{ containerd_service_name }}"
     state: started
     enabled: true
-  when: ansible_os_family == 'Debian'
