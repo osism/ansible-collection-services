@@ -1,0 +1,6 @@
+---
+- name: Install lldpd package
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ lldpd_package_name }}"
+    state: present
