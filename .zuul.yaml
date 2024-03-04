@@ -737,8 +737,8 @@
         # - ansible-collection-services-molecule-frr
         # - ansible-collection-services-molecule-hddtemp
         # - ansible-collection-services-molecule-homer
-        # - ansible-collection-services-molecule-journald
-        - ansible-collection-services-molecule-lldpd
+        - ansible-collection-services-molecule-journald
+        # - ansible-collection-services-molecule-lldpd
         # - ansible-collection-services-molecule-manager
         # - ansible-collection-services-molecule-metering
         # - ansible-collection-services-molecule-netbox
@@ -778,8 +778,8 @@
         # - ansible-collection-services-molecule-frr
         # - ansible-collection-services-molecule-hddtemp
         # - ansible-collection-services-molecule-homer
-        # - ansible-collection-services-molecule-journald
-        - ansible-collection-services-molecule-lldpd
+        - ansible-collection-services-molecule-journald
+        # - ansible-collection-services-molecule-lldpd
         # - ansible-collection-services-molecule-manager
         # - ansible-collection-services-molecule-metering
         # - ansible-collection-services-molecule-netbox
