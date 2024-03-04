@@ -734,8 +734,8 @@
         # - ansible-collection-services-molecule-docker
         # - ansible-collection-services-molecule-fail2ban
         # - ansible-collection-services-molecule-falco
-        # - ansible-collection-services-molecule-frr
-        - ansible-collection-services-molecule-hddtemp
+        - ansible-collection-services-molecule-frr
+        # - ansible-collection-services-molecule-hddtemp
         # - ansible-collection-services-molecule-homer
         # - ansible-collection-services-molecule-journald
         # - ansible-collection-services-molecule-lldpd
@@ -775,8 +775,8 @@
         # - ansible-collection-services-molecule-docker
         # - ansible-collection-services-molecule-fail2ban
         # - ansible-collection-services-molecule-falco
-        # - ansible-collection-services-molecule-frr
-        - ansible-collection-services-molecule-hddtemp
+        - ansible-collection-services-molecule-frr
+        # - ansible-collection-services-molecule-hddtemp
         # - ansible-collection-services-molecule-homer
         # - ansible-collection-services-molecule-journald
         # - ansible-collection-services-molecule-lldpd
