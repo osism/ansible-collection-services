@@ -20,5 +20,7 @@ falco_package_name: falco
 
 falco_configure_repository: false
 
-falco_debian_repository_key: https://falco.org/repo/falcosecurity-packages.asc
+falco_repository_key: https://falco.org/repo/falcosecurity-packages.asc
+
 falco_debian_repository: "deb https://download.falco.org/packages/deb stable main"
+falco_redhat_repository: "https://falco.org/repo/falcosecurity-rpm.repo"
