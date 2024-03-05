@@ -712,7 +712,7 @@
         # - ansible-collection-services-molecule-chrony
         # - ansible-collection-services-molecule-clamav
         # - ansible-collection-services-molecule-containerd
-        - ansible-collection-services-molecule-dnsdist
+        # - ansible-collection-services-molecule-dnsdist
         # - ansible-collection-services-molecule-docker
         # - ansible-collection-services-molecule-fail2ban
         # - ansible-collection-services-molecule-falco
@@ -734,7 +734,7 @@
         # - ansible-collection-services-molecule-scaphandre
         # - ansible-collection-services-molecule-smartd
         # - ansible-collection-services-molecule-squid
-        # - ansible-collection-services-molecule-thanos_sidecar
+        - ansible-collection-services-molecule-thanos_sidecar
         # - ansible-collection-services-molecule-traefik
         # - ansible-collection-services-molecule-tuned
         # - ansible-collection-services-molecule-virtualbmc
@@ -753,7 +753,7 @@
         # - ansible-collection-services-molecule-chrony
         # - ansible-collection-services-molecule-clamav
         # - ansible-collection-services-molecule-containerd
-        - ansible-collection-services-molecule-dnsdist
+        # - ansible-collection-services-molecule-dnsdist
         # - ansible-collection-services-molecule-docker
         # - ansible-collection-services-molecule-fail2ban
         # - ansible-collection-services-molecule-falco
@@ -775,7 +775,7 @@
         # - ansible-collection-services-molecule-scaphandre
         # - ansible-collection-services-molecule-smartd
         # - ansible-collection-services-molecule-squid
-        # - ansible-collection-services-molecule-thanos_sidecar
+        - ansible-collection-services-molecule-thanos_sidecar
         # - ansible-collection-services-molecule-traefik
         # - ansible-collection-services-molecule-tuned
         # - ansible-collection-services-molecule-virtualbmc
