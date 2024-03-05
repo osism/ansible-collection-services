@@ -9,9 +9,19 @@ services:
       - "{{ openstackclient_configuration_directory }}:/configuration:ro"
       - "{{ openstackclient_data_directory }}:/data:ro"
       - "/etc/hosts:/etc/hosts:ro"
+{% if ansible_os_family == 'Debian' %}
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% elif ansible_os_family == 'RedHat' %}
+      - "/etc/ssl/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% endif %}
     environment:
+{% if ansible_os_family == 'Debian' %}
       REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+{% elif ansible_os_family == 'RedHat' %}
+      REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+{% endif %}
+
+
 
 networks:
   default:

@@ -1,0 +1,45 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ openstackclient_configuration_directory }}"
+    - "{{ openstackclient_data_directory }}"
+    - "{{ openstackclient_docker_compose_directory }}"
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ openstackclient_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart openstackclient service
+
+- name: Start/enable openstackclient service
+  become: true
+  ansible.builtin.service:
+    name: "{{ openstackclient_service_name }}"
+    state: started
+    enabled: true
+
+- name: Copy openstack wrapper script
+  become: true
+  ansible.builtin.template:
+    src: openstack.j2
+    dest: /usr/local/bin/openstack
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
+# NOTE: https://github.com/osism/ansible-collection-services/issues/839
+- name: Remove ospurge wrapper script
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/bin/ospurge
+    state: absent
