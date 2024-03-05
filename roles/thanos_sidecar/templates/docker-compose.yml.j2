@@ -14,7 +14,11 @@ services:
       - "{{ thanos_sidecar_host }}:{{ thanos_sidecar_grpc_port }}:10901"
       - "{{ thanos_sidecar_host }}:{{ thanos_sidecar_http_port }}:10902"
     volumes:
+{% if ansible_os_family == 'Debian' %}
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% elif ansible_os_family == 'RedHat' %}
+      - "/etc/ssl/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% endif %}
 
 networks:
   default:
