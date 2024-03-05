@@ -42,7 +42,11 @@ openstackclient_configure_repository: true
 openstackclient_debian_repository_key: "391A9AA2147192839E9DB0315EDB1B62EC4926EA"
 openstackclient_debian_repository: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/{{ openstackclient_version }} main"
 
+
 openstackclient_debian_packages:
   - python3-openstackclient
   - python3-heatclient
   - python3-magnumclient
+
+openstackclient_redhat_packages:
+  - python3-openstackclient.noarch
