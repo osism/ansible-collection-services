@@ -1,0 +1,31 @@
+---
+- name: Install EPEL repository
+  become: true
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+  changed_when: true
+
+- name: Enable EPEL repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled epel
+  changed_when: true
+
+- name: Enable CRB repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled crb
+  changed_when: true
+  when: openstackclient_configure_repository|bool
+
+- name: Update package cache
+  become: true
+  ansible.builtin.command: dnf makecache
+  changed_when: true
+
+- name: Install required packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ openstackclient_redhat_packages }}"
+    state: present
