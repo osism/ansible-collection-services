@@ -723,7 +723,7 @@
         # - ansible-collection-services-molecule-lldpd
         # - ansible-collection-services-molecule-manager
         # - ansible-collection-services-molecule-metering
-        # - ansible-collection-services-molecule-netbox
+        - ansible-collection-services-molecule-netbox
         # - ansible-collection-services-molecule-netdata
         # - ansible-collection-services-molecule-nexus
         # - ansible-collection-services-molecule-openstackclient
@@ -764,7 +764,7 @@
         # - ansible-collection-services-molecule-lldpd
         # - ansible-collection-services-molecule-manager
         # - ansible-collection-services-molecule-metering
-        # - ansible-collection-services-molecule-netbox
+        - ansible-collection-services-molecule-netbox
         # - ansible-collection-services-molecule-netdata
         # - ansible-collection-services-molecule-nexus
         # - ansible-collection-services-molecule-openstackclient
