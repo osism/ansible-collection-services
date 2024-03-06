@@ -298,18 +298,6 @@
       - '^molecule\/delegated\/tests\/nexus.*$'
 
 - job:
-    name: ansible-collection-services-molecule-openldap
-    parent: ansible-molecule
-    vars:
-      ansible_role: openldap
-      ansible_molecule_ansible_version: "9.3.0"
-    files:
-      - '^roles\/openldap\/.*$'
-      - '^molecule\/requirements\.txt$'
-      - '^molecule\/delegated\/[^\/]*yml$'
-      - '^molecule\/delegated\/tests\/openldap.*$'
-
-- job:
     name: ansible-collection-services-molecule-openstack_health_monitor
     parent: ansible-molecule
     vars:
