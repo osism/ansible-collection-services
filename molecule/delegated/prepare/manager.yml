@@ -3,6 +3,13 @@
   become: true
   ansible.builtin.apt:
     update_cache: true
+  when: "'Debian' in ansible_os_family"
+
+- name: Update package cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+  when: "'RedHat' in ansible_os_family"
 
 - name: Ensure docker
   ansible.builtin.include_role:
@@ -21,6 +28,7 @@
 - name: Reinstall tzdata
   become: true
   ansible.builtin.shell: apt-get install --reinstall tzdata
+  when: "'Debian' in ansible_os_family"
 
 - name: Install library packaging with pip
   ansible.builtin.pip:

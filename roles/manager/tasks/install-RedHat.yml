@@ -1,0 +1,17 @@
+---
+- name: Enable CRB repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled crb
+  changed_when: true
+
+- name: Update package cache
+  become: true
+  ansible.builtin.command: dnf makecache
+  changed_when: true
+
+- name: Install required packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ required_packages_manager }}"
+    state: present
