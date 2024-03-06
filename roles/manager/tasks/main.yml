@@ -3,6 +3,9 @@
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
   tags: install
 
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Include config tasks
   ansible.builtin.include_tasks: config.yml
   tags: config

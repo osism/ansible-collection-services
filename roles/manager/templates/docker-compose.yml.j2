@@ -69,7 +69,7 @@ services:
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      - "/etc/timezone:/etc/timezone:ro"
+      - "{{ manager_timezone_path }}:/etc/timezone:ro"
       - "cache:{{ cache_directory }}"
       - "logs:{{ logs_directory }}"
       - "share:/share"
@@ -285,7 +285,7 @@ services:
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      - "/etc/timezone:/etc/timezone:ro"
+      - "{{ manager_timezone_path }}:/etc/timezone:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "cache:{{ cache_directory }}"
       - "interface:/interface:ro"
@@ -354,7 +354,7 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/timezone:/etc/timezone:ro"
+      - "{{ manager_timezone_path }}:/etc/timezone:ro"
       - "{{ state_directory }}/ara-server:/state:rw"
 {% if not ara_server_traefik|bool %}
     ports:
