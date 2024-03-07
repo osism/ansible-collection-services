@@ -1,0 +1,9 @@
+---
+- name: Deploy rook-ceph operator chart
+  kubernetes.core.helm:
+    release_name: rook-ceph
+    chart_ref: rook-release/rook-ceph
+    release_namespace: "{{ rook_operator_namespace }}"
+    values_files:
+      - "{{ rook_operator_work_directory }}/operator.yml"
+    force: true # needed for update
