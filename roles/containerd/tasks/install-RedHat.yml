@@ -22,7 +22,6 @@
     state: present
     lock_timeout: "{{ lock_timeout | default(300) }}"
   loop:
-    - yum-utils
     - python3-dnf-plugin-versionlock
 
 - name: Install Docker repository

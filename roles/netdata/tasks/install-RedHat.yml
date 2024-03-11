@@ -13,18 +13,16 @@
     cmd: dnf config-manager --set-enabled epel
   changed_when: true
 
-- name: Add repository gpg key
+- name: Add app repository
   become: true
-  ansible.builtin.rpm_key:
-    key: "{{ netdata_redhat_repository_key }}"
-    state: present
-  when: netdata_configure_repository|bool
-
-- name: Install netdata repository
-  become: true
-  ansible.builtin.command: "yum-config-manager --add-repo {{ netdata_redhat_repository }}"
-  changed_when: true
-  when: netdata_configure_repository|bool
+  ansible.builtin.yum_repository:
+    name: netdata
+    description: "netdata repository"
+    baseurl: "{{ netdata_redhat_repository }}"
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: "{{ netdata_redhat_repository_key }}"
+  when: netdata_configure_repository | bool
 
 - name: Update package manager cache
   become: true

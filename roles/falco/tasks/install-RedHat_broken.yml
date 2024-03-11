@@ -19,13 +19,6 @@
   changed_when: true
   when: falco_configure_repository|bool
 
-- name: Install yum utilities
-  become: true
-  ansible.builtin.dnf:
-    name: yum-utils
-    state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
-
 - name: Install dkms utilities
   become: true
   ansible.builtin.dnf:
@@ -36,19 +29,16 @@
     - dkms
     - "kernel-devel-{{ ansible_kernel }}"
 
-- name: Add Falco GPG key
+- name: Add app repository
   become: true
-  ansible.builtin.rpm_key:
-    state: present
-    key: "{{ falco_repository_key }}"
-  changed_when: true
-  when: falco_configure_repository|bool
-
-- name: Install Falco repository
-  become: true
-  ansible.builtin.command: "yum-config-manager --add-repo {{ falco_redhat_repository }}"
-  changed_when: true
-  when: falco_configure_repository|bool
+  ansible.builtin.yum_repository:
+    name: falco
+    description: "falco repository"
+    baseurl: "{{ falco_redhat_repository }}"
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: "{{ falco_repository_key }}"
+  when: falco_configure_repository | bool
 
 - name: Update package cache
   become: true
