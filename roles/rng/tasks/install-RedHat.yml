@@ -4,9 +4,11 @@
   ansible.builtin.dnf:
     name: "{{ rng_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
 
 - name: Remove haveged package
   become: true
   ansible.builtin.dnf:
     name: haveged
     state: absent
+    lock_timeout: "{{ lock_timeout | default(300) }}"

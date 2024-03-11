@@ -4,6 +4,7 @@
   ansible.builtin.dnf:
     name: epel-release
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   changed_when: true
 
 - name: Enable EPEL repository
@@ -29,3 +30,4 @@
   ansible.builtin.dnf:
     name: "{{ openstackclient_redhat_packages }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"

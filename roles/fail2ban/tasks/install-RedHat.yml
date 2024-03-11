@@ -4,6 +4,7 @@
   ansible.builtin.dnf:
     name: epel-release
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   changed_when: true
 
 - name: Enable EPEL repository
@@ -16,6 +17,7 @@
   become: true
   ansible.builtin.dnf:
     update_cache: true
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   changed_when: true
 
 - name: Install fail2ban package
@@ -23,6 +25,7 @@
   ansible.builtin.dnf:
     name: "{{ fail2ban_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
 
 - name: Ensure fail2ban service is enabled and started
   become: true

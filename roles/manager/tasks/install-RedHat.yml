@@ -15,3 +15,4 @@
   ansible.builtin.dnf:
     name: "{{ required_packages_manager }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"

@@ -4,3 +4,4 @@
   ansible.builtin.dnf:
     name: "{{ lldpd_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"

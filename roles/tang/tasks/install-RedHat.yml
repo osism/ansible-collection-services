@@ -4,3 +4,4 @@
   ansible.builtin.dnf:
     name: "{{ tang_packages }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"

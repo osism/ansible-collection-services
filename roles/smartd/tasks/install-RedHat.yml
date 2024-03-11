@@ -4,6 +4,7 @@
   ansible.builtin.dnf:
     name: "{{ smartd_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
 
 - name: Allow manual restart of auditd service
   ansible.builtin.lineinfile:
