@@ -4,6 +4,7 @@
   ansible.builtin.dnf:
     name: epel-release
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   changed_when: true
   when: docker_configure_repository|bool
 
@@ -16,9 +17,10 @@
 
 - name: Install yum utilities
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   loop:
     - yum-utils
     - python3-dnf-plugin-versionlock
@@ -59,6 +61,7 @@
   ansible.builtin.dnf:
     name: "{{ containerd_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
 
 - name: Lock containerd package
   become: true

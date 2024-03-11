@@ -7,6 +7,7 @@
   ansible.builtin.dnf:
     name: epel-release
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   changed_when: true
 
 - name: Enable EPEL repository
@@ -44,18 +45,20 @@
 
 - name: Install yum utilities
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   loop:
     - yum-utils
     - python3-dnf-plugin-versionlock
 
 - name: Install container.d
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ containerd_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   when: docker_manage_containerd|bool
 
 - name: Pin container.d
@@ -74,31 +77,35 @@
 
 - name: Install docker
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name:
       - "{{ docker_cli_package_name }}"
       - "{{ docker_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
 
 - name: Install python3 docker bindings package
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ docker_python3_package_name }}"
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   when: not docker_python_install_from_pip|bool
 
 - name: Install python bindings with pip  # noqa: key-order[task], osism-fqcn
   become: true
   block:
     - name: Remove python docker packages (install python bindings from pip)
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name: "{{ docker_python_package_names }}"
         state: absent
+        lock_timeout: "{{ lock_timeout | default(300) }}"
 
     - name: Install python3-pip package (install python bindings from pip)
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name: python3-pip
         state: present
+        lock_timeout: "{{ lock_timeout | default(300) }}"
 
     - name: Install docker packages (install python bindings from pip)
       ansible.builtin.pip:
@@ -111,17 +118,19 @@
 
 - name: Install packages required by docker login
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: ["gnupg2", "pass"]
     state: present
+    lock_timeout: "{{ lock_timeout | default(300) }}"
   when:
     - docker_registry_username is defined and docker_registry_username|string|length > 0
     - docker_registry_password is defined and docker_registry_password|string|length > 0
 
 - name: Ensure that some packages are not installed
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name:
       - docker-buildx-plugin
       - docker-ce-rootless-extras
     state: absent
+    lock_timeout: "{{ lock_timeout | default(300) }}"
