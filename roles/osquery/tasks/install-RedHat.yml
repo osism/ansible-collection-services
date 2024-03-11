@@ -6,13 +6,6 @@
     state: present
   when: osquery_configure_repository|bool
 
-- name: Install yum utilities
-  become: true
-  ansible.builtin.dnf:
-    name: yum-utils
-    state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
-
 - name: Add osquery repository
   become: true
   ansible.builtin.command: yum-config-manager --add-repo {{ osquery_redhat_repository }}
