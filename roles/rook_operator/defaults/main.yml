@@ -1,0 +1,22 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# rook_operator
+
+container_registry_rook_operator: index.docker.io
+rook_operator_image: "{{ container_registry_rook_operator }}/rook/ceph"
+# renovate: datasource=docker depName=index.docker.io/rook/ceph
+rook_operator_image_tag: "v1.13.5"
+
+## work directory inside the osism-ansible container:
+rook_operator_work_directory: /tmp/rook_operator/configuration
+## template directory containing `operator.yml`, e.g. OSISM configuration directory
+rook_operator_template_directory: .
+## kubernetes namespace in which the operator should be installed
+## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
+rook_operator_namespace: rook-ceph

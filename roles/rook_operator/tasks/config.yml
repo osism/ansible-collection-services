@@ -1,0 +1,18 @@
+---
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ rook_operator_work_directory }}"
+
+- name: Render values file for rook-ceph operator helm chart
+  ansible.builtin.template:
+    src: "{{ rook_operator_template_directory }}/operator.yml.j2"
+    dest: "{{ rook_operator_work_directory }}/operator.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
