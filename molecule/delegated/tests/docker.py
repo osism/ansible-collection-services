@@ -145,7 +145,10 @@ def test_repo(host):
     package = host.package("apt-transport-https")
     assert package.is_installed
 
-    key_content = get_from_url(get_variable(host, "docker_debian_repository_key"))
+    if get_variable(host, "ansible_os_family", True) == "Debian":
+        key_content = get_from_url("https://download.docker.com/linux/debian/gpg")
+    elif get_variable(host, "ansible_os_family", True) == "Ubuntu":
+        key_content = get_from_url("https://download.docker.com/linux/ubuntu/gpg")
 
     f = host.file("/etc/apt/trusted.gpg.d/docker.asc")
     assert f.exists
