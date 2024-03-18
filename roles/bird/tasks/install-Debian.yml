@@ -1,7 +1,0 @@
----
-- name: Install bird package
-  become: true
-  ansible.builtin.apt:
-    name: "{{ bird_package_name }}"
-    state: present
-    lock_timeout: "{{ apt_lock_timeout | default(300) }}"

@@ -8,7 +8,6 @@ The following Ansible roles are included in this collection.
 |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | adminer                  | [adminer.py](molecule/delegated/tests/adminer.py)                                                                                        |
 | auditd                   | [auditd.py](molecule/delegated/tests/auditd.py)                                                                                          |
-| bird                     | [bird.py](molecule/delegated/tests/bird.py)                                                                                              |
 | cephclient               | [container.py](molecule/delegated/tests/cephclient/container.py), [package.py](molecule/delegated/tests/cephclient/package.py)           |
 | cgit                     | [cgit.py](molecule/delegated/tests/cgit.py)                                                                                              |
 | chrony                   | [main.py](molecule/delegated/tests/chrony/main.py), [debian.py](molecule/delegated/tests/chrony/debian.py)                               |
