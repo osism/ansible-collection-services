@@ -69,15 +69,6 @@
       - '^molecule\/delegated\/tests\/auditd.*$'
 
 - job:
-    name: ansible-collection-services-molecule-bird
-    parent: abstract-ansible-collection-services-molecule
-    vars:
-      ansible_role: bird
-    files:
-      - '^roles\/bird\/.*$'
-      - '^molecule\/delegated\/tests\/bird.*$'
-
-- job:
     name: ansible-collection-services-molecule-cephclient
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -390,7 +381,6 @@
       jobs:
         - ansible-collection-services-molecule-adminer
         - ansible-collection-services-molecule-auditd
-        - ansible-collection-services-molecule-bird
         - ansible-collection-services-molecule-cephclient
         - ansible-collection-services-molecule-cgit
         - ansible-collection-services-molecule-chrony
@@ -431,7 +421,6 @@
       jobs:
         - ansible-collection-services-molecule-adminer
         - ansible-collection-services-molecule-auditd
-        - ansible-collection-services-molecule-bird
         - ansible-collection-services-molecule-cephclient
         - ansible-collection-services-molecule-cgit
         - ansible-collection-services-molecule-chrony

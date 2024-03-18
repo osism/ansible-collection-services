@@ -8,7 +8,6 @@ The following Ansible roles are included in this collection.
 |--------------------------|-------------------------------------------------------------------------------------|--------|--------|
 | adminer                  | [adminer.py](molecule/delegated/tests/adminer.py)                                   |   :ballot_box_with_check:  |   :ballot_box_with_check:  |
 | auditd                   | [auditd.py](molecule/delegated/tests/auditd.py)                                     |   :ballot_box_with_check:  |   :ballot_box_with_check:  |
-| bird                     | [bird](molecule/delegated/tests/bird)                                               |   :ballot_box_with_check:  |   :negative_squared_cross_mark:  |
 | cephclient               | [cephclient](molecule/delegated/tests/cephclient)                                   |   :ballot_box_with_check:  |   :ballot_box_with_check:  |
 | cgit                     | [cgit.py](molecule/delegated/tests/cgit.py)                                         |   :ballot_box_with_check:  |   :ballot_box_with_check:  |
 | chrony                   | [chrony](molecule/delegated/tests/chrony)                                           |   :ballot_box_with_check:  |   :ballot_box_with_check:  |
