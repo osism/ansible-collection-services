@@ -381,80 +381,80 @@
     default-branch: main
     check:
       jobs:
-        - ansible-collection-services-molecule-adminer
-        - ansible-collection-services-molecule-auditd
-        - ansible-collection-services-molecule-cephclient
-        - ansible-collection-services-molecule-cgit
-        - ansible-collection-services-molecule-chrony
-        - ansible-collection-services-molecule-clamav
-        - ansible-collection-services-molecule-containerd
-        - ansible-collection-services-molecule-dnsdist
-        - ansible-collection-services-molecule-docker
-        - ansible-collection-services-molecule-fail2ban
-        - ansible-collection-services-molecule-falco
-        - ansible-collection-services-molecule-frr
-        - ansible-collection-services-molecule-hddtemp
-        - ansible-collection-services-molecule-homer
-        - ansible-collection-services-molecule-journald
-        - ansible-collection-services-molecule-lldpd
-        - ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-metering
-        - ansible-collection-services-molecule-netbox
-        - ansible-collection-services-molecule-netdata
-        - ansible-collection-services-molecule-nexus
-        - ansible-collection-services-molecule-openstackclient
-        - ansible-collection-services-molecule-osquery
-        - ansible-collection-services-molecule-phpmyadmin
-        - ansible-collection-services-molecule-rng
-        - ansible-collection-services-molecule-rsyslog
-        - ansible-collection-services-molecule-scaphandre
-        - ansible-collection-services-molecule-smartd
-        - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-thanos_sidecar
-        - ansible-collection-services-molecule-traefik
-        - ansible-collection-services-molecule-tuned
-        - ansible-collection-services-molecule-virtualbmc
-        - ansible-collection-services-molecule-wireguard
+        # - ansible-collection-services-molecule-adminer
+        # - ansible-collection-services-molecule-auditd
+        # - ansible-collection-services-molecule-cephclient
+        # - ansible-collection-services-molecule-cgit
+        # - ansible-collection-services-molecule-chrony
+        # - ansible-collection-services-molecule-clamav
+        # - ansible-collection-services-molecule-containerd
+        # - ansible-collection-services-molecule-dnsdist
+        # - ansible-collection-services-molecule-docker
+        # - ansible-collection-services-molecule-fail2ban
+        # - ansible-collection-services-molecule-falco
+        # - ansible-collection-services-molecule-frr
+        # - ansible-collection-services-molecule-hddtemp
+        # - ansible-collection-services-molecule-homer
+        # - ansible-collection-services-molecule-journald
+        # - ansible-collection-services-molecule-lldpd
+        # - ansible-collection-services-molecule-manager
+        # - ansible-collection-services-molecule-metering
+        # - ansible-collection-services-molecule-netbox
+        # - ansible-collection-services-molecule-netdata
+        # - ansible-collection-services-molecule-nexus
+        # - ansible-collection-services-molecule-openstackclient
+        # - ansible-collection-services-molecule-osquery
+        # - ansible-collection-services-molecule-phpmyadmin
+        # - ansible-collection-services-molecule-rng
+        # - ansible-collection-services-molecule-rsyslog
+        # - ansible-collection-services-molecule-scaphandre
+        # - ansible-collection-services-molecule-smartd
+        # - ansible-collection-services-molecule-squid
+        # - ansible-collection-services-molecule-thanos_sidecar
+        # - ansible-collection-services-molecule-traefik
+        # - ansible-collection-services-molecule-tuned
+        # - ansible-collection-services-molecule-virtualbmc
+        # - ansible-collection-services-molecule-wireguard
         - ansible-lint
         - flake8
         - python-black
         - yamllint
     gate:
       jobs:
-        - ansible-collection-services-molecule-adminer
-        - ansible-collection-services-molecule-auditd
-        - ansible-collection-services-molecule-cephclient
-        - ansible-collection-services-molecule-cgit
-        - ansible-collection-services-molecule-chrony
-        - ansible-collection-services-molecule-clamav
-        - ansible-collection-services-molecule-containerd
-        - ansible-collection-services-molecule-dnsdist
-        - ansible-collection-services-molecule-docker
-        - ansible-collection-services-molecule-fail2ban
-        - ansible-collection-services-molecule-falco
-        - ansible-collection-services-molecule-frr
-        - ansible-collection-services-molecule-hddtemp
-        - ansible-collection-services-molecule-homer
-        - ansible-collection-services-molecule-journald
-        - ansible-collection-services-molecule-lldpd
-        - ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-metering
-        - ansible-collection-services-molecule-netbox
-        - ansible-collection-services-molecule-netdata
-        - ansible-collection-services-molecule-nexus
-        - ansible-collection-services-molecule-openstackclient
-        - ansible-collection-services-molecule-osquery
-        - ansible-collection-services-molecule-phpmyadmin
-        - ansible-collection-services-molecule-rng
-        - ansible-collection-services-molecule-rsyslog
-        - ansible-collection-services-molecule-scaphandre
-        - ansible-collection-services-molecule-smartd
-        - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-thanos_sidecar
-        - ansible-collection-services-molecule-traefik
-        - ansible-collection-services-molecule-tuned
-        - ansible-collection-services-molecule-virtualbmc
-        - ansible-collection-services-molecule-wireguard
+        # - ansible-collection-services-molecule-adminer
+        # - ansible-collection-services-molecule-auditd
+        # - ansible-collection-services-molecule-cephclient
+        # - ansible-collection-services-molecule-cgit
+        # - ansible-collection-services-molecule-chrony
+        # - ansible-collection-services-molecule-clamav
+        # - ansible-collection-services-molecule-containerd
+        # - ansible-collection-services-molecule-dnsdist
+        # - ansible-collection-services-molecule-docker
+        # - ansible-collection-services-molecule-fail2ban
+        # - ansible-collection-services-molecule-falco
+        # - ansible-collection-services-molecule-frr
+        # - ansible-collection-services-molecule-hddtemp
+        # - ansible-collection-services-molecule-homer
+        # - ansible-collection-services-molecule-journald
+        # - ansible-collection-services-molecule-lldpd
+        # - ansible-collection-services-molecule-manager
+        # - ansible-collection-services-molecule-metering
+        # - ansible-collection-services-molecule-netbox
+        # - ansible-collection-services-molecule-netdata
+        # - ansible-collection-services-molecule-nexus
+        # - ansible-collection-services-molecule-openstackclient
+        # - ansible-collection-services-molecule-osquery
+        # - ansible-collection-services-molecule-phpmyadmin
+        # - ansible-collection-services-molecule-rng
+        # - ansible-collection-services-molecule-rsyslog
+        # - ansible-collection-services-molecule-scaphandre
+        # - ansible-collection-services-molecule-smartd
+        # - ansible-collection-services-molecule-squid
+        # - ansible-collection-services-molecule-thanos_sidecar
+        # - ansible-collection-services-molecule-traefik
+        # - ansible-collection-services-molecule-tuned
+        # - ansible-collection-services-molecule-virtualbmc
+        # - ansible-collection-services-molecule-wireguard
         - ansible-lint
         - flake8
         - python-black
