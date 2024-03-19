@@ -1,4 +1,7 @@
 ---
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_distribution }}-dist.yml"
+
 - name: Include install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 

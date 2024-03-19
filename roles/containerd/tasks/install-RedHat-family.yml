@@ -26,7 +26,7 @@
 
 - name: Install Docker repository
   become: true
-  ansible.builtin.command: "yum-config-manager --add-repo {{ docker_redhat_repository }}"
+  ansible.builtin.command: "yum-config-manager --add-repo {{ docker_repository }}"
   changed_when: true
   when: docker_configure_repository|bool
 
@@ -34,7 +34,7 @@
   become: true
   ansible.builtin.rpm_key:
     state: present
-    key: "{{ docker_redhat_repository_key }}"
+    key: "{{ docker_repository_key }}"
   changed_when: true
   when: docker_configure_repository|bool
 
