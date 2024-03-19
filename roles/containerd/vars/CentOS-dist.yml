@@ -1,0 +1,3 @@
+---
+docker_repository_key: https://download.docker.com/linux/centos/gpg
+docker_repository: "https://download.docker.com/linux/centos/docker-ce.repo"

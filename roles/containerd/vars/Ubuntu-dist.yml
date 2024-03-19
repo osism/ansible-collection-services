@@ -1,0 +1,3 @@
+---
+docker_repository_key: https://download.docker.com/linux/ubuntu/gpg
+docker_repository: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
