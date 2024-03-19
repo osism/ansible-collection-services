@@ -39,10 +39,12 @@
     abstract: true
     nodeset:
       nodes:
-        - name: ubuntu-jammy-large
-          label: ubuntu-jammy-large
         - name: centos-9-stream
           label: centos-9-stream
+        - name: debian-bookworm
+          label: debian-bookworm
+        - name: ubuntu-jammy-large
+          label: ubuntu-jammy-large
     vars:
       ansible_molecule_ansible_version: "9.3.0"
     files:
