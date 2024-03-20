@@ -1,9 +1,9 @@
 ---
 - name: Gather variables for each operating system
-  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
 
 - name: Include distribution specific install tasks
-  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
 - name: Include distribution specific service tasks
-  ansible.builtin.include_tasks: "service-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "service-{{ ansible_os_family }}-family.yml"
