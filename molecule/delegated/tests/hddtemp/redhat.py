@@ -1,6 +1,6 @@
 import pytest
 
-from ..util.util import get_ansible, get_variable
+from ..util.util import get_ansible, get_variable, get_family_role_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -23,7 +23,7 @@ def test_pkg(host):
 def test_configfile(host):
     check_ansible_os_family(host)
 
-    f = host.file("/etc/sysconfig/hddtemp")
+    f = host.file(get_family_role_variable(host, "hddtemp_conf_file"))
     assert f.exists
     assert not f.is_directory
     assert f.user == "root"
