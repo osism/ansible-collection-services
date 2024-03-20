@@ -1,6 +1,6 @@
 import pytest
 import re
-from .util.util import get_ansible, get_variable, get_os_role_variable
+from .util.util import get_ansible, get_variable, get_role_variable
 from packaging.version import Version
 
 testinfra_runner, testinfra_hosts = get_ansible()
@@ -139,9 +139,7 @@ def test_manager_config(host):
             assert f.group == get_variable(host, "operator_group")
 
     # config-wrapper
-    wrapper_scripts = get_os_role_variable(
-        host, "manager_wrapper_scripts", "wrapper.yml"
-    )
+    wrapper_scripts = get_role_variable(host, "manager_wrapper_scripts", "wrapper.yml")
 
     for script in wrapper_scripts:
         f = host.file(f"/usr/local/bin/{script}")

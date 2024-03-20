@@ -48,11 +48,8 @@ def get_variable(host, name, fact=False):
     raise Exception(f"Variable {name} not found!")
 
 
-def get_os_role_variable(host, name, filename=None):
+def get_role_variable(host, name, filename):
     role_name = os.environ["ROLE_NAME"]
-
-    if filename is None:
-        filename = get_variable(host, "ansible_os_family", True) + ".yml"
 
     path = f"../../roles/{role_name}/vars/{filename}"
     variables = host.ansible("include_vars", path)["ansible_facts"]
@@ -61,6 +58,18 @@ def get_os_role_variable(host, name, filename=None):
         raise Exception(f"{name} not found in {path}")
 
     return variables[name]
+
+
+def get_family_role_variable(host, name):
+    return get_role_variable(
+        host, name, get_variable(host, "ansible_os_family", True) + "-family.yml"
+    )
+
+
+def get_dist_role_variable(host, name):
+    return get_role_variable(
+        host, name, get_variable(host, "ansible_distribution", True) + "-dist.yml"
+    )
 
 
 def get_from_url(url, binary=False):

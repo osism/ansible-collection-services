@@ -4,5 +4,5 @@
   when: cephclient_install_type == "container"
 
 - name: Include package tasks
-  ansible.builtin.include_tasks: "{{ cephclient_install_type }}-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "{{ cephclient_install_type }}-{{ ansible_os_family }}-family.yml"
   when: cephclient_install_type == "package"
