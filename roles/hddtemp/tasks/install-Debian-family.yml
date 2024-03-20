@@ -1,21 +1,10 @@
 ---
-- name: Install hddtemp package
-  become: true
-  ansible.builtin.apt:
-    name: hddtemp
-    state: present
-    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  when:
-    - ansible_distribution_version is version('22.04', '<')
-
 - name: Remove hddtemp package
   become: true
   ansible.builtin.apt:
     name: hddtemp
     state: absent
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  when:
-    - ansible_distribution_version is version('22.04', '>=')
 
 - name: Enable Kernel Module drivetemp
   become: true
@@ -24,16 +13,12 @@
     dest: /etc/modules
     mode: 0644
     state: present
-  when:
-    - ansible_distribution_version is version('22.04', '>=')
 
 - name: Load Kernel Module drivetemp
   become: true
   community.general.modprobe:
     name: drivetemp
     state: present
-  when:
-    - ansible_distribution_version is version('22.04', '>=')
 
 - name: Install lm-sensors
   become: true
@@ -41,5 +26,3 @@
     name: lm-sensors
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  when:
-    - ansible_distribution_version is version('22.04', '>=')
