@@ -1,4 +1,7 @@
 ---
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_distribution }}-dist.yml"
+
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
@@ -24,3 +27,12 @@
   ansible.builtin.command: "tuned-adm profile {{ tuned_profile }}"
   when: tuned_profile != result.stdout
   changed_when: true
+
+- name: Check if tuned-adm is available
+  ansible.builtin.command: "which tuned-adm"
+  register: which_tuned_adm
+  ignore_errors: true
+
+- name: Show tuned-adm path
+  ansible.builtin.debug:
+    msg: "tuned-adm path: {{ which_tuned_adm.stdout }}"

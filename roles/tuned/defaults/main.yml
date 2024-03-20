@@ -1,4 +1,3 @@
 ---
 tuned_package_name: tuned
 tuned_service_name: tuned
-tuned_profile: virtual-host
