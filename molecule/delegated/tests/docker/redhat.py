@@ -3,7 +3,7 @@ import pytest
 from ..util.util import (
     get_ansible,
     get_centos_repo_key,
-    get_os_role_variable,
+    get_family_role_variable,
     get_variable,
     get_from_url,
     jinja_replacement,
@@ -45,8 +45,8 @@ def test_pkg(host):
     docker_cli_package_name = jinja_replacement(
         docker_cli_package_name, {"docker_package_name": docker_package_name}
     )
-    docker_version = get_os_role_variable(host, "docker_version")
-    docker_cli_version = get_os_role_variable(host, "docker_cli_version")
+    docker_version = get_family_role_variable(host, "docker_version")
+    docker_cli_version = get_family_role_variable(host, "docker_cli_version")
 
     with host.sudo("root"):
         f = host.file("/etc/dnf/plugins/versionlock.list")

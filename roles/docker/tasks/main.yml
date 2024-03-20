@@ -3,8 +3,11 @@
   ansible.builtin.include_tasks: storage.yml
   when: docker_configure_storage_block_device|bool
 
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
+
 - name: Include docker install tasks
-  ansible.builtin.include_tasks: "install-docker-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-docker-{{ ansible_os_family }}-family.yml"
 
 - name: Include config tasks
   ansible.builtin.include_tasks: config.yml

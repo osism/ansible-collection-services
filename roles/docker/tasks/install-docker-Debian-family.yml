@@ -1,7 +1,4 @@
 ---
-- name: Gather variables for each operating system
-  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
-
 - name: Remove old architecture-dependent repository
   become: true
   ansible.builtin.apt_repository:

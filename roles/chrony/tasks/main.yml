@@ -1,6 +1,6 @@
 ---
 - name: Gather variables for each operating system
-  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
 
 - name: Populate service facts
   ansible.builtin.service_facts:
@@ -16,7 +16,7 @@
     - "'systemd-timesyncd.service' in ansible_facts.services"
 
 - name: Include distribution specific install tasks
-  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
 - name: Start/enable chrony
   become: true
