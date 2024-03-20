@@ -8,12 +8,13 @@
 - name: Stop/disable timesyncd service
   become: true
   ansible.builtin.service:
-    name: systemd-timesyncd
+    name: systemd-timesyncd.service
     state: stopped
     enabled: false
   when:
     - ansible_os_family == "Debian"
     - "'systemd-timesyncd.service' in ansible_facts.services"
+    - "ansible_facts.services['systemd-timesyncd.service']['status'] != 'not-found'"
 
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
