@@ -1,6 +1,6 @@
 # Ansible collection osism.services
 
-Documentation: https://osism.github.io/docs/guides/configuration-guides/services/
+Documentation: https://osism.tech/docs/guides/configuration-guides/services/
 
 The following Ansible roles are included in this collection.
 
