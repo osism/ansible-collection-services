@@ -6,14 +6,6 @@
     state: absent
   when: cephclient_configure_repository|bool
 
-- name: Add repository key with apt-key
-  become: true
-  ansible.builtin.apt_key:
-    url: "{{ cephclient_repository_key }}"
-  when:
-    - cephclient_configure_repository|bool
-    - ansible_distribution_version is version('22.04', '<')
-
 - name: Add repository gpg key
   become: true
   ansible.builtin.get_url:
@@ -24,7 +16,6 @@
     group: root
   when:
     - cephclient_configure_repository|bool
-    - ansible_distribution_version is version('22.04', '>=')
 
 - name: Add repository
   become: true
