@@ -40,6 +40,15 @@ $RepeatedMsgReduction on
 #
 # Set the default permissions for all log files.
 #
+{% if ansible_distribution == 'Debian' %}
+$FileOwner root
+$FileGroup adm
+$FileCreateMode 0640
+$DirCreateMode 0755
+$Umask 0022
+$PrivDropToUser root
+$PrivDropToGroup root
+{% else %}
 $FileOwner {{ rsyslog_user }}
 $FileGroup adm
 $FileCreateMode 0640
@@ -47,6 +56,7 @@ $DirCreateMode 0755
 $Umask 0022
 $PrivDropToUser {{ rsyslog_user }}
 $PrivDropToGroup {{ rsyslog_user }}
+{% endif %}
 
 #
 # Where to place spool and state files

@@ -406,7 +406,7 @@
         # - ansible-collection-services-molecule-osquery
         # - ansible-collection-services-molecule-phpmyadmin
         # - ansible-collection-services-molecule-rng
-        # - ansible-collection-services-molecule-rsyslog
+        - ansible-collection-services-molecule-rsyslog
         # - ansible-collection-services-molecule-scaphandre
         # - ansible-collection-services-molecule-smartd
         # - ansible-collection-services-molecule-squid
@@ -446,7 +446,7 @@
         # - ansible-collection-services-molecule-osquery
         # - ansible-collection-services-molecule-phpmyadmin
         # - ansible-collection-services-molecule-rng
-        # - ansible-collection-services-molecule-rsyslog
+        - ansible-collection-services-molecule-rsyslog
         # - ansible-collection-services-molecule-scaphandre
         # - ansible-collection-services-molecule-smartd
         # - ansible-collection-services-molecule-squid
