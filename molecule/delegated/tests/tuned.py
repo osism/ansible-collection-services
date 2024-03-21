@@ -20,8 +20,11 @@ def test_tuned_service_running_and_enabled(host):
 
 def test_tuned_profile_set_correctly(host):
     tuned_profile = get_variable(host, "tuned_profile")
+
     # Execute the command to get the active tuned profile
-    result = host.check_output("tuned-adm active | awk -F': ' '{print $2}'")
+    with host.sudo("root"):
+        result = host.check_output("tuned-adm active | awk -F': ' '{print $2}'")
+
     assert (
         result == tuned_profile
     ), f"The active tuned profile should be {tuned_profile}, but found {result}"
