@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable, get_family_role_variable
+from .util.util import get_ansible, get_variable, get_dist_role_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -36,7 +36,7 @@ def test_rsyslog_configuration_files(host):
             rsyslog_conf_file.mode == 0o644
         ), "rsyslog.conf should have 0644 permissions"
 
-        rsyslog_user = get_family_role_variable(host, "rsyslog_user")
+        rsyslog_user = get_dist_role_variable(host, "rsyslog_user")
         rsyslog_file_owner = "$FileOwner {}".format(rsyslog_user)
 
         assert "MODULES" in rsyslog_conf_file.content_string
