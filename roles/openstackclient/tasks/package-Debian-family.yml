@@ -6,15 +6,6 @@
     state: absent
   when: openstackclient_configure_repository|bool
 
-- name: Add repository key with apt-key
-  become: true
-  ansible.builtin.apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: "{{ openstackclient_debian_repository_key }}"
-  when:
-    - openstackclient_configure_repository|bool
-    - ansible_distribution_version is version('22.04', '<')
-
 - name: Install keyring package
   become: true
   ansible.builtin.apt:
@@ -23,16 +14,18 @@
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   when:
     - openstackclient_configure_repository|bool
-    - ansible_distribution_version is version('22.04', '>=')
+    - "ansible_distribution == 'Ubuntu'"
 
 - name: Add repository
   become: true
   ansible.builtin.apt_repository:
-    repo: "{{ openstackclient_debian_repository }}"
+    repo: "{{ openstackclient_ubuntu_repository }}"
     state: present
     update_cache: true
     mode: 0644
-  when: openstackclient_configure_repository|bool
+  when:
+    - openstackclient_configure_repository|bool
+    - "ansible_distribution == 'Ubuntu'"
 
 - name: Install required packages
   become: true
