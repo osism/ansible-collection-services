@@ -14,7 +14,7 @@
 
 - name: Set mariadb healthcheck for mariadb >= 11.0.0
   ansible.builtin.set_fact:
-    ara_server_mariadb_healthcheck: "healthcheck.sh --connect --innodb_initialized"
+    ara_server_mariadb_healthcheck: "healthcheck.sh --connect --innodb_initialized --mariadbupgrade"
   when:
     - "ara_server_mariadb_tag is version('11.0.0', '>=')"
 
