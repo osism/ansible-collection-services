@@ -362,6 +362,7 @@ services:
 {% endif %}
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
+      start_period: 30s
 {% if ara_server_traefik|bool %}
     labels:
       - "traefik.enable=true"
@@ -401,6 +402,7 @@ services:
 {% endif %}
     healthcheck:
       test: {{ ara_server_mariadb_healthcheck }}
+      start_period: 30s
 {% endif %}
 {% endif %}
 
