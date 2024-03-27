@@ -14,3 +14,7 @@
     name: "{{ thanos_sidecar_service_name }}"
     state: started
     enabled: true
+  register: result
+  until: "result.status.ActiveState == 'active'"
+  retries: 2
+  delay: 120
