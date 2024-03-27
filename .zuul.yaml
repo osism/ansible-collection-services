@@ -46,7 +46,7 @@
         - name: ubuntu-jammy-large
           label: ubuntu-jammy-large
     vars:
-      ansible_molecule_ansible_version: "9.3.0"
+      ansible_molecule_ansible_version: "9.4.0"
     files:
       - '^.zuul.yaml$'
       - '^molecule\/requirements\.txt$'
