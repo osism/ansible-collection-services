@@ -57,6 +57,7 @@
     parent: abstract-ansible-collection-services-molecule
     vars:
       ansible_role: adminer
+      foo: bar
     files:
       - '^roles\/adminer\/.*$'
       - '^molecule\/delegated\/tests\/adminer.*$'
