@@ -38,9 +38,6 @@ router bgp {{ frr_local_as }}
  exit-address-family
 exit
 !
-ip prefix-list internal seq 10 permit {{ frr_loopback_v4 }} ge 32 le 32
-ipv6 prefix-list internal seq 10 permit {{ frr_loopback_v6 }} ge 128 le 128
-!
 route-map bgp_out_internal permit 10
  match interface {{ frr_dummy_interface_internal }}
 exit
@@ -54,19 +51,11 @@ route-map bgp_in_external permit 10
 exit
 !
 route-map RM_SET_SRC4 permit 10
- match ip address prefix-list internal
  set src {{ frr_loopback_v4 }}
 exit
 !
-route-map RM_SET_SRC4 permit 20
-exit
-!
 route-map RM_SET_SRC6 permit 10
- match ipv6 address prefix-list internal
  set src {{ frr_loopback_v6 }}
-exit
-!
-route-map RM_SET_SRC6 permit 20
 exit
 !
 ip protocol bgp route-map RM_SET_SRC4
