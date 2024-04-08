@@ -29,3 +29,5 @@ frr_externalbackup_v4: []
 frr_externalbackup_v6: []
 frr_internalbackup_v4: []
 frr_internalbackup_v6: []
+
+frr_incoming_table_external: 254
