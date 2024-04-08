@@ -2,6 +2,8 @@
 frr_package_name: frr
 frr_service_name: frr
 
+frr_version: "8.1"
+
 frr_sysctl_defaults:
   - name: net.ipv4.ip_forward
     value: 1
