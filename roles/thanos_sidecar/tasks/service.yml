@@ -8,7 +8,7 @@
     mode: 0640
   notify: Restart thanos_sidecar service
 
-- name: Start/enable thanos_sidecar service
+- name: Manage thanos_sidecar service
   become: true
   ansible.builtin.service:
     name: "{{ thanos_sidecar_service_name }}"

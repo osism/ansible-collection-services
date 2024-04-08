@@ -2,7 +2,7 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
-- name: Start/enable rng service
+- name: Manage rng service
   become: true
   ansible.builtin.service:
     name: rngd

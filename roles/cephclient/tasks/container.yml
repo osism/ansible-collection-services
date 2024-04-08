@@ -40,7 +40,7 @@
     mode: 0640
   notify: Restart cephclient service
 
-- name: Start/enable cephclient service
+- name: Manage cephclient service
   become: true
   ansible.builtin.service:
     name: "{{ cephclient_service_name }}"

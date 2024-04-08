@@ -8,7 +8,7 @@
     mode: 0640
   notify: Restart scaphandre service
 
-- name: Start/enable scaphandre service
+- name: Manage scaphandre service
   become: true
   ansible.builtin.service:
     name: "{{ scaphandre_service_name }}"

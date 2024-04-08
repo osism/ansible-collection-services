@@ -48,7 +48,7 @@
     group: "{{ operator_group }}"
     mode: 0640
 
-- name: Start/enable openstack_health_monitor service
+- name: Manage openstack_health_monitor service
   become: true
   ansible.builtin.service:
     name: "{{ openstack_health_monitor_service_name }}"

@@ -9,7 +9,7 @@
     mode: 0644
   notify: Restart hddtemp service
 
-- name: Start/enable hddtemp service
+- name: Manage hddtemp service
   become: true
   ansible.builtin.service:
     name: hddtemp

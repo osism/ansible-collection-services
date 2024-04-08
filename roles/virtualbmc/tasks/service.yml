@@ -8,7 +8,7 @@
     mode: 0640
   notify: Restart virtualbmc service
 
-- name: Start/enable virtualbmc service
+- name: Manage virtualbmc service
   become: true
   ansible.builtin.service:
     name: "{{ virtualbmc_service_name }}"
