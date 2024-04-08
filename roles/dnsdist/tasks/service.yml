@@ -8,7 +8,7 @@
     mode: 0640
   notify: Restart dnsdist service
 
-- name: Start/enable dnsdist service
+- name: Manage dnsdist service
   become: true
   ansible.builtin.service:
     name: "{{ dnsdist_service_name }}"

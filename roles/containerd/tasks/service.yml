@@ -1,5 +1,5 @@
 ---
-- name: Start/enable containerd service
+- name: Manage containerd service
   become: true
   ansible.builtin.service:
     name: "{{ containerd_service_name }}"

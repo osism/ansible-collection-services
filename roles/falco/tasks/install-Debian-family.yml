@@ -91,7 +91,7 @@
     name: falco
     state: present
 
-- name: "Start/enable service {{ falco_service_name }}"
+- name: "Manage service {{ falco_service_name }}"
   become: true
   ansible.builtin.service:
     name: "{{ falco_service_name }}"

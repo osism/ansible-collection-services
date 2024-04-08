@@ -2,7 +2,7 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
-- name: Start/enable lldpd service
+- name: Manage lldpd service
   become: true
   ansible.builtin.service:
     name: "{{ lldpd_service_name }}"

@@ -30,7 +30,7 @@
 
 - name: Ensure that the manager service is up and running
   block:  # noqa osism-fqcn
-    - name: Start/enable manager service
+    - name: Manage manager service
       become: true
       ansible.builtin.service:
         name: "{{ manager_service_name }}"

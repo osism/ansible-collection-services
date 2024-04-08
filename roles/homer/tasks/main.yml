@@ -41,7 +41,7 @@
     mode: 0640
   notify: Restart homer service
 
-- name: Start/enable homer service
+- name: Manage homer service
   become: true
   ansible.builtin.service:
     name: "{{ homer_service_name }}"

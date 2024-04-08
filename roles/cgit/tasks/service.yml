@@ -15,7 +15,7 @@
     mode: 0640
   notify: Restart cgit service
 
-- name: Start/enable cgit service
+- name: Manage cgit service
   become: true
   ansible.builtin.service:
     name: "{{ cgit_service_name }}"

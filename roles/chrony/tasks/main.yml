@@ -5,7 +5,7 @@
 - name: Populate service facts
   ansible.builtin.service_facts:
 
-- name: Stop/disable timesyncd service
+- name: Manage timesyncd service
   become: true
   ansible.builtin.service:
     name: systemd-timesyncd.service
@@ -19,7 +19,7 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
-- name: Start/enable chrony
+- name: Manage chrony service
   become: true
   ansible.builtin.service:
     name: "{{ chrony_service_name }}"

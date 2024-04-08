@@ -22,7 +22,7 @@
   tags: initialize
   when: not ansible_local.osism.clamav.status | default("False") | bool
 
-- name: Start/enable clamav freshclam service
+- name: Manage clamav freshclam service
   become: true
   ansible.builtin.service:
     name: "{{ clamav_freshclam_service_name }}"
@@ -42,7 +42,7 @@
     mode: u+r,g+r,o+r
   with_items: "{{ find_results['files'] }}"
 
-- name: Start/enable clamav daemon service
+- name: Manage clamav daemon service
   become: true
   ansible.builtin.service:
     name: "{{ clamav_daemon_service_name }}"

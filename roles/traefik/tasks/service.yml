@@ -15,7 +15,7 @@
     mode: 0640
   notify: Restart traefik service
 
-- name: Start/enable traefik service
+- name: Manage traefik service
   become: true
   ansible.builtin.service:
     name: "{{ traefik_service_name }}"

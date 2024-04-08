@@ -1,5 +1,5 @@
 ---
-- name: Start/enable lm-sensors service
+- name: Manage lm-sensors service
   become: true
   ansible.builtin.service:
     name: lm-sensors

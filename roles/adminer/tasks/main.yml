@@ -19,7 +19,7 @@
     mode: 0640
   notify: Restart adminer service
 
-- name: Start/enable adminer service
+- name: Manage adminer service
   become: true
   ansible.builtin.service:
     name: "{{ adminer_service_name }}"

@@ -22,7 +22,7 @@
 
 - name: Ensure that the netbox service is up and running
   block:  # noqa osism-fqcn
-    - name: Start/enable netbox service
+    - name: Manage netbox service
       become: true
       ansible.builtin.service:
         name: "{{ netbox_service_name }}"

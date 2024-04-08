@@ -32,7 +32,7 @@
     sysctl_set: true
   with_items: "{{ frr_sysctl }}"
 
-- name: Start/enable frr service
+- name: Manage frr service
   become: true
   ansible.builtin.service:
     name: "{{ frr_service_name }}"

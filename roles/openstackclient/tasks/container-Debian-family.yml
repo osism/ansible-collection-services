@@ -21,7 +21,7 @@
     mode: 0640
   notify: Restart openstackclient service
 
-- name: Start/enable openstackclient service
+- name: Manage openstackclient service
   become: true
   ansible.builtin.service:
     name: "{{ openstackclient_service_name }}"

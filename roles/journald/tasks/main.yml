@@ -9,7 +9,7 @@
     mode: 0644
   notify: Restart journald service
 
-- name: Start/enable journald service
+- name: Manage journald service
   become: true
   ansible.builtin.service:
     name: "{{ journald_service_name }}"

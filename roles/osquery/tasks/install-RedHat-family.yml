@@ -26,7 +26,7 @@
     lock_timeout: "{{ lock_timeout | default(300) }}"
   notify: "Restart service {{ osquery_service_name }}"
 
-- name: "Start/enable service {{ osquery_service_name }}"
+- name: "Manage service {{ osquery_service_name }}"
   become: true
   ansible.builtin.service:
     name: "{{ osquery_service_name }}"

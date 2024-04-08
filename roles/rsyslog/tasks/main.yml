@@ -15,7 +15,7 @@
     group: root
   notify: Restart rsyslog service
 
-- name: Start/enable rsyslog service
+- name: Manage rsyslog service
   become: true
   ansible.builtin.service:
     name: "{{ rsyslog_service_name }}"

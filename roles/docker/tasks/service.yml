@@ -4,21 +4,21 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: Start/enable service
+- name: Manage service
   become: true
   ansible.builtin.service:
     name: "{{ docker_service_name }}"
     state: started
     enabled: true
 
-- name: Start/enable docker socket service
+- name: Manage docker socket service
   become: true
   ansible.builtin.service:
     name: "{{ docker_service_name }}.socket"
     state: started
     enabled: true
 
-- name: Start/enable containerd service
+- name: Manage containerd service
   become: true
   ansible.builtin.service:
     name: "{{ containerd_service_name }}"
