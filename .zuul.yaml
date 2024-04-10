@@ -48,7 +48,7 @@
     vars:
       ansible_molecule_ansible_version: "9.4.0"
     files:
-      - '^.zuul.yaml$'
+      - '^\.zuul\.yaml$'
       - '^molecule\/requirements\.txt$'
       - '^molecule\/delegated\/[^\/]*yml$'
 
