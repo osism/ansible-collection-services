@@ -43,8 +43,8 @@
           label: centos-9-stream
         - name: debian-bookworm
           label: debian-bookworm
-        - name: ubuntu-jammy-large
-          label: ubuntu-jammy-large
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
     vars:
       ansible_molecule_ansible_version: "9.4.0"
     files:
