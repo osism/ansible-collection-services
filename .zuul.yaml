@@ -199,6 +199,8 @@
 - job:
     name: ansible-collection-services-molecule-manager
     parent: abstract-ansible-collection-services-molecule
+    # The deployment of Manager can take more time than our default timeout.
+    timeout: 3600
     vars:
       ansible_role: manager
     files:
