@@ -22,3 +22,8 @@
     state: started
     enabled: true
   register: nexus_service
+  notify:
+    - Wait for nexus service to start
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
