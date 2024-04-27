@@ -196,9 +196,18 @@
       - '^roles\/lldpd\/.*$'
       - '^molecule\/delegated\/tests\/lldpd.*$'
 
+# The MariaDB service on CentOS 9 cannot be started properly. Therefore the
+# test on CentOS 9 is temporarily deactivated in order not to restrict the
+# development itself. CentOS 9 is not yet supported.
 - job:
     name: ansible-collection-services-molecule-manager
     parent: abstract-ansible-collection-services-molecule
+    nodeset:
+      nodes:
+        - name: debian-bookworm
+          label: debian-bookworm
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
     vars:
       ansible_role: manager
     files:
