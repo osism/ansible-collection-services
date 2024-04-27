@@ -22,3 +22,8 @@
   ansible.builtin.pip:
     name: packaging
     virtualenv: /home/zuul/venv
+
+- name: Install library docker with pip
+  ansible.builtin.pip:
+    name: docker
+    virtualenv: /home/zuul/venv
