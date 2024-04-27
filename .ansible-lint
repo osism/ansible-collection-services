@@ -4,7 +4,6 @@ exclude_paths:
   - plugins/modules
 mock_modules:
   - kolla_toolbox
-  - kubernetes.core.helm
 use_default_rules: true
 rulesdir:
   - ./.ansible-lint-rules/
