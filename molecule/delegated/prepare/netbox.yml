@@ -12,3 +12,10 @@
   vars:
     docker_compose_service_user: zuul
     docker_compose_service_group: zuul
+
+- name: Install packages in venv
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    virtualenv: /home/zuul/venv
+  loop:
+    - docker
