@@ -32,7 +32,7 @@ pushd $CONFIGURATION_DIRECTORY/environments/manager > /dev/null
 # If the versions for the Ansible collections are available in the manager environment,
 # these are used. Otherwise, the main branch is taken as the default.
 if [[ -e run.sh ]]; then
-    source < (sed -n "6,7p" run.sh)
+    source <(sed -n "6,7p" run.sh)
 else
     ANSIBLE_COLLECTION_SERVICES_VERSION=${ANSIBLE_COLLECTION_SERVICES_VERSION:-main}
     ANSIBLE_PLAYBOOKS_MANAGER_VERSION=${ANSIBLE_PLAYBOOKS_MANAGER_VERSION:-main}
