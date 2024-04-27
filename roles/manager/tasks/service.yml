@@ -28,6 +28,12 @@
   notify:
     - Restart manager service
 
+- name: Pull container images
+  ansible.builtin.command: "/usr/bin/docker compose --progress plain --project-directory {{ manager_docker_compose_directory }} pull"
+  register: result
+  changed_when: "'Downloading' in result.stderr"
+  when: manager_pre_pull | bool
+
 - name: Ensure that the manager service is up and running
   block:  # noqa osism-fqcn
     - name: Manage manager service
