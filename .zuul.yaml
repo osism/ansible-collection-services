@@ -212,6 +212,7 @@
       ansible_role: manager
     files:
       - '^roles\/manager\/.*$'
+      - '^molecule\/delegated\/prepare\/manager.*$'
       - '^molecule\/delegated\/tests\/manager.*$'
       - '^molecule\/delegated\/vars\/manager.*$'
 
