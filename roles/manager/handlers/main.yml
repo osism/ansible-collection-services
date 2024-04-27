@@ -4,6 +4,10 @@
   ansible.builtin.service:
     name: "{{ manager_service_name }}"
     state: restarted
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   when: manager_service_restart|bool
   notify:
     - Wait for manager service to start
