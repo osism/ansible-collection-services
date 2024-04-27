@@ -173,31 +173,36 @@ def test_docker_network(host):
 
 
 def test_mariadb_health(host):
-    ara_server_mariadb_tag = get_variable(host, "ara_server_mariadb_tag")
-    mysql_user = get_variable(host, "ara_server_mariadb_username")
-    mysql_password = get_variable(host, "ara_server_mariadb_password")
-    db_healthcheck = ""
+    ara_server_database_type = get_variable(host, "ara_server_database_type")
 
-    if ara_server_mariadb_tag:
-        version = Version(ara_server_mariadb_tag)
-        if version < Version("11.0.0"):
-            with host.sudo("root"):
-                db_healthcheck = host.run(
-                    f"docker exec manager-mariadb-1 mysqladmin status -h "
-                    f"localhost -u {mysql_user} -p{mysql_password}"
-                )
-        elif version >= Version("11.0.0"):
-            with host.sudo("root"):
-                db_healthcheck = host.run(
-                    "docker exec manager-mariadb-1 healthcheck.sh --connect --innodb_initialized"
-                )
+    if ara_server_database_type == "mysql":
+        ara_server_mariadb_tag = get_variable(host, "ara_server_mariadb_tag")
+        mysql_user = get_variable(host, "ara_server_mariadb_username")
+        mysql_password = get_variable(host, "ara_server_mariadb_password")
+        db_healthcheck = ""
 
-    if db_healthcheck:
-        assert db_healthcheck.rc == 0
+        if ara_server_mariadb_tag:
+            version = Version(ara_server_mariadb_tag)
+            if version < Version("11.0.0"):
+                with host.sudo("root"):
+                    db_healthcheck = host.run(
+                        f"docker exec manager-mariadb-1 mysqladmin status -h "
+                        f"localhost -u {mysql_user} -p{mysql_password}"
+                    )
+            elif version >= Version("11.0.0"):
+                with host.sudo("root"):
+                    db_healthcheck = host.run(
+                        "docker exec manager-mariadb-1 healthcheck.sh --connect --innodb_initialized"
+                    )
+
+        if db_healthcheck:
+            assert db_healthcheck.rc == 0
+        else:
+            pytest.skip(
+                "Skipping test as ara_server_mariadb_tag is not set or does not match any condition."
+            )
     else:
-        pytest.skip(
-            "Skipping test as ara_server_mariadb_tag is not set or does not match any condition."
-        )
+        pytest.skip("Skipping test as ara_server_database_type is not set to mysql.")
 
 
 def test_docker_compose(host):

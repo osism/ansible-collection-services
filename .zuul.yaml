@@ -213,6 +213,7 @@
     files:
       - '^roles\/manager\/.*$'
       - '^molecule\/delegated\/tests\/manager.*$'
+      - '^molecule\/delegated\/vars\/manager.*$'
 
 - job:
     name: ansible-collection-services-molecule-metering
