@@ -22,6 +22,9 @@
     state: started
     enabled: true
   register: nexus_service
+  until: nexus_service.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   notify:
     - Wait for nexus service to start
 
