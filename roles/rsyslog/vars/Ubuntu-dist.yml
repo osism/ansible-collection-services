@@ -1,2 +1,2 @@
 ---
-rsyslog_user: syslog
+__rsyslog_user: syslog
