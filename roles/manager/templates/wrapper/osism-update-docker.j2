@@ -4,10 +4,6 @@
 
 CONFIGURATION_DIRECTORY=${CONFIGURATION_DIRECTORY:-{{ configuration_directory }}}
 
-ANSIBLE_COLLECTION_COMMONS_VERSION=${ANSIBLE_COLLECTION_COMMONS_VERSION:-main}
-ANSIBLE_COLLECTION_SERVICES_VERSION=${ANSIBLE_COLLECTION_SERVICES_VERSION:-main}
-ANSIBLE_PLAYBOOKS_MANAGER_VERSION=${ANSIBLE_PLAYBOOKS_MANAGER_VERSION:-main}
-
 ANSIBLE_COLLECTION_COMMONS_SOURCE=${ANSIBLE_COLLECTION_COMMONS_SOURCE:-git+https://github.com/osism/ansible-collection-commons}
 ANSIBLE_COLLECTION_SERVICES_SOURCE=${ANSIBLE_COLLECTION_SERVICES_SOURCE:-git+https://github.com/osism/ansible-collection-services}
 ANSIBLE_PLAYBOOKS_MANAGER_SOURCE=${ANSIBLE_PLAYBOOKS_MANAGER_SOURCE:-git+https://github.com/osism/ansible-playbooks-manager}
@@ -18,6 +14,16 @@ VENV_PATH=${VENV_PATH:-.venv}
 VENV_PYTHON_BIN=${VENV_PYTHON_BIN:-python3}
 
 pushd $CONFIGURATION_DIRECTORY/environments/manager > /dev/null
+
+# If the versions for the Ansible collections are available in the manager environment,
+# these are used. Otherwise, the main branch is taken as the default.
+if [[ -e run.sh ]]; then
+    source <(sed -n "5,7p" run.sh)
+else
+    ANSIBLE_COLLECTION_COMMONS_VERSION=${ANSIBLE_COLLECTION_COMMONS_VERSION:-main}
+    ANSIBLE_COLLECTION_SERVICES_VERSION=${ANSIBLE_COLLECTION_SERVICES_VERSION:-main}
+    ANSIBLE_PLAYBOOKS_MANAGER_VERSION=${ANSIBLE_PLAYBOOKS_MANAGER_VERSION:-main}
+fi
 
 if [[ $INSTALL_ANSIBLE == "true" && -e requirements.txt ]]; then
     if [[ ! -e $VENV_PATH ]]; then
