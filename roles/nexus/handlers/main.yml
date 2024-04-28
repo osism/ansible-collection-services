@@ -4,6 +4,10 @@
   ansible.builtin.service:
     name: "{{ nexus_service_name }}"
     state: restarted
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   when: not nexus_service.changed
   notify:
     - Wait for nexus service to start
