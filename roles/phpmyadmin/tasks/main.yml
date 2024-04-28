@@ -32,3 +32,7 @@
     name: "{{ phpmyadmin_service_name }}"
     state: started
     enabled: true
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
