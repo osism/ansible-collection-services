@@ -2,6 +2,16 @@
 - name: Gather variables for each operating system
   ansible.builtin.include_vars: "{{ ansible_distribution }}-dist.yml"
 
+- name: Set docker_repository variable to default value
+  ansible.builtin.set_fact:
+    docker_repository: "{{ __docker_repository }}"
+  when: docker_repository|default(None) == None
+
+- name: Set docker_repository_key variable to default value
+  ansible.builtin.set_fact:
+    docker_repository_key: "{{ __docker_repository_key }}"
+  when: docker_repository_key|default(None) == None
+
 - name: Include install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
