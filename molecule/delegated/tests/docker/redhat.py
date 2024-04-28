@@ -46,7 +46,7 @@ def test_pkg(host):
         docker_cli_package_name, {"docker_package_name": docker_package_name}
     )
 
-    docker_version = get_family_role_variable(host, "docker_version")
+    docker_version = get_family_role_variable(host, "__docker_version")
     docker_cli_version = docker_version
 
     with host.sudo("root"):
