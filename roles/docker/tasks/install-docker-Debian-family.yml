@@ -103,7 +103,7 @@
 - name: Install docker-cli package
   become: true
   ansible.builtin.apt:
-    name: "{{ docker_cli_package_name }}={{ docker_version }}*"
+    name: "{{ docker_cli_package_name }}={{ docker_cli_version }}*"
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
     allow_downgrade: true
