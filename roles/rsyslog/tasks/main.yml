@@ -2,6 +2,11 @@
 - name: Gather variables for each operating system
   ansible.builtin.include_vars: "{{ ansible_distribution }}-dist.yml"
 
+- name: Set rsyslog_user variable to default value
+  ansible.builtin.set_fact:
+    rsyslog_user: "{{ __rsyslog_user }}"
+  when: rsyslog_user|default(None) == None
+
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
