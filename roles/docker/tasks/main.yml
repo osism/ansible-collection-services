@@ -1,10 +1,20 @@
 ---
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
+
+- name: Set docker_version variable to default value
+  ansible.builtin.set_fact:
+    docker_version: "{{ __docker_version }}"
+  when: docker_version|default(None) == None
+
+- name: Set docker_cli_version variable to default value
+  ansible.builtin.set_fact:
+    docker_cli_version: "{{ __docker_cli_version }}"
+  when: docker_cli_version|default(None) == None
+
 - name: Include storage tasks
   ansible.builtin.include_tasks: storage.yml
   when: docker_configure_storage_block_device|bool
-
-- name: Gather variables for each operating system
-  ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
 
 - name: Include docker install tasks
   ansible.builtin.include_tasks: "install-docker-{{ ansible_os_family }}-family.yml"
