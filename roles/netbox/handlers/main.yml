@@ -10,4 +10,8 @@
   ansible.builtin.service:
     name: "{{ netbox_service_name }}"
     state: restarted
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   when: netbox_service_restart|bool
