@@ -210,6 +210,8 @@
           label: debian-bookworm
         - name: ubuntu-jammy
           label: ubuntu-jammy
+        - name: ubuntu-noble
+          label: ubuntu-noble
     vars:
       ansible_role: manager
     files:
