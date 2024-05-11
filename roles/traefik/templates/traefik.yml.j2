@@ -21,3 +21,7 @@ entryPoints:
     address: ":443"
 
 ping: {}
+
+{% if traefik_configuration_extra.keys() | length %}
+{{ traefik_configuration_extra|to_nice_yaml(indent=2) }}
+{% endif %}

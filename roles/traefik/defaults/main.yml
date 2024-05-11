@@ -35,6 +35,8 @@ traefik_port_https: 443
 #     key: "-----BEGIN PRIVATE KEY-----..."
 traefik_certificates: {}
 
+traefik_configuration_extra: {}
+
 # renovate: datasource=docker depName=traefik
 traefik_tag: '2.11.2'
 traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"
