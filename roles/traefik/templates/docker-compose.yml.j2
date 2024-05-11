@@ -12,7 +12,6 @@ services:
       - "{{ traefik_configuration_directory }}/traefik.env"
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
-      - "{{ traefik_configuration_directory }}/osism.yml:/etc/traefik/osism.yml:ro"
       - "{{ traefik_configuration_directory }}/traefik.yml:/etc/traefik/traefik.yml:ro"
       - "{{ traefik_configuration_directory }}/certificates.yml:/etc/traefik/dynamic/certificates.yml:ro"
 {% if traefik_certificates.keys() | length >0 %}
