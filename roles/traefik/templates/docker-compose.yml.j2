@@ -8,6 +8,9 @@ services:
       - "{{ traefik_host }}:{{ traefik_port }}:8080"
       - "{{ traefik_host }}:{{ traefik_port_https }}:443"
       - "{{ traefik_host }}:{{ traefik_port_http }}:80"
+{% for port in traefik_ports_extra %}
+      - "{{ traefik_host }}:{{ port }}:{{ port }}"
+{% endfor %}
     env_file:
       - "{{ traefik_configuration_directory }}/traefik.env"
     volumes:
