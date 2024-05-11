@@ -23,6 +23,7 @@
     - traefik.yml
     - traefik.env
     - certificates.yml
+  notify: Restart traefik service
 
 - name: Copy certificate cert files
   ansible.builtin.template:
