@@ -37,6 +37,7 @@ traefik_ports_extra: []
 traefik_certificates: {}
 
 traefik_configuration_extra: {}
+traefik_configuration_dynamic: {}
 
 # renovate: datasource=docker depName=traefik
 traefik_tag: '2.11.2'
