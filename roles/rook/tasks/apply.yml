@@ -1,0 +1,39 @@
+---
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ rook_work_directory }}"
+
+
+- name: Find Jinja2 templates
+  ansible.builtin.find:
+    path: "{{ rook_template_directory }}"
+    patterns: "*.j2"
+  register: _config_files_found
+
+
+- name: Render values files for rook
+  loop: "{{ _config_files_found.files }}"
+  loop_control:
+    loop_var: _file
+  ansible.builtin.template:
+    src: "{{ _file.path }}"
+    dest: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+
+- name: Deploy rook CRD
+  loop: "{{ _config_files_found.files }}"
+  loop_control:
+    loop_var: _file
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    kubeconfig: /share/kubeconfig
