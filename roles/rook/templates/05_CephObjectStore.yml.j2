@@ -1,0 +1,56 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: {{ rook_cephobjectstore_default_name }}
+  namespace: {{ rook_namespace }}
+# https://rook.io/docs/rook/latest-release/CRDs/Object-Storage/ceph-object-store-crd/
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: {{ rook_cephobjectstore_default_size }}
+  dataPool:
+    failureDomain: host
+    replicated:
+      size: {{ rook_cephobjectstore_default_size }}
+    # erasureCoded:
+    #   dataChunks: 2
+    #   codingChunks: 1
+  preservePoolsOnDelete: true
+  gateway:
+    # sslCertificateRef:
+    # caBundleRef:
+    port: {{ rook_cephobjectstore_default_port }}
+    # securePort: 443
+    instances: 1
+    # A key/value list of annotations
+    annotations:
+    #  key: value
+    placement:
+    #  nodeAffinity:
+    #    requiredDuringSchedulingIgnoredDuringExecution:
+    #      nodeSelectorTerms:
+    #      - matchExpressions:
+    #        - key: role
+    #          operator: In
+    #          values:
+    #          - rgw-node
+    #  tolerations:
+    #  - key: rgw-node
+    #    operator: Exists
+    #  podAffinity:
+    #  podAntiAffinity:
+    #  topologySpreadConstraints:
+    resources:
+    #  limits:
+    #    memory: "1024Mi"
+    #  requests:
+    #    cpu: "500m"
+    #    memory: "1024Mi"
+  #zone:
+    #name: zone-a
+  #hosting:
+  #  dnsNames:
+  #    - "mystore.example.com"
+  #    - "mystore.example.org"

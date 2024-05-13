@@ -1,0 +1,7 @@
+---
+- name: "Create namespace {{ rook_namespace }}"
+  kubernetes.core.k8s:
+    name: "{{ rook_namespace }}"
+    kind: Namespace
+    state: present
+    kubeconfig: /share/kubeconfig

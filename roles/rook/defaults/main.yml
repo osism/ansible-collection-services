@@ -1,0 +1,113 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# rook
+
+container_registry_rook: quay.io
+rook_image: "{{ container_registry_rook }}/ceph/ceph"
+# renovate: datasource=docker depName=quay.io/rook/ceph
+rook_image_tag: "v17.2"
+
+## work directory inside the osism-ansible container:
+rook_work_directory: /tmp/rook/configuration
+## template directory containing rook CRD `*.yml` files, e.g. OSISM configuration directory
+rook_template_directory: "{{ role_path }}/templates"
+## kubernetes namespace in which the rook cluster should be installed
+## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
+rook_namespace: rook-ceph
+
+##########################
+# rook CRD
+# have a look at `templates/*.yml.j2` to see where exaclty the variables are applied
+# for ultimate customization, change `{{ rook_template_directory }}` to point to your configuration repository
+
+## rook cluster name
+rook_cluster_name: rook-ceph
+rook_mon_count: 3
+rook_mds_count: 3
+rook_mgr_count: 2
+rook_mgr_modules:
+  - name: balancer
+    enabled: true
+  - name: status
+    enabled: true
+  - name: prometheus
+    enabled: true
+rook_dashboard_enabled: true
+# https://rook.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-monitoring/
+rook_monitoring_enabled: false # TODO: enable 
+rook_metrics_disabled: false
+rook_network_encryption: true
+rook_network_compression: true
+rook_network_require_msgr2: false
+rook_network_public: "192.168.16.0/20"
+rook_network_cluster: "{{ rook_network_public }}"
+rook_crash_disabled: false
+rook_logcollector_enabled: true
+# also allow to run on kubnernetes master nodes
+rook_placement_all_tolerations:
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule  
+rook_annotations:
+rook_labels:
+rook_resources:
+# do not use all nodes
+rook_storage_useallnodes: false
+# do not use all found devices
+rook_storage_usealldevices: false
+rook_storage_config_osdsperdevice: 1
+# enable device encryption
+rook_storage_config_encrypteddevice: true
+# define a device filter where to create OSDs
+rook_storage_devicefilter:
+# name nodes where to create OSDs
+rook_storage_nodes:
+#  - name: "testbed-node-0"
+#  - name: "testbed-node-1"
+#  - name: "testbed-node-2"
+rook_cephblockpool_default_size: 3
+rook_cephblockpool_default_min_size: 0
+rook_cephblockpool_default_pg_num: 64
+rook_cephfilesystem_default_name: cephfs
+rook_cephfilesystem_default_size: 3
+rook_cephfilesystem_default_min_size: 0
+rook_cephfilesystem_default_pg_num: 64
+rook_cephfilesystem_default_metadatapool_parameters_compression_mode: none
+rook_cephfilesystem_default_datapool_parameters_compression_mode: none
+rook_cephobjectstore_default_name: rgw
+rook_cephobjectstore_default_zone: default
+rook_cephobjectstore_default_size: 3
+rook_cephobjectstore_default_pg_num: 8
+rook_cephobjectstore_default_port: 8081
+rook_cephclients:
+  cinder-backup:
+    caps:
+      mon: "profile rbd"
+      osd: "profile rbd pool=backups"
+  cinder:
+    caps:
+      mon: "profile rbd"
+      osd: "profile rbd pool=volumes, profile rbd pool=vms, profile rbd pool=images"
+  glance:
+    caps:
+      mon: "profile rbd"
+      osd: "profile rbd pool=vms, profile rbd pool=images"
+  gnocchi:
+    caps:
+      mon: "profile rbd"
+      osd: "profile rbd pool=metrics"
+  nova:
+    caps:
+      mon: "profile rbd"
+      osd: "profile rbd pool=images, profile rbd pool=vms, profile rbd pool=volumes, profile rbd pool=backups"
+  manila:
+    caps:
+      mon: "allow r"
+      mgr: "allow rw"
+      osd: "allow rw pool=cephfs_data"

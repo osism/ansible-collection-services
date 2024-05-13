@@ -1,0 +1,8 @@
+---
+- name: Include namespace tasks
+  ansible.builtin.include_tasks: namespace.yml
+  tags: namespace
+
+- name: Include apply tasks
+  ansible.builtin.include_tasks: apply.yml
+  tags: apply
