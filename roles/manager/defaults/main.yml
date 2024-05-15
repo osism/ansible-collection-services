@@ -317,3 +317,6 @@ flower_enable: false
 manager_mem_limit: "{{ ansible_memtotal_mb }}m"
 manager_mem_reservation: 1024m
 manager_cpus: "{{ ansible_processor_vcpus }}"
+
+manager_ulimits_nofile_soft: 65536
+manager_ulimits_nofile_hard: 65536
