@@ -46,6 +46,10 @@ services:
     mem_limit: {{ ansible_services_defaults[0].mem_limit }}
     mem_reservation: {{ ansible_services_defaults[0].mem_reservation }}
     cpus: "{{ ansible_services_defaults[0].cpus}}"
+    ulimits:
+      nofile:
+        soft: "{{ manager_ulimits_nofile_soft }}"
+        hard: "{{ manager_ulimits_nofile_hard }}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
 {% if enable_netbox|bool %}
