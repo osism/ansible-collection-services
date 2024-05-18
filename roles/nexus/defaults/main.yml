@@ -23,7 +23,7 @@ nexus_port: 8190
 nexus_bind_host: 0.0.0.0
 
 # renovate: datasource=docker depName=quay.io/osism/nexus
-nexus_tag: '3.68.0'
+nexus_tag: '3.68.1'
 nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
 nexus_network: 172.31.101.32/28
