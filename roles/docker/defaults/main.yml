@@ -14,6 +14,7 @@ docker_group: "{{ operator_group | default('dragon') }}"
 docker_allow_restart: true
 docker_enforce_restart: false
 docker_ignore_restart_groupname: manager
+docker_throttle_restart: -1
 
 ##########################
 # networking
