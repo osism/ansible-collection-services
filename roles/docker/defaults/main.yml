@@ -16,6 +16,9 @@ docker_enforce_restart: false
 docker_ignore_restart_groupname: manager
 docker_throttle_restart: -1
 
+docker_wait_after_restart: false
+docker_wait_after_restart_seconds: 60
+
 ##########################
 # networking
 

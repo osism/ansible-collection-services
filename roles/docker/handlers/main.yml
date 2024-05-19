@@ -7,6 +7,12 @@
   throttle: "{{ docker_throttle_restart }}"
   when: (docker_allow_restart|bool and inventory_hostname not in groups[docker_ignore_restart_groupname] | default([])) or
         (docker_allow_restart|bool and inventory_hostname in groups[docker_ignore_restart_groupname] | default([]) and docker_enforce_restart|bool)
+  notify: Wait after docker service restart
+
+- name: Wait after docker service restart
+  ansible.builtin.pause:
+    seconds: "{{ docker_wait_after_restart_seconds }}"
+  when: docker_wait_after_restart | bool
 
 - name: Reload docker service
   become: true
