@@ -1,0 +1,18 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# kubernetes_monitoring
+
+kubernetes_monitoring_chart_version: "3.5.0"
+
+## work directory inside the osism-ansible container:
+kubernetes_monitoring_work_directory: /tmp/kubernetes_monitoring/configuration
+## template directory containing `kubernetes_monitoring.yml`, e.g. OSISM configuration directory
+kubernetes_monitoring_template_directory: .
+## kubernetes namespace in which the operator should be installed
+kubernetes_monitoring_namespace: kubernetes-monitoring

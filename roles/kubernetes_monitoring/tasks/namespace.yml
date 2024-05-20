@@ -1,0 +1,7 @@
+---
+- name: "Create namespace {{ kubernetes_monitoring_namespace }}"
+  kubernetes.core.k8s:
+    name: "{{ kubernetes_monitoring_namespace }}"
+    kind: Namespace
+    state: present
+    kubeconfig: /share/kubeconfig

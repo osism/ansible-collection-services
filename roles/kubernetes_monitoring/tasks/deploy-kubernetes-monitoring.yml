@@ -1,0 +1,9 @@
+---
+- name: Deploy kubernetes-monitoring helm chart
+  kubernetes.core.helm:
+    release_name: kubernetes-monitoring
+    chart_ref: dnationcloud/dnation-kubernetes-monitoring-stack
+    release_namespace: "{{ kubernetes_monitoring_namespace }}"
+    values_files:
+      - "{{ kubernetes_monitoring_work_directory }}/kubernetes_monitoring.yml"
+    wait: true
