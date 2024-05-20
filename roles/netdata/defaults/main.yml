@@ -23,11 +23,12 @@ netdata_package_name: netdata
 
 netdata_configure_repository: false
 
-netdata_debian_repository_key: https://packagecloud.io/netdata/netdata/gpgkey
-netdata_debian_repository: "deb https://packagecloud.io/netdata/netdata/ubuntu/ {{ ansible_distribution_release }} main"
+netdata_debian_repository_key: https://repo.netdata.cloud/netdatabot.gpg.key
+netdata_debian_repository: "deb https://repo.netdata.cloud/repos/stable/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }}/"
 
-netdata_redhat_repository_key: https://packagecloud.io/netdata/netdata/gpgkey
-netdata_redhat_repository: "https://packagecloud.io/install/repositories/netdata/netdata/config_file.repo?os=el&dist=9"
+netdata_redhat_repository_key: https://repo.netdata.cloud/netdatabot.gpg.key
+netdata_redhat_arch: "{{ 'aarch64' if ansible_architecture in ['aarch64', 'arm64'] else ansible_architecture }}"
+netdata_redhat_repository: "https://repo.netdata.cloud/repos/stable/el/{{ ansible_distribution_major_version }}/{{ netdata_redhat_arch }}/"
 
 ##########################
 # parameters
