@@ -1,0 +1,32 @@
+---
+- name: "Create openstack exporter namespace"
+  kubernetes.core.k8s:
+    name: "{{ openstack_exporter_namespace }}"
+    kind: Namespace
+    state: present
+    kubeconfig: /share/kubeconfig
+  when: enable_openstack_exporter|bool
+
+- name: Create Kubernetes secret with Openstack CA certificate
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      type: Opaque
+      metadata:
+        name: openstack-cacert
+        namespace: "{{ openstack_exporter_namespace }}"
+      data:
+        openstack-cacert: "{{ lookup('file', openstack_cacert) | b64encode }}"
+  when: openstack_ca_certificate_path|length > 0
+
+- name: Deploy openstack-exporter helm chart
+  kubernetes.core.helm:
+    release_name: openstack-exporter
+    chart_ref: "{{ openstack_exporter_chart_source }}"
+    chart_version: "{{ openstack_exporter_chart_version }}"
+    release_namespace: "{{ openstack_exporter_namespace }}"
+    values_files:
+      - "{{ openstack_exporter_work_directory }}/openstack_exporter.yml"
+    wait: true

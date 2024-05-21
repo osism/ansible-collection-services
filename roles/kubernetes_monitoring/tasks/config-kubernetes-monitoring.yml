@@ -1,15 +1,13 @@
 ---
-- name: Create required directories
+- name: Create required directory
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ kubernetes_monitoring_work_directory }}"
     state: directory
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0750
-  loop:
-    - "{{ kubernetes_monitoring_work_directory }}"
 
-- name: Render values file for Kubernetes monitoring helm chart
+- name: Render values file for helm chart
   ansible.builtin.template:
     src: "{{ kubernetes_monitoring_template_directory }}/kubernetes_monitoring.yml.j2"
     dest: "{{ kubernetes_monitoring_work_directory }}/kubernetes_monitoring.yml"
