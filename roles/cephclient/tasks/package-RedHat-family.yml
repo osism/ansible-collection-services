@@ -5,15 +5,15 @@
     name: ceph
     description: "ceph repository"
     baseurl: "{{ cephclient_redhat_repository }}"
-    gpgcheck: yes
-    enabled: yes
+    gpgcheck: true
+    enabled: true
     gpgkey: "{{ cephclient_repository_key }}"
   when: cephclient_configure_repository | bool
 
 - name: Update package manager cache
   become: true
   ansible.builtin.dnf:
-    update_cache: yes
+    update_cache: true
     lock_timeout: "{{ lock_timeout | default(300) }}"
   when: cephclient_configure_repository|bool
 
