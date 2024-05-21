@@ -14,7 +14,7 @@
 - name: Update package manager cache
   become: true
   ansible.builtin.dnf:
-    update_cache: yes
+    update_cache: true
     lock_timeout: "{{ lock_timeout | default(300) }}"
   when: osquery_configure_repository|bool
 

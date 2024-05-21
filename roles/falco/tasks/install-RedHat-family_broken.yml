@@ -35,8 +35,8 @@
     name: falco
     description: "falco repository"
     baseurl: "{{ falco_redhat_repository }}"
-    gpgcheck: yes
-    enabled: yes
+    gpgcheck: true
+    enabled: true
     gpgkey: "{{ falco_repository_key }}"
   when: falco_configure_repository | bool
 
