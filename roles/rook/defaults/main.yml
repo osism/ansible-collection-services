@@ -5,6 +5,8 @@
 operator_user: dragon
 operator_group: "{{ operator_user }}"
 
+configuration_directory: /opt/configuration
+
 ##########################
 # rook
 
@@ -17,6 +19,7 @@ rook_image_tag: "v17.2"
 rook_work_directory: /tmp/rook/configuration
 ## template directory containing rook CRD `*.yml` files, e.g. OSISM configuration directory
 rook_template_directory: "{{ role_path }}/templates"
+rook_configuration_directory: "{{ configuration_directory }}/environments/rook"
 ## kubernetes namespace in which the rook cluster should be installed
 ## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
 rook_namespace: rook-ceph
@@ -111,3 +114,37 @@ rook_cephclients:
       mon: "allow r"
       mgr: "allow rw"
       osd: "allow rw pool=cephfs_data"
+rook_cephclient_destinations:
+  - client: cinder
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.cinder.keyring"
+  - client: cinder
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-volume/ceph.client.cinder.keyring"
+  - client: cinder
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder.keyring"
+  - client: cinder-backup
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder-backup.keyring"
+  - client: glance
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/glance/ceph.client.glance.keyring"
+  - client: gnocchi
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/gnocchi/ceph.client.gnocchi.keyring"
+  - client: nova
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.nova.keyring"
+  - client: manila
+    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/manila/ceph.client.manila.keyring"
+# rook_cephclient_destinations:
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.cinder.keyring":
+#     client: cinder
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-volume/ceph.client.cinder.keyring":
+#     client: cinder
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder.keyring":
+#     client: cinder
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder-backup.keyring":
+#     client: cinder-backup
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/glance/ceph.client.glance.keyring":
+#     client: glance
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/gnocchi/ceph.client.gnocchi.keyring":
+#     client: gnocchi
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.nova.keyring":
+#     client: nova
+#   "{{ configuration_directory }}/environments/kolla/files/overlays/manila/ceph.client.manila.keyring":
+#     client: manila
