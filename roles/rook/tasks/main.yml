@@ -6,3 +6,7 @@
 - name: Include apply tasks
   ansible.builtin.include_tasks: apply.yml
   tags: apply
+
+- name: Include fetch-keys tasks
+  ansible.builtin.include_tasks: fetch-keys.yml
+  tags: fetch-keys

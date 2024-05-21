@@ -10,10 +10,10 @@
     - "{{ rook_work_directory }}"
 
 
-- name: Find Jinja2 templates
+- name: Find Jinja2 yml templates
   ansible.builtin.find:
     path: "{{ rook_template_directory }}"
-    patterns: "*.j2"
+    patterns: "*.yml.j2"
   register: _config_files_found
 
 

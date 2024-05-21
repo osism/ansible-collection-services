@@ -1,0 +1,60 @@
+---
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ rook_work_directory }}"
+
+- name: Fetch Ceph keyring for each client
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: "rook-ceph-client-{{ item.key }}"
+    namespace: "{{ rook_namespace }}"
+  loop: "{{ rook_cephclients | dict2items }}"
+  register: ceph_keyrings
+
+# - name: Save the Ceph keyring to rook_configuration_directory overlay files
+- name: Save the Ceph keyrings to rook_configuration_directory
+  vars:
+    client_name: "{{ item.resources[0].metadata.ownerReferences[0].name }}"
+    client_key: "{{ item.resources[0].data.userKey | b64decode }}"
+  ansible.builtin.copy:
+    content: |
+      [client.{{ client_name }}]
+        key = {{ client_key }}
+    dest: "{{ rook_configuration_directory }}/ceph.client.{{ client_name }}.keyring"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ ceph_keyrings.results }}"
+  when: item.resources | length > 0
+  no_log: true
+
+- name: Create required overlay directories
+  ansible.builtin.file:
+    path: "{{ item.dest | basename }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  loop: "{{ rook_cephclient_destinations }}"
+
+- name: Save the Ceph keyrings to destinations
+  ansible.builtin.copy:
+    src: "{{ rook_configuration_directory }}/ceph.client.{{ item.client }}.keyring"
+    dest: "{{ item.dest }}"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ rook_cephclient_destinations }}"
+
+- name: Remove the Ceph keyrings from rook_configuration_directory
+  ansible.builtin.file:
+    path: "{{ rook_configuration_directory }}/ceph.client.{{ item.client }}.keyring"
+    state: absent
+  loop: "{{ rook_cephclient_destinations }}"
