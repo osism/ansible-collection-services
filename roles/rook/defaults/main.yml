@@ -8,6 +8,11 @@ operator_group: "{{ operator_user }}"
 configuration_directory: /opt/configuration
 
 ##########################
+# k3s/metallb
+
+metallb_rook_external_IP: 192.168.16.101
+
+##########################
 # rook
 
 container_registry_rook: quay.io
@@ -42,7 +47,12 @@ rook_mgr_modules:
     enabled: true
   - name: prometheus
     enabled: true
+  # - name: dashboard
+  #   enabled: true
 rook_dashboard_enabled: true
+rook_dashboard_ssl: true
+rook_dashboard_port: 7000
+rook_dashboard_port_external: 443
 # https://rook.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-monitoring/
 rook_monitoring_enabled: false # TODO: enable 
 rook_metrics_disabled: false
