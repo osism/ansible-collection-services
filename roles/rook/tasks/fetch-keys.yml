@@ -9,6 +9,7 @@
   loop:
     - "{{ rook_work_directory }}"
 
+
 - name: Fetch Ceph keyring for each client
   kubernetes.core.k8s_info:
     api_version: v1
@@ -18,43 +19,47 @@
   loop: "{{ rook_cephclients | dict2items }}"
   register: ceph_keyrings
 
-# - name: Save the Ceph keyring to rook_configuration_directory overlay files
-- name: Save the Ceph keyrings to rook_configuration_directory
+
+- name: Initialize ceph_keyrings_fact
+  set_fact:
+    ceph_keyrings_fact: {}    
+
+
+- name: Save the Ceph keyrings to ceph_keyrings_fact
   vars:
     client_name: "{{ item.resources[0].metadata.ownerReferences[0].name }}"
     client_key: "{{ item.resources[0].data.userKey | b64decode }}"
-  ansible.builtin.copy:
-    content: |
-      [client.{{ client_name }}]
-        key = {{ client_key }}
-    dest: "{{ rook_configuration_directory }}/ceph.client.{{ client_name }}.keyring"
-    mode: 0640
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
+  set_fact:
+    ceph_keyrings_fact: "{{ ceph_keyrings_fact | combine({client_name: {'key': client_key}}) }}"
   loop: "{{ ceph_keyrings.results }}"
-  when: item.resources | length > 0
   no_log: true
+
 
 - name: Create required overlay directories
   ansible.builtin.file:
-    path: "{{ item.dest | basename }}"
+    path: "{{ item.1 | basename }}"
     state: directory
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0755
-  loop: "{{ rook_cephclient_destinations }}"
+  with_subelements:
+    - "{{ rook_cephclients }}"
+    - dests
+
 
 - name: Save the Ceph keyrings to destinations
+  vars:
+    client_name: "{{ item.0.key }}"
+    client_key: "{{ ceph_keyrings_fact[item.0.key].key }}"
+    dest: "{{ item.1 }}"
   ansible.builtin.copy:
-    src: "{{ rook_configuration_directory }}/ceph.client.{{ item.client }}.keyring"
-    dest: "{{ item.dest }}"
+    content: |
+      [client.{{ client_name }}]
+        key = {{ client_key }}
+    dest: "{{ item.1 }}"
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
-  loop: "{{ rook_cephclient_destinations }}"
-
-- name: Remove the Ceph keyrings from rook_configuration_directory
-  ansible.builtin.file:
-    path: "{{ rook_configuration_directory }}/ceph.client.{{ item.client }}.keyring"
-    state: absent
-  loop: "{{ rook_cephclient_destinations }}"
+  with_subelements:
+    - "{{ rook_cephclients | dict2items }}"
+    - value.dests
