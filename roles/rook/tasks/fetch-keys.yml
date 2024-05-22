@@ -1,15 +1,4 @@
 ---
-- name: Create required directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0750
-  loop:
-    - "{{ rook_work_directory }}"
-
-
 - name: Fetch Ceph keyring for each client
   kubernetes.core.k8s_info:
     api_version: v1

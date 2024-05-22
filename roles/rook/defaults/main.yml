@@ -15,14 +15,15 @@ rook_image: "{{ container_registry_rook }}/ceph/ceph"
 # renovate: datasource=docker depName=quay.io/rook/ceph
 rook_image_tag: "v17.2"
 
-## work directory inside the osism-ansible container:
-rook_work_directory: /tmp/rook/configuration
-## template directory containing rook CRD `*.yml` files, e.g. OSISM configuration directory
+## template directory containing rook CRD `*.yml.j2` files, e.g. OSISM configuration directory
 rook_template_directory: "{{ role_path }}/templates"
 rook_configuration_directory: "{{ configuration_directory }}/environments/rook"
 ## kubernetes namespace in which the rook cluster should be installed
 ## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
 rook_namespace: rook-ceph
+
+## work directory inside the osism-ansible container
+rook_work_directory: /tmp/rook/configuration
 
 ##########################
 # rook CRD
@@ -53,13 +54,15 @@ rook_network_cluster: "{{ rook_network_public }}"
 rook_crash_disabled: false
 rook_logcollector_enabled: true
 # also allow to run on kubnernetes master nodes
-rook_placement_all_tolerations:
-  - key: node-role.kubernetes.io/master
-    operator: Exists
-    effect: NoSchedule  
-rook_annotations:
-rook_labels:
-rook_resources:
+rook_placement:
+  all:
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule  
+rook_annotations: {}
+rook_labels: {}
+rook_resources: {}
 # do not use all nodes
 rook_storage_useallnodes: false
 # do not use all found devices
@@ -68,9 +71,9 @@ rook_storage_config_osdsperdevice: 1
 # enable device encryption
 rook_storage_config_encrypteddevice: true
 # define a device filter where to create OSDs
-rook_storage_devicefilter:
+rook_storage_devicefilter: ""
 # name nodes where to create OSDs
-rook_storage_nodes:
+rook_storage_nodes: []
 #  - name: "testbed-node-0"
 #  - name: "testbed-node-1"
 #  - name: "testbed-node-2"
