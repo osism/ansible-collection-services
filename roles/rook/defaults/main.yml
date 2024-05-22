@@ -80,6 +80,12 @@ rook_storage_nodes: []
 rook_cephblockpool_default_size: 3
 rook_cephblockpool_default_min_size: 0
 rook_cephblockpool_default_pg_num: 64
+rook_cephblockpools:
+  - backups
+  - volumes
+  - images
+  - metrics
+  - vms
 rook_cephfilesystem_default_name: cephfs
 rook_cephfilesystem_default_size: 3
 rook_cephfilesystem_default_min_size: 0

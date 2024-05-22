@@ -241,7 +241,7 @@ Default pg_num for CephBlockPool CRDs.
 
 CephBlockPool CRDs to create. All default {{ rook_cephblockpool_default_* }} values will be set.
 
- .. zuul:rolevar:: rook_cephfilesystem_default_name:
+ .. zuul:rolevar:: rook_cephfilesystem_default_name
     :default: cephfs
 
 Default name for CephFilesystem CRD.
