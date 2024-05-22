@@ -1,8 +1,9 @@
+{% for pool_name in rook_cephblockpools %}
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
-  name: backups
+  name: {{ pool_name }}
   namespace: {{ rook_namespace }}
 # https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/#spec
 spec:
@@ -15,71 +16,5 @@ spec:
     pg_num: "{{ rook_cephblockpool_default_pg_num }}"
     pgp_num: "{{ rook_cephblockpool_default_pg_num }}"
   # deviceClass: ssd
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: volumes
-  namespace: {{ rook_namespace }}
-# https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/#spec
-spec:
-  failureDomain: host
-  replicated:
-    size: {{ rook_cephblockpool_default_size }}
-  # https://docs.ceph.com/en/latest/rados/operations/pools/#setting-pool-values
-  parameters:
-    min_size: "{{ rook_cephblockpool_default_min_size }}"
-    pg_num: "{{ rook_cephblockpool_default_pg_num }}"
-    pgp_num: "{{ rook_cephblockpool_default_pg_num }}"
-  # deviceClass: ssd
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: images
-  namespace: {{ rook_namespace }}
-# https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/#spec
-spec:
-  failureDomain: host
-  replicated:
-    size: {{ rook_cephblockpool_default_size }}
-  # https://docs.ceph.com/en/latest/rados/operations/pools/#setting-pool-values
-  parameters:
-    min_size: "{{ rook_cephblockpool_default_min_size }}"
-    pg_num: "{{ rook_cephblockpool_default_pg_num }}"
-    pgp_num: "{{ rook_cephblockpool_default_pg_num }}"
-  # deviceClass: ssd
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: metrics
-  namespace: {{ rook_namespace }}
-# https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/#spec
-spec:
-  failureDomain: host
-  replicated:
-    size: {{ rook_cephblockpool_default_size }}
-  # https://docs.ceph.com/en/latest/rados/operations/pools/#setting-pool-values
-  parameters:
-    min_size: "{{ rook_cephblockpool_default_min_size }}"
-    pg_num: "{{ rook_cephblockpool_default_pg_num }}"
-    pgp_num: "{{ rook_cephblockpool_default_pg_num }}"
-  # deviceClass: ssd
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: vms
-  namespace: {{ rook_namespace }}
-# https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/#spec
-spec:
-  failureDomain: host
-  replicated:
-    size: {{ rook_cephblockpool_default_size }}
-  # https://docs.ceph.com/en/latest/rados/operations/pools/#setting-pool-values
-  parameters:
-    min_size: "{{ rook_cephblockpool_default_min_size }}"
-    pg_num: "{{ rook_cephblockpool_default_pg_num }}"
-    pgp_num: "{{ rook_cephblockpool_default_pg_num }}"
-  # deviceClass: ssd
+
+{% endfor %}
