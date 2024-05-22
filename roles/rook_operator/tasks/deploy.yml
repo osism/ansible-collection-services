@@ -6,4 +6,4 @@
     release_namespace: "{{ rook_operator_namespace }}"
     values_files:
       - "{{ rook_operator_work_directory }}/operator.yml"
-    force: true # needed for update
+    force: true  # needed for update
