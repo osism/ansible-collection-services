@@ -159,9 +159,7 @@ spec:
   # To control where various services will be scheduled by kubernetes, use the placement configuration sections below.
   # The example under 'all' would have all services scheduled on kubernetes nodes labeled with 'role=storage-node' and
   # tolerate taints with a key of 'storage-node'.
-  placement:
-    all:
-      tolerations: {{ rook_placement_all_tolerations }}
+  placement: {{ rook_placement }}
   # placement:
   #   all:
   #     nodeAffinity:
@@ -261,8 +259,8 @@ spec:
     mgr: system-cluster-critical
     #crashcollector: rook-ceph-crashcollector-priority-class
   storage: # cluster level storage configuration and selection
-    useAllNodes: false
-    useAllDevices: false
+    useAllNodes: {{ rook_storage_useallnodes }}
+    useAllDevices: {{ rook_storage_usealldevices }}
     #deviceFilter:
     config:
       # crushRoot: "custom-root" # specify a non-default root label for the CRUSH map

@@ -9,7 +9,7 @@ spec:
   # The metadata pool spec. Must use replication.
   metadataPool:
     replicated:
-      size: {{ rook_cephblockpool_default_size }}
+      size: {{ rook_cephfilesystem_default_size }}
       requireSafeReplicaSize: true
     parameters:
       # Inline compression mode for the data pool
@@ -23,7 +23,7 @@ spec:
     - name: replicated
       failureDomain: host
       replicated:
-        size: {{ rook_cephblockpool_default_size }}
+        size: {{ rook_cephfilesystem_default_size }}
         # Disallow setting pool with replica 1, this could lead to data loss without recovery.
         # Make sure you're *ABSOLUTELY CERTAIN* that is what you want
         requireSafeReplicaSize: true
