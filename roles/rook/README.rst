@@ -18,6 +18,13 @@ Group from the user which will own the configuration directory.
 
 Path to the directory which will contains the configuration files.
 
+**k3s/metallb Variables**
+
+.. zuul:rolevar:: metallb_rook_external_IP
+   :default: 192.168.16.101
+
+Public IP for rook ceph dashboard.
+
 **Rook Variables**
 
 .. zuul:rolevar:: container_registry_rook
@@ -94,15 +101,20 @@ Note the "dashboard" and "monitoring" modules are already configured by other se
 
 Enable the ceph dashboard for viewing cluster status 
 
- .. zuul:rolevar:: rook_dashboard_tls
+ .. zuul:rolevar:: rook_dashboard_ssl
     :default: true
 
-Enable TLS for the ceph dashboard.
+Enable SSL/TLS for the ceph dashboard.
 
  .. zuul:rolevar:: rook_dashboard_port
     :default: true
 
 Port to use for the ceph dashboard.
+
+ .. zuul:rolevar:: rook_dashboard_port_external
+    :default: true
+
+Port to use for the ceph dashboard loadbalancer.
 
  .. zuul:rolevar:: rook_monitoring_enabled
     :default: false

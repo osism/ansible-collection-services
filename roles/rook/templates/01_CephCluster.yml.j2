@@ -60,9 +60,9 @@ spec:
     # serve the dashboard under a subpath (useful when you are accessing the dashboard via a reverse proxy)
     # urlPrefix: /ceph-dashboard
     # serve the dashboard at the given port.
-    # port: 8443
+    port: {{ rook_dashboard_port }}
     # serve the dashboard using SSL
-    ssl: true
+    ssl: {{ rook_dashboard_ssl }}
     # The url of the Prometheus instance
     # prometheusEndpoint: <protocol>://<prometheus-host>:<port>
     # Whether SSL should be verified if the Prometheus server is using https
@@ -346,3 +346,25 @@ spec:
         disabled: false
       osd:
         disabled: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rook-ceph-mgr-dashboard-external-http
+  namespace: {{ rook_namespace }}
+  labels:
+    app: rook-ceph-mgr
+    rook_cluster: {{ rook_cluster_name }}
+spec:
+  ports:
+  - name: dashboard
+    port: {{ rook_dashboard_port_external }}
+    protocol: TCP
+    targetPort: {{ rook_dashboard_port }}
+  selector:
+    app: rook-ceph-mgr
+    rook_cluster: {{ rook_cluster_name }}
+  sessionAffinity: None
+  #type: NodePort
+  type: LoadBalancer
+  loadBalancerIP: {{ metallb_rook_external_IP }}
