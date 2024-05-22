@@ -93,58 +93,38 @@ rook_cephclients:
     caps:
       mon: "profile rbd"
       osd: "profile rbd pool=backups"
+    dests:
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder-backup.keyring"
   cinder:
     caps:
       mon: "profile rbd"
       osd: "profile rbd pool=volumes, profile rbd pool=vms, profile rbd pool=images"
+    dests:
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.cinder.keyring"
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-volume/ceph.client.cinder.keyring"
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder.keyring"
   glance:
     caps:
       mon: "profile rbd"
       osd: "profile rbd pool=vms, profile rbd pool=images"
+    dests:
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/glance/ceph.client.glance.keyring"
   gnocchi:
     caps:
       mon: "profile rbd"
       osd: "profile rbd pool=metrics"
+    dests:
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/gnocchi/ceph.client.gnocchi.keyring"
   nova:
     caps:
       mon: "profile rbd"
       osd: "profile rbd pool=images, profile rbd pool=vms, profile rbd pool=volumes, profile rbd pool=backups"
+    dests:
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.nova.keyring"
   manila:
     caps:
       mon: "allow r"
       mgr: "allow rw"
       osd: "allow rw pool=cephfs_data"
-rook_cephclient_destinations:
-  - client: cinder
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.cinder.keyring"
-  - client: cinder
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-volume/ceph.client.cinder.keyring"
-  - client: cinder
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder.keyring"
-  - client: cinder-backup
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder-backup.keyring"
-  - client: glance
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/glance/ceph.client.glance.keyring"
-  - client: gnocchi
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/gnocchi/ceph.client.gnocchi.keyring"
-  - client: nova
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.nova.keyring"
-  - client: manila
-    dest: "{{ configuration_directory }}/environments/kolla/files/overlays/manila/ceph.client.manila.keyring"
-# rook_cephclient_destinations:
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.cinder.keyring":
-#     client: cinder
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-volume/ceph.client.cinder.keyring":
-#     client: cinder
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder.keyring":
-#     client: cinder
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/cinder/cinder-backup/ceph.client.cinder-backup.keyring":
-#     client: cinder-backup
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/glance/ceph.client.glance.keyring":
-#     client: glance
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/gnocchi/ceph.client.gnocchi.keyring":
-#     client: gnocchi
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/nova/ceph.client.nova.keyring":
-#     client: nova
-#   "{{ configuration_directory }}/environments/kolla/files/overlays/manila/ceph.client.manila.keyring":
-#     client: manila
+    dests:
+      - "{{ configuration_directory }}/environments/kolla/files/overlays/manila/ceph.client.manila.keyring"
