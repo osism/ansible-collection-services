@@ -33,7 +33,7 @@ rook_namespace: rook-ceph
 rook_cluster_name: rook-ceph
 rook_mon_count: 3
 rook_mds_count: 3
-rook_mgr_count: 2
+rook_mgr_count: 3
 rook_mgr_modules:
   - name: balancer
     enabled: true
