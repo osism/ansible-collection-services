@@ -559,9 +559,9 @@ csi:
   nfsAttachRequired: true
 
 # -- Enable discovery daemon
-enableDiscoveryDaemon: false
+enableDiscoveryDaemon: {{ rook_operator_enable_discovery_daemon }}
 # -- Set the discovery daemon device discovery interval (default to 60m)
-discoveryDaemonInterval: 60m
+discoveryDaemonInterval: {{ rook_operator_discovery_daemon_interval }}
 
 # -- The timeout for ceph commands in seconds
 cephCommandsTimeoutSeconds: "15"
