@@ -47,8 +47,9 @@ rook_mgr_modules:
     enabled: true
   - name: prometheus
     enabled: true
-  # - name: dashboard
-  #   enabled: true
+  # obtain the information about physical disks in dashboard
+  - name: rook
+    enabled: true
 rook_dashboard_enabled: true
 rook_dashboard_ssl: true
 rook_dashboard_port: 7000
