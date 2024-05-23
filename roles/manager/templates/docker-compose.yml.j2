@@ -23,6 +23,7 @@ services:
       test: pgrep celery
     environment:
       - CELERY=1
+      - INVENTORY_FROM_NETBOX={{ manager_inventory_from_netbox }}
 {% else %}
     healthcheck:
       test: pgrep crond
