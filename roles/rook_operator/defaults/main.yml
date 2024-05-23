@@ -20,3 +20,6 @@ rook_operator_template_directory: .
 ## kubernetes namespace in which the operator should be installed
 ## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
 rook_operator_namespace: rook-ceph
+
+rook_operator_enable_discovery_daemon: true
+rook_operator_discovery_daemon_interval: "60m"

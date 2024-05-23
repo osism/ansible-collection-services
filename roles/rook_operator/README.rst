@@ -45,3 +45,15 @@ Template directory containing `operator.yml`, e.g. OSISM configuration directory
 
 Kubernetes namespace in which the operator should be installed. 
 Also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
+
+.. zuul:rolevar:: rook_operator_enable_discovery_daemon
+   :default: true
+
+Enable discovery daemon.
+Also see https://rook.io/docs/rook/v1.11/Storage-Configuration/Monitoring/ceph-dashboard/#visualization-of-physical-disks-section-in-the-dashboard
+
+.. zuul:rolevar:: rook_operator_discovery_interval
+   :default: "60m"
+
+Configure discovery daemon interval.
+Also see https://rook.io/docs/rook/v1.11/Storage-Configuration/Monitoring/ceph-dashboard/#visualization-of-physical-disks-section-in-the-dashboard
