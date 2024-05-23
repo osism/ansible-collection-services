@@ -1,5 +1,0 @@
----
-upgrade:
-  - |
-    The Patchman roles were deprecated with OSISM 6.0.0 and have now been removed.
-    The Patchman service is no longer usable in OSISM.

@@ -1,8 +1,0 @@
----
-features:
-  - |
-    The listener service of the manager is now disabled by default.
-upgrade:
-  - |
-    Set `enable_listener: true` in `environments/manager/configuration.yml` to
-    enable the listener service of the manager.
