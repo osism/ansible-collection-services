@@ -1,6 +1,0 @@
----
-features:
-  - |
-    Add health checks for the manager services listener, openstack,
-    and watchdog. Add health checks for the manager workers netbox
-    and conductor.

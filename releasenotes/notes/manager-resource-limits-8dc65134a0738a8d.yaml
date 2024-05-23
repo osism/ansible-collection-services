@@ -1,6 +1,0 @@
----
-features:
-  - |
-    In osism.services.manager it is now possible to limit the used resources of
-    Ansible services via the arguments `manager_mem_limit`, `manager_mem_reservation`,
-    and `manager_cpus`.

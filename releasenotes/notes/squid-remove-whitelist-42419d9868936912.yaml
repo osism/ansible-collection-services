@@ -1,7 +1,0 @@
----
-features:
-  - |
-    The internal Squid service is no longer used for filtering. Access to all external sources
-    is possible. The existing whitelist no longer made sense because, for example, access to
-    Quay or Docker Hub was completely permitted and any artifacts could then be downloaded anyway.
-    If you want to filter at this level in the future, you will need an additional proxy or WAF.
