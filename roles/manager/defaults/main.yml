@@ -80,6 +80,8 @@ netbox_enable: false
 netbox_api_url: ""
 netbox_api_token: ""
 
+manager_inventory_from_netbox: false
+
 ##########################
 # opensearch integration
 #
