@@ -1,0 +1,18 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# rabbitmq_operator
+
+container_registry_rabbitmq_operator: index.docker.io
+rabbitmq_operator_image: "{{ container_registry_rabbitmq_operator }}/rabbitmqoperator/cluster-operator"
+# renovate: datasource=docker depName=index.docker.io/rabbitmqoperator/cluster-operator
+rabbitmq_operator_image_tag: "2.9.0"
+
+rabbitmq_operator_namespace: rabbitmq-system
+
+rabbitmq_operator_component: rabbitmq-operator
