@@ -1,0 +1,67 @@
+---
+- name: Initialize rook_cleanup_fact
+  set_fact:
+    rook_cleanup: "{{ rook_cleanup|default(false) }}"
+
+
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ rook_work_directory }}"
+  when: rook_cleanup
+
+
+- name: Find Jinja2 yml templates
+  ansible.builtin.find:
+    path: "{{ rook_template_directory }}"
+    patterns: "*.yml.j2"
+  register: _config_files_found
+  when: rook_cleanup
+
+
+- name: Render values files for rook
+  loop: "{{ _config_files_found.files }}"
+  loop_control:
+    loop_var: _file
+  ansible.builtin.template:
+    src: "{{ _file.path }}"
+    dest: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  when: rook_cleanup
+
+
+- name: Set cleanupPolicy in CephCluster CRD
+  kubernetes.core.k8s:
+    state: patched
+    kind: CephCluster
+    namespace: "{{ rook_namespace }}"
+    name: "{{ rook_cluster_name }}"
+    definition:
+      spec:
+        cleanupPolicy:
+          confirmation: "yes-really-destroy-data"
+    kubeconfig: /share/kubeconfig
+  when: rook_cleanup
+
+
+- name: Delete rook CRD
+  loop: "{{ _config_files_found.files|reverse }}"
+  loop_control:
+    loop_var: _file
+  kubernetes.core.k8s:
+    state: absent
+    src: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    kubeconfig: /share/kubeconfig
+  when: rook_cleanup
+
+
+- name: Include wait-for-cluster-deleted task
+  ansible.builtin.include_tasks: wait-for-cluster-deleted.yml
+  tags: wait
