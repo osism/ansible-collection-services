@@ -30,6 +30,9 @@ rook_namespace: rook-ceph
 ## work directory inside the osism-ansible container
 rook_work_directory: /tmp/rook/configuration
 
+## run cleanup tasks and delete cluster
+rook_cleanup: false
+
 ##########################
 # rook CRD
 # have a look at `templates/*.yml.j2` to see where exaclty the variables are applied

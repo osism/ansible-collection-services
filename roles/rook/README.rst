@@ -59,6 +59,11 @@ Also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-con
 
 Rook work directory inside the osism-ansible container.
 
+.. zuul:rolevar:: rook_cleanup
+   :default: false
+
+Run rook cleanup tasks and delete the whole cluster.
+
 
 **Rook CRD Variables**
 
