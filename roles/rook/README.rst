@@ -32,12 +32,12 @@ Public IP for rook ceph dashboard.
 
 Path to the registry that stores the container images for the rook operator.
 
-.. zuul:rolevar:: rook_image
+.. zuul:rolevar:: rook_ceph_image
    :default: {{ container_registry_rook }}/rook/ceph
 
 The container image to use.
 
-.. zuul:rolevar:: rook_image_tag
+.. zuul:rolevar:: rook_ceph_image_tag
    :default: v1.13.5
 
 Version from rook operator in form of a tag which should be used.

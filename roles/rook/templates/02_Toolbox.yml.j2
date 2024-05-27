@@ -22,7 +22,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: rook-ceph-tools
-          image: {{ rook_image }}:{{ rook_image_tag }}
+          image: {{ rook_ceph_image }}:{{ rook_ceph_image_tag }}
           command:
             - /bin/bash
             - -c

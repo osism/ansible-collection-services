@@ -16,9 +16,9 @@ metallb_rook_external_IP: 192.168.16.101
 # rook
 
 container_registry_rook: quay.io
-rook_image: "{{ container_registry_rook }}/ceph/ceph"
+rook_ceph_image: "{{ container_registry_rook }}/ceph/ceph"
 # renovate: datasource=docker depName=quay.io/rook/ceph
-rook_image_tag: "v17.2"
+rook_ceph_image_tag: "v17.2"
 
 ## template directory containing rook CRD `*.yml.j2` files, e.g. OSISM configuration directory
 rook_template_directory: "{{ role_path }}/templates"
