@@ -9,6 +9,7 @@ operator_group: "{{ operator_user }}"
 # kubernetes_monitoring
 
 kubernetes_monitoring_chart_source: "dnationcloud/dnation-kubernetes-monitoring-stack"
+# renovate datasource=github-releases depName=dnationcloud/kubernetes-monitoring-stack
 kubernetes_monitoring_chart_version: "3.5.0"
 
 ## work directory inside the osism-ansible container:
@@ -23,6 +24,7 @@ kubernetes_monitoring_namespace: kubernetes-monitoring
 
 enable_openstack_exporter: false
 openstack_exporter_chart_source: "oci://registry.scs.community/openstack-exporter/prometheus-openstack-exporter"
+# renovate datasource=github-releases depName=SovereignCloudStack/openstack-exporter-helm-charts
 openstack_exporter_chart_version: "0.4.5"
 
 ## openstack internal VIP address to be used in host aliases setting
