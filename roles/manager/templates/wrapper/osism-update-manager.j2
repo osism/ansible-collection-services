@@ -27,6 +27,14 @@ if [[ $CONTAINER == "true" ]]; then
     exit 0
 fi
 
+if [[ -e /usr/bin/ansible || -e /usr/local/bin/ansible ]]; then
+    echo
+    echo "WARNING: Ansible is already installed on the manager node."
+    echo "         Ansible should not be installed on the manager node."
+    echo "         This may result in things not working as they should."
+    echo
+fi
+
 pushd $CONFIGURATION_DIRECTORY/environments/manager > /dev/null
 
 # If the versions for the Ansible collections are available in the manager environment,
