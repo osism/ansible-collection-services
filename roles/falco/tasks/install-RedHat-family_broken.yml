@@ -29,7 +29,7 @@
     - dkms
     - "kernel-devel-{{ ansible_kernel }}"
 
-- name: Add app repository
+- name: Add repository
   become: true
   ansible.builtin.yum_repository:
     name: falco
