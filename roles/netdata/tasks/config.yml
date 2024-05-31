@@ -1,5 +1,5 @@
 ---
-- name: Copy /etc/netdata configuration files
+- name: Copy configuration files
   become: true
   ansible.builtin.template:
     src: "{{ item }}.j2"
@@ -9,25 +9,6 @@
     mode: 0644
   notify: "Restart service {{ netdata_service_name }}"
   loop: "{{ netdata_configuration_files }}"
-
-- name: Create netdata config directory
-  become: true
-  ansible.builtin.file:
-    path: "{{ netdata_config_path }}"
-    state: directory
-    owner: netdata
-    group: netdata
-    mode: 0775
-
-- name: Copy cloud.conf configuration file
-  become: true
-  ansible.builtin.template:
-    src: cloud.conf.j2
-    dest: "{{ netdata_config_path }}/cloud.conf"
-    owner: netdata
-    group: netdata
-    mode: 0644
-  notify: "Restart service {{ netdata_service_name }}"
 
 - name: Retrieve /etc/netdata/.opt-out-from-anonymous-statistics status
   ansible.builtin.stat:

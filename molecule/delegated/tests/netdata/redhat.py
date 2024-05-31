@@ -1,4 +1,5 @@
 import pytest
+
 from ..util.util import get_ansible, get_variable  # , get_from_url, get_centos_repo_key
 
 testinfra_runner, testinfra_hosts = get_ansible()
@@ -18,7 +19,7 @@ def test_netdata_lib64_directory(host):
     assert lib_dir.is_directory
 
 
-def test_netdata_gpgkey(host):
+def test_netdata_repository_key(host):
     check_ansible_os_family(host)
 
     netdata_configure_repository = get_variable(host, "netdata_configure_repository")

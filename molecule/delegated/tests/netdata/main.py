@@ -1,17 +1,21 @@
+import pytest
+
 from ..util.util import get_ansible, get_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
 
-def test_netdata_installation(host):
+def test_netdata_package(host):
     package = host.package(get_variable(host, "netdata_package_name"))
+
     assert package.is_installed
 
 
-def test_configuration_files(host):
+def test_netdata_configuration_files(host):
     configuration_files = get_variable(host, "netdata_configuration_files")
     for file in configuration_files:
         config_file = host.file(f"/etc/netdata/{file}")
+
         assert config_file.exists
         assert config_file.user == "root"
         assert config_file.group == "root"
@@ -21,25 +25,8 @@ def test_configuration_files(host):
             in config_file.content_string
         )
 
-    config_dir = get_variable(host, "netdata_config_path")
 
-    cloud_dir = host.file(config_dir)
-    assert cloud_dir.exists
-    assert cloud_dir.is_directory
-    assert cloud_dir.user == "netdata"
-    assert cloud_dir.group == "netdata"
-    assert cloud_dir.mode == 0o775
-
-    cloud_conf = host.file(f"{config_dir}/cloud.conf")
-    assert cloud_conf.exists
-    assert not cloud_conf.is_directory
-    assert cloud_conf.user == "netdata"
-    assert cloud_conf.group == "netdata"
-    assert cloud_conf.mode == 0o644
-    assert "[global]" in cloud_conf.content_string
-
-
-def test_opt_out_file(host):
+def test_netdata_opt_out_file(host):
     opt_out_file = host.file("/etc/netdata/.opt-out-from-anonymous-statistics")
 
     assert opt_out_file.exists
@@ -49,19 +36,20 @@ def test_opt_out_file(host):
     assert opt_out_file.group == "root"
 
 
-def test_netdata_user_group(host):
+def test_netdata_user(host):
     netdata_user = host.user("netdata")
+
     assert "docker" in netdata_user.groups
 
 
-def test_netdata_service_running(host):
+def test_netdata_service(host):
     service_name = get_variable(host, "netdata_service_name")
     service = host.service(service_name)
+
     assert service.is_running
 
 
-def test_host_specific_tasks(host):
-    # server.yml
+def test_netdata_host_type_server(host):
     if host.file(get_variable(host, "netdata_host_type")) == "server":
         sysctl_file_path = "/etc/sysctl.d/50-netdata.conf"
         assert host.file(sysctl_file_path).exists
@@ -70,7 +58,13 @@ def test_host_specific_tasks(host):
         actual_value = host.sysctl("vm.max_map_count")
         assert actual_value == expected_value
 
-    # client.yml
+    else:
+        pytest.skip("netdata_host_type is not server")
+
+
+def test_netdata_host_type_client(host):
     if host.file(get_variable(host, "netdata_host_type")) == "client":
-        # no tasks in client.yml implemented yet
         assert True
+
+    else:
+        pytest.skip("netdata_host_type is not client")
