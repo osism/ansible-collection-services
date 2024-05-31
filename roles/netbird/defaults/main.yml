@@ -1,0 +1,16 @@
+---
+##########################
+# repository
+
+netbird_configure_repository: true
+
+netbird_debian_repository_key: https://pkgs.netbird.io/debian/public.key
+netbird_debian_repository: "deb https://pkgs.netbird.io/debian stable main"
+
+netbird_redhat_repository_key: https://pkgs.netbird.io/yum/repodata/repomd.xml.key
+netbird_redhat_repository: "https://pkgs.netbird.io/yum/"
+
+##########################
+# other
+
+netbird_setup_key: ""

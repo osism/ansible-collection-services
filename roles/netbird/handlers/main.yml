@@ -1,0 +1,6 @@
+---
+- name: Restart service netbird
+  become: true
+  ansible.builtin.service:
+    name: "{{ netbird_service_name }}"
+    state: restarted
