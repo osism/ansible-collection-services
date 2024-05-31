@@ -14,3 +14,4 @@ netbird_redhat_repository: "https://pkgs.netbird.io/yum/"
 # other
 
 netbird_setup_key: ""
+netbird_management_url: ""
