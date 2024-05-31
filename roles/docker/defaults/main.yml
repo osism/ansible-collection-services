@@ -71,6 +71,8 @@ docker_packages_fail:
 ##########################
 # python package
 
+docker_python_install: true
+
 docker_python3_package_name: python3-docker
 docker_python_package_name: python-docker
 docker_python_package_names:
