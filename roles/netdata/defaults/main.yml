@@ -6,8 +6,6 @@ netdata_configuration_files:
   - netdata.conf
   - stream.conf
 
-netdata_config_path: /var/lib/netdata/cloud.d
-
 ##########################
 # services
 
