@@ -1,0 +1,24 @@
+---
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
+
+- name: Include distribution specific install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
+
+- name: "Manage service {{ netbird_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ netbird_service_name }}"
+    state: started
+    enabled: true
+
+- name: Manage connection
+  become: true
+  ansible.builtin.command: "netbird up --setup-key {{ netbird_setup_key }}"
+  register: result
+  changed_when:
+    - result.rc == 0
+    - "'Connected' in result.stdout"
+  failed_when:
+    - result.rc != 0
+  when: netbird_setup_key | length
