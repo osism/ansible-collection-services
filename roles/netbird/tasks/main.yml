@@ -14,11 +14,13 @@
 
 - name: Manage connection
   become: true
-  ansible.builtin.command: "netbird up --setup-key {{ netbird_setup_key }}"
+  ansible.builtin.command: "netbird up --setup-key {{ netbird_setup_key }} --management-url {{ netbird_management_url }}"
   register: result
   changed_when:
     - result.rc == 0
     - "'Connected' in result.stdout"
   failed_when:
     - result.rc != 0
-  when: netbird_setup_key | length
+  when:
+    - netbird_management_url | length
+    - netbird_setup_key | length
