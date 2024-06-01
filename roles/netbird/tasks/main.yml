@@ -12,9 +12,30 @@
     state: started
     enabled: true
 
+- name: Set netbird_environment fact
+  ansible.builtin.set_fact:
+    netbird_environment:
+      NB_HOSTNAME: "{{ netbird_hostname }}"
+      NB_INTERFACE_NAME: "{{ netbird_interface_name }}"
+      NB_LOG_LEVEL: "{{ netbird_log_level }}"
+      NB_WIREGUARD_PORT: "{{ netbird_wireguard_port }}"
+
+- name: Set NB_MANAGEMENT_URL in netbird_environment fact
+  ansible.builtin.set_fact:
+    netbird_environment: "{{ netbird_environment | combine({'NB_MANAGEMENT_URL': netbird_management_url}) }}"
+
+- name: Set NB_PRESHARED_KEY in netbird_environment fact
+  ansible.builtin.set_fact:
+    netbird_environment: "{{ netbird_environment | combine({'NB_PRESHARED_KEY': netbird_preshared_key}) }}"
+
+- name: Set NB_SETUP_KEY in netbird_environment fact
+  ansible.builtin.set_fact:
+    netbird_environment: "{{ netbird_environment | combine({'NB_SETUP_KEY': netbird_setup_key}) }}"
+
 - name: Manage connection
   become: true
-  ansible.builtin.command: "netbird up --setup-key {{ netbird_setup_key }} --management-url {{ netbird_management_url }}"
+  ansible.builtin.command: netbird up
+  environment: "{{ netbird_environment }}"
   register: result
   changed_when:
     - result.rc == 0
@@ -22,5 +43,4 @@
   failed_when:
     - result.rc != 0
   when:
-    - netbird_management_url | length
     - netbird_setup_key | length

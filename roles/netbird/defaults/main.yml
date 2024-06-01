@@ -11,7 +11,12 @@ netbird_redhat_repository_key: https://pkgs.netbird.io/yum/repodata/repomd.xml.k
 netbird_redhat_repository: "https://pkgs.netbird.io/yum/"
 
 ##########################
-# other
+# parameters
 
-netbird_setup_key: ""
+netbird_hostname: "{{ inventory_hostname_short }}"
+netbird_interface_name: utun100
+netbird_log_level: info
 netbird_management_url: ""
+netbird_preshared_key: ""
+netbird_setup_key: ""
+netbird_wireguard_port: 51820
