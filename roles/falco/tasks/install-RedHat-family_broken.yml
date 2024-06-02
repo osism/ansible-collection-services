@@ -8,7 +8,7 @@
   ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
   loop:
     - dkms
     - "kernel-devel-{{ ansible_kernel }}"
@@ -35,7 +35,7 @@
   ansible.builtin.dnf:
     name: "{{ falco_package_name }}"
     state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
   notify: "Restart service {{ falco_service_name }}"
 
 - name: Specify driver type with falcoctl
