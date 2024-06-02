@@ -10,8 +10,7 @@ def check_ansible_os_family(host):
         pytest.skip("ansible_os_family mismatch")
 
 
-# Note: This test does _not_ work on CentOS for unknown reasons!
-def test_pkg(host):
+def test_clamav_packages(host):
     check_ansible_os_family(host)
 
     package_names = get_family_role_variable(host, "clamav_package_names")
