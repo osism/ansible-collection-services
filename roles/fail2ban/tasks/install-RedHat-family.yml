@@ -1,25 +1,4 @@
 ---
-- name: Install EPEL repository
-  become: true
-  ansible.builtin.dnf:
-    name: epel-release
-    state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
-  changed_when: true
-
-- name: Enable EPEL repository
-  become: true
-  ansible.builtin.command:
-    cmd: dnf config-manager --set-enabled epel
-  changed_when: true
-
-- name: Update package cache after installing EPEL repo
-  become: true
-  ansible.builtin.dnf:
-    update_cache: true
-    lock_timeout: "{{ lock_timeout | default(300) }}"
-  changed_when: true
-
 - name: Install fail2ban package
   become: true
   ansible.builtin.dnf:

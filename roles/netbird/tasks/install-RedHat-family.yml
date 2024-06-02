@@ -10,7 +10,7 @@
     gpgkey: "{{ netbird_redhat_repository_key }}"
   when: netbird_configure_repository | bool
 
-- name: Update package manager cache
+- name: Update package cache
   become: true
   ansible.builtin.dnf:
     update_cache: true
