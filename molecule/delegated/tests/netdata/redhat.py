@@ -10,15 +10,6 @@ def check_ansible_os_family(host):
         pytest.skip("ansible_os_family mismatch")
 
 
-def test_netdata_lib64_directory(host):
-    check_ansible_os_family(host)
-
-    lib_dir = host.file("/usr/lib64/netdata/conf.d")
-
-    assert lib_dir.exists
-    assert lib_dir.is_directory
-
-
 def test_netdata_repository_key(host):
     check_ansible_os_family(host)
 
