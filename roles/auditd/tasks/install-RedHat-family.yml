@@ -4,14 +4,14 @@
   ansible.builtin.dnf:
     name: "{{ auditd_package_name_redhat }}"
     state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
 
 - name: Install audispd-plugins package
   become: true
   ansible.builtin.dnf:
     name: "{{ audispd_plugins_package_name }}"
     state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
 
 - name: Allow manual restart of auditd service
   become: true
