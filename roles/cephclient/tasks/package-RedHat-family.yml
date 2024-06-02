@@ -10,7 +10,7 @@
     gpgkey: "{{ cephclient_repository_key }}"
   when: cephclient_configure_repository | bool
 
-- name: Update package manager cache
+- name: Update package cache
   become: true
   ansible.builtin.dnf:
     update_cache: true

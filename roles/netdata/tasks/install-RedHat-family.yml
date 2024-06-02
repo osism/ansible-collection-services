@@ -1,18 +1,4 @@
 ---
-- name: Install EPEL repository
-  become: true
-  ansible.builtin.dnf:
-    name: epel-release
-    state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
-  changed_when: true
-
-- name: Enable EPEL repository
-  become: true
-  ansible.builtin.command:
-    cmd: dnf config-manager --set-enabled epel
-  changed_when: true
-
 - name: Add repository
   become: true
   ansible.builtin.yum_repository:
@@ -24,7 +10,7 @@
     gpgkey: "{{ netdata_redhat_repository_key }}"
   when: netdata_configure_repository | bool
 
-- name: Update package manager cache
+- name: Update package cache
   become: true
   ansible.builtin.dnf:
     update_cache: true

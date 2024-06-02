@@ -3,22 +3,6 @@
 # provided by centos. Therefore falco can currently not be deployed.
 # This file is checked in for future reference
 
-- name: Install EPEL repository
-  become: true
-  ansible.builtin.dnf:
-    name: epel-release
-    state: present
-    lock_timeout: "{{ lock_timeout | default(300) }}"
-  changed_when: true
-  when: falco_configure_repository|bool
-
-- name: Enable EPEL repository
-  become: true
-  ansible.builtin.command:
-    cmd: dnf config-manager --set-enabled epel
-  changed_when: true
-  when: falco_configure_repository|bool
-
 - name: Install dkms utilities
   become: true
   ansible.builtin.dnf:

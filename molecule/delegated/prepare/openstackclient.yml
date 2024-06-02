@@ -1,4 +1,25 @@
 ---
+- name: Add EPEL repository
+  when: ansible_os_family == "RedHat"
+  block:  # noqa osism-fqcn
+    - name: Install epel-release package
+      become: true
+      ansible.builtin.dnf:
+        name: epel-release
+        state: present
+        lock_timeout: "{{ dnf_lock_timeout | default(60) }}"
+
+    - name: Enable EPEL repository
+      become: true
+      ansible.builtin.command:
+        cmd: dnf config-manager --set-enabled epel
+
+    - name: Update package cache
+      become: true
+      ansible.builtin.dnf:
+        update_cache: true
+        lock_timeout: "{{ dnf_lock_timeout | default(60) }}"
+
 - name: Ensure docker
   ansible.builtin.include_role:
     name: docker
@@ -18,14 +39,14 @@
   ansible.builtin.apt:
     name: jq
     state: present
-  when: "'Debian' in ansible_os_family"
+  when: ansible_os_family == "Debian"
 
 - name: Install jq for RedHat/CentOS
   become: true
   ansible.builtin.dnf:
     name: jq
     state: present
-  when: "'RedHat' in ansible_os_family"
+  when: ansible_os_family == "RedHat"
 
 - name: Install packages in venv
   ansible.builtin.pip:
