@@ -18,12 +18,14 @@
     dest: /etc/modules
     mode: 0644
     state: present
+  when: hddtemp_enable_module
 
 - name: Load Kernel Module drivetemp
   become: true
   community.general.modprobe:
     name: drivetemp
     state: present
+  when: hddtemp_enable_module
 
 - name: Install lm-sensors
   become: true
