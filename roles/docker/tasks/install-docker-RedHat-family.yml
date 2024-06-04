@@ -1,7 +1,7 @@
 ---
 - name: Install Docker repository
   become: true
-  ansible.builtin.command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  ansible.builtin.command: "yum-config-manager --add-repo {{ docker_redhat_repository }}"
   changed_when: true
 
 - name: Add Docker GPG key

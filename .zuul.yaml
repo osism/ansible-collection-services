@@ -495,4 +495,3 @@
       jobs:
         - ansible-collection-services-container-image-osism-ansible-push:
             branches: main
-git 
