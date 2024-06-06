@@ -75,6 +75,9 @@ extraVolumes: |
         secretName: {{ '{{ include "keycloak.fullname" . }}' }}-tls-certs
     - name: updated-cacerts
       emptyDir: {}  # work dir for update-truststore.sh
+    - name: certs-dir
+      configMap:
+        name: configmap-certs
 
 extraVolumeMounts: |
     - name: tls-certs
@@ -92,7 +95,11 @@ startupScripts:
         echo 'Adding CA certificate to Java truststore...'
         cp /etc/pki/ca-trust/extracted/java/cacerts /data
         chmod +w /data/cacerts
-        keytool -importcert -alias testbed-ca -file /etc/pki/ca-trust/extracted/pem/ca-cert.pem --keystore /data/cacerts -storepass "changeit" -noprompt
+        for file in "/certs-folder"/*; do
+          if [ -f "$file" ]; then
+            keytool -importcert -alias $(basename $file) -file $file --keystore /data/cacerts -storepass "changeit" -noprompt
+          fi
+        done
         chmod -w /data/cacerts
 
 # The following block runs the script using the keytool from the keycloak image
@@ -109,3 +116,5 @@ extraInitContainers: |
         mountPath: /etc/pki/ca-trust/extracted/pem/
       - name: updated-cacerts
         mountPath: /data
+      - name: certs-dir
+        mountPath: /certs-folder
