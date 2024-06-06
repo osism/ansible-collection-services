@@ -16,27 +16,6 @@
   when: rook_cleanup
 
 
-- name: Find Jinja2 yml templates
-  ansible.builtin.find:
-    path: "{{ rook_template_directory }}"
-    patterns: "*.yml.j2"
-  register: _config_files_found
-  when: rook_cleanup
-
-
-- name: Render values files for rook
-  loop: "{{ _config_files_found.files }}"
-  loop_control:
-    loop_var: _file
-  ansible.builtin.template:
-    src: "{{ _file.path }}"
-    dest: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0640
-  when: rook_cleanup
-
-
 - name: Set cleanupPolicy in CephCluster CRD
   kubernetes.core.k8s:
     state: patched
@@ -51,17 +30,26 @@
   when: rook_cleanup
 
 
-- name: Delete rook CRD
-  loop: "{{ _config_files_found.files|reverse }}"
-  loop_control:
-    loop_var: _file
+- name: Delete all CephClients
   kubernetes.core.k8s:
     state: absent
-    src: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    kind: CephClient
+    api_version: ceph.rook.io/v1
+    namespace: "{{ rook_namespace }}"
+    delete_all: true
     kubeconfig: /share/kubeconfig
+  when: rook_cleanup
+
+
+- name: Delete rook-ceph cluster chart
+  kubernetes.core.helm:
+    release_name: "{{ rook_cluster_name }}"
+    release_namespace: "{{ rook_namespace }}"
+    release_state: "absent"
   when: rook_cleanup
 
 
 - name: Include wait-for-cluster-deleted task
   ansible.builtin.include_tasks: wait-for-cluster-deleted.yml
   tags: wait
+  when: rook_cleanup

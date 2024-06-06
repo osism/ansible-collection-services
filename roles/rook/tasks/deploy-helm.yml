@@ -1,0 +1,51 @@
+---
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ rook_work_directory }}"
+
+
+- name: Find Helm Jinja2 yml templates
+  ansible.builtin.find:
+    path: "{{ rook_template_directory }}"
+    patterns: "*-helm-values-*.yml.j2"
+  register: _helm_files_found
+
+
+- name: Render Helm files for rook
+  loop: "{{ _helm_files_found.files }}"
+  loop_control:
+    loop_var: _file
+  ansible.builtin.template:
+    src: "{{ _file.path }}"
+    dest: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+
+- name: Save rendered files to helm_values_files_fact
+  set_fact:
+    helm_values_files_fact: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+  loop_control:
+    loop_var: _file
+  loop: "{{ _helm_files_found.files }}"
+
+
+- name: Deploy rook-ceph cluster chart
+  kubernetes.core.helm:
+    release_name: "{{ rook_cluster_name }}"
+    chart_ref: rook-release/rook-ceph-cluster
+    release_namespace: "{{ rook_namespace }}"
+    values_files: "{{ helm_values_files_fact }}"
+    force: true # needed for update
+
+
+- name: Include wait-for-cluster task
+  ansible.builtin.include_tasks: wait-for-cluster.yml
+  tags: wait
