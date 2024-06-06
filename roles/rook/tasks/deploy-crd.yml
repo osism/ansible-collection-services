@@ -10,15 +10,15 @@
     - "{{ rook_work_directory }}"
 
 
-- name: Find Jinja2 yml templates
+- name: Find CRD Jinja2 yml templates
   ansible.builtin.find:
     path: "{{ rook_template_directory }}"
-    patterns: "*.yml.j2"
-  register: _config_files_found
+    patterns: "*-CRD-*.yml.j2"
+  register: _crd_files_found
 
 
-- name: Render values files for rook
-  loop: "{{ _config_files_found.files }}"
+- name: Render CRD files for rook
+  loop: "{{ _crd_files_found.files }}"
   loop_control:
     loop_var: _file
   ansible.builtin.template:
@@ -30,7 +30,7 @@
 
 
 - name: Deploy rook CRD
-  loop: "{{ _config_files_found.files }}"
+  loop: "{{ _crd_files_found.files }}"
   loop_control:
     loop_var: _file
   kubernetes.core.k8s:

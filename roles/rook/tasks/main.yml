@@ -3,6 +3,10 @@
   ansible.builtin.include_tasks: namespace.yml
   tags: namespace
 
-- name: Include apply tasks
-  ansible.builtin.include_tasks: apply.yml
-  tags: apply
+- name: Include deploy-helm tasks
+  ansible.builtin.include_tasks: deploy-helm.yml
+  tags: deploy-helm
+
+- name: Include deploy-crd tasks
+  ansible.builtin.include_tasks: deploy-crd.yml
+  tags: deploy-crd
