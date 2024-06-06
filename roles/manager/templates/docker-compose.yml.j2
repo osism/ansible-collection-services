@@ -194,6 +194,7 @@ services:
 {% endif %}
 {% endif %}
 
+{% if manager_enable_openstack|bool %}
   ##########################################
   # openstack integration service
 
@@ -215,6 +216,7 @@ services:
       - "{{ manager_configuration_directory }}/openstack.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
 {% endif %}
 
   ##########################################
