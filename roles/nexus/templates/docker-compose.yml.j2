@@ -6,7 +6,7 @@ services:
     image: "{{ nexus_image }}"
     ports:
 {% if not nexus_traefik|bool %}
-      - "{{ nexus_host }}:{{ nexus_port }}:8081"
+      - "{{ nexus_host | ansible.utils.ipwrap }}:{{ nexus_port }}:8081"
 {% endif %}
       - "{{ nexus_bind_host }}:{{ nexus_port + 1 }}:{{ nexus_port + 1 }}"
       - "{{ nexus_bind_host }}:{{ nexus_port + 2 }}:{{ nexus_port + 2 }}"

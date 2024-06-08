@@ -6,7 +6,7 @@ services:
     image: "{{ cgit_image }}"
 {% if not cgit_traefik|bool %}
     ports:
-      - "{{ cgit_host }}:{{ cgit_port }}:80"
+      - "{{ cgit_host | ansible.utils.ipwrap }}:{{ cgit_port }}:80"
 {% endif %}
     volumes:
       - "{{ cgit_configuration_directory }}/cgitrc:/etc/cgitrc:ro"

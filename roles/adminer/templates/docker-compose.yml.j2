@@ -7,7 +7,7 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: "{{ adminer_database_host }}"
     ports:
-      - "{{ adminer_host }}:{{ adminer_port }}:8080"
+      - "{{ adminer_host | ansible.utils.ipwrap }}:{{ adminer_port }}:8080"
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
     healthcheck:

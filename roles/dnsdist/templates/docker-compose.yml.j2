@@ -7,8 +7,8 @@ services:
     command: ["--disable-syslog", "--uid", "dnsdist", "--gid", "dnsdist", "--verbose", "--supervised"]
     ports:
 {% for host in dnsdist_hosts %}
-      - "{{ host }}:{{ dnsdist_port }}:53"
-      - "{{ host }}:{{ dnsdist_port }}:53/udp"
+      - "{{ host | ansible.utils.ipwrap }}:{{ dnsdist_port }}:53"
+      - "{{ host | ansible.utils.ipwrap }}:{{ dnsdist_port }}:53/udp"
 {% endfor %}
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
