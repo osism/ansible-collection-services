@@ -2,10 +2,20 @@
 - name: Gather variables for each operating system
   ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
 
+- name: Set chrony_conf_file variable to default value
+  ansible.builtin.set_fact:
+    chrony_conf_file: "{{ __chrony_conf_file }}"
+  when: chrony_conf_file|default(None) == None
+
+- name: Set chrony_key_file variable to default value
+  ansible.builtin.set_fact:
+    chrony_key_file: "{{ __chrony_key_file }}"
+  when: chrony_key_file|default(None) == None
+
 - name: Populate service facts
   ansible.builtin.service_facts:
 
-- name: Stop/disable timesyncd service
+- name: Manage timesyncd service
   become: true
   ansible.builtin.service:
     name: systemd-timesyncd.service
@@ -19,7 +29,7 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
-- name: Start/enable chrony
+- name: Manage chrony service
   become: true
   ansible.builtin.service:
     name: "{{ chrony_service_name }}"

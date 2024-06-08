@@ -1,0 +1,12 @@
+---
+- name: Include config tasks
+  ansible.builtin.include_tasks: config.yml
+  tags: config
+
+- name: Include namespace tasks
+  ansible.builtin.include_tasks: namespace.yml
+  tags: namespace
+
+- name: Include deploy tasks
+  ansible.builtin.include_tasks: deploy.yml
+  tags: deploy

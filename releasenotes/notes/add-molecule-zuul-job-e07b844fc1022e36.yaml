@@ -1,7 +1,0 @@
----
-other:
-  - |
-    After adding Ansible Molecule job to osim/zuul-jobs repository (#50)
-    GitHub Workflows for test roles are no longer required and has been
-    removed (.github/workflows/test-role-*). For each test role a job was
-    created in .zuul.yaml.

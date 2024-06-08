@@ -1,6 +1,0 @@
----
-features:
-  - |
-    zuul: Add parameters `zuul_log_volume` and `zuul_mariadb_volume`
-    in order to make volumes for the log and mariadb containers
-    configurable.

@@ -26,9 +26,13 @@
     mode: 0640
   notify: Restart phpmyadmin service
 
-- name: Start/enable phpmyadmin service
+- name: Manage phpmyadmin service
   become: true
   ansible.builtin.service:
     name: "{{ phpmyadmin_service_name }}"
     state: started
     enabled: true
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20

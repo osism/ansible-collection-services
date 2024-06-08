@@ -1,0 +1,7 @@
+---
+- name: "Create namespace {{ mariadb_operator_namespace }}"
+  kubernetes.core.k8s:
+    name: "{{ mariadb_operator_namespace }}"
+    kind: Namespace
+    state: present
+    kubeconfig: /share/kubeconfig

@@ -51,3 +51,7 @@
 - name: Include wrapper config tasks
   ansible.builtin.include_tasks: config-wrapper.yml
   tags: wrapper
+
+- name: Include scripts config tasks
+  ansible.builtin.include_tasks: config-scripts.yml
+  tags: scripts

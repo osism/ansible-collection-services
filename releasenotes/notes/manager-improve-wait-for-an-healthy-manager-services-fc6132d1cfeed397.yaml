@@ -1,5 +1,0 @@
----
-features:
-  - |
-    The `Wait for an healthy manager service` task in the manager role
-    now also waits for containers in state `created`.

@@ -40,12 +40,16 @@
     mode: 0640
   notify: Restart cephclient service
 
-- name: Start/enable cephclient service
+- name: Manage cephclient service
   become: true
   ansible.builtin.service:
     name: "{{ cephclient_service_name }}"
     state: started
     enabled: true
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
 
 - name: Copy wrapper scripts
   become: true
@@ -59,36 +63,6 @@
     - ceph
     - ceph-authtool
     - crushtool
-    - rados
-    - radosgw-admin
-    - rbd
-
-# NOTE: The command returns a list of IDs of containers from the service
-#       that are currently starting or unhealthy. As long as the list is not empty
-#       the service is not in a good state.
-- name: Wait for an healthy service
-  become: true
-  ansible.builtin.shell: |
-    set -o pipefail
-    docker compose --project-directory /opt/cephclient \
-        ps --all --format json | \
-        jq '. | select(.State=="created" or .State=="exited" or .Health=="starting" or .Health=="unhealthy") | .Name'
-  args:
-    executable: /bin/bash
-  register: result
-  until: "result.stdout | length == 0"
-  retries: 20
-  delay: 10
-  changed_when: true
-
-- name: Copy bash completion scripts
-  become: true
-  ansible.builtin.command: "docker cp {{ cephclient_container_name }}:/etc/bash_completion.d/{{ item }} /etc/bash_completion.d/{{ item }}"
-  register: result
-  changed_when: false
-  failed_when: result.rc != 0
-  loop:
-    - ceph
     - rados
     - radosgw-admin
     - rbd

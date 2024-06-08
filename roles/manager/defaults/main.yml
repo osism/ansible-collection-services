@@ -25,6 +25,8 @@ manager_network: 172.31.101.0/27
 manager_service_name: "docker-compose@manager"
 manager_service_restart: true
 
+manager_pre_pull: true
+
 ##########################
 # directories
 
@@ -77,6 +79,8 @@ enable_netbox: "{{ netbox_enable }}"
 netbox_enable: false
 netbox_api_url: ""
 netbox_api_token: ""
+
+manager_inventory_from_netbox: false
 
 ##########################
 # opensearch integration
@@ -162,7 +166,7 @@ kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla
 # redis
 
 # renovate: datasource=docker depName=redis
-manager_redis_tag: '7.2.4-alpine'
+manager_redis_tag: '7.2.5-alpine'
 manager_redis_image: "{{ docker_registry_redis }}/library/redis:{{ manager_redis_tag }}"
 
 ##########################
@@ -203,7 +207,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 # renovate: datasource=docker depName=mariadb
-ara_server_mariadb_tag: '11.3.2'
+ara_server_mariadb_tag: '11.4.2'
 ara_server_mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ ara_server_mariadb_tag }}"
 
 ##########################
@@ -236,7 +240,7 @@ vault_host: "{{ ansible_default_ipv4.address }}"
 vault_port: 8200
 
 # renovate: datasource=docker depName=hashicorp/vault
-vault_tag: '1.16.1'
+vault_tag: '1.16.3'
 vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
 
 vault_output_key_shares: false
@@ -278,6 +282,11 @@ enable_listener: false
 manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
 
 ##########################
+# openstack
+
+manager_enable_openstack: true
+
+##########################
 # service integrations
 
 manager_enable_ironic: true
@@ -315,3 +324,6 @@ flower_enable: false
 manager_mem_limit: "{{ ansible_memtotal_mb }}m"
 manager_mem_reservation: 1024m
 manager_cpus: "{{ ansible_processor_vcpus }}"
+
+manager_ulimits_nofile_soft: 65536
+manager_ulimits_nofile_hard: 65536

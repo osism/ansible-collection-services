@@ -17,7 +17,7 @@ def test_repo(host):
     if not docker_configure_repository:
         pytest.skip("docker_configure_repository is not true")
 
-    key_content = get_from_url(get_dist_role_variable(host, "docker_repository_key"))
+    key_content = get_from_url(get_dist_role_variable(host, "__docker_repository_key"))
 
     f = host.file("/etc/apt/trusted.gpg.d/docker.asc")
     assert f.exists

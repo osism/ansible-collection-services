@@ -23,6 +23,7 @@ services:
       test: pgrep celery
     environment:
       - CELERY=1
+      - INVENTORY_FROM_NETBOX={{ manager_inventory_from_netbox }}
 {% else %}
     healthcheck:
       test: pgrep crond
@@ -46,6 +47,10 @@ services:
     mem_limit: {{ ansible_services_defaults[0].mem_limit }}
     mem_reservation: {{ ansible_services_defaults[0].mem_reservation }}
     cpus: "{{ ansible_services_defaults[0].cpus}}"
+    ulimits:
+      nofile:
+        soft: "{{ manager_ulimits_nofile_soft }}"
+        hard: "{{ manager_ulimits_nofile_hard }}"
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
 {% if enable_netbox|bool %}
@@ -189,6 +194,7 @@ services:
 {% endif %}
 {% endif %}
 
+{% if manager_enable_openstack|bool %}
   ##########################################
   # openstack integration service
 
@@ -210,6 +216,7 @@ services:
       - "{{ manager_configuration_directory }}/openstack.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
+{% endif %}
 {% endif %}
 
   ##########################################

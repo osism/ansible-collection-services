@@ -61,13 +61,12 @@ def test_pkg(host):
         docker_cli_package_name, {"docker_package_name": docker_package_name}
     )
 
-    docker_cli_version = get_family_role_variable(host, "docker_cli_version")
+    docker_version = get_family_role_variable(host, "__docker_version")
+    docker_cli_version = docker_version
 
     package = host.package(docker_cli_package_name)
     assert package.is_installed
     assert docker_cli_version in package.version
-
-    docker_version = get_family_role_variable(host, "docker_version")
 
     package = host.package(docker_package_name)
     assert package.is_installed

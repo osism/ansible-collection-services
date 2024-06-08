@@ -22,12 +22,16 @@
 
 - name: Ensure that the netbox service is up and running
   block:  # noqa osism-fqcn
-    - name: Start/enable netbox service
+    - name: Manage netbox service
       become: true
       ansible.builtin.service:
         name: "{{ netbox_service_name }}"
         state: started
         enabled: true
+      register: result
+      until: result.status.ActiveState == "active"
+      retries: 10
+      delay: 20
       notify: Register that netbox service was started
   rescue:
     # Compose is not always reliable when starting services. Therefore,
@@ -51,4 +55,8 @@
       ansible.builtin.service:
         name: "{{ netbox_service_name }}"
         state: started
+      register: result
+      until: result.status.ActiveState == "active"
+      retries: 10
+      delay: 20
       notify: Register that netbox service was started

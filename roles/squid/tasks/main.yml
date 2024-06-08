@@ -39,7 +39,7 @@
     mode: 0640
   notify: Restart squid service
 
-- name: Start/enable squid service
+- name: Manage squid service
   become: true
   ansible.builtin.service:
     name: "{{ squid_service_name }}"

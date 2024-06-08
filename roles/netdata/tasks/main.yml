@@ -5,5 +5,12 @@
 - name: Include config tasks
   ansible.builtin.include_tasks: config.yml
 
+- name: "Manage service {{ netdata_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ netdata_service_name }}"
+    state: started
+    enabled: true
+
 - name: Include host type specific tasks
   ansible.builtin.include_tasks: "{{ netdata_host_type }}.yml"

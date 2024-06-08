@@ -103,7 +103,7 @@
 - name: Install docker-cli package
   become: true
   ansible.builtin.apt:
-    name: "{{ docker_cli_package_name }}={{ docker_version }}*"
+    name: "{{ docker_cli_package_name }}={{ docker_cli_version }}*"
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
     allow_downgrade: true
@@ -131,7 +131,9 @@
         state: present
         lock_timeout: "{{ apt_lock_timeout | default(300) }}"
 
-  when: not docker_python_install_from_pip|bool
+  when:
+    - docker_python_install | bool
+    - not docker_python_install_from_pip | bool
 
 - name: Install python bindings with pip  # noqa: key-order[task], osism-fqcn
   become: true
@@ -166,7 +168,9 @@
         executable: pip3
         state: present
 
-  when: docker_python_install_from_pip|bool
+  when:
+    - docker_python_install | bool
+    - docker_python_install_from_pip | bool
 
 - name: Install packages required by docker login
   become: true

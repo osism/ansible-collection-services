@@ -62,7 +62,7 @@
   loop: "{{ wireguard_users }}"
   no_log: true
 
-- name: Start and enable wg-quick@wg0.service service
+- name: Manage wg-quick@wg0.service service
   become: true
   ansible.builtin.systemd:
     name: wg-quick@wg0.service

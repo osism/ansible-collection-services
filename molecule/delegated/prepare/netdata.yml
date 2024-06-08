@@ -1,4 +1,9 @@
 ---
+- name: Ensure EPEL repository
+  ansible.builtin.include_role:
+    name: osism.commons.repository
+  when: ansible_os_family == "RedHat"
+
 - name: Create required group
   become: true
   ansible.builtin.group:

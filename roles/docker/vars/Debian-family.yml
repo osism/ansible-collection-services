@@ -1,11 +1,6 @@
 ---
-
-##########################
-# version
-
 # NOTE: This "5:" must be prepended starting with version 18.09.
 #       Check available version under Ubuntu with apt-cache madison docker-ce.
 # renovate: datasource=docker depName=docker
-docker_version: '5:24.0.9'
-# renovate: datasource=docker depName=docker
-docker_cli_version: '5:24.0.9'
+__docker_version: '5:26.0.2'
+__docker_cli_version: "{{ docker_version | default(__docker_version) }}"

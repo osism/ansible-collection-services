@@ -28,14 +28,24 @@
   notify:
     - Restart manager service
 
+- name: Pull container images
+  ansible.builtin.command: "/usr/bin/docker compose --progress plain --project-directory {{ manager_docker_compose_directory }} pull"
+  register: result
+  changed_when: "'Downloading' in result.stderr"
+  when: manager_pre_pull | bool
+
 - name: Ensure that the manager service is up and running
   block:  # noqa osism-fqcn
-    - name: Start/enable manager service
+    - name: Manage manager service
       become: true
       ansible.builtin.service:
         name: "{{ manager_service_name }}"
         state: started
         enabled: true
+      register: result
+      until: result.status.ActiveState == "active"
+      retries: 10
+      delay: 20
       notify:
         - Wait for manager service to start
   rescue:
@@ -49,7 +59,6 @@
         state: stopped
 
     - name: Do a manual start of the manager service
-      become: true
       ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ manager_docker_compose_directory }} up -d --remove-orphans"
       changed_when: true
       notify:
@@ -62,3 +71,7 @@
       ansible.builtin.service:
         name: "{{ manager_service_name }}"
         state: started
+      register: result
+      until: result.status.ActiveState == "active"
+      retries: 10
+      delay: 20

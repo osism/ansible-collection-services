@@ -14,6 +14,10 @@ docker_group: "{{ operator_group | default('dragon') }}"
 docker_allow_restart: true
 docker_enforce_restart: false
 docker_ignore_restart_groupname: manager
+docker_throttle_restart: -1
+
+docker_wait_after_restart: false
+docker_wait_after_restart_seconds: 60
 
 ##########################
 # networking
@@ -66,6 +70,8 @@ docker_packages_fail:
 
 ##########################
 # python package
+
+docker_python_install: true
 
 docker_python3_package_name: python3-docker
 docker_python_package_name: python-docker

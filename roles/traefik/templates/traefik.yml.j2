@@ -20,4 +20,13 @@ entryPoints:
   https:
     address: ":443"
 
+{% for port in traefik_ports_extra %}
+  port_{{ port }}:
+    address: ":{{ port }}"
+{% endfor %}
+
 ping: {}
+
+{% if traefik_configuration_extra.keys() | length %}
+{{ traefik_configuration_extra|to_nice_yaml(indent=2) }}
+{% endif %}

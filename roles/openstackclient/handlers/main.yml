@@ -4,11 +4,14 @@
   ansible.builtin.service:
     name: "{{ openstackclient_service_name }}"
     state: restarted
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   notify:
     - Ensure that all containers are up
 
 - name: Ensure that all containers are up
-  become: true
   ansible.builtin.command:
     cmd: docker compose --project-directory /opt/openstackclient up -d
   changed_when: true
@@ -19,7 +22,6 @@
 #       that are currently starting or unhealthy. As long as the list is not empty
 #       the service is not in a good state.
 - name: Wait for an healthy service
-  become: true
   ansible.builtin.shell: |
     set -o pipefail
     docker compose --project-directory /opt/openstackclient \

@@ -30,7 +30,7 @@
     mode: 0640
   notify: Restart metering service
 
-- name: Start/enable metering service
+- name: Manage metering service
   become: true
   ansible.builtin.service:
     name: "{{ metering_service_name }}"

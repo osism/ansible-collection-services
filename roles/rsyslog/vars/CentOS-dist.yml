@@ -1,2 +1,2 @@
 ---
-rsyslog_user: root
+__rsyslog_user: root

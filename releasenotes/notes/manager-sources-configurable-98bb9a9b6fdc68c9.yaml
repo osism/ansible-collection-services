@@ -1,6 +1,0 @@
----
-features:
-  - |
-    Git sources in the `osism update manager` script are now configurable via
-    the environment variables `ANSIBLE_COLLECTION_SERVICES_SOURCE` and
-    `ANSIBLE_PLAYBOOKS_MANAGER_SOURCE`.

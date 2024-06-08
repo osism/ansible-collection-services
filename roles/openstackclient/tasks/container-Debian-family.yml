@@ -21,12 +21,16 @@
     mode: 0640
   notify: Restart openstackclient service
 
-- name: Start/enable openstackclient service
+- name: Manage openstackclient service
   become: true
   ansible.builtin.service:
     name: "{{ openstackclient_service_name }}"
     state: started
     enabled: true
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
 
 - name: Copy openstack wrapper script
   become: true

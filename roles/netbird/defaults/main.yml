@@ -1,0 +1,22 @@
+---
+##########################
+# repository
+
+netbird_configure_repository: true
+
+netbird_debian_repository_key: https://pkgs.netbird.io/debian/public.key
+netbird_debian_repository: "deb https://pkgs.netbird.io/debian stable main"
+
+netbird_redhat_repository_key: https://pkgs.netbird.io/yum/repodata/repomd.xml.key
+netbird_redhat_repository: "https://pkgs.netbird.io/yum/"
+
+##########################
+# parameters
+
+netbird_hostname: "{{ inventory_hostname_short }}"
+netbird_interface_name: utun100
+netbird_log_level: info
+netbird_management_url: ""
+netbird_preshared_key: ""
+netbird_setup_key: ""
+netbird_wireguard_port: 51820

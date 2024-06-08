@@ -32,7 +32,7 @@
   loop: "{{ auditd_rules_files }}"
   notify: Generate auditd rules
 
-- name: Start/enable auditd service
+- name: Manage auditd service
   become: true
   ansible.builtin.service:
     name: "{{ auditd_service_name }}"

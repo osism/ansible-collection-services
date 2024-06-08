@@ -1,0 +1,17 @@
+---
+- name: "Create namespace {{ rabbitmq_operator_namespace }}"
+  kubernetes.core.k8s:
+    name: "{{ rabbitmq_operator_namespace }}"
+    kind: Namespace
+    definition:
+      metadata:
+        app.kubernetes.io/component: "{{ rabbitmq_operator_component }}"
+        app.kubernetes.io/name: "{{ rabbitmq_operator_namespace }}"
+        app.kubernetes.io/part-of: rabbitmq
+    state: present
+    kubeconfig: /share/kubeconfig
+
+- name: "Deploy manifest {{ rabbitmq_operator_component }}"
+  kubernetes.core.k8s:
+    state: present
+    template: operator.yml.j2

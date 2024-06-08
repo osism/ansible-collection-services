@@ -4,4 +4,44 @@
   ansible.builtin.service:
     name: "{{ nexus_service_name }}"
     state: restarted
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   when: not nexus_service.changed
+  notify:
+    - Wait for nexus service to start
+
+- name: Wait for nexus service to start
+  ansible.builtin.pause:
+    minutes: 1
+  changed_when: true
+  notify:
+    - Ensure that all containers are up
+
+- name: Ensure that all containers are up
+  ansible.builtin.command:
+    cmd: docker compose --project-directory /opt/nexus up -d
+  changed_when: true
+  notify:
+    - Wait for an healthy nexus service
+
+# NOTE: The command returns a list of IDs of containers from the service
+#       that are currently starting or unhealthy. As long as the list is not empty
+#       the service is not in a good state.
+- name: Wait for an healthy nexus service
+  ansible.builtin.shell: |
+    set -o pipefail
+    docker compose --project-directory /opt/nexus \
+        ps --all --format json | \
+        jq '. | select(.State=="created" or .State=="exited" or .Health=="starting" or .Health=="unhealthy") | .Name'
+  args:
+    executable: /bin/bash
+  register: result
+  until: "result.stdout | length == 0"
+  # NOTE: Netbox availability sometimes takes a long time. Since the inventory
+  #       reconciler is only healthy when the Netbox is usable, a very long wait
+  #       (1000 seconds) is intentionally made here.
+  retries: 50
+  delay: 20
+  changed_when: true

@@ -1,0 +1,14 @@
+---
+- name: Include scripts vars file
+  ansible.builtin.include_vars:
+    file: scripts.yml
+
+- name: Copy scripts
+  become: true
+  ansible.builtin.template:
+    src: "scripts/{{ item }}.j2"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ manager_scripts }}"

@@ -1,0 +1,26 @@
+---
+- name: Add repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: netbird
+    description: "netbird repository"
+    baseurl: "{{ netbird_redhat_repository }}"
+    gpgcheck: true
+    enabled: true
+    gpgkey: "{{ netbird_redhat_repository_key }}"
+  when: netbird_configure_repository | bool
+
+- name: Update package cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
+
+- name: "Install package {{ netbird_package_name }}"
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ netbird_package_name }}"
+    state: latest
+    disable_gpg_check: true
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
+  notify: Restart service netbird

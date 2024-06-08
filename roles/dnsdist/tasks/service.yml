@@ -8,9 +8,13 @@
     mode: 0640
   notify: Restart dnsdist service
 
-- name: Start/enable dnsdist service
+- name: Manage dnsdist service
   become: true
   ansible.builtin.service:
     name: "{{ dnsdist_service_name }}"
     state: started
     enabled: true
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20

@@ -44,10 +44,3 @@
     state: latest
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   notify: "Restart service {{ netdata_service_name }}"
-
-- name: "Start/enable service {{ netdata_service_name }}"
-  become: true
-  ansible.builtin.service:
-    name: "{{ netdata_service_name }}"
-    state: started
-    enabled: true

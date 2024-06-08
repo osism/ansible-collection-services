@@ -5,6 +5,7 @@
   vars:
     docker_user: zuul
     docker_group: zuul
+    docker_python_install: false
 
 - name: Ensure docker-compose
   ansible.builtin.include_role:
@@ -18,7 +19,10 @@
   ansible.builtin.shell: apt-get install --reinstall tzdata
   when: "'Debian' in ansible_os_family"
 
-- name: Install library packaging with pip
+- name: Install packages in venv
   ansible.builtin.pip:
-    name: packaging
+    name: "{{ item }}"
     virtualenv: /home/zuul/venv
+  loop:
+    - docker
+    - packaging

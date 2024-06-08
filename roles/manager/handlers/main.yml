@@ -4,6 +4,10 @@
   ansible.builtin.service:
     name: "{{ manager_service_name }}"
     state: restarted
+  register: result
+  until: result.status.ActiveState == "active"
+  retries: 10
+  delay: 20
   when: manager_service_restart|bool
   notify:
     - Wait for manager service to start
@@ -28,13 +32,11 @@
   changed_when: true
   notify:
     - Wait for an healthy manager service
-  become: true
 
 # NOTE: The command returns a list of IDs of containers from the service
 #       that are currently starting or unhealthy. As long as the list is not empty
 #       the service is not in a good state.
 - name: Wait for an healthy manager service
-  become: true
   ansible.builtin.shell: |
     set -o pipefail
     docker compose --project-directory /opt/manager \

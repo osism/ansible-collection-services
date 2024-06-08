@@ -21,7 +21,7 @@
     mode: 0644
   notify: Restart smartd service
 
-- name: Start/enable smartd service
+- name: Manage smartd service
   become: true
   ansible.builtin.service:
     name: "{{ smartd_service_name }}"

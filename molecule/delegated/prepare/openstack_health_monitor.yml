@@ -10,6 +10,7 @@
   vars:
     docker_user: zuul
     docker_group: zuul
+    docker_python_install: false
 
 - name: Ensure docker-compose
   ansible.builtin.include_role:
@@ -44,3 +45,10 @@
     mode: 0640
     owner: zuul
     group: zuul
+
+- name: Install packages in venv
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    virtualenv: /home/zuul/venv
+  loop:
+    - docker

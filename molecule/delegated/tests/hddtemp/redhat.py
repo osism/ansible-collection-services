@@ -13,9 +13,6 @@ def check_ansible_os_family(host):
 def test_pkg(host):
     check_ansible_os_family(host)
 
-    package = host.package("epel-release")
-    assert package.is_installed
-
     package = host.package("hddtemp")
     assert package.is_installed
 
