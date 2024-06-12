@@ -23,3 +23,18 @@ rook_operator_namespace: rook-ceph
 
 rook_operator_enable_discovery_daemon: true
 rook_operator_discovery_daemon_interval: "60m"
+
+rook_operator_placement:
+  # also allow to run on kubnernetes control-plane/master nodes
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+rook_operator_placement_provisioner: "{{ rook_operator_placement }}"
+rook_operator_placement_plugin: "{{ rook_operator_placement }}"
+rook_operator_annotations: {}

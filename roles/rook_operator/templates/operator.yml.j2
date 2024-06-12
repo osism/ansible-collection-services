@@ -38,7 +38,7 @@ nodeSelector: {}
 #  disktype: ssd
 
 # -- List of Kubernetes [`tolerations`](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to add to the Deployment.
-tolerations: []
+tolerations: {{ rook_operator_placement.tolerations }}
 
 # -- Delay to use for the `node.kubernetes.io/unreachable` pod failure toleration to override
 # the Kubernetes default of 5 minutes
@@ -48,7 +48,7 @@ unreachableNodeTolerationSeconds: 5
 currentNamespaceOnly: false
 
 # -- Pod annotations
-annotations: {}
+annotations: {{ rook_operator_annotations }}
 
 # -- Global log level for the operator.
 # Options: `ERROR`, `WARNING`, `INFO`, `DEBUG`
@@ -408,7 +408,7 @@ csi:
   # The CSI provisioner would be best to start on the same nodes as other ceph daemons.
 
   # -- Array of tolerations in YAML format which will be added to CSI provisioner deployment
-  provisionerTolerations:
+  provisionerTolerations: {{ rook_operator_placement_provisioner.tolerations }}
   #    - key: key
   #      operator: Exists
   #      effect: NoSchedule
@@ -419,7 +419,7 @@ csi:
   # The CSI plugins need to be started on all the nodes where the clients need to mount the storage.
 
   # -- Array of tolerations in YAML format which will be added to CephCSI plugin DaemonSet
-  pluginTolerations:
+  pluginTolerations: {{ rook_operator_placement_plugin.tolerations }}
   #    - key: key
   #      operator: Exists
   #      effect: NoSchedule
