@@ -96,8 +96,20 @@ rook_logcollector:
   enabled: true
   periodicity: daily # one of: hourly, daily, weekly, monthly
   maxLogSize: 500M # SUFFIX may be 'M' or 'G'. Must be at least 1M.
+# labels of components have to be equal to the inventory group names regarding each component
+rook_placement_label_mon: "rook-mon-node"
+rook_placement_label_mgr: "rook-mgr-node"
+rook_placement_label_mds: "rook-mds-node"
+rook_placement_label_rgw: "rook-rgw-node"
+rook_placement_node_affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
 rook_placement:
-  # also allow to run on kubnernetes control-plane/master nodes
+  # also allow to run on kubnernetes master nodes
   tolerations:
     - key: "node-role.kubernetes.io/control-plane"
       operator: "Equal"
@@ -109,8 +121,60 @@ rook_placement:
       effect: "NoSchedule"
 rook_placement_cephcluster:
   all: "{{ rook_placement }}"
-rook_placement_cephfilesystem: "{{ rook_placement }}"
-rook_placement_cephobjectstore: "{{ rook_placement }}"
+  mon:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "node-role.osism.tech/{{ rook_placement_label_mon }}"
+            operator: In
+            values:
+            - "true"
+  mgr:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "node-role.osism.tech/{{ rook_placement_label_mgr }}"
+            operator: In
+            values:
+            - "true"
+rook_placement_cephobjectstore:
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: "node-role.osism.tech/{{ rook_placement_label_mds }}"
+          operator: In
+          values:
+          - "true"
+rook_placement_cephfilesystem:
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: "node-role.osism.tech/{{ rook_placement_label_rgw }}"
+          operator: In
+          values:
+          - "true"
 rook_annotations: {}
 rook_annotations_cephcluster: "{{ rook_annotations }}"
 rook_annotations_cephfilesystem: "{{ rook_annotations }}"
