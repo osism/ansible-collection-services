@@ -5,11 +5,15 @@ services:
     restart: unless-stopped
     image: "{{ cephclient_image }}"
     command: sleep infinity
+{% if cephclient_host_networking %}
+    network_mode: host
+{% endif %}
     volumes:
       - "{{ cephclient_configuration_directory }}:/etc/ceph:rw"
       - "{{ cephclient_data_directory }}:/data:rw"
       - "/etc/hosts:/etc/hosts:ro"
 
+{% if not cephclient_host_networking %}
 networks:
   default:
     driver: bridge
@@ -19,3 +23,4 @@ networks:
       driver: default
       config:
         - subnet:  {{ cephclient_network }}
+{% endif %}

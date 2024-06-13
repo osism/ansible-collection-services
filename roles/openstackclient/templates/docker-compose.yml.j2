@@ -5,6 +5,9 @@ services:
     restart: unless-stopped
     image: "{{ openstackclient_image }}"
     command: sleep infinity
+{% if openstackclient_host_networking %}
+    network_mode: host
+{% endif %}
     volumes:
       - "{{ openstackclient_configuration_directory }}:/configuration:ro"
       - "{{ openstackclient_data_directory }}:/data:ro"
@@ -22,7 +25,7 @@ services:
 {% endif %}
 
 
-
+{% if not openstackclient_host_networking %}
 networks:
   default:
     driver: bridge
@@ -32,3 +35,4 @@ networks:
       driver: default
       config:
         - subnet:  {{ openstackclient_network }}
+{% endif %}

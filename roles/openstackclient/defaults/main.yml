@@ -31,6 +31,7 @@ openstackclient_image: "{{ docker_registry_openstackclient }}/osism/openstackcli
 openstackclient_container_name: openstackclient
 
 openstackclient_network: 172.31.100.16/28
+openstackclient_host_networking: false
 
 openstackclient_service_name: "docker-compose@openstackclient"
 
@@ -40,7 +41,6 @@ openstackclient_service_name: "docker-compose@openstackclient"
 openstackclient_configure_repository: true
 
 openstackclient_ubuntu_repository: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/{{ openstackclient_version }} main"
-
 
 openstackclient_debian_packages:
   - python3-openstackclient
