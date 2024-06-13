@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     image: "{{ cephclient_image }}"
     command: sleep infinity
-{% if cephclient_host_networking %}
+{% if cephclient_host_networking | bool %}
     network_mode: host
 {% endif %}
     volumes:
@@ -13,7 +13,7 @@ services:
       - "{{ cephclient_data_directory }}:/data:rw"
       - "/etc/hosts:/etc/hosts:ro"
 
-{% if not cephclient_host_networking %}
+{% if not cephclient_host_networking | bool %}
 networks:
   default:
     driver: bridge
