@@ -35,6 +35,7 @@ cephclient_image: "{{ docker_registry_cephclient }}/osism/cephclient:{{ cephclie
 cephclient_container_name: cephclient
 
 cephclient_network: 172.31.100.0/28
+cephclient_host_networking: false
 
 cephclient_service_name: "docker-compose@cephclient"
 
