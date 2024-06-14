@@ -10,6 +10,7 @@
       loop:
         - docker
         - netaddr
+        - requests
 
     - name: Include required prepare tasks
       ansible.builtin.include_tasks:
