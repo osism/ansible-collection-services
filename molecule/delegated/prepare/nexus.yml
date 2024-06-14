@@ -27,10 +27,3 @@
     name: jq
     state: present
   when: "'RedHat' in ansible_os_family"
-
-- name: Install packages in venv
-  ansible.builtin.pip:
-    name: "{{ item }}"
-    virtualenv: /home/zuul/venv
-  loop:
-    - docker

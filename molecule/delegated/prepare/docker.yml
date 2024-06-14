@@ -3,10 +3,3 @@
   ansible.builtin.include_role:
     name: osism.commons.repository
   when: ansible_os_family == "RedHat"
-
-- name: Install packages in venv
-  ansible.builtin.pip:
-    name: "{{ item }}"
-    virtualenv: /home/zuul/venv
-  loop:
-    - docker

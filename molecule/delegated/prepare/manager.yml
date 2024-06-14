@@ -18,11 +18,3 @@
   become: true
   ansible.builtin.shell: apt-get install --reinstall tzdata
   when: "'Debian' in ansible_os_family"
-
-- name: Install packages in venv
-  ansible.builtin.pip:
-    name: "{{ item }}"
-    virtualenv: /home/zuul/venv
-  loop:
-    - docker
-    - packaging
