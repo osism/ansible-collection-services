@@ -239,7 +239,7 @@ services:
     image: "{{ osism_image }}"
     command: osism service api
     ports:
-      - "{{ osism_api_host }}:{{ osism_api_port }}:8000"
+      - "{{ osism_api_host | ansible.utils.ipwrap }}:{{ osism_api_port }}:8000"
     healthcheck:
       test: pgrep uvicorn
 {% if enable_netbox|bool %}
@@ -311,7 +311,7 @@ services:
     command: osism service flower
 {% if not flower_traefik|bool %}
     ports:
-      - "{{ flower_host }}:{{ flower_port }}:5555"
+      - "{{ flower_host | ansible.utils.ipwrap }}:{{ flower_port }}:5555"
 {% endif %}
     healthcheck:
       test: pgrep celery
@@ -365,7 +365,7 @@ services:
       - "{{ state_directory }}/ara-server:/state:rw"
 {% if not ara_server_traefik|bool %}
     ports:
-      - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
+      - "{{ ara_server_host | ansible.utils.ipwrap }}:{{ ara_server_port }}:8000"
 {% endif %}
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
@@ -423,7 +423,7 @@ services:
     command: server -config=/etc/vault.hcl
     restart: unless-stopped
     ports:
-      - "{{ vault_host }}:{{ vault_port }}:8200"
+      - "{{ vault_host | ansible.utils.ipwrap }}:{{ vault_port }}:8200"
     env_file:
       - "{{ manager_configuration_directory }}/vault.env"
     volumes:

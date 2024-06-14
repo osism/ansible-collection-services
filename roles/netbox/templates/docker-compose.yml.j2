@@ -59,7 +59,7 @@ services:
       start_period: 120s
 {% if not netbox_traefik|bool %}
     ports:
-      - "{{ netbox_host }}:{{ netbox_port }}:8080"
+      - "{{ netbox_host | ansible.utils.ipwrap }}:{{ netbox_port }}:8080"
 {% else %}
     labels:
       - "traefik.enable=true"

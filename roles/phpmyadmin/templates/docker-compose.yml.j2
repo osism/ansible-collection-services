@@ -8,7 +8,7 @@ services:
       PMA_HOST: "{{ phpmyadmin_database_host }}"
 {% if not phpmyadmin_traefik|bool %}
     ports:
-      - "{{ phpmyadmin_host }}:{{ phpmyadmin_port }}:80"
+      - "{{ phpmyadmin_host | ansible.utils.ipwrap }}:{{ phpmyadmin_port }}:80"
 {% endif %}
     volumes:
       - "/etc/hosts:/etc/hosts:ro"

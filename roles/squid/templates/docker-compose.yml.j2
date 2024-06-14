@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     image: "{{ squid_image }}"
     ports:
-      - "{{ squid_host }}:{{ squid_port }}:3128"
+      - "{{ squid_host | ansible.utils.ipwrap }}:{{ squid_port }}:3128"
     volumes:
       - "{{ squid_configuration_directory }}/conf.d:/etc/squid/conf.d:ro"
       - squid:/var/spool/squid

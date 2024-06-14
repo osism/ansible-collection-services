@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     entrypoint: vbmcd --foreground
     ports:
-      - "{{ virtualbmc_host }}:{{ virtualbmc_port }}:6230-6239/udp"
+      - "{{ virtualbmc_host | ansible.utils.ipwrap }}:{{ virtualbmc_port }}:6230-6239/udp"
     volumes:
       - "{{ nova_libvirt_container_volume }}:/var/run/libvirt"
 

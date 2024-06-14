@@ -6,7 +6,7 @@ services:
     image: "{{ homer_image }}"
 {% if not homer_traefik|bool %}
     ports:
-      - "{{ homer_host }}:{{ homer_port }}:8080"
+      - "{{ homer_host | ansible.utils.ipwrap }}:{{ homer_port }}:8080"
 {% endif %}
     volumes:
       - "{{ homer_configuration_directory }}/config.yml:/www/assets/config.yml:ro"
