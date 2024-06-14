@@ -21,10 +21,3 @@
     owner: zuul
     group: zuul
     mode: 0755
-
-- name: Install packages in venv
-  ansible.builtin.pip:
-    name: "{{ item }}"
-    virtualenv: /home/zuul/venv
-  loop:
-    - docker

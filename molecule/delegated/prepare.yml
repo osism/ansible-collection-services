@@ -1,7 +1,16 @@
 ---
 - name: Prepare
   hosts: all
+
   tasks:
+    - name: Install packages in venv
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        virtualenv: /home/zuul/venv
+      loop:
+        - docker
+        - netaddr
+
     - name: Include required prepare tasks
       ansible.builtin.include_tasks:
         file: "prepare/{{ molecule_role }}.yml"
