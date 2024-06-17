@@ -78,6 +78,10 @@ extraVolumes: |
     - name: certs-dir
       configMap:
         name: configmap-certs
+    - name: test-vol
+      hostPath:
+        path: {{ keycloak_tls_certificates_directory }}/certs
+        type: Directory
 
 extraVolumeMounts: |
     - name: tls-certs
@@ -118,3 +122,6 @@ extraInitContainers: |
         mountPath: /data
       - name: certs-dir
         mountPath: /certs-folder
+        # TODO: below change to /certs-folder
+      - name: test-vol
+        mountPath: /certs-test
