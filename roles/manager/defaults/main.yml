@@ -113,6 +113,14 @@ ansible_services_defaults:
     mem_limit: "{{ manager_mem_limit }}"
     mem_reservation: "{{ manager_mem_reservation }}"
     cpus: "{{ manager_cpus }}"
+  - name: osism-kubernetes
+    container_name: "{{ osism_kubernetes_container_name }}"
+    tag: "{{ osism_kubernetes_tag }}"
+    image: "{{ osism_kubernetes_image }}"
+    enable: "{{ enable_osism_kubernetes }}"
+    mem_limit: "{{ manager_mem_limit }}"
+    mem_reservation: "{{ manager_mem_reservation }}"
+    cpus: "{{ manager_cpus }}"
   - name: ceph-ansible
     container_name: "{{ ceph_ansible_container_name }}"
     tag: "{{ ceph_ansible_tag }}"
@@ -139,6 +147,17 @@ osism_ansible_container_name: osism-ansible
 
 osism_ansible_tag: latest
 osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
+
+##########################
+# osism-kubernetes
+
+enable_osism_kubernetes: "{{ osism_kubernetes_enable }}"
+osism_kubernetes_enable: false
+
+osism_kubernetes_container_name: osism-kubernetes
+
+osism_kubernetes_tag: latest
+osism_kubernetes_image: "{{ docker_registry_ansible }}/osism/osism-kubernetes:{{ osism_kubernetes_tag }}"
 
 ##########################
 # ceph-ansible
