@@ -18,7 +18,6 @@ provisioner:
   inventory:
     group_vars:
       all:
-        ansible_python_interpreter: /usr/bin/python3
         molecule_role: "${ANSIBLE_ROLE}"
 verifier:
   name: testinfra
