@@ -1,0 +1,17 @@
+---
+- name: "Create kubernetes monitoring namespace"
+  kubernetes.core.k8s:
+    name: "{{ kubernetes_monitoring_namespace }}"
+    kind: Namespace
+    state: present
+    kubeconfig: /share/kubeconfig
+
+- name: Deploy kubernetes-monitoring helm chart
+  kubernetes.core.helm:
+    release_name: kubernetes-monitoring
+    chart_ref: "{{ kubernetes_monitoring_chart_source }}"
+    chart_version: "{{ kubernetes_monitoring_chart_version }}"
+    release_namespace: "{{ kubernetes_monitoring_namespace }}"
+    values_files:
+      - "{{ kubernetes_monitoring_work_directory }}/kubernetes_monitoring.yml"
+    wait: true

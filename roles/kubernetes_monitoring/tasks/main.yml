@@ -1,0 +1,24 @@
+---
+- name: Include kubernetes-monitoring config tasks
+  ansible.builtin.include_tasks: config-kubernetes-monitoring.yml
+  tags:
+    - config
+
+- name: Include deploy kubernetes-monitoring tasks
+  ansible.builtin.include_tasks: deploy-kubernetes-monitoring.yml
+  tags:
+    - deploy
+
+- name: Include openstack-exporter config tasks
+  ansible.builtin.include_tasks: config-openstack-exporter.yml
+  tags:
+    - config
+    - exporter
+  when: enable_openstack_exporter|bool
+
+- name: Include deploy openstack-exporter tasks
+  ansible.builtin.include_tasks: deploy-openstack-exporter.yml
+  tags:
+    - deploy
+    - exporter
+  when: enable_openstack_exporter|bool

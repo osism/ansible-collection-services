@@ -1,0 +1,53 @@
+---
+# Set Prometheus service monitor scrape interval and scrape timeout.
+# Requesting and collecting metrics from the OpenStack API can be time-consuming, especially if the API is not
+# performing well. In such cases, you may observe timeouts on the Prometheus server when it tries to fetch OpenStack
+# metrics. To mitigate this, consider increasing the scrape interval.
+serviceMonitor:
+  interval: "{{ openstack_exporter_service_monitor_scrape_interval }}"
+  scrapeTimeout: "{{ openstack_exporter_service_monitor_scrape_timeout }}"
+
+# Disable OpenStack exporter multicloud mode
+multicloud:
+  enabled: false
+
+# Label OpenStack exporter ServiceMonitor (and others) resource.
+# This ensures that SCS monitoring Prometheus discovers the OpenStack exporter ServiceMonitor
+commonLabels:
+  release: prometheus-openstack-exporter
+
+hostAliases:
+  - ip: "{{ openstack_internal_vip_address }}"
+    hostnames:
+      - "{{ openstack_internal_fqdn }}"
+  - ip: "{{ openstack_external_vip_address }}"
+    hostnames:
+      - "{{ openstack_external_fqdn }}"
+
+{% if openstack_ca_certificate_path|length > 0 %}
+# Mount custom openstack CA certificate to the exporter container
+extraVolumes:
+- name: openstack-cacert
+  secret:
+    secretName: openstack-cacert
+    items:
+    - key: openstack-cacert
+      path: {{ openstack_ca_certificate_path|basename }}
+
+extraVolumeMounts:
+- name: openstack-cacert
+  mountPath: {{ openstack_ca_certificate_path }}
+  subPath: {{ openstack_ca_certificate_path|basename }}
+  readOnly: true
+{% endif %}
+
+# Cloud in the clouds.yml to use
+cloud: {{ openstack_exporter_clouds_yml_cloud }}
+
+# OpenStack API access configuration
+# Doc: https://github.com/openstack-exporter/openstack-exporter#openstack-configuration
+clouds_yaml_config: |
+  clouds.yaml: |
+      clouds:
+        {{ openstack_exporter_clouds_yml_cloud }}:
+          {{ clouds_yaml_merged.clouds[openstack_exporter_clouds_yml_cloud] | to_nice_yaml(indent=2) | indent(10) }}

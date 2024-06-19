@@ -1,0 +1,57 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# kubernetes_monitoring
+
+kubernetes_monitoring_chart_source: "dnationcloud/dnation-kubernetes-monitoring-stack"
+# renovate datasource=github-releases depName=dnationcloud/kubernetes-monitoring-stack
+kubernetes_monitoring_chart_version: "3.5.0"
+
+## work directory inside the osism-ansible container:
+kubernetes_monitoring_work_directory: /tmp/kubernetes_monitoring/configuration
+## template directory containing `kubernetes_monitoring.yml`, e.g. OSISM configuration directory
+kubernetes_monitoring_template_directory: .
+## kubernetes namespace in which the operator should be installed
+kubernetes_monitoring_namespace: kubernetes-monitoring
+
+##########################
+# openstack_exporter
+
+enable_openstack_exporter: false
+openstack_exporter_chart_source: "oci://registry.scs.community/openstack-exporter/prometheus-openstack-exporter"
+# renovate datasource=github-releases depName=SovereignCloudStack/openstack-exporter-helm-charts
+openstack_exporter_chart_version: "0.4.5"
+
+## openstack internal VIP address to be used in host aliases setting
+openstack_internal_vip_address: 127.0.0.1
+## openstack external VIP address to be used in host aliases setting
+openstack_external_vip_address: "{{ openstack_internal_vip_address }}"
+## openstack internal FQDN to be used in host aliases setting
+openstack_internal_fqdn: localhost
+## openstack external FQDN to be used in host aliases setting
+openstack_external_fqdn: "{{ openstack_internal_fqdn }}"
+
+## custom CA certificate path to use
+openstack_ca_certificate_path: ""
+## cloud in the clouds.yml to use
+openstack_exporter_clouds_yml_cloud: openstack
+## path to the clouds.yml file
+openstack_exporter_clouds_yml_path: /etc/openstack/clouds.yml
+## credentials for the clouds.yml configured in the secure.yml
+openstack_exporter_secure_yml_path: /etc/openstack/secure.yml
+
+## work directory inside the osism-ansible container:
+openstack_exporter_work_directory: "{{ kubernetes_monitoring_work_directory }}"
+## template directory containing `openstack_exporter.yml`, e.g. OSISM configuration directory
+openstack_exporter_template_directory: "{{ kubernetes_monitoring_template_directory }}"
+## kubernetes namespace in which the operator should be installed
+openstack_exporter_namespace: "{{ kubernetes_monitoring_namespace }}"
+## interval at which prometheus will scrape the openstack exporter metrics endpoint
+openstack_exporter_service_monitor_scrape_interval: 90s
+## timeout duration that prometheus will wait when scraping the openstack exporter metrics endpoint
+openstack_exporter_service_monitor_scrape_timeout: 60s

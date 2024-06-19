@@ -1,0 +1,30 @@
+---
+- name: Create required directory
+  ansible.builtin.file:
+    path: "{{ openstack_exporter_work_directory }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+
+- name: Prepare helm chart values  # noqa: osism-fqcn
+  block:
+    - name: Read openstack exporter clouds.yml file content
+      ansible.builtin.set_fact:
+        clouds_yaml: "{{ lookup('file', openstack_exporter_clouds_yml_path) | from_yaml }}"
+
+    - name: Read openstack exporter secure.yml file content
+      ansible.builtin.set_fact:
+        secure_yaml: "{{ lookup('file', openstack_exporter_secure_yml_path) | from_yaml }}"
+
+    - name: Merge clouds_yaml and secure_yaml
+      ansible.builtin.set_fact:
+        clouds_yaml_merged: "{{ clouds_yaml | ansible.builtin.combine(secure_yaml, recursive=true) }}"
+
+- name: Render values file for helm chart
+  ansible.builtin.template:
+    src: "{{ openstack_exporter_template_directory }}/openstack_exporter.yml.j2"
+    dest: "{{ openstack_exporter_work_directory }}/openstack_exporter.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640

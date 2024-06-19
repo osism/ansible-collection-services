@@ -1,0 +1,16 @@
+---
+- name: Create required directory
+  ansible.builtin.file:
+    path: "{{ kubernetes_monitoring_work_directory }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+
+- name: Render values file for helm chart
+  ansible.builtin.template:
+    src: "{{ kubernetes_monitoring_template_directory }}/kubernetes_monitoring.yml.j2"
+    dest: "{{ kubernetes_monitoring_work_directory }}/kubernetes_monitoring.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640

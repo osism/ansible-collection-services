@@ -1,0 +1,96 @@
+---
+# Disable loki, promtail, and related dashboards
+loki:
+  enabled: false
+promtail:
+  enabled: false
+dnation-kubernetes-monitoring:
+  grafanaDashboards:
+    isLoki: false
+grafanaDatasourcesAsConfigMap:
+  cluster-logs: null
+kube-prometheus-stack:
+{% if enable_openstack_exporter|bool %}
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelector:
+        # Match all dNation monitoring ServiceMonitors via the default match label setting `release=.Release.Name` OR
+        # mach the OpenStack exporter ServiceMonitor
+        matchExpressions:
+        - key: release
+          operator: In
+          values:
+          - "{{ "{{ .Release.Name }}" }}"
+          - prometheus-openstack-exporter
+  grafana:
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: iaas
+          folder: 'IaaS'
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/iaas
+    dashboards:
+      iaas:
+        openstack-exporter:
+          gnetId: 21085
+          revision: 3
+          datasource:
+          - name: DS_PROMETHEUS
+            value: thanos
+{% endif %}
+  # Reconfigure node exporter default port
+  prometheus-node-exporter:
+    service:
+      port: 9111
+      targetPort: 9111
+  # K3s exposes all metrics combined (apiserver, kubelet, kube-proxy, kube-scheduler, kube-controller)
+  # on each metrics endpoint. Hence, we keep only relevant metrics for each control plane component endpoint.
+  # see https://github.com/k3s-io/k3s/issues/3619#issuecomment-1425852034
+  # FIXME: The strategy to keep only metrics used in particular component dashboards could be insufficient
+  #  when a deeper investigation is needed, using metrics that have been dropped. Improve this logic or check
+  # the current state of k3s monitoring by the kube-prometheus-stack.
+  kubeApiServer:
+    serviceMonitor:
+      metricRelabelings:
+        - sourceLabels: ["__name__"]
+          regex: "(apiserver|workqueue|rest_client|process|go)_(.+)"
+          action: keep
+  kubelet:
+    serviceMonitor:
+      metricRelabelings:
+        - sourceLabels: ["__name__"]
+          regex: "(kubelet|storage|rest_client|process|go)_(.+)"
+          action: keep
+  kubeEtcd:
+    endpoints: {{ groups[hosts_k3s_master | default('k3s_master')] | map('extract', hostvars, ['ansible_host']) | list | to_yaml }}
+    serviceMonitor:
+      metricRelabelings:
+        - sourceLabels: ["__name__"]
+          regex: "(etcd|grpc|rest_client|process|go)_(.+)"
+          action: keep
+  kubeProxy:
+    endpoints: {{ groups[hosts_k3s_master | default('k3s_master')] | map('extract', hostvars, ['ansible_host']) | list | to_yaml }}
+    serviceMonitor:
+      metricRelabelings:
+        - sourceLabels: ["__name__"]
+          regex: "(kubeproxy|rest_client|process|go)_(.+)"
+          action: keep
+  kubeControllerManager:
+    endpoints: {{ groups[hosts_k3s_master | default('k3s_master')] | map('extract', hostvars, ['ansible_host']) | list | to_yaml }}
+    serviceMonitor:
+      metricRelabelings:
+        - sourceLabels: ["__name__"]
+          regex: "(workqueue|rest_client|process|go)_(.+)"
+          action: keep
+  kubeScheduler:
+    endpoints: {{ groups[hosts_k3s_master | default('k3s_master')] | map('extract', hostvars, ['ansible_host']) | list | to_yaml }}
+    serviceMonitor:
+      metricRelabelings:
+        - sourceLabels: ["__name__"]
+          regex: "(scheduler|rest_client|process|go)_(.+)"
+          action: keep
