@@ -3,3 +3,5 @@ operator_user: zuul
 operator_group: zuul
 
 ara_server_database_type: sqlite
+
+osism_kubernetes_enable: true
