@@ -12,7 +12,7 @@ services:
       - "--http-address=0.0.0.0:10902"
     ports:
       - "{{ thanos_sidecar_host | ansible.utils.ipwrap }}:{{ thanos_sidecar_grpc_port }}:10901"
-      - "{{ thanos_sidecar_host | ansible.utils.ipwraps }}:{{ thanos_sidecar_http_port }}:10902"
+      - "{{ thanos_sidecar_host | ansible.utils.ipwrap }}:{{ thanos_sidecar_http_port }}:10902"
     volumes:
 {% if ansible_os_family == 'Debian' %}
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
