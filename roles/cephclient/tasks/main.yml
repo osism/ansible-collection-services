@@ -6,3 +6,7 @@
 - name: Include package tasks
   ansible.builtin.include_tasks: "{{ cephclient_install_type }}-{{ ansible_os_family }}-family.yml"
   when: cephclient_install_type == "package"
+
+- name: Include rook task
+  ansible.builtin.include_tasks: "{{ cephclient_install_type }}.yml"
+  when: cephclient_install_type == "rook"
