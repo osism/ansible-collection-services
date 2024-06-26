@@ -97,17 +97,10 @@ rook_logcollector:
   periodicity: daily # one of: hourly, daily, weekly, monthly
   maxLogSize: 500M # SUFFIX may be 'M' or 'G'. Must be at least 1M.
 # labels of components have to be equal to the inventory group names regarding each component
-rook_placement_label_mon: "rook-mon-node"
-rook_placement_label_mgr: "rook-mgr-node"
-rook_placement_label_mds: "rook-mds-node"
-rook_placement_label_rgw: "rook-rgw-node"
-rook_placement_node_affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: role
-          operator: In
+rook_placement_label_mon: "rook-mon"
+rook_placement_label_mgr: "rook-mgr"
+rook_placement_label_mds: "rook-mds"
+rook_placement_label_rgw: "rook-rgw"
 rook_placement:
   # also allow to run on kubnernetes master nodes
   tolerations:
