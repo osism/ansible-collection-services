@@ -1,0 +1,68 @@
+---
+- name: Stop cephclient service
+  become: true
+  ansible.builtin.service:
+    name: "{{ cephclient_service_name }}"
+    state: stopped
+    enabled: false
+  register: result
+  until: result.status.ActiveState == "inactive"
+  retries: 10
+  delay: 20
+
+- name: Remove required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ cephclient_configuration_directory }}"
+    - "{{ cephclient_data_directory }}"
+    - "{{ cephclient_docker_compose_directory }}"
+### if the above cleans up like expected the stuff below is not necessary
+- name: End play
+  meta: end_play
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.file:
+    path: "{{ cephclient_docker_compose_directory }}/docker-compose.yml"
+    state: absent
+
+- name: Copy keyring file
+  ansible.builtin.template:
+    src: ceph-keyring-config.j2
+    dest: "{{ cephclient_configuration_directory }}/ceph.{{ cephclient_keyring_name }}.keyring"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+- name: Copy wrapper scripts
+  become: true
+  ansible.builtin.template:
+    src: "wrapper/{{ item }}.j2"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - ceph
+    - ceph-authtool
+    - crushtool
+    - rados
+    - radosgw-admin
+    - rbd
+
+
+- name: Copy configuration files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - src: ceph.conf.j2
+      dest: "{{ cephclient_configuration_directory }}/ceph.conf"
+
+
+

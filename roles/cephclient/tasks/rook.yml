@@ -1,4 +1,31 @@
 ---
+- name: Anything to cleanup from package install
+  ansible.builtin.stat:
+    path: "/etc/ceph/ceph.{{ cephclient_keyring_name }}.keyring"
+  register: package_stat_result
+
+- name: Anything to cleanup from container install
+  ansible.builtin.stat:
+    path: "{{ cephclient_docker_compose_directory }}/docker-compose.yml"
+  register: container_stat_result
+
+- name: Show debug for stat results
+  ansible.builtin.debug:
+    msg: package_stat_result
+
+- name: End play if there was no prior cephclient installation
+  meta: end_play
+  when: not package_stat_result.exists and
+        not container_stat_result.exists
+
+- name: Remove package {{ ansible_os_family }} installation
+  ansible.builtin.include_tasks: "clean-package-{{ ansible_os_family }}-family.yml"
+  when: package_stat_result.exists
+
+- name: Remove cephclient container installation
+  ansible.builtin.include_tasks: "clean-{{ cephclient_install_type }}.yml"
+  when: container_stat_result.exists
+
 - name: Copy wrapper scripts
   become: true
   ansible.builtin.template:
