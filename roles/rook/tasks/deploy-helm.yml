@@ -30,7 +30,7 @@
 
 
 - name: Save rendered files to helm_values_files_fact
-  set_fact:
+  ansible.builtin.set_fact:
     helm_values_files_fact: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
   loop_control:
     loop_var: _file

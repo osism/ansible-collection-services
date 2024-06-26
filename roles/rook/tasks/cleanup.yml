@@ -1,7 +1,7 @@
 ---
 - name: Initialize rook_cleanup_fact
   set_fact:
-    rook_cleanup: "{{ rook_cleanup|default(false) }}"
+    rook_cleanup: "{{ rook_cleanup | default(false) }}"
 
 
 - name: Create required directories

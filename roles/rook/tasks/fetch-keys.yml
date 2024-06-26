@@ -15,7 +15,7 @@
 
 
 - name: Initialize ceph_keyrings_fact
-  set_fact:
+  ansible.builtin.set_fact:
     ceph_keyrings_fact: {}    
 
 
@@ -23,7 +23,7 @@
   vars:
     client_name: "{{ item.resources[0].metadata.ownerReferences[0].name }}"
     client_key: "{{ item.resources[0].data.userKey | b64decode }}"
-  set_fact:
+  ansible.builtin.set_fact:
     ceph_keyrings_fact: "{{ ceph_keyrings_fact | combine({client_name: {'key': client_key}}) }}"
   loop: "{{ ceph_keyrings.results }}"
   no_log: true

@@ -97,9 +97,10 @@ rook_logcollector:
   periodicity: daily # one of: hourly, daily, weekly, monthly
   maxLogSize: 500M # SUFFIX may be 'M' or 'G'. Must be at least 1M.
 # labels of components have to be equal to the inventory group names regarding each component
-rook_placement_label_mon: "rook-mon"
-rook_placement_label_mgr: "rook-mgr"
 rook_placement_label_mds: "rook-mds"
+rook_placement_label_mgr: "rook-mgr"
+rook_placement_label_mon: "rook-mon"
+rook_placement_label_osd: "rook-osd"
 rook_placement_label_rgw: "rook-rgw"
 rook_placement:
   # also allow to run on kubnernetes master nodes
@@ -129,6 +130,15 @@ rook_placement_cephcluster:
         nodeSelectorTerms:
         - matchExpressions:
           - key: "node-role.osism.tech/{{ rook_placement_label_mgr }}"
+            operator: In
+            values:
+            - "true"
+  osd:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "node-role.osism.tech/{{ rook_placement_label_osd }}"
             operator: In
             values:
             - "true"
