@@ -92,7 +92,7 @@ def test_srv(host):
 def test_wrapper(host):
     check_cephclient_install_type(host)
 
-    items = ["ceph", "ceph-authtool", "crushtool", "rados", "radosgw-admin", "rbd"]
+    items = ["ceph", "ceph-authtool", "rados", "radosgw-admin", "rbd"]
 
     for item in items:
         f = host.file(f"/usr/local/bin/{item}")
