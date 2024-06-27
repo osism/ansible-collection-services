@@ -91,7 +91,7 @@ rook_network:
       - "{{ rook_network_cluster }}"
 rook_crashcollector:
   disable: false
-  daysToRetrain: 7
+  daysToRetain: 7
 rook_logcollector:
   enabled: true
   periodicity: daily  # one of: hourly, daily, weekly, monthly
@@ -473,7 +473,7 @@ rook_cephfilesystems:
         activeCount: "{{ rook_mds_count }}"
         activeStandby: true
         resources: "{{ rook_resources_cephfilesystem }}"
-        priorityClassName: system-cluster-critical"
+        priorityClassName: system-cluster-critical
         placement: "{{ rook_placement_cephfilesystem }}"
         annotations: "{{ rook_annotations_cephfilesystem }}"
     storageClass:
