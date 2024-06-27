@@ -16,7 +16,7 @@
 
 - name: Initialize ceph_keyrings_fact
   ansible.builtin.set_fact:
-    ceph_keyrings_fact: {}    
+    ceph_keyrings_fact: {}
 
 
 - name: Save the Ceph keyrings to ceph_keyrings_fact

@@ -94,8 +94,8 @@ rook_crashcollector:
   daysToRetrain: 7
 rook_logcollector:
   enabled: true
-  periodicity: daily # one of: hourly, daily, weekly, monthly
-  maxLogSize: 500M # SUFFIX may be 'M' or 'G'. Must be at least 1M.
+  periodicity: daily  # one of: hourly, daily, weekly, monthly
+  maxLogSize: 500M    # SUFFIX may be 'M' or 'G'. Must be at least 1M.
 # labels of components have to be equal to the inventory group names regarding each component
 rook_placement_label_mds: "rook-mds"
 rook_placement_label_mgr: "rook-mgr"
@@ -119,29 +119,29 @@ rook_placement_cephcluster:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
-        - matchExpressions:
-          - key: "node-role.osism.tech/{{ rook_placement_label_mon }}"
-            operator: In
-            values:
-            - "true"
+          - matchExpressions:
+              - key: "node-role.osism.tech/{{ rook_placement_label_mon }}"
+                operator: In
+                values:
+                  - "true"
   mgr:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
-        - matchExpressions:
-          - key: "node-role.osism.tech/{{ rook_placement_label_mgr }}"
-            operator: In
-            values:
-            - "true"
+          - matchExpressions:
+              - key: "node-role.osism.tech/{{ rook_placement_label_mgr }}"
+                operator: In
+                values:
+                  - "true"
   osd:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
-        - matchExpressions:
-          - key: "node-role.osism.tech/{{ rook_placement_label_osd }}"
-            operator: In
-            values:
-            - "true"
+          - matchExpressions:
+              - key: "node-role.osism.tech/{{ rook_placement_label_osd }}"
+                operator: In
+                values:
+                  - "true"
 rook_placement_cephobjectstore:
   tolerations:
     - key: "node-role.kubernetes.io/control-plane"
@@ -155,11 +155,11 @@ rook_placement_cephobjectstore:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: "node-role.osism.tech/{{ rook_placement_label_mds }}"
-          operator: In
-          values:
-          - "true"
+        - matchExpressions:
+            - key: "node-role.osism.tech/{{ rook_placement_label_mds }}"
+              operator: In
+              values:
+                - "true"
 rook_placement_cephfilesystem:
   tolerations:
     - key: "node-role.kubernetes.io/control-plane"
@@ -173,11 +173,11 @@ rook_placement_cephfilesystem:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: "node-role.osism.tech/{{ rook_placement_label_rgw }}"
-          operator: In
-          values:
-          - "true"
+        - matchExpressions:
+            - key: "node-role.osism.tech/{{ rook_placement_label_rgw }}"
+              operator: In
+              values:
+                - "true"
 rook_annotations: {}
 rook_annotations_cephcluster: "{{ rook_annotations }}"
 rook_annotations_cephfilesystem: "{{ rook_annotations }}"
@@ -261,7 +261,7 @@ rook_dashboard:
 rook_monitoring:
   # -- Enable Prometheus integration, will also create necessary RBAC rules to allow Operator to create ServiceMonitors.
   # Monitoring requires Prometheus to be pre-installed
-  enabled: false # TODO: enable
+  enabled: false  # TODO: enable
   # -- Whether to create the Prometheus rules for Ceph alerts
   createPrometheusRules: false
   # -- The namespace in which to create the prometheus rules, if different from the rook cluster namespace.
@@ -295,7 +295,7 @@ rook_cephconfig: {}
   #   osd_crush_update_on_start: "false"
   # # Make sure to quote special characters
   # "osd.*":
-  #   osd_max_scrubs: "10"        
+  #   osd_max_scrubs: "10"
 
 ##############################################
 ###
@@ -323,11 +323,11 @@ rook_storage:
   useAllDevices: "{{ rook_storage_usealldevices }}"
   # deviceFilter:
   config:
-  #   crushRoot: "custom-root" # specify a non-default root label for the CRUSH map
-  #   metadataDevice: "md0" # specify a non-rotational storage so ceph-volume will use it as block db device of bluestore.
-  #   databaseSizeMB: "1024" # uncomment if the disks are smaller than 100 GB
-    osdsPerDevice: "{{ rook_storage_config_osdsperdevice }}" # this value can be overridden at the node or device level
-    encryptedDevice: "{{ rook_storage_config_encrypteddevice }}" # the default value for this option is "false"
+  #  crushRoot: "custom-root" # specify a non-default root label for the CRUSH map
+  #  metadataDevice: "md0" # specify a non-rotational storage so ceph-volume will use it as block db device of bluestore.
+  #  databaseSizeMB: "1024" # uncomment if the disks are smaller than 100 GB
+    osdsPerDevice: "{{ rook_storage_config_osdsperdevice }}"  # this value can be overridden at the node or device level
+    encryptedDevice: "{{ rook_storage_config_encrypteddevice }}"  # the default value for this option is "false"
   # # Individual nodes and their config can be specified as well, but 'useAllNodes' above must be set to false. Then, only the named
   # # nodes below will be used as storage resources. Each node's 'name' field should match their 'kubernetes.io/hostname' label.
   # nodes:

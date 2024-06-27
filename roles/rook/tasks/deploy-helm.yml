@@ -43,7 +43,7 @@
     chart_ref: rook-release/rook-ceph-cluster
     release_namespace: "{{ rook_namespace }}"
     values_files: "{{ helm_values_files_fact }}"
-    force: true # needed for update
+    force: true  # needed for update
 
 
 - name: Include wait-for-cluster task
