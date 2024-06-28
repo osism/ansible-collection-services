@@ -40,7 +40,8 @@ netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
 
 netbox_service_restart: true
 
-netbox_secret_key: 00000000-0000-0000-0000-000000000000
+# SECRET_KEY must be at least 50 characters in length.
+netbox_secret_key: "00000000000000000000000000000000000000000000000000"
 
 netbox_superuser_name: admin
 netbox_superuser_email: netbox@osism.local
