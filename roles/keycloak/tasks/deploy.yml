@@ -1,4 +1,10 @@
 ---
+- name: "Create configMap with TLS certificates"
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /share/kubeconfig
+    definition: "{{ lookup('file', keycloak_configuration_directory + '/configmap-certs.yml') | from_yaml_all }}"
+
 - name: Deploy keycloakx chart
   kubernetes.core.helm:
     release_name: keycloak
