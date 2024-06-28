@@ -1,6 +1,10 @@
 ---
 manager_wrapper_scripts:
   - osism
+  - osism-update-docker
+  - osism-update-manager
+
+manager_old_wrapper_scripts:
   - osism-ansible
   - osism-ceph
   - osism-custom
@@ -13,6 +17,4 @@ manager_wrapper_scripts:
   - osism-run
   - osism-run-without-secrets
   - osism-state
-  - osism-update-docker
-  - osism-update-manager
   - osism-validate
