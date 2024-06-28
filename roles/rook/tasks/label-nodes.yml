@@ -1,0 +1,75 @@
+---
+- name: "Label nodes with {{ rook_placement_label_mon }}"
+  vars:
+    label_key: "node-role.osism.tech/{{ rook_placement_label_mon }}"
+    label_val: "true"
+    label_dict: >-
+      {{ {label_key: label_val} }}
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.split('.')[0] }}"
+        labels: "{{ label_dict }}"
+  loop: "{{ groups[rook_placement_label_mon] }}"
+
+- name: "Label nodes with {{ rook_placement_label_mgr }}"
+  vars:
+    label_key: "node-role.osism.tech/{{ rook_placement_label_mgr }}"
+    label_val: "true"
+    label_dict: >-
+      {{ {label_key: label_val} }}
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.split('.')[0] }}"
+        labels: "{{ label_dict }}"
+  loop: "{{ groups[rook_placement_label_mgr] }}"
+
+- name: "Label nodes with {{ rook_placement_label_mds }}"
+  vars:
+    label_key: "node-role.osism.tech/{{ rook_placement_label_mds }}"
+    label_val: "true"
+    label_dict: >-
+      {{ {label_key: label_val} }}
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.split('.')[0] }}"
+        labels: "{{ label_dict }}"
+  loop: "{{ groups[rook_placement_label_mds] }}"
+
+- name: "Label nodes with {{ rook_placement_label_osd }}"
+  vars:
+    label_key: "node-role.osism.tech/{{ rook_placement_label_osd }}"
+    label_val: "true"
+    label_dict: >-
+      {{ {label_key: label_val} }}
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.split('.')[0] }}"
+        labels: "{{ label_dict }}"
+  loop: "{{ groups[rook_placement_label_osd] }}"
+
+- name: "Label nodes with {{ rook_placement_label_rgw }}"
+  vars:
+    label_key: "node-role.osism.tech/{{ rook_placement_label_rgw }}"
+    label_val: "true"
+    label_dict: >-
+      {{ {label_key: label_val} }}
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.split('.')[0] }}"
+        labels: "{{ label_dict }}"
+  loop: "{{ groups[rook_placement_label_rgw] }}"

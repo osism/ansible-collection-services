@@ -1,0 +1,16 @@
+---
+- name: Copy wrapper scripts
+  become: true
+  ansible.builtin.template:
+    src: "wrapper/rook.j2"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - ceph
+    - ceph-authtool
+    - crushtool
+    - rados
+    - radosgw-admin
+    - rbd
