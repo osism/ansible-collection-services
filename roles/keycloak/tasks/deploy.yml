@@ -1,9 +1,51 @@
 ---
-- name: "Create configMap with TLS certificates"
+- name: Read all files in the directory
+  ansible.builtin.find:
+    paths: "{{ keycloak_ca_certificates_directory }}"
+    recurse: yes
+    file_type: file
+  register: found_files
+
+- name: Read file content
+  ansible.builtin.slurp:
+    src: "{{ item.path }}"
+  loop: "{{ found_files.files }}"
+  register: file_contents
+
+- name: Prepare file content for template
+  ansible.builtin.set_fact:
+    files_list: >-
+      {{
+        file_contents.results |
+        map(attribute='item.path') |
+        map('basename') |
+        zip(file_contents.results |
+          map(attribute='content') |
+          map('b64decode')
+        ) |
+        map('list')
+      }}
+
+- name: Prepare file content for template 2
+  ansible.builtin.set_fact:
+    files: "{{ files | default([]) + [{'name': item[0], 'content': item[1]}] }}"
+  loop: "{{ files_list }}"
+
+- name: Debug file_contents
+  ansible.builtin.debug:
+    var: files
+
+- name: Render ConfigMap template
+  ansible.builtin.template:
+    src: configmap-ca.yml.j2
+    dest: /tmp/keycloak/configmap.yaml
+    mode: '0644'
+
+- name: Create ConfigMap from template
   kubernetes.core.k8s:
     state: present
     kubeconfig: /share/kubeconfig
-    definition: "{{ lookup('file', keycloak_configuration_directory + '/configmap-certs.yml') | from_yaml_all }}"
+    definition: "{{ lookup('file', '/tmp/keycloak/configmap.yaml') }}"
 
 - name: Deploy keycloakx chart
   kubernetes.core.helm:

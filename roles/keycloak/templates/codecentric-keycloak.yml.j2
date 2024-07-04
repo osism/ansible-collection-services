@@ -76,9 +76,8 @@ extraVolumes: |
     - name: updated-cacerts
       emptyDir: {}  # work dir for update-truststore.sh
     - name: certs-dir
-      hostPath:
-        path: {{ keycloak_tls_certificates_directory }}/certs
-        type: Directory
+      configMap:
+        name: configmap-ca-certs
 
 extraVolumeMounts: |
     - name: tls-certs
