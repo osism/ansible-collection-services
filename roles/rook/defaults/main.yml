@@ -235,6 +235,7 @@ rook_toolbox:
       drop: ["ALL"]
   resources: "{{ rook_resources_toolbox }}"
   # priorityClassName:
+
 ##############################################
 ###
 ### Ceph Dashboard
@@ -251,6 +252,7 @@ rook_dashboard:
   # Serve the dashboard using SSL (if using ingress to expose the dashboard and `ssl: true` you need to set
   # the corresponding "backend protocol" annotation(s) for your ingress controller of choice)
   ssl: true
+
 ##############################################
 ###
 ### Monitoring
@@ -343,6 +345,7 @@ rook_storage:
   #     deviceFilter: "^sd."
   deviceFilter: "{{ rook_storage_devicefilter }}"
   nodes: "{{ rook_storage_nodes }}"
+
 ##############################################
 ###
 ### CephBlockPool
@@ -431,6 +434,7 @@ rook_cephblockpools:
       # deviceClass: ssd
     storageClass:
       enabled: false
+
 ##############################################
 ###
 ### CephFilesystem
@@ -478,6 +482,7 @@ rook_cephfilesystems:
         annotations: "{{ rook_annotations_cephfilesystem }}"
     storageClass:
       enabled: false
+
 ##############################################
 ###
 ### CephObjectStore
@@ -521,6 +526,7 @@ rook_cephobjectstores:
         annotations: "{{ rook_annotations_cephobjecstore }}"
     storageClass:
       enabled: false
+
 ##############################################
 ###
 ### CephClient
