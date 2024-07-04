@@ -15,11 +15,6 @@
     mode: 0640
   notify: Restart netbox service
 
-- name: Wait for netbox service to start
-  ansible.builtin.pause:
-    minutes: 1
-  changed_when: true
-
 - name: Ensure that the netbox service is up and running
   block:  # noqa osism-fqcn
     - name: Manage netbox service
@@ -32,7 +27,7 @@
       until: result.status.ActiveState == "active"
       retries: 10
       delay: 20
-      notify: Register that netbox service was started
+      notify: Wait for netbox service to start
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the

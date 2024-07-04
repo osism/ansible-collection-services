@@ -1,10 +1,4 @@
 ---
-# NOTE: This handler prevents a netbox restart when the service
-# was already started via ansible.builtin.service.
-- name: Register that netbox service was started
-  ansible.builtin.set_fact:
-    netbox_service_restart: false
-
 - name: Restart netbox service
   become: true
   ansible.builtin.service:
@@ -15,3 +9,36 @@
   retries: 10
   delay: 20
   when: netbox_service_restart|bool
+  notify:
+    - Wait for netbox service to start
+    - Register that netbox service was restarted
+
+- name: Wait for netbox service to start
+  ansible.builtin.pause:
+    minutes: 1
+  changed_when: true
+  notify:
+    - Wait for an healthy netbox service
+
+# NOTE: This handler prevents a netbox restart when the service
+# was already started via ansible.builtin.service.
+- name: Register that netbox service was restarted
+  ansible.builtin.set_fact:
+    netbox_service_restart: false
+
+# NOTE: The command returns a list of IDs of containers from the service
+#       that are currently starting or unhealthy. As long as the list is not empty
+#       the service is not in a good state.
+- name: Wait for an healthy netbox service
+  ansible.builtin.shell: |
+    set -o pipefail
+    docker compose --project-directory /opt/netbox \
+        ps --all --format json | \
+        jq '. | select(.State=="created" or .State=="exited" or .Health=="starting" or .Health=="unhealthy") | .Name'
+  args:
+    executable: /bin/bash
+  register: result
+  until: "result.stdout | length == 0"
+  retries: 30
+  delay: 10
+  changed_when: true
