@@ -13,14 +13,19 @@
     dest: /etc/modules
     mode: 0644
     state: present
-  when: hddtemp_enable_module
+
+- name: Check if drivetemp module is available
+  ansible.builtin.command: find /lib/modules/{{ ansible_kernel }} -type f -name '*drivetemp*'
+  register: drivetemp_check
+  changed_when: false
+  failed_when: false
 
 - name: Load Kernel Module drivetemp
   become: true
   community.general.modprobe:
     name: drivetemp
     state: present
-  when: hddtemp_enable_module
+  when: drivetemp_check.rc == 0
 
 - name: Install lm-sensors
   become: true
