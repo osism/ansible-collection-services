@@ -23,9 +23,6 @@ def test_pkg(host):
 def test_modulefile(host):
     check_ansible_os_family(host)
 
-    if not get_variable(host, "hddtemp_enable_module"):
-        pytest.skip("Kernel module not enabled")
-
     f = host.file("/etc/modules")
     assert f.exists
     assert not f.is_directory
@@ -35,9 +32,6 @@ def test_modulefile(host):
 
 def test_module(host):
     check_ansible_os_family(host)
-
-    if not get_variable(host, "hddtemp_enable_module"):
-        pytest.skip("Kernel module not enabled")
 
     with host.sudo():
         loaded_modules = host.check_output("lsmod").splitlines()
