@@ -17,6 +17,12 @@ docker_registry_postgres: index.docker.io
 docker_registry_redis: index.docker.io
 
 ##########################
+# packages
+
+netbox_required_packages:
+  - jq
+
+##########################
 # netbox
 
 netbox_configuration_directory: /opt/netbox/configuration
