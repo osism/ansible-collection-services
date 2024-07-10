@@ -25,7 +25,7 @@
   community.general.modprobe:
     name: drivetemp
     state: present
-  when: drivetemp_check.rc == 0
+  when: drivetemp_check.stdout_lines | length > 0
 
 - name: Install lm-sensors
   become: true
