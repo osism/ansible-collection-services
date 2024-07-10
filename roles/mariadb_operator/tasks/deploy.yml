@@ -1,9 +1,0 @@
----
-- name: Deploy mariadb-operator chart
-  kubernetes.core.helm:
-    release_name: mariadb-operator
-    chart_ref: mariadb-operator/mariadb-operator
-    release_namespace: "{{ mariadb_operator_namespace }}"
-    values_files:
-      - "{{ mariadb_operator_work_directory }}/operator.yml"
-    force: true  # needed for update
