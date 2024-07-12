@@ -18,4 +18,4 @@ if [[ -n "$OS_CLOUD" ]]; then
     PARAMETERS="$PARAMETERS --env OS_CLOUD=$OS_CLOUD"
 fi
 
-docker exec $PARAMETERS {{ openstackclient_container_name }} openstack "$@"
+exec docker exec $PARAMETERS {{ openstackclient_container_name }} openstack "$@"
