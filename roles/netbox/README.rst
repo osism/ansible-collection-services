@@ -356,7 +356,6 @@ Copy and run initialize scripts.
              - sites
              - tags
              - users
-             - webhooks
 
 List of files which contain preconfigured settings for netbox data.
 (Like device types, custom fields, etc.)
