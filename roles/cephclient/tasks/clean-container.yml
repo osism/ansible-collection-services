@@ -1,0 +1,21 @@
+---
+- name: Stop cephclient service
+  become: true
+  ansible.builtin.service:
+    name: "{{ cephclient_service_name }}"
+    state: stopped
+    enabled: false
+  register: result
+  until: result.state == "stopped"
+  retries: 10
+  delay: 20
+
+- name: Remove required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ cephclient_configuration_directory }}"
+    - "{{ cephclient_data_directory }}"
+    - "{{ cephclient_docker_compose_directory }}"

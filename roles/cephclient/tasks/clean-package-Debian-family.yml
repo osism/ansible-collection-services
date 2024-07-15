@@ -1,0 +1,39 @@
+---
+- name: Remove keyring file
+  become: true
+  ansible.builtin.file:
+    path: "/etc/ceph/ceph.{{ cephclient_keyring_name }}.keyring"
+    state: absent
+
+- name: Remove configuration files
+  become: true
+  ansible.builtin.file:
+    path: "/etc/ceph/ceph.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    state: absent
+
+- name: Uninstall required packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ cephclient_packages }}"
+    state: absent
+    autoclean: true
+    autoremove: true
+    clean: true
+
+- name: Remove repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ cephclient_debian_repository }}"
+    state: absent
+  when: cephclient_configure_repository | bool
+
+- name: Remove repository gpg key
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/trusted.gpg.d/cephclient.asc
+    state: absent
+  when:
+    - cephclient_configure_repository | bool
