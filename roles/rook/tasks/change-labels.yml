@@ -1,0 +1,102 @@
+---
+
+#- name: "Get a list of all nodes in namespace: {{ rook_namespace }}"
+#  kubernetes.core.k8s_info:
+#    kind: Node
+#    namespace: "{{ rook_namespace }}"
+#  register: node_list
+#
+#- name: Get current label list per Node
+#  ansible.builtin.set_fact:
+#    # prepare before this to diff out the removed labels
+#    dict_node_labels: "{{ dict_node_new_labels | default({}) | combine({item.metadata.name: item.metadata.labels}) }}"
+#  loop: "{{ node_list.resources }}"
+
+- name: Prepare list of label names
+  ansible.builtin.set_fact:
+    # find all variables matching the regular expression
+    list_rook_placement_label_names: "{{ query('varnames', '^rook_placement_label_') }}"    
+
+- name: Prepare
+  ansible.builtin.set_fact:
+    list_interim_node_new_labels: "{{ list_node_new_labels | default([]) + (groups[item] | product([item])) }}"
+  loop: "{{ query('vars', *list_rook_placement_label_names) }}"
+
+- name: test prepare
+  debug:
+    msg: "{{ list_interim_node_new_labels }}"
+
+- name: prepare further
+  ansible.builtin.set_fact:
+    list_node_new_labels: "{{ list_node_new_labels | default([]) + [{item[0].split('.')[0]: item[1]}] }}"
+  loop: "{{ list_interim_node_new_labels }}"
+
+- name: test prepare further
+  debug:
+    msg: "{{ list_node_new_labels }}"
+
+- name: generate what to remove
+  ansible.builtin.set_fact:
+    to_remove: "{{ to_remove | default({}) | combine(query('dict', )) }}"
+  loop: "{{ list_interim_node_new_labels }}"
+
+- name: bla
+  ansible.builtin.set_fact:
+    d: "{{ d | default([]) + [{'key': item, 'value': groups[item]}] }}"
+  loop: "{{ query('vars', *list_rook_placement_label_names) }}"
+
+- name: test bla
+  debug:
+    msg: "{{ d }}"
+
+- name: bla2
+  ansible.builtin.set_fact:
+    d2: "{{ d2 | default({}) | combine({'key': groups[item], 'value': item}) }}"
+  loop: "{{ query('vars', *list_rook_placement_label_names) }}"
+
+- name: test bla2
+  debug:
+    msg: "{{ d2 }}"
+
+- name: show debug for new list
+  vars:
+    prefix: node-role.osism.tech/
+    # find all variables matching the regular expression
+    #list_rook_placement_label_names: "{{ query('varnames', '^rook_placement_label_') }}"
+    # prefix all values of prior gathered variables in new list
+    list_rook_placement_labels: "{{ [prefix] | product(query('vars', *list_rook_placement_label_names)) | map('join') | list }}"
+    #test: "{{ item.key | map('extract', item.value ) }}"
+    # for each group create a dictionary with {node_name: node_labels}, adding  ?? dict2items|subelements ??
+    # 
+    # do this for each node
+    # list_to_remove:  list_rook_placement_labels | difference(labels_from_groups) -> return items of first list that are not in second list
+    # all_labels_from_node | difference( list_to_remove) -> remove labels that are not assignet to that node anymore
+  debug:
+     #msg: "{{ d | items2dict }}"
+     msg: "{{ list_node_new_labels }}"
+#  loop: "{{ query('vars', *list_rook_placement_label_names) }}"
+
+- name: end
+  meta: end_play
+
+- name: Create patched labels
+  vars:
+    prefix: node-role.osism.tech/
+    # find all variables matching the regular expression
+    list_rook_placement_label_names: "{{ query('varnames', '^rook_placement_label_') }}"
+    # prefix all values of prior gathered variables in new list
+    list_rook_placement_labels: "{{ [prefix] | product(query('vars', *list_rook_placement_label_names)) | map('join') | list }}"
+  ansible.builtin.set_fact:
+    dict_node_name_patched_labels: "{{ dict_node_name_patched_labels | default({}) | combine({item.metadata.name: (item.metadata.labels | dict2items | rejectattr('key', 'in', list_rook_placement_labels) | items2dict)}) }}"
+  loop: "{{ node_list.resources }}"
+
+- name: Apply patched labels to nodes
+  kubernetes.core.k8s:
+    state: patched
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.key }}"
+        labels: "{{ item.value }}"
+  loop: "{{ lookup('ansible.builtin.dict', dict_node_name_patched_labels) }}"

@@ -1,0 +1,82 @@
+---
+
+- name: "Get a list of all nodes in namespace: {{ rook_namespace }}"
+  kubernetes.core.k8s_info:
+    kind: Node
+    namespace: "{{ rook_namespace }}"
+  register: node_list
+
+#- name: Remove OSISM Rook labels
+#  vars:
+#    ###
+#    label_key: "node-role.osism.tech/{{ rook_placement_label_mgr }}"
+#    label_val: "true"
+#    label_dict: >-
+#      {{ {label_key: label_val} }}
+#    ###
+#    prefix: node-role.osism.tech/
+#    suffix: "true"
+#    # find all variables matching the regular expression
+#    list_rook_placement_label_names: "{{ query('varnames', '^rook_placement_label_mg') }}"
+#    # generate a dict out of prior retrieved rook labels with prefix and suffix
+#    dict_rook_placement_labels: "{{ [prefix] | product(query('vars', *list_rook_placement_label_names)) | map('join') | product([suffix]) | community.general.dict }}"
+#    list_rook_placement_labels: "{{ [prefix] | product(query('vars', *list_rook_placement_label_names)) | map('join') }}"
+#  kubernetes.core.k8s:
+#    state: absent
+##    apply: true
+##    force: true
+##    merge_type: merge
+#    kubeconfig: /share/kubeconfig
+#    namespace: "{{ rook_namespace }}"
+#    definition: 
+#      apiVersion: v1
+#      kind: Node
+#      metadata:
+#        name: "{{ item.metadata.name }}"
+##        labels: "{{ dict_rook_placement_labels }}"
+#        labels: "{{ label_dict }}"
+##  debug:
+##    msg: "Name: {{item.metadata.name}} ### {{item.metadata.labels}}  ### {{label_dict}} ### {{dict_rook_placement_labels}}"
+#  loop: "{{ node_list.resources }}"
+#
+#- name: end
+#  meta: end_play
+
+- name: Create patched labels
+  vars:
+    prefix: node-role.osism.tech/
+    # find all variables matching the regular expression
+    list_rook_placement_label_names: "{{ query('varnames', '^rook_placement_label_') }}"
+    # prefix all values of prior gathered variables in new list
+    list_rook_placement_labels: "{{ [prefix] | product(query('vars', *list_rook_placement_label_names)) | map('join') | list }}"
+  ansible.builtin.set_fact:
+    dict_node_name_patched_labels: "{{ dict_node_name_patched_labels | default({}) | combine({item.metadata.name: (item.metadata.labels | dict2items | rejectattr('key', 'in', list_rook_placement_labels) | items2dict)}) }}"
+  loop: "{{ node_list.resources }}"
+
+- name: Apply patched labels to nodes
+  kubernetes.core.k8s:
+    state: patched
+    apply: true
+    server_side_apply:
+      field_manager: OSISM
+#    force: true
+#    merge_type: merge
+    kubeconfig: /share/kubeconfig
+    namespace: "{{ rook_namespace }}"
+    definition:
+      apiVersion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.key }}"
+        labels: "{{ item.value }}"
+#  debug:
+#    msg: " {{item.key}} ### {{item.value}}"
+  loop: "{{ query('ansible.builtin.dict', dict_node_name_patched_labels) }}"
+  register: apply_result
+
+- name: error?
+  debug:
+    msg: "{{ apply_result }}"
+
+- name: end
+  meta: end_play
