@@ -1,3 +1,7 @@
 ---
+- name: Print technical preview note
+  ansible.builtin.debug:
+    msg: "The osism.services.openstack_health_monitore role should not be used in production. Manual installation: https://osism.tech/docs/guides/operations-guide/openstack/tools/openstack-health-monitor"
+
 - name: Include tasks
   ansible.builtin.include_tasks: "{{ openstack_health_monitor_install_type }}-{{ ansible_os_family }}-family.yml"
