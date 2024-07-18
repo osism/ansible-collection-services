@@ -279,15 +279,6 @@
       - '^molecule\/delegated\/tests\/nexus.*$'
 
 - job:
-    name: ansible-collection-services-molecule-openstack_health_monitor
-    parent: abstract-ansible-collection-services-molecule
-    vars:
-      ansible_role: openstack_health_monitor
-    files:
-      - '^roles\/openstack_health_monitor\/.*$'
-      - '^molecule\/delegated\/tests\/openstack_health_monitor.*$'
-
-- job:
     name: ansible-collection-services-molecule-openstackclient
     parent: abstract-ansible-collection-services-molecule
     vars:
