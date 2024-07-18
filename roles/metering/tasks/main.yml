@@ -1,4 +1,8 @@
 ---
+- name: Print technical preview note
+  ansible.builtin.debug:
+    msg: "The osism.services.metering role should not be used in production. It is a technical preview for a sample service for metering from the SCS project."
+
 - name: Create required directories
   become: true
   ansible.builtin.file:
