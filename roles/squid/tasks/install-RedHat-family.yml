@@ -1,0 +1,7 @@
+---
+- name: Install required packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ squid_required_packages }}"
+    state: present
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
