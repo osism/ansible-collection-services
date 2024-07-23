@@ -1,6 +1,10 @@
 ---
 # tasks file for squid
 
+- name: Include install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
+  tags: install
+
 - name: Create required directories
   become: true
   ansible.builtin.file:
@@ -39,9 +43,43 @@
     mode: 0640
   notify: Restart squid service
 
-- name: Manage squid service
-  become: true
-  ansible.builtin.service:
-    name: "{{ squid_service_name }}"
-    state: started
-    enabled: true
+- name: Ensure that the squid service is up and running
+  block:  # noqa osism-fqcn
+    - name: Manage squid service
+      become: true
+      ansible.builtin.service:
+        name: "{{ squid_service_name }}"
+        state: started
+        enabled: true
+      register: result
+      until: result.status.ActiveState == "active"
+      retries: 10
+      delay: 20
+      notify: Wait for squid service to start
+  rescue:
+    # Compose is not always reliable when starting services. Therefore,
+    # in case of an error at startup, another stop and start of the
+    # service is tried here.
+    - name: Stop squid service
+      become: true
+      ansible.builtin.service:
+        name: "{{ squid_service_name }}"
+        state: stopped
+
+    - name: Do a manual start of the squid service
+      ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ squid_docker_compose_directory }} up -d --remove-orphans"
+      changed_when: true
+      failed_when: false
+
+    # This does not change anything on the service side, but the unit is
+    # then in the expected state.
+    - name: Start squid service again
+      become: true
+      ansible.builtin.service:
+        name: "{{ squid_service_name }}"
+        state: started
+      register: result
+      until: result.status.ActiveState == "active"
+      retries: 10
+      delay: 20
+      notify: Register that squid service was started
