@@ -8,7 +8,7 @@
   until: result.status.ActiveState == "active"
   retries: 10
   delay: 20
-  when: netbox_service_restart|bool
+  when: _netbox_service_restart | default(true) | bool
   notify:
     - Wait for netbox service to start
     - Register that netbox service was restarted
@@ -24,7 +24,7 @@
 # was already started via ansible.builtin.service.
 - name: Register that netbox service was restarted
   ansible.builtin.set_fact:
-    netbox_service_restart: false
+    _netbox_service_restart: false
 
 # NOTE: The command returns a list of IDs of containers from the service
 #       that are currently starting or unhealthy. As long as the list is not empty

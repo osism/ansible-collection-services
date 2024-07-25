@@ -28,6 +28,12 @@
       retries: 10
       delay: 20
       notify: Wait for netbox service to start
+
+    # NOTE: This prevents a netbox restart when the service
+    # was already started via ansible.builtin.service.
+    - name: Register that netbox service was already started
+      ansible.builtin.set_fact:
+        _netbox_service_restart: false
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the
