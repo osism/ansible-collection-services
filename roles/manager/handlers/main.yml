@@ -8,7 +8,7 @@
   until: result.status.ActiveState == "active"
   retries: 10
   delay: 20
-  when: manager_service_restart|bool
+  when: _manager_service_restart | default(true) | bool
   notify:
     - Wait for manager service to start
     - Register that manager service was restarted
@@ -24,7 +24,7 @@
 #       osism.manager.manager playbook.
 - name: Register that manager service was restarted
   ansible.builtin.set_fact:
-    manager_service_restart: false
+    _manager_service_restart: false
 
 - name: Ensure that all containers are up
   ansible.builtin.command:
