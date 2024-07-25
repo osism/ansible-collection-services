@@ -103,3 +103,11 @@ The name for the Postgres database from Keycloak.
    :default: 192.168.16.100
 
 Public IP for Keycloak.
+
+## Importing custom CA\'s into Keycloak
+
+To import your custom CA\'s into Keycloak the operator should copy the CA file into the next directory
+
+`{{ keycloak_tls_certificates_directory }}/certs`
+
+This will be loaded into Keycloak during the deployment.

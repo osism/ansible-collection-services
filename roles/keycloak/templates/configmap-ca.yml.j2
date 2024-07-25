@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-ca-certs
+  namespace: {{ keycloak_namespace }}
+data:
+{% for file in files %}
+  {{ file.name }}: |
+    {{ file.content | indent(4) }}
+{% endfor %}
