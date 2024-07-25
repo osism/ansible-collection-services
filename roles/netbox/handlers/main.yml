@@ -42,3 +42,4 @@
   retries: 60
   delay: 10
   changed_when: true
+  when: netbox_wait_for_healthy_service | bool
