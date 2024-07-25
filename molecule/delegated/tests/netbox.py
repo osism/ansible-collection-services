@@ -54,7 +54,7 @@ def test_postgres_config(host):
     assert entrypoint.user == get_variable(host, "operator_user")
     assert entrypoint.group == get_variable(host, "operator_group")
 
-    if host.file(get_variable(host, "netbox_postgres_init_sql")).exists:
+    if host.file(get_variable(host, "netbox_postgres_init_dump")).exists:
         init_sql = host.file(f"{config_dir}/docker-entrypoint-initdb.d/init.sql.osism")
         assert init_sql.exists
         assert not init_sql.is_directory

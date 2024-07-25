@@ -113,7 +113,8 @@ netbox_postgres_databasename: netbox
 
 netbox_postgres_volume_type: volume
 
-netbox_postgres_init_sql: "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
+netbox_postgres_init_dump: "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
+netbox_postgres_init_from_dump: false
 
 ##########################
 # redis

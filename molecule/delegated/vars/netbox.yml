@@ -1,3 +1,5 @@
 ---
 operator_user: zuul
 operator_group: zuul
+
+netbox_postgres_init_from_dump: true
