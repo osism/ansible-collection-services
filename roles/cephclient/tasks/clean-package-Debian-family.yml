@@ -8,13 +8,10 @@
 - name: Remove configuration files
   become: true
   ansible.builtin.file:
-    path: "/etc/ceph/ceph.conf"
-    owner: "root"
-    group: "root"
-    mode: 0644
+    path: /etc/ceph/ceph.conf
     state: absent
 
-- name: Uninstall required packages
+- name: Uninstall packages
   become: true
   ansible.builtin.apt:
     name: "{{ cephclient_packages }}"
@@ -28,12 +25,9 @@
   ansible.builtin.apt_repository:
     repo: "{{ cephclient_debian_repository }}"
     state: absent
-  when: cephclient_configure_repository | bool
 
 - name: Remove repository gpg key
   become: true
   ansible.builtin.file:
     path: /etc/apt/trusted.gpg.d/cephclient.asc
     state: absent
-  when:
-    - cephclient_configure_repository | bool
