@@ -8,9 +8,10 @@
   until: result.status.ActiveState == "active"
   retries: 10
   delay: 20
-  when: not nexus_service.changed
+  when: _nexus_service_restart | default(true) | bool
   notify:
     - Wait for nexus service to start
+    - Register that nexus service was restarted
 
 - name: Wait for nexus service to start
   ansible.builtin.pause:
@@ -18,6 +19,10 @@
   changed_when: true
   notify:
     - Ensure that all containers are up
+
+- name: Register that nexus service was restarted
+  ansible.builtin.set_fact:
+    _nexus_service_restart: false
 
 - name: Ensure that all containers are up
   ansible.builtin.command:
