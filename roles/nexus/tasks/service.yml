@@ -28,5 +28,10 @@
   notify:
     - Wait for nexus service to start
 
+- name: Register that nexus service was already started
+  ansible.builtin.set_fact:
+    _nexus_service_restart: false
+  when: nexus_service.changed  # noqa no-handler
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
