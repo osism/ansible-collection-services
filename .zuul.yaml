@@ -443,6 +443,7 @@
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
         - ansible-collection-services-molecule-wireguard
+        - ansible-collection-ensure-readme
         - ansible-lint
         - flake8
         - python-black
@@ -483,6 +484,7 @@
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
         - ansible-collection-services-molecule-wireguard
+        - ansible-collection-ensure-readme
         - ansible-lint
         - flake8
         - python-black
