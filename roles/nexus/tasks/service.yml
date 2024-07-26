@@ -1,4 +1,14 @@
 ---
+- name: Copy nexus systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: nexus.service.j2
+    dest: "/etc/systemd/system/nexus.service"
+    mode: 0644
+    owner: root
+    group: root
+  register: nexus_systemd_unit_file
+
 - name: Create traefik external network
   community.docker.docker_network:
     name: "{{ traefik_external_network_name }}"
@@ -15,20 +25,24 @@
     mode: 0640
   notify: Restart nexus service
 
+- name: "Stop and disable old service {{ nexus_old_service_name }}"
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ nexus_old_service_name }}"
+    state: stopped
+    enabled: false
+
 - name: Manage nexus service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ nexus_service_name }}"
     state: started
     enabled: true
+    daemon_reload: "{{ nexus_systemd_unit_file.changed }}"
   register: nexus_service
-  until: nexus_service.status.ActiveState == "active"
-  retries: 10
-  delay: 20
-  notify:
-    - Wait for nexus service to start
+  notify: Wait for nexus service to start
 
-- name: Register that nexus service was already started
+- name: Register that nexus service was started
   ansible.builtin.set_fact:
     _nexus_service_restart: false
   when: nexus_service.changed  # noqa no-handler

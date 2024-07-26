@@ -1,0 +1,17 @@
+[Unit]
+Description=OSISM netbox service
+PartOf=osism.target
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+RemainAfterExit=true
+WorkingDirectory=/opt/netbox
+User={{ operator_user }}
+Group={{ operator_group }}
+ExecStart=/usr/bin/docker compose up --remove-orphans
+ExecStop=/usr/bin/docker compose stop
+
+[Install]
+WantedBy=osism.target
