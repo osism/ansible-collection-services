@@ -1,4 +1,14 @@
 ---
+- name: Copy netbox systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: netbox.service.j2
+    dest: "/etc/systemd/system/netbox.service"
+    mode: 0644
+    owner: root
+    group: root
+  register: netbox_systemd_unit_file
+
 - name: Create traefik external network
   community.docker.docker_network:
     name: "{{ traefik_external_network_name }}"
@@ -15,49 +25,53 @@
     mode: 0640
   notify: Restart netbox service
 
+- name: "Stop and disable old service {{ netbox_old_service_name }}"
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ netbox_old_service_name }}"
+    state: stopped
+    enabled: false
+
 - name: Ensure that the netbox service is up and running
   block:  # noqa osism-fqcn
     - name: Manage netbox service
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ netbox_service_name }}"
         state: started
         enabled: true
-      register: result
-      until: result.status.ActiveState == "active"
-      retries: 10
-      delay: 20
+        daemon_reload: "{{ netbox_systemd_unit_file.changed }}"
+      register: netbox_service
       notify: Wait for netbox service to start
 
-    # NOTE: This prevents a netbox restart when the service
-    # was already started via ansible.builtin.service.
-    - name: Register that netbox service was already started
-      ansible.builtin.set_fact:
-        _netbox_service_restart: false
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the
     # service is tried here.
     - name: Stop netbox service
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ netbox_service_name }}"
         state: stopped
 
     - name: Do a manual start of the netbox service
       ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ netbox_docker_compose_directory }} up -d --remove-orphans"
       changed_when: true
-      failed_when: false
+      notify: Wait for netbox service to start
 
     # This does not change anything on the service side, but the unit is
     # then in the expected state.
-    - name: Start netbox service again
+    - name: Manage netbox service again
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ netbox_service_name }}"
         state: started
-      register: result
-      until: result.status.ActiveState == "active"
-      retries: 10
-      delay: 20
-      notify: Register that netbox service was started
+      register: netbox_service
+
+- name: Register that netbox service was started
+  ansible.builtin.set_fact:
+    _netbox_service_restart: false
+  when: netbox_service.changed  # noqa no-handler
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

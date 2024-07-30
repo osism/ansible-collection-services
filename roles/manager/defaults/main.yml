@@ -22,7 +22,8 @@ docker_network_mtu: 1500
 
 manager_network: 172.31.101.0/27
 
-manager_service_name: "docker-compose@manager"
+manager_old_service_name: "docker-compose@manager"
+manager_service_name: "manager"
 
 manager_pre_pull: true
 

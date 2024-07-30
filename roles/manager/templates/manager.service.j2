@@ -1,0 +1,20 @@
+[Unit]
+Description=OSISM manager service
+PartOf=osism.target
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+RemainAfterExit=true
+WorkingDirectory=/opt/manager
+User={{ operator_user }}
+Group={{ operator_group }}
+{% if manager_pre_pull | bool %}
+ExecStartPre=/usr/bin/docker compose pull
+{% endif %}
+ExecStart=/usr/bin/docker compose up --remove-orphans
+ExecStop=/usr/bin/docker compose stop
+
+[Install]
+WantedBy=osism.target
