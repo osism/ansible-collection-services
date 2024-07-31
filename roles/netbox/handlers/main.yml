@@ -39,6 +39,6 @@
     executable: /bin/bash
   register: result
   until: "result.stdout | length == 0"
-  retries: 60
+  retries: 90
   delay: 10
   changed_when: true
