@@ -144,28 +144,6 @@
       - '^roles\/fail2ban\/.*$'
       - '^molecule\/delegated\/tests\/fail2ban.*$'
 
-# The fail2ban service is currently broken on Ubuntu 24.04.
-# The issue is already fixed, but it has not yet arrived in the repositories.
-# https://bugs.launchpad.net/ubuntu/+source/fail2ban/+bug/2055114
-- job:
-    name: ansible-collection-services-molecule-fail2ban
-    parent: abstract-ansible-collection-services-molecule
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
-        - name: debian-bookworm
-          label: debian-bookworm
-        - name: ubuntu-jammy
-          label: ubuntu-jammy
-    vars:
-      ansible_role: fail2ban
-    files:
-      - '^roles\/fail2ban\/.*$'
-      - '^molecule\/delegated\/prepare\/fail2ban.*$'
-      - '^molecule\/delegated\/tests\/fail2ban.*$'
-      - '^molecule\/delegated\/vars\/fail2ban.*$'
-
 - job:
     name: ansible-collection-services-molecule-falco
     parent: abstract-ansible-collection-services-molecule
