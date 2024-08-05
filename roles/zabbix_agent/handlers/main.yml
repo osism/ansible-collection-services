@@ -1,0 +1,6 @@
+---
+- name: "Restart service {{ zabbix_agent_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ zabbix_agent_service_name }}"
+    state: restarted

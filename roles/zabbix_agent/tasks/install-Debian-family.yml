@@ -1,0 +1,33 @@
+---
+- name: Install apt-transport-https package
+  become: true
+  ansible.builtin.apt:
+    name: apt-transport-https
+    state: present
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+  when: zabbix_agent_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.apt_key:
+    url: "{{ zabbix_agent_debian_repository_key }}"
+  when: zabbix_agent_configure_repository|bool
+
+- name: Add repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ zabbix_agent_debian_repository }}"
+    state: present
+    filename: zabbix_agent
+    update_cache: true
+    mode: 0644
+  when: zabbix_agent_configure_repository|bool
+
+- name: "Install package {{ zabbix_agent_package_name }}"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ zabbix_agent_package_name }}"
+    state: latest
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+  notify: "Restart service {{ zabbix_agent_service_name }}"

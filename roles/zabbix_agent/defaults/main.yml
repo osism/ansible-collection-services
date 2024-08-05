@@ -1,0 +1,34 @@
+---
+##########################
+# package
+
+zabbix_agent_package_name: zabbix-agent2
+
+##########################
+# service
+
+zabbix_agent_service_name: zabbix-agent2
+
+##########################
+# repository
+
+zabbix_agent_configure_repository: true
+
+zabbix_agent_version: 7.0
+zabbix_agent_debian_repository_arch: amd64
+zabbix_agent_debian_repository_key: https://repo.zabbix.com/zabbix-official-repo.key
+zabbix_agent_debian_repository: "deb [ arch={{ zabbix_agent_debian_repository_arch }} ] https://repo.zabbix.com/zabbix/{{ zabbix_agent_version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+
+##########################
+# parameters
+
+zabbix_network: 172.31.100.112/28
+
+zabbix_agent_server: 127.0.0.1
+
+zabbix_agent_host: "{{ internal_address | default(ansible_default_ipv4.address) }}"
+zabbix_agent_port: 10050
+zabbix_agent_source: "{{ zabbix_agent_host }}"
+zabbix_agent_hostname: "{{ inventory_hostname }}"
+
+zabbix_agent_configuration_file: zabbix_agent2.conf

@@ -1,0 +1,35 @@
+PidFile=/var/run/zabbix/zabbix_agent2.pid
+ControlSocket=/tmp/agent.sock
+
+LogType=file
+LogFile=/var/log/zabbix/zabbix_agent2.log
+LogFileSize=512
+
+SourceIP={{ zabbix_agent_source }}
+{% if 'zabbix' in group_names %}
+Server={{ zabbix_agent_server }},{{ zabbix_network }}
+{% else %}
+Server={{ zabbix_agent_server }}
+{% endif %}
+
+ListenPort={{ zabbix_agent_port }}
+ListenIP={{ zabbix_agent_host }}
+
+ServerActive={{ zabbix_agent_server }}
+
+Hostname={{ zabbix_agent_hostname }}
+# HostMetadata=
+
+# RefreshActiveChecks=120
+# BufferSend=5
+# BufferSize=100
+
+# EnablePersistentBuffer=0
+# PersistentBufferPeriod=1h
+# PersistentBufferFile=
+
+# Timeout=3
+
+DenyKey=system.run[*]
+
+Include=/etc/zabbix/zabbix_agent2.d/*.conf

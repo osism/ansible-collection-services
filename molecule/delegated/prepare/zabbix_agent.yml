@@ -1,0 +1,8 @@
+---
+- name: Ensure docker
+  ansible.builtin.include_role:
+    name: docker
+  vars:
+    docker_user: zuul
+    docker_group: zuul
+    docker_python_install: false
