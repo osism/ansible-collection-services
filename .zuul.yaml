@@ -374,6 +374,23 @@
       - '^molecule\/delegated\/tests\/wireguard.*$'
 
 - job:
+    name: ansible-collection-services-molecule-zabbix_agent
+    parent: abstract-ansible-collection-services-molecule
+    nodeset:
+      nodes:
+        - name: ubuntu-noble
+          label: ubuntu-noble
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+    vars:
+      ansible_role: zabbix_agent
+    files:
+      - '^roles\/zabbix_agent\/.*$'
+      - '^molecule\/delegated\/prepare\/zabbix_agent.*$'
+      - '^molecule\/delegated\/tests\/zabbix_agent.*$'
+      - '^molecule\/delegated\/vars\/zabbix_agent.*$'
+
+- job:
     name: ansible-collection-services-molecule-zuul
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -421,6 +438,7 @@
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
         - ansible-collection-services-molecule-wireguard
+        - ansible-collection-services-molecule-zabbix_agent
         - ansible-collection-ensure-readme
         - ansible-lint
         - flake8
@@ -462,6 +480,7 @@
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
         - ansible-collection-services-molecule-wireguard
+        - ansible-collection-services-molecule-zabbix_agent
         - ansible-collection-ensure-readme
         - ansible-lint
         - flake8

@@ -1,0 +1,27 @@
+---
+- name: Include distribution specific install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
+
+- name: "Copy configuration file"
+  become: true
+  ansible.builtin.template:
+    src: "{{ zabbix_agent_configuration_file }}.j2"
+    dest: "/etc/zabbix/{{ zabbix_agent_configuration_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: "Restart service {{ zabbix_agent_service_name }}"
+
+- name: Add zabbix user to docker group
+  become: true
+  ansible.builtin.user:
+    name: zabbix
+    groups: docker
+    append: true
+
+- name: "Manage service {{ zabbix_agent_service_name }}"
+  become: true
+  ansible.builtin.service:
+    name: "{{ zabbix_agent_service_name }}"
+    state: started
+    enabled: true
