@@ -1,4 +1,16 @@
 ---
+- name: Install python3-dnf-plugin-versionlock package
+  become: true
+  ansible.builtin.dnf:
+    name: python3-dnf-plugin-versionlock
+    state: present
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
+
+- name: Pin frr package version
+  become: true
+  ansible.builtin.command: "dnf versionlock {{ frr_package_name }}"
+  changed_when: false
+
 - name: Install frr package
   become: true
   ansible.builtin.dnf:
