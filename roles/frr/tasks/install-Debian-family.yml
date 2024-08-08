@@ -1,4 +1,14 @@
 ---
+- name: Pin frr package version
+  become: true
+  ansible.builtin.copy:
+    content: |
+      Package: {{ frr_package_name }}
+      Pin: version {{ frr_version }}*
+      Pin-Priority: 1001
+    dest: /etc/apt/preferences.d/frr
+    mode: 0644
+
 - name: Install frr package
   become: true
   ansible.builtin.apt:
