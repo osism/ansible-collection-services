@@ -1,10 +1,20 @@
 ---
-- name: Install Docker repository
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check whether packages are installed that should not be installed
+  ansible.builtin.fail:
+    msg: "{{ ansible_facts.packages[item] | length }} versions of {{ item }} are installed!"
+  when: "item in ansible_facts.packages"
+  loop: "{{ docker_packages_fail }}"
+
+- name: Add repository
   become: true
   ansible.builtin.command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   changed_when: true
 
-- name: Add Docker GPG key
+- name: Add repository gpg key
   become: true
   ansible.builtin.rpm_key:
     state: present
@@ -15,26 +25,20 @@
   ansible.builtin.command: dnf makecache
   changed_when: true
 
-- name: Gather the package facts
-  ansible.builtin.package_facts:
-    manager: auto
-
-- name: Check whether packages are installed that should not be installed
-  ansible.builtin.fail:
-    msg: "{{ ansible_facts.packages[item] | length }} versions of {{ item }} are installed!"
-  when: "item in ansible_facts.packages"
-  loop: "{{ docker_packages_fail }}"
-
-- name: Install yum utilities
+- name: Install python3-dnf-plugin-versionlock package
   become: true
   ansible.builtin.dnf:
-    name: "{{ item }}"
+    name: python3-dnf-plugin-versionlock
     state: present
     lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
-  loop:
-    - python3-dnf-plugin-versionlock
 
-- name: Install container.d
+- name: Pin containerd package version
+  become: true
+  ansible.builtin.command: "dnf versionlock {{ containerd_package_name }}"
+  when: docker_manage_containerd|bool
+  changed_when: true
+
+- name: Install containerd package
   become: true
   ansible.builtin.dnf:
     name: "{{ containerd_package_name }}"
@@ -42,13 +46,7 @@
     lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
   when: docker_manage_containerd|bool
 
-- name: Pin container.d
-  become: true
-  ansible.builtin.command: "dnf versionlock {{ containerd_package_name }}"
-  when: docker_manage_containerd|bool
-  changed_when: true
-
-- name: Pin other docker packages
+- name: Pin other packages
   become: true
   ansible.builtin.command: "dnf versionlock {{ item }}"
   loop:
@@ -56,7 +54,7 @@
     - "{{ docker_package_name }}-{{ docker_version }}*"
   changed_when: true
 
-- name: Install docker
+- name: Install docker packages
   become: true
   ansible.builtin.dnf:
     name:
@@ -65,7 +63,7 @@
     state: present
     lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
 
-- name: Install python3 docker bindings package
+- name: Install python bindings with dnf
   become: true
   ansible.builtin.dnf:
     name: "{{ docker_python3_package_name }}"
