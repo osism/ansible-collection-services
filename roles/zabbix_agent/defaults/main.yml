@@ -23,10 +23,9 @@ zabbix_agent_debian_repository: "deb [ arch={{ zabbix_agent_debian_repository_ar
 # parameters
 
 zabbix_network: 172.31.100.112/28
-
 zabbix_agent_server: 127.0.0.1
 
-zabbix_agent_host: "{{ internal_address | default(ansible_default_ipv4.address) }}"
+zabbix_agent_host: "{{ ansible_default_ipv4.address }}"
 zabbix_agent_port: 10050
 zabbix_agent_source: "{{ zabbix_agent_host }}"
 zabbix_agent_hostname: "{{ inventory_hostname }}"
