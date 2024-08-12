@@ -300,6 +300,7 @@ services:
       - "share:/share"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "{{ manager_data_directory }}:/data:ro"
 
 {% if flower_enable|bool %}
   ##########################################
