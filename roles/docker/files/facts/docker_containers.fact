@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
 
 import json
-import socket
+import sys
 
 import docker
 
-client = docker.APIClient(base_url='unix://var/run/docker.sock')
-
 containers = []
+
+try:
+    client = docker.APIClient(base_url="unix://var/run/docker.sock")
+except docker.errors.DockerException:
+    print(json.dumps(containers))
+    sys.exit(0)
+
 for container in client.containers():
-    containers.append({
-        "name": container['Names'][0],
-        "image": container['Image'],
-        "state": container['State'],
-        "status": container['Status'],
-        "id": container['Id']
-    })
+    containers.append(
+        {
+            "name": container["Names"][0],
+            "image": container["Image"],
+            "state": container["State"],
+            "status": container["Status"],
+            "id": container["Id"],
+        }
+    )
 
 print(json.dumps(containers))
