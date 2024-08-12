@@ -11,6 +11,7 @@
     - "{{ ansible_directory }}"
     - "{{ archive_directory }}"
     - "{{ manager_configuration_directory }}"
+    - "{{ manager_data_directory }}"
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_secrets_directory }}"
     - "{{ secrets_directory }}"
