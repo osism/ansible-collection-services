@@ -31,3 +31,5 @@ chrony_bind_local_interfaces_only: true
 # Bind Chrony to specific addresses
 # NOTE: It is only possible to set at most one IPv4 and one IPv6 address.
 chrony_bindaddresses: []
+
+chrony_minimum_number_of_servers: 2
