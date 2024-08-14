@@ -3,7 +3,7 @@ import re
 import socket
 
 # For reference see https://netbox.readthedocs.io/en/stable/configuration/
-# Based on https://github.com/netbox-community/netbox/blob/develop/netbox/netbox/configuration.example.py
+# Based on https://github.com/netbox-community/netbox/blob/develop/netbox/netbox/configuration_example.py
 
 # Read secret from file
 def read_secret(secret_name):
@@ -207,7 +207,7 @@ REPORTS_ROOT = os.environ.get('REPORTS_ROOT', '/etc/netbox/reports')
 
 # The file path where custom scripts will be stored. A trailing slash is not needed. Note that the default value of
 # this setting is derived from the installed location.
-SCRIPTS_ROOT = os.environ.get('SCRIPTS_ROOT', '/etc/netbox/scripts')
+SCRIPTS_ROOT = os.environ.get('SCRIPTS_ROOT', '/opt/netbox/netbox/scripts')
 
 # Time zone (default: UTC)
 TIME_ZONE = os.environ.get('TIME_ZONE', 'UTC')
