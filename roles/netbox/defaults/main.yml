@@ -39,7 +39,7 @@ netbox_port: 8121
 netbox_osism_api_host: "{{ netbox_host }}"
 netbox_osism_api_port: 8000
 
-netbox_userid: 101
+netbox_user: 'unit:root'
 
 # renovate: datasource=docker depName=quay.io/osism/netbox
 netbox_tag: 'v4.0.8'
