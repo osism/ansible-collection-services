@@ -35,7 +35,7 @@ services:
   netbox: &netbox
     image: "{{ netbox_image }}"
     restart: unless-stopped
-    user: "{{ netbox_userid }}"
+    user: "{{ netbox_user }}"
     env_file:
       - "{{ netbox_configuration_directory }}/netbox.env"
     depends_on:
