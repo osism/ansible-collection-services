@@ -101,7 +101,7 @@ def test_netbox_config(host):
     assert config_py.user == get_variable(host, "operator_user")
     assert config_py.group == get_variable(host, "operator_group")
     assert (
-        "SCRIPTS_ROOT = os.environ.get('SCRIPTS_ROOT', '/etc/netbox/scripts')"
+        "SCRIPTS_ROOT = os.environ.get('SCRIPTS_ROOT', '/opt/netbox/netbox/scripts')"
         in config_py.content_string
     )
 
