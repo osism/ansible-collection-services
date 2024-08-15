@@ -12,9 +12,13 @@
     docker_cli_version: "{{ __docker_cli_version }}"
   when: docker_cli_version|default(None) == None
 
-- name: Include storage tasks
-  ansible.builtin.include_tasks: storage.yml
+- name: Include block storage tasks
+  ansible.builtin.include_tasks: storage-block.yml
   when: docker_configure_storage_block_device|bool
+
+- name: Include zram storage tasks
+  ansible.builtin.include_tasks: storage-zram.yml
+  when: docker_configure_storage_zram_device|bool
 
 - name: Include docker install tasks
   ansible.builtin.include_tasks: "install-docker-{{ ansible_os_family }}-family.yml"

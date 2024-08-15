@@ -1,0 +1,38 @@
+---
+- name: Add the zram module and make sure it is loaded after reboots
+  become: true
+  community.general.modprobe:
+    name: zram
+    state: present
+    persistent: present
+
+- name: Prepare zram device
+  become: true
+  ansible.builtin.command: "zramctl --size {{ docker_storage_zram_device_size }} {{ docker_storage_zram_device }}"
+  changed_when: false
+
+- name: Create filesystem on zram device
+  become: true
+  community.general.filesystem:
+    dev: "{{ docker_storage_zram_device }}"
+    fstype: "{{ docker_storage_zram_device_filesystem }}"
+    force: true
+
+- name: Create docker directory
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/docker
+    state: directory
+    owner: root
+    group: root
+    mode: 0711
+  tags:
+    - skip_ansible_lint
+
+- name: Mount zram device to docker directory
+  become: true
+  ansible.posix.mount:
+    path: /var/lib/docker
+    src: "{{ docker_storage_zram_device }}"
+    fstype: "{{ docker_storage_zram_device_filesystem }}"
+    state: mounted
