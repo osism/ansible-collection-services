@@ -110,6 +110,14 @@ docker_storage_filesystem: ext4
 docker_storage_force: false
 
 ##########################
+# zram device
+
+docker_configure_storage_zram_device: false
+docker_storage_zram_device: /dev/zram0
+docker_storage_zram_device_size: 4G
+docker_storage_zram_device_filesystem: ext4
+
+##########################
 # proxy
 
 docker_configure_proxy: false

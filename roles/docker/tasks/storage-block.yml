@@ -1,5 +1,5 @@
 ---
-- name: Create filesystem on storage block device  # noqa: ignore-errors
+- name: Create filesystem on block device  # noqa: ignore-errors
   become: true
   community.general.filesystem:
     dev: "{{ docker_storage_block_device }}"
@@ -18,7 +18,7 @@
   tags:
     - skip_ansible_lint
 
-- name: Mount storage block device to docker directory
+- name: Mount block device to docker directory
   become: true
   ansible.posix.mount:
     path: /var/lib/docker
