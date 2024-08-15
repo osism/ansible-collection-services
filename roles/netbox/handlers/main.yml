@@ -4,8 +4,8 @@
   ansible.builtin.service:
     name: "{{ netbox_service_name }}"
     state: restarted
-  register: result
-  until: result["status"]["ActiveState"] == "active"
+  register: result_restart
+  until: result_restart["status"]["ActiveState"] == "active"
   retries: 10
   delay: 20
   when: _netbox_service_restart | default(true) | bool
@@ -37,8 +37,8 @@
         jq '. | select(.State=="created" or .State=="exited" or .Health=="starting" or .Health=="unhealthy") | .Name'
   args:
     executable: /bin/bash
-  register: result
-  until: "result.stdout | length == 0"
+  register: result_healthy
+  until: "result_healthy.stdout | length == 0"
   retries: 60
   delay: 10
   changed_when: true
