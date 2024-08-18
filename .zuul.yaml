@@ -2,6 +2,17 @@
 - secret:
     name: SECRET_ANSIBLE_COLLECTION_SERVICES
     data:
+      DTRACK_API_KEY: !encrypted/pkcs1-oaep
+        - nLVJ+pUydsGiIHXFSKLQBtrAi4FmmPbLu1VVBEBVc+uN4bnqWU3nFhuG5TBQUcKRLZ2+M
+          FQuG8qAJuNq80yddttINVREM5Yut7z2cyhxnWCJJX6ElAxLazfTITCBEfztM0yF7fIZFq
+          FqipLg4wFjXXJ9B5w4V0ry261xG4o80Sg/+WzjjR9h3ujSF+8WhjBRPj2qiVVCDZVd2W5
+          PuhsbXuL1bpdELzWlQ4DU56ehaH988IkM+mDvJb5sTZeGiG16YF9CS0ayg3sI4xWxSJ0f
+          xF2S6sXFuRmKtJoKYZFeMEY1zWIMV2OidCUW8Qg4Z2dg0WCndJDG4qUsGop+NynhMC1EA
+          xgnRQXkLPRlgoFLgHEdGQVR5GxoFlzQsPdGd3/hwdVDKvQB+34kp8DEgwkAwlwjPz7kmr
+          hiJjzWo0EOtDq0jHkWazcXU8Oy7RXK5dpO2/0gRMFhbbCwZJfUkGNbMD4KBUa52g3LXPF
+          LOrELqHOEqFaP6ilW3m/CqElAeXXsqkS8KlGI3pNiKCCV6Llvhl+E6cjr6ei/NyavH9vn
+          62cRnFjoGuRcgjUpnL94ik6mXofcGcjX4ZUMmobebKBjQ0HbsEUzUvHCk7ssLnNO0682A
+          r4xRZxJijH8KGyE8UhGaNpDEYe2lti/pxjDeTndRijnpz8L4YiSI/ONdv/cIHU=
       DOCKER_USERNAME: !encrypted/pkcs1-oaep
         - O9ZcSsIP/E1HxkgR3QCPFuNu17Zmf+gTdri/Lvl/zAhK+IDN0CgF3EXpD1Gf3rE1xY5+/
           ghrUyppQEvvtLUOwB5Es4vj/8S+DEvfCzHTpXyLDfDice8vkDwUoe5HYqLRzRKHTNTMP8
