@@ -1,2 +1,4 @@
 ---
 manager_timezone_path: "/etc/timezone"
+
+_manager_ca_certificates_file: /etc/ssl/certs/ca-certificates.crt

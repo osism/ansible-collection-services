@@ -1,2 +1,4 @@
 ---
 manager_timezone_path: "/etc/localtime"
+
+_manager_ca_certificates_file: /etc/pki/tls/certs/ca-bundle.crt
