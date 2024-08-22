@@ -10,7 +10,7 @@ services:
     tmpfs:
       - /inventory.pre:uid=45000,gid=45000
     volumes:
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
 {% if inventory_reconciler_tag != 'latest' and inventory_reconciler_tag is version('5.2.0', operator='le') %}
@@ -73,7 +73,7 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ manager_timezone_path }}:/etc/timezone:ro"
       - "cache:{{ cache_directory }}"
       - "logs:{{ logs_directory }}"
@@ -130,7 +130,7 @@ services:
     image: "{{ osism_netbox_image }}"
     command: osism worker netbox
     volumes:
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ configuration_directory }}/netbox:/netbox:ro"
       - "{{ state_directory }}/netbox:/state:rw"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
@@ -158,7 +158,7 @@ services:
     image: "{{ osism_image }}"
     command: osism worker conductor
     volumes:
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ state_directory }}/conductor:/state:rw"
     secrets:
@@ -180,7 +180,7 @@ services:
     image: "{{ osism_image }}"
     command: osism service listener
     volumes:
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
@@ -203,7 +203,7 @@ services:
     image: "{{ osism_image }}"
     command: osism worker openstack
     volumes:
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
 {% if enable_netbox|bool %}
@@ -291,7 +291,7 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ manager_timezone_path }}:/etc/timezone:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "cache:{{ cache_directory }}"
