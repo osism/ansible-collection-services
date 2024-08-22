@@ -1,4 +1,12 @@
 ---
+- name: Check minimum and maximum number of servers
+  ansible.builtin.fail:
+    msg: >
+      A minimum of {{ chrony_minimum_number_of_servers }} of server(s) must
+      be configured. Currently {{ chrony_servers | length }} server(s) are
+      configured.
+  when: chrony_servers | length < chrony_minimum_number_of_servers | int
+
 - name: Gather variables for each operating system
   ansible.builtin.include_vars: "{{ ansible_os_family }}-family.yml"
 
