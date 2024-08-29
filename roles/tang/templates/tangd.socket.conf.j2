@@ -1,15 +1,8 @@
 [Unit]
 Description=Tang Server socket
-Requires=tangd-keygen.service
-Requires=tangd-update.service
-Requires=tangd-update.path
-After=tangd-keygen.service
-After=tangd-update.service
 
 [Socket]
-
 ListenStream={{ tang_server_port }}
-
 Accept=true
 
 [Install]

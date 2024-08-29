@@ -232,6 +232,15 @@
       - '^molecule\/delegated\/vars\/manager.*$'
 
 - job:
+    name: ansible-collection-services-molecule-metering
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: metering
+    files:
+      - '^roles\/metering\/.*$'
+      - '^molecule\/delegated\/tests\/metering.*$'
+
+- job:
     name: ansible-collection-services-molecule-netbox
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -340,6 +349,15 @@
       - '^molecule\/delegated\/tests\/squid.*$'
 
 - job:
+    name: ansible-collection-services-molecule-tang
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: tang
+    files:
+      - '^roles\/tang\/.*$'
+      - '^molecule\/delegated\/tests\/tang.*$'
+
+- job:
     name: ansible-collection-services-molecule-thanos_sidecar
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -432,6 +450,7 @@
         - ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager
+        - ansible-collection-services-molecule-metering
         - ansible-collection-services-molecule-netbox
         - ansible-collection-services-molecule-netbird
         - ansible-collection-services-molecule-netdata
@@ -444,6 +463,7 @@
         - ansible-collection-services-molecule-scaphandre
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-squid
+        - ansible-collection-services-molecule-tang
         - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
@@ -474,6 +494,7 @@
         - ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager
+        - ansible-collection-services-molecule-metering
         - ansible-collection-services-molecule-netbox
         - ansible-collection-services-molecule-netbird
         - ansible-collection-services-molecule-netdata
@@ -486,6 +507,7 @@
         - ansible-collection-services-molecule-scaphandre
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-squid
+        - ansible-collection-services-molecule-tang
         - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
