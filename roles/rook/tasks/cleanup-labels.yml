@@ -1,0 +1,26 @@
+---
+
+- name: "Get a list of all nodes in namespace: {{ rook_namespace }}"
+  kubernetes.core.k8s_info:
+    kind: Node
+    namespace: "{{ rook_namespace }}"
+  register: node_list
+
+- name: Remove all Rook labels from cluster
+  vars:
+    prefix: node-role.osism.tech/
+    # find all variables matching the regular expression
+    list_rook_placement_label_names: "{{ query('varnames', '^rook_placement_label_') }}"
+    # generate a dict out of prior retrieved rook labels with prefix and suffix
+    string_rook_placement_labels: "{{ [prefix] | product(query('vars', *list_rook_placement_label_names)) | map('join', '') | product(['-']) | map('join', '') | join(' ') }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+
+    export KUBECONFIG=/share/kubeconfig
+    kubectl label node {{ item.metadata.name }} {{ string_rook_placement_labels }}
+  args:
+    executable: /bin/bash
+  changed_when: false
+  loop: "{{ node_list.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"

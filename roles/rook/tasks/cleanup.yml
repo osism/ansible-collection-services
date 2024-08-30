@@ -49,6 +49,12 @@
   when: rook_cleanup
 
 
+- name: Cleanup labels
+  ansible.builtin.include_tasks: cleanup-labels.yml
+  tags: cleanup-labels
+  when: rook_cleanup
+
+
 - name: Include wait-for-cluster-deleted task
   ansible.builtin.include_tasks: wait-for-cluster-deleted.yml
   tags: wait
