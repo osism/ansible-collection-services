@@ -211,7 +211,7 @@ ara_worker_connections: 1000
 ara_workers: 5
 
 # renovate: datasource=docker depName=quay.io/osism/ara-server
-ara_server_tag: '1.7.1'
+ara_server_tag: '1.7.2'
 ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
