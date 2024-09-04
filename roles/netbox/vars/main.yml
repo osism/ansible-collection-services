@@ -1,0 +1,5 @@
+---
+_netbox_service_netbox_start_period: 120s
+_netbox_service_netbox_worker_start_period: 30s
+_netbox_service_postgres_start_period: 30s
+_netbox_service_redis_start_period: 30s

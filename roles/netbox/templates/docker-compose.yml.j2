@@ -17,7 +17,7 @@ services:
       - POSTGRES_PASSWORD
     healthcheck:
       test: pg_isready -U netbox
-      start_period: 30s
+      start_period: {{ netbox_service_postgres_start_period | default(_netbox_service_postgres_start_period) }}
     networks:
       - default
 
@@ -29,6 +29,7 @@ services:
       - "redis:/data"
     healthcheck:
       test: redis-cli ping
+      start_period: {{ netbox_service_redis_start_period | default(_netbox_service_redis_start_period) }}
     networks:
       - default
 
@@ -56,7 +57,7 @@ services:
       - NETBOX_SECRET_KEY
     healthcheck:
       test: curl -s -k http://127.0.0.1:8080/metrics
-      start_period: 120s
+      start_period: {{ netbox_service_netbox_start_period | default(_netbox_service_netbox_start_period) }}
 {% if not netbox_traefik|bool %}
     ports:
       - "{{ netbox_host | ansible.utils.ipwrap }}:{{ netbox_port }}:8080"
@@ -88,6 +89,7 @@ services:
     ports: []
     healthcheck:
       test: pgrep -f '/opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker'
+      start_period: {{ netbox_service_netbox_worker_start_period | default(_netbox_service_netbox_worker_start_period) }}
     networks:
       - default
 {% if netbox_traefik|bool %}
