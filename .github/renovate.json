@@ -24,6 +24,8 @@
         "^roles\\/netbox\\/defaults\\/main.yml$",
         "^roles\\/nexus\\/defaults\\/main.yml$",
         "^roles\\/phpmyadmin\\/defaults\\/main.yml$",
+        "^roles\\/rook\\/defaults\\/main.yml$",
+        "^roles\\/rook_operator\\/defaults\\/main.yml$",
         "^roles\\/traefik\\/defaults\\/main.yml$",
         "^roles\\/virtualbmc\\/defaults\\/main.yml$"
       ],
