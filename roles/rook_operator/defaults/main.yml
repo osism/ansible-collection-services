@@ -11,7 +11,7 @@ operator_group: "{{ operator_user }}"
 container_registry_rook_operator: index.docker.io
 rook_operator_image: "{{ container_registry_rook_operator }}/rook/ceph"
 # renovate: datasource=docker depName=index.docker.io/rook/ceph
-rook_operator_image_tag: 'v1.14.5'
+rook_operator_image_tag: 'v1.15.1'
 
 ## work directory inside the osism-ansible container:
 rook_operator_work_directory: /tmp/rook_operator/configuration
