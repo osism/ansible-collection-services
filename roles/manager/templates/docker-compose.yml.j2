@@ -275,6 +275,8 @@ services:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: sleep infinity
+    healthcheck:
+      test: pgrep sleep
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
