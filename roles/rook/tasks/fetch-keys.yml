@@ -4,6 +4,16 @@
   tags: wait
 
 
+- name: Fetch Ceph admin keyring
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: rook-ceph-admin-keyring
+    namespace: "{{ rook_namespace }}"
+  register: ceph_admin_keyring
+  when: rook_fetch_ceph_admin_keyring | default(false) | bool
+
+
 - name: Fetch Ceph keyring for each client
   kubernetes.core.k8s_info:
     api_version: v1
@@ -41,6 +51,16 @@
     - dests
 
 
+- name: Create required overlay directory for the Ceph admin keyring
+  ansible.builtin.file:
+    path: "{{ configuration_directory }}/environments/infrastructure/files/ceph/"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  when: rook_fetch_ceph_admin_keyring | default(false) | bool
+
+
 - name: Save the Ceph keyrings to destinations
   vars:
     client_name: "{{ item.0.key }}"
@@ -57,3 +77,12 @@
   with_subelements:
     - "{{ rook_cephclients | dict2items }}"
     - value.dests
+
+- name: Save the Ceph admin keyring
+  ansible.builtin.copy:
+    content: "{{ ceph_admin_keyring.resources[0].data.keyring | b64decode }}"
+    dest: "{{ configuration_directory }}/environments/infrastructure/files/ceph/ceph.client.admin.keyring"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: rook_fetch_ceph_admin_keyring | default(false) | bool
