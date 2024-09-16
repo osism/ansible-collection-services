@@ -47,7 +47,7 @@
     state: started
     enabled: true
   register: result
-  until: result.status.ActiveState == "active"
+  until: result["status"]["ActiveState"] == "active"
   retries: 10
   delay: 20
 
