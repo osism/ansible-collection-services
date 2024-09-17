@@ -12,6 +12,9 @@
     docker_group: zuul
     docker_python_install: false
 
+- name: Reset connection
+  ansible.builtin.meta: reset_connection
+
 - name: Ensure docker-compose
   ansible.builtin.include_role:
     name: osism.commons.docker_compose

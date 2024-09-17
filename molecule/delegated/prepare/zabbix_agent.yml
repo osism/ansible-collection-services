@@ -6,3 +6,6 @@
     docker_user: zuul
     docker_group: zuul
     docker_python_install: false
+
+- name: Reset connection
+  ansible.builtin.meta: reset_connection
