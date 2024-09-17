@@ -3,6 +3,4 @@ collections:
   - ansible.posix
   - community.docker
   - community.general
-  - name: https://github.com/osism/ansible-collection-commons.git
-    type: git
-    version: main
+  - osism.commons
