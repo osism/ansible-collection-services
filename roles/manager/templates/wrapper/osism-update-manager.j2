@@ -47,12 +47,8 @@ else
 fi
 
 if [[ ! -e $VENV_PATH ]]; then
+    $PYTHON_EXECUTABLE -m venv "$VENV_PATH"
 
-    if [[ ! -x "$(command -v virtualenv)" ]]; then
-        sudo apt-get install -y virtualenv
-    fi
-
-    virtualenv -p $PYTHON_EXECUTABLE $VENV_PATH
     source $VENV_PATH/bin/activate
     pip3 install --no-cache-dir "$ANSIBLE_VERSION" "$NETADDR_VERSION"
 else

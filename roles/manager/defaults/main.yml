@@ -71,7 +71,6 @@ private_keys:
 
 required_packages_manager:
   - jq
-  - python3-virtualenv
 
 ##########################
 # netbox integration
