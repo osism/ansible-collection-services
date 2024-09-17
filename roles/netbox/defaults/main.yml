@@ -130,7 +130,7 @@ netbox_traefik: false
 traefik_external_network_name: traefik
 traefik_external_network_cidr: 172.31.254.0/24
 
-##############
+##########################
 # initializers
 
 netbox_init: true
