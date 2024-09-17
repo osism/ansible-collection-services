@@ -1,7 +1,8 @@
 ---
 dependency:
-  name: shell
-  command: ansible-galaxy collection install -v -f -r molecule/delegated/collections.yml -p ~/.ansible/collections
+  name: galaxy
+  options:
+    requirements-file: molecule/delegated/collections.yml
 driver:
   name: default
   options:
