@@ -105,8 +105,13 @@ services:
     volumes:
       - "{{ zuul_component_conf_dirs.log_server }}:/usr/local/apache2/conf:ro"
       - "{{ zuul_log_volume }}:/usr/local/apache2/htdocs:z"
-{% if not zuul_log_volume.startswith('/') %}
+{% if not zuul_log_volume.startswith('/') or not zuul_mariadb_volume.startswith('/') %}
 
 volumes:
+{% if not zuul_log_volume.startswith('/') %}
   {{ zuul_log_volume }}:
+{% endif %}
+{% if not zuul_mariadb_volume.startswith('/') %}
+  {{ zuul_mariadb_volume }}:
+{% endif %}
 {% endif %}
