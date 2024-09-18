@@ -7,7 +7,7 @@
   register: result_restart
   until: result_restart["status"]["ActiveState"] == "active"
   retries: 10
-  delay: 20
+  delay: 25
   when: _netbox_service_restart | default(true) | bool
   notify:
     - Wait for netbox service to start

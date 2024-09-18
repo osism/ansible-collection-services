@@ -5,3 +5,6 @@ operator_group: zuul
 docker_configure_storage_zram_device: true
 
 netbox_service_netbox_start_period: 240s
+netbox_service_netbox_worker_start_period: 200s
+netbox_service_postgres_start_period: 200s
+netbox_service_redis_start_period: 200s

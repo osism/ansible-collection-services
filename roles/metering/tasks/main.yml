@@ -38,5 +38,4 @@
   become: true
   ansible.builtin.service:
     name: "{{ metering_service_name }}"
-    state: started
     enabled: true

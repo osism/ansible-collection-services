@@ -14,6 +14,9 @@
     docker_compose_service_user: zuul
     docker_compose_service_group: zuul
 
+- name: Reset connection
+  ansible.builtin.meta: reset_connection
+
 - name: Install jq for Debian/Ubuntu
   become: true
   ansible.builtin.apt:
