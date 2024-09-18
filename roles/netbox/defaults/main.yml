@@ -16,6 +16,7 @@ operator_group: "{{ operator_user }}"
 docker_network_mtu: 1500
 
 docker_registry_netbox: quay.io
+docker_registry_pgautoupgrade: index.docker.io
 docker_registry_postgres: index.docker.io
 docker_registry_redis: index.docker.io
 
@@ -106,6 +107,10 @@ netbox_plugins_config:
 # renovate: datasource=docker depName=postgres
 postgres_tag: '16.4-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
+
+# renovate: datasource=docker depName=pgautoupgrade/pgautoupgrade
+pgautoupgrade_tag: '16-alpine'
+pgautoupgrade_image: "{{ docker_registry_pgautoupgrade }}/pgautoupgrade/pgautoupgrade:{{ pgautoupgrade_tag }}"
 
 netbox_postgres_password: password
 netbox_postgres_username: netbox
