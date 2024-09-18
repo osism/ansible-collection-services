@@ -57,6 +57,6 @@
   ansible.builtin.include_tasks: generate_certs_and_keys.yml
 
 - name: Start zuul
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ zuul_base_conf_dir }}"
     project_name: zuul
