@@ -42,7 +42,10 @@
         enabled: true
         daemon_reload: "{{ netbox_systemd_unit_file.changed }}"
       register: netbox_service
-      notify: Wait for netbox service to start
+      until: netbox_service["status"]["ActiveState"] == "active"
+      retries: 10
+      delay: 20
+      notify: Wait for an healthy netbox service
 
   rescue:
     # Compose is not always reliable when starting services. Therefore,

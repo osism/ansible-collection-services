@@ -1,0 +1,113 @@
+---
+- name: Get infos on postgres container
+  community.docker.docker_container_info:
+    name: netbox-postgres-1
+  register: result_container
+
+- name: Set postgres container version fact
+  ansible.builtin.set_fact:
+    _postgres_version_container: "{{ result_container['container']['Config']['Env'] |
+                                     select('regex', regex) |
+                                     first |
+                                     regex_replace(regex, replace) }}"
+  vars:
+    regex: '^PG_MAJOR=(.*)$'
+    replace: '\1'
+  when: result_container.exists
+
+- name: Print major version of postgres container
+  ansible.builtin.debug:
+    msg: "The major version of the running postgres container is {{ _postgres_version_container }}"
+  when: result_container.exists
+
+- name: Pull postgres image
+  community.docker.docker_image:
+    name: "{{ postgres_image }}"
+    source: pull
+
+- name: Get infos on postgres image
+  community.docker.docker_image_info:
+    name: "{{ postgres_image }}"
+  register: result_image
+
+- name: Set postgres image version fact
+  ansible.builtin.set_fact:
+    _postgres_version_image: "{{ result_image['images'][0]['Config']['Env'] |
+                                 select('regex', regex) |
+                                 first |
+                                 regex_replace(regex, replace) }}"
+  vars:
+    regex: '^PG_MAJOR=(.*)$'
+    replace: '\1'
+
+- name: Print major version of postgres image
+  ansible.builtin.debug:
+    msg: "The major version of the postgres image is {{ _postgres_version_image }}"
+
+- name: Restart and upgrade netbox service
+  when:
+    - result_container.exists
+    - "_postgres_version_image is ansible.builtin.version(_postgres_version_container, '>')"
+  block:  # noqa osism-fqcn
+    - name: Stop netbox service
+      become: true
+      ansible.builtin.service:
+        name: "{{ netbox_service_name }}"
+        state: stopped
+      register: result_stop
+
+    - name: Wait for netbox service to stop
+      ansible.builtin.pause:
+        minutes: 1
+      when: result_stop.changed  # noqa no-handler
+
+    - name: Get infos on postgres volume
+      community.docker.docker_volume_info:
+        name: netbox_postgres
+      register: result_volume
+
+    - name: Upgrade postgres database
+      community.docker.docker_container:
+        name: netbox-pgautoupgrade
+        image: "{{ pgautoupgrade_image }}"
+        env:
+          POSTGRES_PASSWORD: "{{ netbox_postgres_password }}"
+          PGAUTO_ONESHOT: "yes"
+        volumes:
+          - netbox_postgres:/var/lib/postgresql/data
+        detach: false
+      when: result_volume.exists
+
+    - name: Remove netbox-pgautoupgrade container
+      community.docker.docker_container:
+        name: netbox-pgautoupgrade
+        state: absent
+
+    - name: Start netbox service
+      become: true
+      ansible.builtin.service:
+        name: "{{ netbox_service_name }}"
+        state: started
+      register: netbox_service
+      until: netbox_service["status"]["ActiveState"] == "active"
+      retries: 10
+      delay: 20
+      notify:
+        - Wait for netbox service to start
+
+- name: Restart netbox service
+  become: true
+  ansible.builtin.service:
+    name: "{{ netbox_service_name }}"
+    state: restarted
+  register: netbox_service
+  notify:
+    - Wait for netbox service to start
+  when:
+    - (not result_container.exists or
+       (result_container.exists and "_postgres_version_image is ansible.builtin.version(_postgres_version_container, '>=')"))
+
+- name: Register that netbox service was started
+  ansible.builtin.set_fact:
+    _netbox_service_restart: false
+  when: netbox_service.changed  # noqa no-handler
