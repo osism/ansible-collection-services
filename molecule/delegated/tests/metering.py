@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable
+from .util.util import get_ansible, get_variable, assert_service_running_and_enabled
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -36,15 +36,7 @@ def test_metering_docker_compose_file(host):
     assert docker_compose_file.mode == 0o640
 
 
-def test_metering_container_running(host):
-    metering_container_name = get_variable(host, "metering_container_name")
-    with host.sudo("root"):
-        result = host.run(f"docker ps --filter name={metering_container_name}")
-        assert metering_container_name in result.stdout
-
-
 def test_metering_service_running(host):
-    metering_service_name = get_variable(host, "metering_service_name")
-    service = host.service(metering_service_name)
-    assert service.is_enabled
-    assert service.is_running
+    assert_service_running_and_enabled(
+        host, get_variable(host, "metering_service_name")
+    )

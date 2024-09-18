@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable
+from .util.util import get_ansible, get_variable, assert_service_running_and_enabled
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -63,9 +63,7 @@ def test_dockercompose(host):
 
 
 def test_nexus_service(host):
-    service = host.service(get_variable(host, "nexus_service_name"))
-    assert service.is_running
-    assert service.is_enabled
+    assert_service_running_and_enabled(host, get_variable(host, "nexus_service_name"))
 
 
 def test_nexus_urls(host):
