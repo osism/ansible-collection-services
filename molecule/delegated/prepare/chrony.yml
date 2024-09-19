@@ -1,1 +1,19 @@
 ---
+- name: Ensure EPEL repository
+  ansible.builtin.include_role:
+    name: osism.commons.repository
+  when: ansible_os_family == "RedHat"
+
+- name: Install netcat for Debian/Ubuntu
+  become: true
+  ansible.builtin.apt:
+    name: netcat-openbsd
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install netcat for RedHat/CentOS
+  become: true
+  ansible.builtin.dnf:
+    name: netcat
+    state: present
+  when: ansible_os_family == "RedHat"
