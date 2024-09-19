@@ -299,6 +299,27 @@ rook_cephconfig: {}
   # "osd.*":
   #   osd_max_scrubs: "10"
 
+rook_mon:
+  # Set the number of mons to be started. Generally recommended to be 3.
+  # For highest availability, an odd number of mons should be specified.
+  count: {{ rook_mon_count }}
+  # The mons should be on unique nodes. For production, at least 3 nodes are recommended for this reason.
+  # Mons should only be allowed on the same node for test environments where data loss is acceptable.
+  allowMultiplePerNode: false
+
+rook_mgr:
+  # When higher availability of the mgr is needed, increase the count to 2.
+  # In that case, one mgr will be active and one in standby. When Ceph updates which
+  # mgr is active, Rook will update the mgr services to match the active mgr.
+  count: {{ rook_mgr_count }}
+  allowMultiplePerNode: false
+  modules:
+    # List of modules to optionally enable or disable.
+    # Note the "dashboard" and "monitoring" modules are already configured by other settings in the cluster CR.
+    # - name: rook
+    #   enabled: true
+    {{ rook_mgr_modules }}
+
 ##############################################
 ###
 ### Storage Configuration
@@ -316,35 +337,35 @@ rook_storage_config_encrypteddevice: "true"
 # define a device filter where to create OSDs
 rook_storage_devicefilter: ""
 # name nodes where to create OSDs
-rook_storage_nodes: []
+#rook_storage_nodes: [] #TODO: deprecate?
 #  - name: "testbed-node-0"
 #  - name: "testbed-node-1"
 #  - name: "testbed-node-2"
-rook_storage:
-  useAllNodes: "{{ rook_storage_useallnodes }}"
-  useAllDevices: "{{ rook_storage_usealldevices }}"
-  # deviceFilter:
-  config:
-  #  crushRoot: "custom-root" # specify a non-default root label for the CRUSH map
-  #  metadataDevice: "md0" # specify a non-rotational storage so ceph-volume will use it as block db device of bluestore.
-  #  databaseSizeMB: "1024" # uncomment if the disks are smaller than 100 GB
-    osdsPerDevice: "{{ rook_storage_config_osdsperdevice }}"  # this value can be overridden at the node or device level
-    encryptedDevice: "{{ rook_storage_config_encrypteddevice }}"  # the default value for this option is "false"
-  # # Individual nodes and their config can be specified as well, but 'useAllNodes' above must be set to false. Then, only the named
-  # # nodes below will be used as storage resources. Each node's 'name' field should match their 'kubernetes.io/hostname' label.
-  # nodes:
-  #   - name: "172.17.4.201"
-  #     devices: # specific devices to use for storage can be specified for each node
-  #       - name: "sdb"
-  #       - name: "nvme01" # multiple osds can be created on high performance devices
-  #         config:
-  #           osdsPerDevice: "5"
-  #       - name: "/dev/disk/by-id/ata-ST4000DM004-XXXX" # devices can be specified using full udev paths
-  #     config: # configuration can be specified at the node level which overrides the cluster level config
-  #   - name: "172.17.4.301"
-  #     deviceFilter: "^sd."
-  deviceFilter: "{{ rook_storage_devicefilter }}"
-  nodes: "{{ rook_storage_nodes }}"
+#rook_storage:
+#  useAllNodes: "{{ rook_storage_useallnodes }}"
+#  useAllDevices: "{{ rook_storage_usealldevices }}"
+#  # deviceFilter:
+#  config:
+#  #  crushRoot: "custom-root" # specify a non-default root label for the CRUSH map
+#  #  metadataDevice: "md0" # specify a non-rotational storage so ceph-volume will use it as block db device of bluestore.
+#  #  databaseSizeMB: "1024" # uncomment if the disks are smaller than 100 GB
+#    osdsPerDevice: "{{ rook_storage_config_osdsperdevice }}"  # this value can be overridden at the node or device level
+#    encryptedDevice: "{{ rook_storage_config_encrypteddevice }}"  # the default value for this option is "false"
+#  # # Individual nodes and their config can be specified as well, but 'useAllNodes' above must be set to false. Then, only the named
+#  # # nodes below will be used as storage resources. Each node's 'name' field should match their 'kubernetes.io/hostname' label.
+#  # nodes:
+#  #   - name: "172.17.4.201"
+#  #     devices: # specific devices to use for storage can be specified for each node
+#  #       - name: "sdb"
+#  #       - name: "nvme01" # multiple osds can be created on high performance devices
+#  #         config:
+#  #           osdsPerDevice: "5"
+#  #       - name: "/dev/disk/by-id/ata-ST4000DM004-XXXX" # devices can be specified using full udev paths
+#  #     config: # configuration can be specified at the node level which overrides the cluster level config
+#  #   - name: "172.17.4.301"
+#  #     deviceFilter: "^sd."
+#  deviceFilter: "{{ rook_storage_devicefilter }}"
+#  nodes: "{{ rook_storage_nodes }}"
 
 ##############################################
 ###
