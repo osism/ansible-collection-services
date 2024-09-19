@@ -302,7 +302,7 @@ rook_cephconfig: {}
 rook_mon:
   # Set the number of mons to be started. Generally recommended to be 3.
   # For highest availability, an odd number of mons should be specified.
-  count: {{ rook_mon_count }}
+  count: "{{ rook_mon_count }}"
   # The mons should be on unique nodes. For production, at least 3 nodes are recommended for this reason.
   # Mons should only be allowed on the same node for test environments where data loss is acceptable.
   allowMultiplePerNode: false
@@ -311,14 +311,14 @@ rook_mgr:
   # When higher availability of the mgr is needed, increase the count to 2.
   # In that case, one mgr will be active and one in standby. When Ceph updates which
   # mgr is active, Rook will update the mgr services to match the active mgr.
-  count: {{ rook_mgr_count }}
+  count: "{{ rook_mgr_count }}"
   allowMultiplePerNode: false
   modules:
     # List of modules to optionally enable or disable.
     # Note the "dashboard" and "monitoring" modules are already configured by other settings in the cluster CR.
     # - name: rook
     #   enabled: true
-    {{ rook_mgr_modules }}
+    "{{ rook_mgr_modules }}"
 
 ##############################################
 ###
@@ -337,11 +337,11 @@ rook_storage_config_encrypteddevice: "true"
 # define a device filter where to create OSDs
 rook_storage_devicefilter: ""
 # name nodes where to create OSDs
-#rook_storage_nodes: [] #TODO: deprecate?
+# rook_storage_nodes: [] #TODO: deprecate?
 #  - name: "testbed-node-0"
 #  - name: "testbed-node-1"
 #  - name: "testbed-node-2"
-#rook_storage:
+# rook_storage:
 #  useAllNodes: "{{ rook_storage_useallnodes }}"
 #  useAllDevices: "{{ rook_storage_usealldevices }}"
 #  # deviceFilter:
