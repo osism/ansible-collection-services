@@ -357,12 +357,12 @@ cephClusterSpec:
 
   # cluster level storage configuration and selection
   storage:
-    {% if rook_storage %}
+  {% if rook_storage %}
     {{ rook_storage }}
-    {% else %}
+  {% else %}
     #otherwise use the following values
-    useAllNodes: "{{ rook_storage_useallnodes }}"
-    useAllDevices: "{{ rook_storage_usealldevices }}"
+    useAllNodes: {{ rook_storage_useallnodes }}
+    useAllDevices: {{ rook_storage_usealldevices }}
     # deviceFilter:
     config:
     #  crushRoot: "custom-root" # specify a non-default root label for the CRUSH map
@@ -384,18 +384,18 @@ cephClusterSpec:
     #   - name: "172.17.4.301"
     #     deviceFilter: "^sd."
     deviceFilter: "{{ rook_storage_devicefilter }}"
-    {% if rook_storage_nodes is defined %}
+{% if rook_storage_nodes is defined %}
     nodes: "{{ rook_storage_nodes }}"
-    {% else %}
+{% else %}
     nodes:
-      {% for host in groups['ceph-resource'] %}
+{% for host in groups['ceph-resource'] %}
       - name: "{{ hostvars[host]['ansible_hostname'] }}"
-        {% if hostvars[host]['rook_storage_devicefilter'] is defined %}
+{% if hostvars[host]['rook_storage_devicefilter'] is defined %}
         deviceFilter: "{{ hostvars[host]['rook_storage_devicefilter'] }}"
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-    {% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
 
   # The section for configuring management of daemon disruptions during upgrade or fencing.
   disruptionManagement:
