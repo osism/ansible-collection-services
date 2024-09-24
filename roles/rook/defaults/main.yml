@@ -8,11 +8,6 @@ operator_group: "{{ operator_user }}"
 configuration_directory: /opt/configuration
 
 ##########################
-# k3s/metallb
-
-metallb_rook_external_IP: 192.168.16.101
-
-##########################
 # rook
 
 container_registry_rook: quay.io
@@ -29,9 +24,6 @@ rook_namespace: rook-ceph
 
 ## work directory inside the osism-ansible container
 rook_work_directory: /tmp/rook/configuration
-
-## run cleanup tasks and delete cluster
-rook_cleanup: false
 
 ##########################
 # rook CRD

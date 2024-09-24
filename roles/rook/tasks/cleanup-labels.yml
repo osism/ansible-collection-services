@@ -1,10 +1,9 @@
 ---
-
-- name: "Get a list of all nodes in namespace: {{ rook_namespace }}"
+- name: "Get a list of all nodes in namespace {{ rook_namespace }}"
   kubernetes.core.k8s_info:
     kind: Node
     namespace: "{{ rook_namespace }}"
-  register: node_list
+  register: _rook_node_list
 
 - name: Remove all Rook labels from cluster
   vars:
@@ -21,6 +20,6 @@
   args:
     executable: /bin/bash
   changed_when: false
-  loop: "{{ node_list.resources }}"
+  loop: "{{ _rook_node_list.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"

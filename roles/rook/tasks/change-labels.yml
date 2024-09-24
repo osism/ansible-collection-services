@@ -1,5 +1,5 @@
 ---
-- name: Cleanup labels
+- name: Include cleanup-labels tasks
   ansible.builtin.include_tasks: cleanup-labels.yml
   tags: cleanup-labels
 
@@ -7,7 +7,7 @@
   ansible.builtin.include_tasks: label-nodes.yml
   tags: label-nodes
 
-- name: Retrieve mds deployments
+- name: Get MDS deployments
   kubernetes.core.k8s_info:
     kind: Deployment
     namespace: "{{ rook_namespace }}"
@@ -15,19 +15,19 @@
       - app=rook-ceph-mds
     hidden_fields:
       - metadata.managedFields
-  register: deploymentsmds
+  register: _rook_deployments_mds
 
-- name: Apply mds deployments for rescheduling
+- name: Reschedule MDS deployments
   kubernetes.core.k8s:
     state: present
     force: true
     definition:
       "{{ item }}"
-  loop: "{{ deploymentsmds.resources }}"
+  loop: "{{ _rook_deployments_mds.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
 
-- name: Retrieve mgr deployments
+- name: Get MGR deployments
   kubernetes.core.k8s_info:
     kind: Deployment
     namespace: "{{ rook_namespace }}"
@@ -35,19 +35,19 @@
       - app=rook-ceph-mgr
     hidden_fields:
       - metadata.managedFields
-  register: deploymentsmgr
+  register: _rook_deployments_mgr
 
-- name: Apply mgr deployments for rescheduling
+- name: Reschedule MGR deployments
   kubernetes.core.k8s:
     state: present
     force: true
     definition:
       "{{ item }}"
-  loop: "{{ deploymentsmgr.resources }}"
+  loop: "{{ _rook_deployments_mgr.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
 
-- name: Retrieve mon deploymentss
+- name: Get MON deploymentss
   kubernetes.core.k8s_info:
     kind: Deployment
     namespace: "{{ rook_namespace }}"
@@ -55,19 +55,19 @@
       - app=rook-ceph-mon
     hidden_fields:
       - metadata.managedFields
-  register: deploymentsmon
+  register: _rook_deployments_mon
 
-- name: Apply mon deployments for rescheduling
+- name: Reschedule mon deployments
   kubernetes.core.k8s:
     state: present
     force: true
     definition:
       "{{ item }}"
-  loop: "{{ deploymentsmon.resources }}"
+  loop: "{{ _rook_deployments_mon.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
 
-- name: Retrieve osd deployments
+- name: Get osd deployments
   kubernetes.core.k8s_info:
     kind: Deployment
     namespace: "{{ rook_namespace }}"
@@ -75,19 +75,19 @@
       - app=rook-ceph-osd
     hidden_fields:
       - metadata.managedFields
-  register: deploymentsosd
+  register: _rook_deployments_osd
 
-- name: Apply osd deployments for rescheduling
+- name: Reschedule OSD deployments
   kubernetes.core.k8s:
     state: present
     force: true
     definition:
       "{{ item }}"
-  loop: "{{ deploymentsosd.resources }}"
+  loop: "{{ _rook_deployments_osd.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
 
-- name: Retrieve rgw deployments
+- name: Get RGW deployments
   kubernetes.core.k8s_info:
     kind: Deployment
     namespace: "{{ rook_namespace }}"
@@ -95,14 +95,14 @@
       - app=rook-ceph-rgw
     hidden_fields:
       - metadata.managedFields
-  register: deploymentsrgw
+  register: _rook_deployments_rgw
 
-- name: Apply rgw deployments for rescheduling
+- name: Reschedule RGW deployments
   kubernetes.core.k8s:
     state: present
     force: true
     definition:
       "{{ item }}"
-  loop: "{{ deploymentsrgw.resources }}"
+  loop: "{{ _rook_deployments_rgw.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"

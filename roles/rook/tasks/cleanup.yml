@@ -1,22 +1,5 @@
 ---
-- name: Initialize rook_cleanup_fact
-  ansible.builtin.set_fact:
-    rook_cleanup: "{{ rook_cleanup | default(false) }}"
-
-
-- name: Create required directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0750
-  loop:
-    - "{{ rook_work_directory }}"
-  when: rook_cleanup
-
-
-- name: Set cleanupPolicy in CephCluster CRD
+- name: Set cleanupPolicy in CephCluster resource
   kubernetes.core.k8s:
     state: patched
     kind: CephCluster
@@ -27,10 +10,8 @@
         cleanupPolicy:
           confirmation: "yes-really-destroy-data"
     kubeconfig: /share/kubeconfig
-  when: rook_cleanup
 
-
-- name: Delete all CephClients
+- name: Delete all CephClient CRDs
   kubernetes.core.k8s:
     state: absent
     kind: CephClient
@@ -38,24 +19,11 @@
     namespace: "{{ rook_namespace }}"
     delete_all: true
     kubeconfig: /share/kubeconfig
-  when: rook_cleanup
 
-
-- name: Delete rook-ceph cluster chart
-  kubernetes.core.helm:
-    release_name: "{{ rook_cluster_name }}"
-    release_namespace: "{{ rook_namespace }}"
-    release_state: "absent"
-  when: rook_cleanup
-
-
-- name: Cleanup labels
+- name: Include cleanup-labels tasks
   ansible.builtin.include_tasks: cleanup-labels.yml
   tags: cleanup-labels
-  when: rook_cleanup
 
-
-- name: Include wait-for-cluster-deleted task
+- name: Include wait-for-cluster-deleted tasks
   ansible.builtin.include_tasks: wait-for-cluster-deleted.yml
   tags: wait
-  when: rook_cleanup
