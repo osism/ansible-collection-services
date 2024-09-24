@@ -9,15 +9,13 @@
   loop:
     - "{{ rook_work_directory }}"
 
-
-- name: Find Helm Jinja2 yml templates
+- name: Find helm values templates
   ansible.builtin.find:
     path: "{{ rook_template_directory }}"
     patterns: "*-helm-values-*.yml.j2"
   register: _helm_files_found
 
-
-- name: Render Helm files for rook
+- name: Render helm values templates
   loop: "{{ _helm_files_found.files }}"
   loop_control:
     loop_var: _file
@@ -28,24 +26,21 @@
     group: "{{ operator_group }}"
     mode: 0640
 
-
-- name: Save rendered files to helm_values_files_fact
+- name: Add rendered files to helm_values_files
   ansible.builtin.set_fact:
-    helm_values_files_fact: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
+    helm_values_files: "{{ rook_work_directory }}/{{ _file.path[:-3] | basename }}"
   loop_control:
     loop_var: _file
   loop: "{{ _helm_files_found.files }}"
 
-
-- name: Deploy rook-ceph cluster chart
+- name: Deploy rook-ceph-cluster
   kubernetes.core.helm:
     release_name: "{{ rook_cluster_name }}"
     chart_ref: rook-release/rook-ceph-cluster
     release_namespace: "{{ rook_namespace }}"
-    values_files: "{{ helm_values_files_fact }}"
+    values_files: "{{ helm_values_files }}"
     force: true  # needed for update
 
-
-- name: Include wait-for-cluster task
+- name: Include wait-for-cluster tasks
   ansible.builtin.include_tasks: wait-for-cluster.yml
   tags: wait

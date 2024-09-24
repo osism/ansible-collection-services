@@ -1,11 +1,11 @@
 ---
-- name: Wait up to 30 minutes until CephCluster is Deleted
+- name: "Wait up to 30 minutes until the deletion of the CephCluster resource {{ rook_cluster_name }}"
   kubernetes.core.k8s_info:
     api_version: ceph.rook.io/v1
     kind: CephCluster
     name: "{{ rook_cluster_name }}"
     namespace: "{{ rook_namespace }}"
-  register: cluster_list
-  until: cluster_list|json_query('resources') == []
+  register: _rook_cluster_list
+  until: _rook_cluster_list|json_query('resources') == []
   retries: 60
   delay: 30
