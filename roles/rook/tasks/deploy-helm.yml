@@ -33,7 +33,7 @@
     loop_var: _file
   loop: "{{ _helm_files_found.files }}"
 
-- name: Deploy rook-ceph-cluster
+- name: "Deploy CephCluster {{ rook_cluster_name }}"
   kubernetes.core.helm:
     release_name: "{{ rook_cluster_name }}"
     chart_ref: rook-release/rook-ceph-cluster
