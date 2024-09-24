@@ -3,6 +3,9 @@ services:
   scaphandre:
     image: "{{ scaphandre_image }}"
     container_name: "{{ scaphandre_container_name }}"
+{% if scaphandre_share_pids_with_host %}
+    pid: host
+{% endif %}
     restart: unless-stopped
     entrypoint: scaphandre {{ scaphandre_exporter }} {{ scaphandre_flags|join(" ") }}
     ports:

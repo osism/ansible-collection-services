@@ -26,6 +26,8 @@ scaphandre_service_name: "docker-compose@scaphandre"
 scaphandre_host: 127.0.0.1
 scaphandre_port: 9155
 
+scaphandre_share_pids_with_host: true
+
 scaphandre_exporter: prometheus
 scaphandre_flags_defaults:
   - "--qemu"
