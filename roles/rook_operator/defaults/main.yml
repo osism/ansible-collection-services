@@ -13,13 +13,9 @@ rook_operator_image: "{{ container_registry_rook_operator }}/rook/ceph"
 # renovate: datasource=docker depName=index.docker.io/rook/ceph
 rook_operator_image_tag: 'v1.15.2'
 
-## work directory inside the osism-ansible container:
-rook_operator_work_directory: /tmp/rook_operator/configuration
-## template directory containing `operator.yml`, e.g. OSISM configuration directory
-rook_operator_template_directory: .
-## kubernetes namespace in which the operator should be installed
-## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
-rook_operator_namespace: rook-ceph
+rook_operator_helm_chart_ref: rook-release/rook-ceph
+rook_operator_helm_release_name: rook-ceph
+rook_operator_helm_release_namespace: rook-ceph
 
 rook_operator_enable_discovery_daemon: true
 rook_operator_discovery_daemon_interval: "60m"
@@ -38,3 +34,19 @@ rook_operator_placement:
 rook_operator_placement_provisioner: "{{ rook_operator_placement }}"
 rook_operator_placement_plugin: "{{ rook_operator_placement }}"
 rook_operator_annotations: {}
+
+rook_operator_helm_values:
+  image:
+    repository: "{{ rook_operator_image }}"
+    tag: "{{ rook_operator_image_tag }}"
+    pullPolicy: IfNotPresent
+
+  tolerations: "{{ rook_operator_placement.tolerations }}"
+  annotations: "{{ rook_operator_annotations }}"
+
+  csi:
+    provisionerTolerations: "{{ rook_operator_placement_provisioner.tolerations }}"
+    pluginTolerations: "{{ rook_operator_placement_plugin.tolerations }}"
+
+  enableDiscoveryDaemon: "{{ rook_operator_enable_discovery_daemon }}"
+  discoveryDaemonInterval: "{{ rook_operator_discovery_daemon_interval }}"
