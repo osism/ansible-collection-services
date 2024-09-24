@@ -11,7 +11,13 @@
           confirmation: "yes-really-destroy-data"
     kubeconfig: /share/kubeconfig
 
-- name: Delete all CephClient CRDs
+- name: "Delete CephCluster {{ rook_cluster_name }}"
+  kubernetes.core.helm:
+    state: absent
+    release_name: "{{ rook_cluster_name }}"
+    release_namespace: "{{ rook_namespace }}"
+
+- name: Delete all CephClient resources
   kubernetes.core.k8s:
     state: absent
     kind: CephClient
