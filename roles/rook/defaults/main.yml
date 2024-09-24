@@ -148,7 +148,7 @@ rook_placement_cephobjectstore:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: "node-role.osism.tech/{{ rook_placement_label_mds }}"
+            - key: "node-role.osism.tech/{{ rook_placement_label_rgw }}"
               operator: In
               values:
                 - "true"
@@ -166,7 +166,7 @@ rook_placement_cephfilesystem:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: "node-role.osism.tech/{{ rook_placement_label_rgw }}"
+            - key: "node-role.osism.tech/{{ rook_placement_label_mds }}"
               operator: In
               values:
                 - "true"
