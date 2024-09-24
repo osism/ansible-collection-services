@@ -48,3 +48,18 @@ def test_srv(host):
 
     assert s.is_running
     assert s.is_enabled
+
+
+def test_phpmyadmin_curl(host):
+    phpmyadmin_host = get_variable(host, "phpmyadmin_host")
+    phpmyadmin_port = get_variable(host, "phpmyadmin_port")
+
+    url = f"http://{phpmyadmin_host}:{phpmyadmin_port}"
+
+    result = host.run(f"curl -s -o /dev/null -w '%{{http_code}}' {url}")
+    assert result.rc == 0
+    assert result.stdout.strip() == "200"
+
+    result = host.run(f"curl -s {url} | grep -i phpmyadmin")
+    assert result.rc == 0
+    assert "phpMyAdmin" in result.stdout
