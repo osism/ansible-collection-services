@@ -24,3 +24,7 @@
 - name: Include deploy-crd tasks
   ansible.builtin.include_tasks: deploy-crd.yml
   tags: deploy-crd
+
+- name: Include deploy-loadbalancer tasks
+  ansible.builtin.include_tasks: deploy-loadbalancer.yml
+  tags: deploy-loadbalancer

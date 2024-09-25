@@ -1,0 +1,12 @@
+---
+- name: Deploy Ceph dashboard loadbalancer
+  kubernetes.core.k8s:
+    state: present
+    force: true
+    template: loadbalancer-dashboard.yml.j2
+
+- name: Deploy Ceph RGW loadbalancer
+  kubernetes.core.k8s:
+    state: present
+    force: true
+    template: loadbalancer-rgw.yml.j2
