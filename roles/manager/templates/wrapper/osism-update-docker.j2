@@ -13,6 +13,11 @@ INSTALL_ANSIBLE_ROLES=${INSTALL_ANSIBLE_ROLES:-true}
 VENV_PATH=${VENV_PATH:-.venv}
 VENV_PYTHON_BIN=${VENV_PYTHON_BIN:-python3}
 
+if [[ $(whoami) != "{{ operator_user }}" ]]; then
+    echo "This script must be executed directly with the OSISM operator user {{ operator_user }}."
+    exit 1
+fi
+
 pushd $CONFIGURATION_DIRECTORY/environments/manager > /dev/null
 
 # If the versions for the Ansible collections are available in the manager environment,
