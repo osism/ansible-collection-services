@@ -1,4 +1,10 @@
 ---
+- name: Install iptables package
+  become: true
+  ansible.builtin.package:
+    name: iptables
+    state: present
+
 - name: Install wireguard package
   become: true
   ansible.builtin.package:
