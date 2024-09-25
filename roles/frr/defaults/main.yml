@@ -20,8 +20,11 @@ frr_sysctl_defaults:
 frr_sysctl_extra: []
 frr_sysctl: "{{ frr_sysctl_defaults + frr_sysctl_extra }}"
 
-frr_dummy_interface: dummy0
 frr_uplinks: []
+frr_uplinks_groups:
+  - generic
+
+frr_dummy_interface: dummy0
 frr_local_as: 4200000000
 frr_type: leaf
 frr_loopback_v4: 127.0.0.42
