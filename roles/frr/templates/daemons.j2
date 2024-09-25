@@ -14,7 +14,7 @@
 #
 # The watchfrr, zebra and staticd daemons are always started.
 #
-bgpd=yes
+bgpd={{ frr_enable_bgpd }}
 ospfd=no
 ospf6d=no
 ripd=no
@@ -27,7 +27,7 @@ eigrpd=no
 babeld=no
 sharpd=no
 pbrd=no
-bfdd=no
+bfdd={{ frr_enable_bfdd }}
 fabricd=no
 vrrpd=no
 pathd=no
