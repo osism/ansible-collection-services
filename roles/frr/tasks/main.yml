@@ -12,7 +12,7 @@
     mode: 0640
   notify: Restart frr service
 
-- name: Install frr.conf configuration file
+- name: Copy frr.conf configuration file
   become: true
   ansible.builtin.template:
     src: "frr_{{ frr_type }}.conf.j2"

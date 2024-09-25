@@ -21,11 +21,13 @@ router bgp {{ frr_local_as }}
  exit-address-family
  !
  address-family ipv6 unicast
+{% if frr_loopback_v6 and frr_loopback_v6 | length %}
   redistribute connected route-map bgp_out
 {% for item in frr_uplinks %}
   neighbor {{ item.interface }} activate
   neighbor {{ item.interface }} route-map bgp_out out
 {% endfor %}
+{% endif %}
  exit-address-family
 exit
 !
@@ -37,10 +39,14 @@ route-map RM_SET_SRC4 permit 10
  set src {{ frr_loopback_v4 }}
 exit
 !
+{% if frr_loopback_v6 and frr_loopback_v6 | length %}
 route-map RM_SET_SRC6 permit 10
  set src {{ frr_loopback_v6 }}
 exit
 !
+{% endif %}
 ip protocol bgp route-map RM_SET_SRC4
 !
+{% if frr_loopback_v6 and frr_loopback_v6 | length %}
 ipv6 protocol bgp route-map RM_SET_SRC6
+{% endif %}
