@@ -33,3 +33,6 @@ frr_internalbackup_v4: []
 frr_internalbackup_v6: []
 
 frr_incoming_table_external: 254
+
+frr_enable_bgpd: "yes"
+frr_enable_bfdd: "no"
