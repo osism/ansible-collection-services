@@ -33,3 +33,17 @@ def test_srv(host):
 
     assert service.is_running
     assert service.is_enabled
+
+
+def test_function(host):
+    service_host = get_variable(host, "adminer_host")
+    service_port = get_variable(host, "adminer_port")
+
+    url = f"http://{service_host}:{service_port}"
+
+    result = host.run(f"curl -s -o /dev/null -w '%{{http_code}}' {url}")
+    assert result.rc == 0
+    assert result.stdout.strip() == "200"
+
+    result = host.run(f"curl -s {url} | grep -i adminer")
+    assert result.rc == 0
