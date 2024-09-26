@@ -58,6 +58,12 @@
     },
 {% endif %}
     "registry-mirrors": [{% for mirror in docker_registry_mirrors %}"{{ mirror }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+{% if docker_storage_containerd_snapshotter == 'true' %}
+    "features": {
+      "containerd-snapshotter": {{ docker_storage_containerd_snapshotter }}
+    },
+{% else %}
     "storage-driver": "{{ docker_storage_driver }}",
+{% endif %}
     "default-runtime": "{{ docker_default_runtime }}"
 }
