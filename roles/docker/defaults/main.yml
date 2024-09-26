@@ -97,14 +97,13 @@ docker_registry_mirrors: []
 ##########################
 # storage driver
 
-# NOTE: overlay2 is the default choice for Docker CE
 docker_storage_driver: overlay2
+docker_storage_containerd_snapshotter: "false"
 
 ##########################
 # storage block device
 
 docker_configure_storage_block_device: false
-
 docker_storage_block_device: /dev/sdb
 docker_storage_filesystem: ext4
 docker_storage_force: false
