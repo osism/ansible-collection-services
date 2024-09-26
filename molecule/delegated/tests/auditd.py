@@ -93,3 +93,10 @@ def test_srv(host):
 
     assert service.is_running
     assert service.is_enabled
+
+
+def test_function(host):
+    with host.sudo():
+        result = host.run("auditctl -s")
+        assert result.rc == 0
+        assert "enabled 1" in result.stdout.lower()
