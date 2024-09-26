@@ -1,0 +1,20 @@
+---
+- name: Stop netbox service
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ netbox_service_name }}"
+    state: stopped
+
+- name: Do a manual start of the netbox service
+  ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ netbox_docker_compose_directory }} up -d --remove-orphans"
+  changed_when: true
+  notify: Wait for netbox service to start
+
+# This does not change anything on the service side, but the unit is
+# then in the expected state.
+- name: Manage netbox service again
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ netbox_service_name }}"
+    state: started
+  register: netbox_service
