@@ -26,6 +26,24 @@
     delete_all: true
     kubeconfig: /share/kubeconfig
 
+- name: "Get all services in the namespace {{ rook_namesapce }}"
+  kubernetes.core.k8s_info:
+    kind: Service
+    namespace: "{{ rook_namespace }}"
+    kubeconfig: /share/kubeconfig
+  register: _rook_all_services
+
+- name: Delete all Ceph loadbalancer services
+  kubernetes.core.k8s:
+    state: absent
+    kind: Service
+    namespace: "{{ rook_namespace }}"
+    name: "{{ item.metadata.name }}"
+  loop: "{{ _rook_all_services.resources | selectattr('spec.type', 'equalto', 'LoadBalancer') | list }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+  when: _rook_all_services.resources is defined
+
 - name: Include cleanup-labels tasks
   ansible.builtin.include_tasks: cleanup-labels.yml
   tags: cleanup-labels

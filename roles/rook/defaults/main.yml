@@ -15,18 +15,29 @@ rook_ceph_image: "{{ container_registry_rook }}/ceph/ceph"
 # renovate: datasource=docker depName=quay.io/rook/ceph
 rook_ceph_image_tag: 'v18.2'
 
-## template directory containing rook CRD `*.yml.j2` files, e.g. OSISM configuration directory
+# template directory containing rook CRD `*.yml.j2` files, e.g. OSISM configuration directory
 rook_template_directory: "{{ role_path }}/templates"
 rook_configuration_directory: "{{ configuration_directory }}/environments/rook"
-## kubernetes namespace in which the rook cluster should be installed
-## also see https://rook.io/docs/rook/v1.13/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
-rook_namespace: rook-ceph
 
-## work directory inside the osism-ansible container
+# work directory inside the osism-ansible container
 rook_work_directory: /tmp/rook/configuration
 
+# kubernetes namespace in which the rook cluster should be installed
+# https://rook.io/docs/rook/latest/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
+rook_namespace: rook-ceph
+
 ##########################
-# rook CRD
+# rook loadbalancer
+
+rook_loadbalancer_dashboard_port: 80
+rook_loadbalancer_dashboard_target_port: "{{ rook_dashboard['port'] }}"
+
+rook_loadbalancer_rgw_port: 80
+rook_loadbalancer_rgw_target_port: "{{ rook_cephobjectstore_default_port }}"
+
+##########################
+# rook CRDs
+
 # have a look at `templates/*.yml.j2` to see where exactly the variables are applied
 # for ultimate customization, change `{{ rook_template_directory }}` to point to your configuration repository
 
@@ -243,7 +254,7 @@ rook_dashboard:
   port: 7000
   # Serve the dashboard using SSL (if using ingress to expose the dashboard and `ssl: true` you need to set
   # the corresponding "backend protocol" annotation(s) for your ingress controller of choice)
-  ssl: true
+  ssl: false
 
 ##############################################
 ###

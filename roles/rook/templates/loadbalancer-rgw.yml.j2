@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ rook_cluster_name }}-rgw-{{ rook_cephobjectstore_default_name }}"
+  namespace: "{{ rook_namespace }}"
+  labels:
+    app: rook-ceph-rgw
+    rook_cluster: "{{ rook_namespace }}"
+    rook_object_store: "{{ rook_cephobjectstore_default_name }}"
+spec:
+  ports:
+    - name: rgw
+      port: {{ rook_loadbalancer_rgw_port }}
+      protocol: TCP
+      targetPort: {{ rook_loadbalancer_rgw_target_port }}
+  selector:
+    app: rook-ceph-rgw
+    rook_cluster: "{{ rook_namespace }}"
+    rook_object_store: "{{ rook_cephobjectstore_default_name }}"
+  sessionAffinity: None
+  type: LoadBalancer
