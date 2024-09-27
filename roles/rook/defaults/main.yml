@@ -12,8 +12,8 @@ configuration_directory: /opt/configuration
 
 container_registry_rook: quay.io
 rook_ceph_image: "{{ container_registry_rook }}/ceph/ceph"
-# renovate: datasource=docker depName=quay.io/rook/ceph
-rook_ceph_image_tag: 'v18.2'
+# renovate: datasource=docker depName=quay.io/ceph/ceph
+rook_ceph_image_tag: 'v18.2.4'
 
 # template directory containing rook CRD `*.yml.j2` files, e.g. OSISM configuration directory
 rook_template_directory: "{{ role_path }}/templates"
