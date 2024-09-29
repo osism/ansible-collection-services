@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ rook_namespace }}-loadbalancer-dashboard"
-  namespace: "{{ rook_namespace }}"
+  name: "{{ rook_ceph_cluster_helm_release_namespace }}-loadbalancer-dashboard"
+  namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
   labels:
     app: rook-ceph-mgr
-    rook_cluster: "{{ rook_namespace }}"
+    rook_cluster: "{{ rook_ceph_cluster_helm_release_namespace }}"
 spec:
   ports:
     - name: dashboard
@@ -15,7 +15,7 @@ spec:
       targetPort: {{ rook_loadbalancer_dashboard_target_port }}
   selector:
     app: rook-ceph-mgr
-    rook_cluster: "{{ rook_namespace }}"
+    rook_cluster: "{{ rook_ceph_cluster_helm_release_namespace }}"
     mgr_role: active
   sessionAffinity: None
   type: LoadBalancer

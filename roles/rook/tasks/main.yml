@@ -1,30 +1,8 @@
 ---
-- name: Create required directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0750
-  loop:
-    - "{{ rook_work_directory }}"
-
-- name: Include namespace tasks
-  ansible.builtin.include_tasks: namespace.yml
-  tags: namespace
-
 - name: Include label-nodes tasks
   ansible.builtin.include_tasks: label-nodes.yml
   tags: label-nodes
 
-- name: Include deploy-helm tasks
-  ansible.builtin.include_tasks: deploy-helm.yml
-  tags: deploy-helm
-
-- name: Include deploy-crd tasks
-  ansible.builtin.include_tasks: deploy-crd.yml
-  tags: deploy-crd
-
-- name: Include deploy-loadbalancer tasks
-  ansible.builtin.include_tasks: deploy-loadbalancer.yml
-  tags: deploy-loadbalancer
+- name: Include deploy tasks
+  ansible.builtin.include_tasks: deploy.yml
+  tags: deploy

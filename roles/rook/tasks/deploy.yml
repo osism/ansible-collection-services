@@ -1,0 +1,26 @@
+---
+- name: Prepare default values
+  ansible.builtin.set_fact:
+    _rook_ceph_cluster_helm_values_from_defaults: "{{ lookup('ansible.builtin.template', 'values.yml.j2') | ansible.builtin.from_yaml }}"
+
+- name: "Deploy CephCluster {{ rook_cluster_name }}"
+  kubernetes.core.helm:
+    release_name: "{{ rook_ceph_cluster_helm_release_name }}"
+    chart_ref: "{{ rook_ceph_cluster_helm_chart_ref }}"
+    release_namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
+    create_namespace: true
+    values: "{{ _rook_ceph_cluster_helm_values | combine(_rook_ceph_cluster_helm_values_from_defaults, recursive=True) | combine(rook_ceph_cluster_helm_values, recursive=True) }}"
+    wait: true
+
+- name: Include wait-for-cluster tasks
+  ansible.builtin.include_tasks: wait-for-cluster.yml
+  tags: wait
+
+- name: Deploy CephClient resources
+  kubernetes.core.k8s:
+    state: present
+    template: cephclients.yml.j2
+
+- name: Include deploy-loadbalancer tasks
+  ansible.builtin.include_tasks: deploy-loadbalancer.yml
+  tags: deploy-loadbalancer

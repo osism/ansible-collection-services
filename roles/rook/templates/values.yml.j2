@@ -1,0 +1,45 @@
+---
+operatorNamespace: {{ rook_ceph_cluster_helm_release_namespace }}
+clusterName: {{ rook_cluster_name }}
+toolbox: {{ rook_toolbox }}
+monitoring: {{ rook_monitoring }}
+cephClusterSpec:
+  cephVersion:
+    image: "{{ rook_ceph_image }}:{{ rook_ceph_image_tag }}"
+  mon:
+    count: {{ rook_mon_count }}
+  mgr:
+    count: {{ rook_mgr_count }}
+    modules:
+      {{ rook_mgr_modules }}
+  dashboard:
+    {{ rook_dashboard }}
+  network:
+    {{ rook_network }}
+  crashCollector:
+    {{ rook_crashcollector }}
+  logCollector:
+    {{ rook_logcollector }}
+  placement:
+    {{ rook_placement_cephcluster }}
+  annotations:
+    {{ rook_annotations_cephcluster }}
+  labels:
+    {{ rook_labels_cephcluster }}
+  resources:
+    mgr:
+      {{ rook_resources_mgr }}
+    mon:
+      {{ rook_resources_mon }}
+    osd:
+      {{ rook_resources_osd }}
+  storage:
+    {{ rook_storage }}
+  cephConfig:
+    {{ rook_cephconfig }}
+cephBlockPools:
+  {{ rook_cephblockpools }}
+cephFileSystems:
+  {{ rook_cephfilesystems }}
+cephObjectStores:
+  {{ rook_cephobjectstores }}

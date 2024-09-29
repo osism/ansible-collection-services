@@ -1,8 +1,8 @@
 ---
-- name: "Get a list of all nodes in namespace {{ rook_namespace }}"
+- name: "Get a list of all nodes in namespace {{ rook_ceph_cluster_helm_release_namespace }}"
   kubernetes.core.k8s_info:
     kind: Node
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
   register: _rook_node_list
 
 - name: Remove all Rook labels from cluster
