@@ -10,7 +10,7 @@
 - name: Get MDS deployments
   kubernetes.core.k8s_info:
     kind: Deployment
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     label_selectors:
       - app=rook-ceph-mds
     hidden_fields:
@@ -30,7 +30,7 @@
 - name: Get MGR deployments
   kubernetes.core.k8s_info:
     kind: Deployment
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     label_selectors:
       - app=rook-ceph-mgr
     hidden_fields:
@@ -50,7 +50,7 @@
 - name: Get MON deploymentss
   kubernetes.core.k8s_info:
     kind: Deployment
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     label_selectors:
       - app=rook-ceph-mon
     hidden_fields:
@@ -70,7 +70,7 @@
 - name: Get osd deployments
   kubernetes.core.k8s_info:
     kind: Deployment
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     label_selectors:
       - app=rook-ceph-osd
     hidden_fields:
@@ -90,7 +90,7 @@
 - name: Get RGW deployments
   kubernetes.core.k8s_info:
     kind: Deployment
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     label_selectors:
       - app=rook-ceph-rgw
     hidden_fields:

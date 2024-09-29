@@ -3,7 +3,7 @@
   kubernetes.core.k8s:
     state: patched
     kind: CephCluster
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     name: "{{ rook_cluster_name }}"
     definition:
       spec:
@@ -15,21 +15,21 @@
   kubernetes.core.helm:
     state: absent
     release_name: "{{ rook_cluster_name }}"
-    release_namespace: "{{ rook_namespace }}"
+    release_namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
 
 - name: Delete all CephClient resources
   kubernetes.core.k8s:
     state: absent
     kind: CephClient
     api_version: ceph.rook.io/v1
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     delete_all: true
     kubeconfig: /share/kubeconfig
 
-- name: "Get all services in the namespace {{ rook_namesapce }}"
+- name: "Get all services in the namespace {{ rook_ceph_cluster_helm_release_namespace }}"
   kubernetes.core.k8s_info:
     kind: Service
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     kubeconfig: /share/kubeconfig
   register: _rook_all_services
 
@@ -37,7 +37,7 @@
   kubernetes.core.k8s:
     state: absent
     kind: Service
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
     name: "{{ item.metadata.name }}"
   loop: "{{ _rook_all_services.resources | selectattr('spec.type', 'equalto', 'LoadBalancer') | list }}"
   loop_control:

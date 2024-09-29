@@ -1,10 +1,10 @@
-{% for client_name, client_spec in rook_cephclients.items() %}
+{% for client_name, client_spec in rook_ceph_cluster_clients.items() %}
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephClient
 metadata:
   name: {{ client_name }}
-  namespace: {{ rook_namespace }}
+  namespace: {{ rook_ceph_cluster_helm_release_namespace }}
 spec:
   caps:
     {% for cap, value in client_spec.caps.items() %}

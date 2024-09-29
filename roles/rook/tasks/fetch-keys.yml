@@ -8,7 +8,7 @@
     api_version: v1
     kind: Secret
     name: rook-ceph-admin-keyring
-    namespace: "{{ rook_namespace }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
   register: ceph_admin_keyring
   when: rook_fetch_ceph_admin_keyring | default(false) | bool
 
@@ -17,8 +17,8 @@
     api_version: v1
     kind: Secret
     name: "rook-ceph-client-{{ item.key }}"
-    namespace: "{{ rook_namespace }}"
-  loop: "{{ rook_cephclients | dict2items }}"
+    namespace: "{{ rook_ceph_cluster_helm_release_namespace }}"
+  loop: "{{ rook_ceph_cluster_clients | dict2items }}"
   register: _rook_ceph_keyrings
 
 - name: Initialize rook_ceph_keyrings fact
@@ -42,7 +42,7 @@
     group: "{{ operator_group }}"
     mode: 0755
   with_subelements:
-    - "{{ rook_cephclients }}"
+    - "{{ rook_ceph_cluster_clients }}"
     - dests
 
 - name: Create required overlay directory for the Ceph admin keyring
@@ -68,7 +68,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   with_subelements:
-    - "{{ rook_cephclients | dict2items }}"
+    - "{{ rook_ceph_cluster_clients | dict2items }}"
     - value.dests
 
 - name: Write the Ceph admin keyring

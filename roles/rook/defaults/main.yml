@@ -15,17 +15,6 @@ rook_ceph_image: "{{ container_registry_rook }}/ceph/ceph"
 # renovate: datasource=docker depName=quay.io/ceph/ceph
 rook_ceph_image_tag: 'v18.2.4'
 
-# template directory containing rook CRD `*.yml.j2` files, e.g. OSISM configuration directory
-rook_template_directory: "{{ role_path }}/templates"
-rook_configuration_directory: "{{ configuration_directory }}/environments/rook"
-
-# work directory inside the osism-ansible container
-rook_work_directory: /tmp/rook/configuration
-
-# kubernetes namespace in which the rook cluster should be installed
-# https://rook.io/docs/rook/latest/Storage-Configuration/Advanced/ceph-configuration/?h=#using-alternate-namespaces
-rook_namespace: rook-ceph
-
 ##########################
 # rook loadbalancer
 
@@ -36,18 +25,10 @@ rook_loadbalancer_rgw_port: 80
 rook_loadbalancer_rgw_target_port: "{{ rook_cephobjectstore_default_port }}"
 
 ##########################
-# rook CRDs
+# CephCluster
+#
+# https://rook.github.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/
 
-# have a look at `templates/*.yml.j2` to see where exactly the variables are applied
-# for ultimate customization, change `{{ rook_template_directory }}` to point to your configuration repository
-
-##############################################
-###
-### CephCluster
-### see https://rook.github.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/
-### for available configuration
-###
-##############################################
 rook_cluster_name: rook-ceph-cluster
 rook_mon_count: 3
 rook_mds_count: 3
@@ -239,13 +220,11 @@ rook_toolbox:
   resources: "{{ rook_resources_toolbox }}"
   # priorityClassName:
 
-##############################################
-###
-### Ceph Dashboard
-### see https://rook.github.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-dashboard/
-### for available configuration
-###
-##############################################
+##########################
+# CephDashboard
+#
+# https://rook.github.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-dashboard/
+
 rook_dashboard:
   enabled: true
   # serve the dashboard under a subpath (useful when you are accessing the dashboard via a reverse proxy)
@@ -256,13 +235,11 @@ rook_dashboard:
   # the corresponding "backend protocol" annotation(s) for your ingress controller of choice)
   ssl: false
 
-##############################################
-###
-### Monitoring
-### see https://rook.github.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-monitoring/
-### for available configuration
-###
-##############################################
+##########################
+# Monitoring
+#
+# https://rook.github.io/docs/rook/latest-release/Storage-Configuration/Monitoring/ceph-monitoring/
+
 rook_monitoring:
   # -- Enable Prometheus integration, will also create necessary RBAC rules to allow Operator to create ServiceMonitors.
   # Monitoring requires Prometheus to be pre-installed
@@ -285,13 +262,11 @@ rook_monitoring:
   #   # -- Annotations applied to PrometheusRule
   #   annotations: {}
 
-##############################################
-###
-### Ceph Config (experimental)
-### see https://rook.github.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#ceph-config
-### for available configuration
-###
-##############################################
+##########################
+# CephConfig (experimental)
+#
+# https://rook.github.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#ceph-config
+
 rook_cephconfig: {}
   # global:
   #   # All values must be quoted so they are considered a string in YAML
@@ -302,13 +277,11 @@ rook_cephconfig: {}
   # "osd.*":
   #   osd_max_scrubs: "10"
 
-##############################################
-###
-### Storage Configuration
-### see https://rook.github.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#storage-selection-settings
-### for available configuration
-###
-##############################################
+##########################
+# Storage Configuration
+#
+# https://rook.github.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#storage-selection-settings
+
 # do not use all nodes
 rook_storage_useallnodes: false
 # do not use all found devices
@@ -349,13 +322,11 @@ rook_storage:
   deviceFilter: "{{ rook_storage_devicefilter }}"
   nodes: "{{ rook_storage_nodes }}"
 
-##############################################
-###
-### CephBlockPool
-### see https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/
-### for available configuration
-###
-##############################################
+##########################
+# CephBlockPool
+#
+# https://rook.io/docs/rook/latest-release/CRDs/Block-Storage/ceph-block-pool-crd/
+
 rook_cephblockpool_replicated_default_size: 3
 rook_cephblockpool_erasurecoded_default_datachunks: 2
 rook_cephblockpool_erasurecoded_default_codingchunks: 1
@@ -438,13 +409,11 @@ rook_cephblockpools:
     storageClass:
       enabled: false
 
-##############################################
-###
-### CephFilesystem
-### see https://github.com/rook/rook/blob/master/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md
-### for available configuration
-###
-##############################################
+##########################
+# CephFilesystem
+#
+# https://github.com/rook/rook/blob/master/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md
+
 rook_cephfilesystem_default_name: cephfs
 rook_cephfilesystem_replicated_default_size: 3
 rook_cephfilesystem_erasurecoded_datachunks: 2
@@ -486,13 +455,11 @@ rook_cephfilesystems:
     storageClass:
       enabled: false
 
-##############################################
-###
-### CephObjectStore
-### see https://github.com/rook/rook/blob/master/Documentation/CRDs/Object-Storage/ceph-object-store-crd.md
-### for available configuration
-###
-##############################################
+##########################
+# CephObjectStore
+#
+# https://github.com/rook/rook/blob/master/Documentation/CRDs/Object-Storage/ceph-object-store-crd.md
+
 rook_cephobjectstore_default_name: rgw
 rook_cephobjectstore_replicated_default_size: 3
 rook_cephobjectstore_erasurecoded_default_datachunks: 2
@@ -530,14 +497,12 @@ rook_cephobjectstores:
     storageClass:
       enabled: false
 
-##############################################
-###
-### CephClient
-### see https://rook.io/docs/rook/latest/CRDs/ceph-client-crd/
-### for available configuration
-###
-##############################################
-rook_cephclients:
+##########################
+# CephClient definitions
+#
+# https://rook.io/docs/rook/latest/CRDs/ceph-client-crd/
+
+rook_ceph_cluster_clients:
   cinder-backup:
     caps:
       mon: "profile rbd"
@@ -577,3 +542,8 @@ rook_cephclients:
       osd: "allow rw pool=cephfs_data"
     dests:
       - "{{ configuration_directory }}/environments/kolla/files/overlays/manila/ceph.client.manila.keyring"
+
+rook_ceph_cluster_helm_release_name: "{{ rook_cluster_name }}"
+rook_ceph_cluster_helm_release_namespace: rook-ceph
+rook_ceph_cluster_helm_chart_ref: rook-release/rook-ceph-cluster
+rook_ceph_cluster_helm_values: []
