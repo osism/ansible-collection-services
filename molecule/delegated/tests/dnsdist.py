@@ -1,3 +1,5 @@
+import socket
+
 from .util.util import get_ansible, get_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
@@ -51,3 +53,22 @@ def test_srv(host):
 
     assert service.is_running
     assert service.is_enabled
+
+
+def test_dns_resolution(host):
+    service_host = get_variable(host, "dnsdist_host")
+    service_port = get_variable(host, "dnsdist_port")
+
+    cmd = host.run(f"dig @{service_host} -p {service_port} osism.tech +short")
+    assert cmd.rc == 0
+    assert cmd.stdout.strip() != ""
+
+
+def test_dns_reverse_lookup(host):
+    service_host = get_variable(host, "dnsdist_host")
+    service_port = get_variable(host, "dnsdist_port")
+
+    ip = socket.gethostbyname("osism.tech")
+    cmd = host.run(f"dig @{service_host} -p {service_port} -x {ip} +short")
+    assert cmd.rc == 0
+    assert cmd.stdout.strip() != ""
