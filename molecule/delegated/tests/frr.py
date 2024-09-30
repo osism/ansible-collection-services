@@ -1,3 +1,5 @@
+import pytest
+
 from .util.util import get_ansible, get_variable, jinja_list_concat
 
 testinfra_runner, testinfra_hosts = get_ansible()
@@ -62,3 +64,23 @@ def test_srv(host):
 
     assert service.is_running
     assert service.is_enabled
+
+
+def test_function_bgpd(host):
+    if get_variable(host, "frr_enable_bgpd") != "yes":
+        pytest.skip("frr_enable_bgpd disabled")
+
+    with host.sudo():
+        result = host.run("vtysh -c 'show bgp summary'")
+        assert result.rc == 0
+        assert "BGP table version" in result.stdout
+
+
+def test_function_bfdd(host):
+    if get_variable(host, "frr_enable_bfdd") != "yes":
+        pytest.skip("frr_enable_bfdd disabled")
+
+    with host.sudo():
+        result = host.run("vtysh -c 'show bfd peers'")
+        assert result.rc == 0
+        assert "BFD Peers" in result.stdout
