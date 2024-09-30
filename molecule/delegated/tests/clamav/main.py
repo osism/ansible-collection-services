@@ -33,3 +33,11 @@ def test_clamav_configuration_file(host):
     assert f.exists
     assert not f.is_directory
     assert f.mode == 0o644
+
+
+def test_function(host):
+    with host.sudo():
+        result = host.run("clamscan -v -r --stdout /etc")
+        assert "SCAN SUMMARY" in result.stdout
+        assert "Scanned files: 0" not in result.stdout
+        assert result.rc == 0
