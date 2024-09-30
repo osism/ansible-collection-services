@@ -16,3 +16,11 @@ def test_fail2ban_package(host):
 
     package = host.package(package_name)
     assert package.is_installed
+
+
+def test_function(host):
+    with host.sudo():
+        result = host.run("fail2ban-client status")
+        assert result.rc == 0
+        assert "Jail list:" in result.stdout
+        assert "sshd" in result.stdout
