@@ -2,9 +2,24 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
+- name: Copy configuration files
+  become: true
+  ansible.builtin.template:
+    src: "sshd.conf.j2"
+    dest: "/etc/fail2ban/jail.d/sshd.conf"
+    mode: 0644
+    owner: root
+    group: root
+
 - name: Manage fail2ban service
   become: true
   ansible.builtin.service:
     name: "{{ fail2ban_service_name }}"
     state: started
     enabled: true
+
+- name: Reload fail2ban configuration
+  become: true
+  ansible.builtin.command:
+    cmd: fail2ban-client reload
+  changed_when: true
