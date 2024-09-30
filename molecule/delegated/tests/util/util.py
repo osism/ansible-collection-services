@@ -1,4 +1,5 @@
 import os
+import time
 import urllib.request
 import testinfra.utils.ansible_runner
 
@@ -103,6 +104,16 @@ def get_centos_repo_key(host, summary):
     installed_key = "\n".join(installed_key.split("\n")[2:])
 
     return installed_key
+
+
+def assert_service_running_and_enabled(host, service_name):
+    time.sleep(5)
+
+    service = host.service(service_name)
+    assert service.is_enabled
+
+    debug = host.run(f"systemctl status {service_name}")
+    assert service.is_running, debug
 
 
 def jinja_replacement(original_variable, replacements):
