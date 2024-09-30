@@ -39,9 +39,8 @@
     - Restart manager service
 
 - name: Pull container images
-  ansible.builtin.command: "/usr/bin/docker compose --progress plain --project-directory {{ manager_docker_compose_directory }} pull"
-  register: result
-  changed_when: "'Downloading' in result.stderr"
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ manager_docker_compose_directory }}"
   when: manager_pre_pull | bool
 
 - name: "Stop and disable old service {{ manager_old_service_name }}"
