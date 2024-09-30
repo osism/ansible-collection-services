@@ -129,6 +129,17 @@
         name: "{{ docker_python3_package_name }}"
         state: present
         lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+      when:
+        - "ansible_distribution_version is version('24.04', '<')"
+
+    # https://github.com/docker/docker-py/issues/3113
+    # docker.errors.DockerException: Error while fetching server API version:
+    # HTTPConnection.request() got an unexpected keyword argument 'chunked'
+    - name: Install python3 docker package from Debian Sid
+      ansible.builtin.apt:
+        deb: http://ftp.de.debian.org/debian/pool/main/p/python-docker/python3-docker_7.1.0-1_all.deb
+      when:
+        - "ansible_distribution_version is version('24.04', '>=')"
 
   when:
     - docker_python_install | bool
