@@ -16,3 +16,10 @@ def test_lldpd_service_running_and_enabled(host):
     lldpd_service = host.service(lldpd_service_name)
     assert lldpd_service.is_running, f"Service {lldpd_service_name} should be running"
     assert lldpd_service.is_enabled, f"Service {lldpd_service_name} should be enabled"
+
+
+def test_function(host):
+    with host.sudo():
+        result = host.run("lldpcli show neighbors")
+        assert result.rc == 0
+        assert "LLDP neighbors" in result.stdout
