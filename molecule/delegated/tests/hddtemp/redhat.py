@@ -39,3 +39,11 @@ def test_srv(host):
     service = host.service(service_name)
     assert service.is_enabled
     assert service.is_running
+
+
+def test_function(host):
+    check_ansible_os_family(host)
+
+    result = host.run("hddtemp")
+    assert result.rc == 1
+    assert "sensor" in result.stdout

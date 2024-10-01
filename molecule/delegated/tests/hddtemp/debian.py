@@ -46,3 +46,15 @@ def test_srv(host):
     service = host.service(service_name)
     assert service.is_enabled
     assert service.is_running
+
+
+def test_function(host):
+    check_ansible_os_family(host)
+
+    with host.sudo():
+        result = host.run("sensors-detect")
+        assert result.rc == 0
+
+    result = host.run("sensors")
+    assert result.rc == 1
+    assert "sensor" in result.stdout
