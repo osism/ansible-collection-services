@@ -13,3 +13,11 @@ def test_osquery_service(host):
     service = host.service(get_variable(host, "osquery_service_name"))
     assert service.is_running
     assert service.is_enabled
+
+
+def test_function(host):
+    result = host.run(
+        "osqueryi --json \"SELECT * FROM routes WHERE destination = '::1'\""
+    )
+    assert result.rc == 0
+    assert '"destination":"::1"' in result.stdout
