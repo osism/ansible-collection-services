@@ -1,1 +1,4 @@
 ---
+frr_type: test
+frr_enable_bgpd: "yes"
+frr_enable_bfdd: "yes"

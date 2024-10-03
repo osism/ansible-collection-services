@@ -1,0 +1,29 @@
+frr defaults traditional
+
+! Enable BGP
+router bgp 65000
+
+! Set router ID
+bgp router-id 10.0.0.1
+
+! Disable policy requirement for eBGP
+no bgp ebgp-requires-policy
+
+! Configure a BGP neighbor
+neighbor 192.168.1.2 remote-as 65001
+
+! Enter IPv4 unicast address family
+address-family ipv4 unicast
+  ! Advertise local networks
+  network 10.0.0.0/24
+  network 10.0.1.0/24
+
+  ! Activate the neighbor for this address family
+  neighbor 192.168.1.2 activate
+
+  ! Redistribute connected routes
+  redistribute connected
+exit-address-family
+
+! Configure logging
+log stdout
