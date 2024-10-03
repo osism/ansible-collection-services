@@ -236,4 +236,10 @@ def test_manager_service(host):
     assert service.is_enabled
 
 
+def test_function(host):
+    result = host.run("osism get versions manager")
+    assert result.rc == 0
+    assert "osism-ansible" in result.stdout
+
+
 # Note: initialize.yml tasks were not tested.
