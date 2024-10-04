@@ -32,12 +32,14 @@ nexus_container_name: nexus
 nexus_old_service_name: "docker-compose@nexus"
 nexus_service_name: "nexus"
 
-# NOTE: provision scripts that are included in the Nexus container image
+nexus_force_init: false
+
+# provision scripts that are included in the Nexus container image
 nexus_provision_scripts:
   - anonymous.json
   - cleanup.json
 
-# NOTE: provision scripts that are included in this role
+# provision scripts that are included in this role
 nexus_provision_groovy_scripts:
   - create_repos_from_list
   - setup_http_proxy
