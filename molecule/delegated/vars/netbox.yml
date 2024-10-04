@@ -2,6 +2,5 @@
 operator_user: zuul
 operator_group: zuul
 
-docker_configure_storage_zram_device: true
-
+netbox_postgres_volume_type: tmpfs
 netbox_service_netbox_start_period: 240s
