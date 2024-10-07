@@ -75,3 +75,17 @@ def test_rsyslog_configuration_files(host):
             assert (
                 additional_log_server_conf_file.group == "root"
             ), "71-additional-log-server.conf should be in the root group"
+
+
+def test_workdir(host):
+    path = get_dist_role_variable(host, "__rsyslog_workdir")
+    f = host.file(path)
+    assert f.exists
+    assert f.is_directory
+
+
+def test_function(host):
+    with host.sudo():
+        result = host.run("rsyslogd -N1 -f /etc/rsyslog.conf")
+        assert result.rc == 0
+        assert "config validation run" in result.stderr

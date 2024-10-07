@@ -51,7 +51,7 @@ $PrivDropToGroup {{ rsyslog_user }}
 #
 # Where to place spool and state files
 #
-$WorkDirectory /var/spool/rsyslog
+$WorkDirectory {{ rsyslog_workdir }}
 
 #
 # Include all config files in /etc/rsyslog.d/
