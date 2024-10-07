@@ -51,3 +51,9 @@ def test_tang_socket_configuration(host):
     assert config_file.user == "root", f"{config_file_path} should be owned by root"
     assert config_file.group == "root", f"{config_file_path} should be in group root"
     assert config_file.mode == 0o644, f"{config_file_path} should have 0644 permissions"
+
+
+def test_function(host):
+    result = host.run("tang-show-keys")
+    assert result.rc == 0
+    assert len(result.stdout) > 0
