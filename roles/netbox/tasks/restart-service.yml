@@ -24,6 +24,8 @@
   community.docker.docker_image:
     name: "{{ postgres_image }}"
     source: pull
+  retries: 3
+  delay: 30
 
 - name: Get infos on postgres image
   community.docker.docker_image_info:

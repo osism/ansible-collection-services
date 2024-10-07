@@ -56,7 +56,7 @@ services:
       - NETBOX_POSTGRES_PASSWORD
       - NETBOX_SECRET_KEY
     healthcheck:
-      test: curl -s -k http://127.0.0.1:8080/metrics
+      test: curl -s -f http://localhost:8080/login/ || exit 1
       start_period: {{ netbox_service_netbox_start_period | default(_netbox_service_netbox_start_period) }}
 {% if not netbox_traefik|bool %}
     ports:
