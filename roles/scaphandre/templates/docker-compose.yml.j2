@@ -7,7 +7,7 @@ services:
     pid: host
 {% endif %}
     restart: unless-stopped
-    entrypoint: scaphandre {{ scaphandre_exporter }} {{ scaphandre_flags|join(" ") }}
+    entrypoint: scaphandre {{ scaphandre_options|join(" ") }} {{ scaphandre_exporter }} {{ scaphandre_flags|join(" ") }}
     ports:
       - "{{ scaphandre_host | ansible.utils.ipwrap }}:{{ scaphandre_port }}:8080/tcp"
     privileged: true

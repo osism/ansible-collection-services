@@ -33,6 +33,7 @@ scaphandre_flags_defaults:
   - "--qemu"
 scaphandre_flags_extra: []
 scaphandre_flags: "{{ scaphandre_flags_defaults + scaphandre_flags_extra }}"
+scaphandre_options: []
 
 # renovate: datasource=docker depName=index.docker.io/hubblo/scaphandre
 scaphandre_tag: '1.0.0'

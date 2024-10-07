@@ -1,3 +1,5 @@
 ---
 operator_user: zuul
 operator_group: zuul
+scaphandre_options:
+  - "--vm"

@@ -46,3 +46,18 @@ def test_scaphandre_service_running(host):
     service = host.service(scaphandre_service_name)
     assert service.is_enabled
     assert service.is_running
+
+
+def test_function(host):
+    service_host = get_variable(host, "scaphandre_host")
+    service_port = get_variable(host, "scaphandre_port")
+
+    url = f"http://{service_host}:{service_port}/metrics"
+
+    debug = ""
+    debug += host.run(f"docker container logs scaphandre").stdout
+    debug += host.run(f"systemctl status scaphandre").stdout
+    assert False, debug
+
+    result = host.run(f"curl {url}")
+    assert False, result
