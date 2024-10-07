@@ -7,6 +7,11 @@
     rsyslog_user: "{{ __rsyslog_user }}"
   when: rsyslog_user|default(None) == None
 
+- name: Set rsyslog_workdir variable to default value
+  ansible.builtin.set_fact:
+    rsyslog_workdir: "{{ __rsyslog_workdir }}"
+  when: rsyslog_workdir|default(None) == None
+
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 

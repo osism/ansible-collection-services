@@ -1,2 +1,3 @@
 ---
 __rsyslog_user: syslog
+__rsyslog_workdir: /var/spool/rsyslog
