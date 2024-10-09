@@ -31,3 +31,11 @@ def test_virtualbmc_service(host):
     service = host.service(get_variable(host, "virtualbmc_service_name"))
     assert service.is_running
     assert service.is_enabled
+
+
+def test_function(host):
+    container_name = get_variable(host, "virtualbmc_container_name")
+    with host.sudo(get_variable(host, "operator_user")):
+        result = host.run(f"docker exec {container_name} vbmc list")
+        assert result.rc == 0
+        assert result.stdout == "\n"
