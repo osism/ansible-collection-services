@@ -1,3 +1,5 @@
+import pytest
+
 from .util.util import get_ansible, get_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
@@ -40,3 +42,27 @@ def test_client_config_files(host):
         assert config_file.group == user
         assert config_file.mode == 0o600
         assert "AllowedIPs =" in config_file.content_string
+
+
+@pytest.mark.parametrize("interface", ["wg0"])
+def test_wireguard_functionality(host, interface):
+    with host.sudo():
+        # Check if the WireGuard interface exists
+        assert host.interface(interface).exists
+
+        # Bring WireGuard interface up if necessary
+        is_up = host.run(f"ip link show {interface} up").rc == 0
+
+        if not is_up:
+            wg_up = host.run(f"wg-quick up /etc/wireguard/{interface}.conf")
+            assert wg_up.rc == 0
+
+        # Check WireGuard status
+        wg_status = host.run(f"wg show {interface}")
+        assert wg_status.rc == 0
+        assert "public key:" in wg_status.stdout
+        assert "listening port:" in wg_status.stdout
+
+    # Check if the interface has an IP address
+    ip_addr = host.run(f"ip addr show {interface} | grep -q 'inet '").rc == 0
+    assert ip_addr
