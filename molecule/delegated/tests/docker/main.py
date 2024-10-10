@@ -1,6 +1,10 @@
 import pytest
 
-from ..util.util import get_ansible, get_variable, jinja_list_concat
+from ..util.util import (
+    get_ansible,
+    get_variable,
+    jinja_list_concat,
+)
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -175,7 +179,7 @@ def test_python(host):
         assert package.is_installed
 
 
-def test_dockerlogin(host):
+def test_docker_login(host):
     try:
         docker_registry_username = get_variable(host, "docker_registry_username")
         docker_registry_password = get_variable(host, "docker_registry_password")
@@ -190,3 +194,22 @@ def test_dockerlogin(host):
 
     package = host.package("pass")
     assert package.is_installed
+
+
+@pytest.mark.parametrize(
+    "name,image,expected_output",
+    [("docker_test", "docker.io/hello-world:latest", "Hello from Docker!")],
+)
+def test_docker_installation(host, name, image, expected_output):
+    # Check Docker version
+    docker_version = host.run("docker --version")
+    assert docker_version.rc == 0
+    assert "docker version" in docker_version.stdout.lower()
+
+    # Run a test container and check if Docker can list images
+    with host.sudo(get_variable(host, "operator_user")):
+        container = host.run(f"docker run --name {name} {image}")
+        list_images = host.run("docker images")
+    assert container.rc == 0
+    assert expected_output in container.stdout
+    assert list_images.rc == 0
