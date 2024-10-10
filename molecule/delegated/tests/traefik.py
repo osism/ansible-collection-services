@@ -101,3 +101,17 @@ def test_traefik_external_network_created(host):
         assert (
             traefik_external_network_name in result.stdout
         ), f"Network {traefik_external_network_name} should be created"
+
+
+def test_function(host):
+    service_host = get_variable(host, "traefik_host")
+    service_port = get_variable(host, "traefik_port")
+
+    url = f"{service_host}:{service_port}/dashboard/"
+
+    result = host.run(f"curl -o /dev/null -w '%{{http_code}}' {url}")
+    assert result.rc == 0
+    assert result.stdout.strip() == "200"
+
+    result = host.run(f"curl {url} | grep -i 'Traefik UI'")
+    assert result.rc == 0
