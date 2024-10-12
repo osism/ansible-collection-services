@@ -1,3 +1,20 @@
 ---
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
+
+- name: Copy teleport.yaml file
+  become: true
+  ansible.builtin.template:
+    src: teleport.yaml.j2
+    dest: /etc/teleport.yaml
+    owner: root
+    group: root
+    mode: 0600
+  notify: Restart teleport service
+
+- name: Manage teleport service
+  become: true
+  ansible.builtin.service:
+    name: "{{ teleport_service_name }}"
+    state: started
+    enabled: true

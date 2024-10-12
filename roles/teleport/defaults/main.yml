@@ -5,9 +5,24 @@
 teleport_package_name: teleport
 
 ##########################
+# service
+
+teleport_service_name: teleport
+
+##########################
 # repository
 
 teleport_configure_repository: true
 
+teleport_version: v16
+
 teleport_debian_repository_key: https://apt.releases.teleport.dev/gpg
-teleport_debian_repository: "deb https://apt.releases.teleport.dev/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable/v16"
+teleport_debian_repository: "deb https://apt.releases.teleport.dev/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable/{{ teleport_version }}"
+
+##########################
+# configuration
+
+teleport_nodename: "{{ inventory_hostname_short }}"
+teleport_auth_token: ""
+teleport_proxy_server: "teleport.example.com:443"
+teleport_label_environment: production

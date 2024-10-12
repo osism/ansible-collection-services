@@ -1,0 +1,32 @@
+---
+version: v3
+teleport:
+  nodename: "{{ teleport_nodename }}"
+  data_dir: /var/lib/teleport
+  log:
+    output: stderr
+    severity: INFO
+    format:
+      output: text
+  auth_token: "{{ teleport_auth_token }}"
+  proxy_server: "{{ teleport_proxy_server }}"
+auth_service:
+  enabled: no
+proxy_service:
+  enabled: no
+app_service:
+  enabled: no
+ssh_service:
+  enabled: yes
+  labels:
+    environment: "{{ teleport_label_environment }}"
+  commands:
+    - name: arch
+      command: ['/bin/uname', '-p']
+      period: 1h0m0s
+    - name: hostname
+      command: [hostname]
+      period: 1h0m0s
+    - name: operating_system
+      command: ["bash", "-c", "awk -F'=' '/^PRETTY/ {print $2}' /etc/os-release"]
+      period: 1h0m0s
