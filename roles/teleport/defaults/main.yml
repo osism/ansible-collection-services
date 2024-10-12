@@ -1,0 +1,13 @@
+---
+##########################
+# package
+
+teleport_package_name: teleport
+
+##########################
+# repository
+
+teleport_configure_repository: true
+
+teleport_debian_repository_key: https://apt.releases.teleport.dev/gpg
+teleport_debian_repository: "deb https://apt.releases.teleport.dev/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable/v16"
