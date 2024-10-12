@@ -356,6 +356,15 @@
       - '^molecule\/delegated\/tests\/thanos_sidecar.*$'
 
 - job:
+    name: ansible-collection-services-molecule-teleport
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: teleport
+    files:
+      - '^roles\/teleport\/.*$'
+      - '^molecule\/delegated\/tests\/teleport.*$'
+
+- job:
     name: ansible-collection-services-molecule-traefik
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -454,6 +463,7 @@
         - ansible-collection-services-molecule-squid
         - ansible-collection-services-molecule-tang
         - ansible-collection-services-molecule-thanos_sidecar
+        - ansible-collection-services-molecule-teleport
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
@@ -498,6 +508,7 @@
         - ansible-collection-services-molecule-squid
         - ansible-collection-services-molecule-tang
         - ansible-collection-services-molecule-thanos_sidecar
+        - ansible-collection-services-molecule-teleport
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
