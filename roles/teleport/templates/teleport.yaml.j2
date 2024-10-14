@@ -8,7 +8,12 @@ teleport:
     severity: INFO
     format:
       output: text
-  auth_token: "{{ teleport_auth_token }}"
+  join_params:
+    method: "{{ teleport_token_method }}"
+    token_name: "{{ teleport_token_name }}"
+{% if teleport_ca_pin | length %}
+  ca_pin: "{{ teleport_ca_pin }}"
+{% endif %}
   proxy_server: "{{ teleport_proxy_server }}"
 auth_service:
   enabled: no
@@ -20,6 +25,7 @@ ssh_service:
   enabled: yes
   labels:
     environment: "{{ teleport_label_environment }}"
+    role: "{{ teleport_label_role }}"
   commands:
     - name: arch
       command: ['/bin/uname', '-p']

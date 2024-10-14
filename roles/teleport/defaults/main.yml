@@ -22,7 +22,10 @@ teleport_debian_repository: "deb https://apt.releases.teleport.dev/{{ ansible_di
 ##########################
 # configuration
 
-teleport_nodename: "{{ inventory_hostname_short }}"
-teleport_auth_token: ""
-teleport_proxy_server: "teleport.example.com:443"
+teleport_ca_pin: ""
 teleport_label_environment: production
+teleport_label_role: node
+teleport_nodename: "{{ inventory_hostname_short }}"
+teleport_proxy_server: "teleport.example.com:443"
+teleport_token_method: "token"
+teleport_token_name: ""
