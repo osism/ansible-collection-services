@@ -19,6 +19,10 @@ teleport_version: v16
 teleport_debian_repository_key: https://apt.releases.teleport.dev/gpg
 teleport_debian_repository: "deb https://apt.releases.teleport.dev/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable/{{ teleport_version }}"
 
+teleport_redhat_arch: "{{ 'aarch64' if ansible_architecture in ['aarch64', 'arm64'] else ansible_architecture }}"
+teleport_redhat_repository_key: https://rpm.releases.teleport.dev/RPM-GPG-KEY-teleport
+teleport_redhat_repository: "https://yum.releases.teleport.dev/{{ ansible_distribution | lower }}/{{ ansible_distribution_major_version }}/Teleport/{{ teleport_redhat_arch }}/stable/{{ teleport_version }}/teleport.repo"
+
 ##########################
 # configuration
 
