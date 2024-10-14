@@ -14,7 +14,7 @@
     url: "{{ zabbix_agent_debian_repository_key }}"
   when: zabbix_agent_configure_repository|bool
 
-- name: Add repository
+- name: Add Zabbix repository
   become: true
   ansible.builtin.apt_repository:
     repo: "{{ zabbix_agent_debian_repository }}"

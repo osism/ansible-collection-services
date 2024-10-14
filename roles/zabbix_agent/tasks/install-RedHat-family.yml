@@ -1,0 +1,30 @@
+---
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ zabbix_agent_redhat_repository_key }}"
+    state: present
+  when: zabbix_agent_configure_repository|bool
+
+- name: Add Zabbix repository
+  become: true
+  ansible.builtin.command:
+    cmd: "yum-config-manager --add-repo {{ zabbix_agent_redhat_repository }}"
+  when: zabbix_agent_configure_repository|bool
+  register: add_repo_result
+  changed_when: add_repo_result.rc == 0
+
+- name: Update package cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
+
+- name: "Install package {{ zabbix_agent_package_name }}"
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ zabbix_agent_package_name }}"
+    state: latest
+    disable_gpg_check: true
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
+  notify: "Restart service {{ zabbix_agent_service_name }}"

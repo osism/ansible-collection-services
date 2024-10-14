@@ -411,12 +411,6 @@
 - job:
     name: ansible-collection-services-molecule-zabbix_agent
     parent: abstract-ansible-collection-services-molecule
-    nodeset:
-      nodes:
-        - name: ubuntu-noble
-          label: ubuntu-noble
-        - name: ubuntu-jammy
-          label: ubuntu-jammy
     vars:
       ansible_role: zabbix_agent
     files:
