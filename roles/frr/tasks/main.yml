@@ -16,7 +16,27 @@
   ansible.builtin.set_fact:
     _frr_uplinks: "{{ lookup('community.general.merge_variables', '^frr_uplinks__.+$', initial_value=frr_uplinks, groups=frr_uplinks_groups) }}"
 
-- name: Copy frr.conf configuration file
+- name: Check for template in the configuration repository
+  ansible.builtin.stat:
+    path: "{{ configuration_directory | default('/opt/configuration') }}/environments/generic/files/frr/frr_{{ frr_type }}.conf"
+  register: result
+  delegate_to: localhost
+  run_once: true
+
+- name: Copy frr.conf configuration file from the configuration repository
+  become: true
+  ansible.builtin.template:
+    src: "{{ result.stat.path }}"
+    dest: /etc/frr/frr.conf
+    owner: frr
+    group: frr
+    mode: 0640
+  notify: Restart frr service
+  when:
+    - result.stat.exists is defined
+    - result.stat.exists | bool
+
+- name: Copy frr.conf configuration file from the role
   become: true
   ansible.builtin.template:
     src: "frr_{{ frr_type }}.conf.j2"
@@ -25,6 +45,9 @@
     group: frr
     mode: 0640
   notify: Restart frr service
+  when:
+    - result.stat.exists is defined
+    - not result.stat.exists | bool
 
 - name: Set sysctl parameters
   become: true
