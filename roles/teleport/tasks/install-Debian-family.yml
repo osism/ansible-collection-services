@@ -10,9 +10,14 @@
 
 - name: Add repository gpg key
   become: true
-  ansible.builtin.apt_key:
+  ansible.builtin.get_url:
     url: "{{ teleport_debian_repository_key }}"
-  when: teleport_configure_repository|bool
+    dest: /etc/apt/trusted.gpg.d/teleport.asc
+    mode: 0644
+    owner: root
+    group: root
+  when:
+    - teleport_configure_repository|bool
 
 - name: Add repository
   become: true
