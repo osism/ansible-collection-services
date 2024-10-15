@@ -358,14 +358,6 @@
 - job:
     name: ansible-collection-services-molecule-teleport
     parent: abstract-ansible-collection-services-molecule
-    nodeset:
-      nodes:
-        - name: debian-bookworm
-          label: debian-bookworm
-        - name: ubuntu-noble
-          label: ubuntu-noble
-        - name: ubuntu-jammy
-          label: ubuntu-jammy
     vars:
       ansible_role: teleport
     files:
