@@ -10,9 +10,14 @@
 
 - name: Add repository gpg key
   become: true
-  ansible.builtin.apt_key:
+  ansible.builtin.get_url:
     url: "{{ zabbix_agent_debian_repository_key }}"
-  when: zabbix_agent_configure_repository|bool
+    dest: /etc/apt/trusted.gpg.d/zabbix.asc
+    mode: 0644
+    owner: root
+    group: root
+  when:
+    - zabbix_agent_configure_repository|bool
 
 - name: Add Zabbix repository
   become: true
