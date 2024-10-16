@@ -1,4 +1,4 @@
-from .util.util import get_ansible, get_variable
+from ..util.util import get_ansible, get_variable
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
@@ -9,7 +9,8 @@ def test_zabbix_agent_service_and_version(host):
     assert service.is_running
     assert service.is_enabled
 
-    cmd = host.run("zabbix_agent2 -V")
+    with host.sudo("zabbix"):
+        cmd = host.run("zabbix_agent2 -V")
     assert cmd.rc == 0
     assert "zabbix_agent2" in cmd.stdout
 

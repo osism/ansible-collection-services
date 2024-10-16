@@ -15,9 +15,15 @@ zabbix_agent_service_name: zabbix-agent2
 zabbix_agent_configure_repository: true
 
 zabbix_agent_version: 7.0
+
 zabbix_agent_debian_repository_arch: amd64
+zabbix_agent_redhat_repository_arch: x86_64
+
 zabbix_agent_debian_repository_key: https://repo.zabbix.com/zabbix-official-repo.key
+zabbix_agent_redhat_repository_key: https://repo.zabbix.com/RPM-GPG-KEY-ZABBIX-08EFA7DD
+
 zabbix_agent_debian_repository: "deb [ arch={{ zabbix_agent_debian_repository_arch }} ] https://repo.zabbix.com/zabbix/{{ zabbix_agent_version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+zabbix_agent_redhat_repository: "https://repo.zabbix.com/zabbix/{{ zabbix_agent_version }}/{{ ansible_distribution | lower }}/{{ ansible_distribution_major_version }}/{{ zabbix_agent_redhat_repository_arch }}"
 
 ##########################
 # parameters
