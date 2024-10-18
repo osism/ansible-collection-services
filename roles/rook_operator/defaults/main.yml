@@ -11,7 +11,7 @@ operator_group: "{{ operator_user }}"
 container_registry_rook_operator: index.docker.io
 rook_operator_image: "{{ container_registry_rook_operator }}/rook/ceph"
 # renovate: datasource=docker depName=index.docker.io/rook/ceph
-rook_operator_image_tag: 'v1.15.3'
+rook_operator_image_tag: 'v1.15.4'
 
 rook_operator_helm_chart_ref: rook-release/rook-ceph
 rook_operator_helm_release_name: rook-ceph
