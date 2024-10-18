@@ -1,0 +1,10 @@
+---
+- name: Include distribution specific install tasks
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
+
+- name: Manage sshd service
+  become: true
+  ansible.builtin.service:
+    name: sshd
+    state: started
+    enabled: true

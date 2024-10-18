@@ -1,0 +1,7 @@
+---
+- name: Install openssh-server package
+  become: true
+  ansible.builtin.dnf:
+    name: openssh-server
+    state: present
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
