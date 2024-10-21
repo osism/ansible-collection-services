@@ -11,7 +11,7 @@
       <port>{{ wazuh_agent_server_port }}</port>
       <protocol>{{ wazuh_agent_server_protocol }}</protocol>
     </server>
-    <config-profile>ubuntu, ubuntu24, ubuntu24.04</config-profile>
+    <config-profile>{{ wazuh_agent_config_profile }}</config-profile>
     <notify_time>10</notify_time>
     <time-reconnect>60</time-reconnect>
     <auto_restart>yes</auto_restart>

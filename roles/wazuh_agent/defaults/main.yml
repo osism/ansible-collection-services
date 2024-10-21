@@ -28,6 +28,8 @@ wazuh_agent_server_address: 127.0.0.1
 wazuh_agent_server_port: 1514
 wazuh_agent_server_protocol: tcp
 
+wazuh_agent_config_profile: "{{ ansible_distribution | lower }}, {{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}, {{ ansible_distribution | lower }}{{ ansible_distribution_version }}"
+
 wazuh_agent_client_id: 0001
 wazuh_agent_client_name: sample
 wazuh_agent_client_address: any
