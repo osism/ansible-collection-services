@@ -1,0 +1,7 @@
+---
+- name: Restart wazuh-agent service
+  become: true
+  ansible.builtin.service:
+    name: "{{ wazuh_agent_service_name }}"
+    state: restarted
+  when: _wazuh_agent_service_restart | default(True) | bool

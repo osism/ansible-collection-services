@@ -1,0 +1,27 @@
+---
+- name: Add repository gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ wazuh_agent_redhat_repository_key }}"
+    state: present
+  when: wazuh_agent_configure_repository|bool
+
+- name: Add wazuh_agent repository
+  become: true
+  ansible.builtin.command: yum-config-manager --add-repo {{ wazuh_agent_redhat_repository }}
+  changed_when: true
+  when: wazuh_agent_configure_repository|bool
+
+- name: Update package cache
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"
+
+- name: "Install package {{ wazuh_agent_package_name }}"
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ wazuh_agent_package_name }}"
+    state: latest
+    disable_gpg_check: true
+    lock_timeout: "{{ dnf_lock_timeout | default(300) }}"

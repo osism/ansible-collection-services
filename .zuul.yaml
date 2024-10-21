@@ -401,6 +401,15 @@
       - '^molecule\/delegated\/tests\/virtualbmc.*$'
 
 - job:
+    name: ansible-collection-services-molecule-wazuh-agent
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: wazuh_agent
+    files:
+      - '^roles\/wazuh-agent\/.*$'
+      - '^molecule\/delegated\/tests\/wazuh-agent.*$'
+
+- job:
     name: ansible-collection-services-molecule-wireguard
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -471,6 +480,7 @@
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
+        - ansible-collection-services-molecule-wazuh-agent
         - ansible-collection-services-molecule-wireguard
         - ansible-collection-services-molecule-zabbix_agent
         - ansible-collection-ensure-readme
@@ -517,6 +527,7 @@
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-virtualbmc
+        - ansible-collection-services-molecule-wazuh-agent
         - ansible-collection-services-molecule-wireguard
         - ansible-collection-services-molecule-zabbix_agent
         - ansible-collection-ensure-readme
