@@ -25,6 +25,13 @@
     mode: 0640
   notify: Restart netbox service
 
+- name: Pull container images
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ netbox_docker_compose_directory }}"
+  when: netbox_pre_pull | bool
+  retries: 3
+  delay: 30
+
 - name: "Stop and disable old service {{ netbox_old_service_name }}"
   become: true
   ansible.builtin.systemd_service:
@@ -52,7 +59,7 @@
     # in case of an error at startup, another stop and start of the
     # service is tried here.
     - name: Rescue netbox service
-      ansible.builtin.import_tasks: rescue-service.yml
+      ansible.builtin.include_tasks: rescue-service.yml
 
 - name: Register that netbox service was started
   ansible.builtin.set_fact:

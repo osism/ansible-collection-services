@@ -1,0 +1,25 @@
+---
+- name: Wait for an healthy netbox service
+  block:  # noqa osism-fqcn
+      # The command returns a list of IDs of containers from the service
+      # that are currently starting or unhealthy. As long as the list is not empty
+      # the service is not in a good state.
+    - name: Check that all containers are in a good state
+      ansible.builtin.shell: |
+        set -o pipefail
+        docker compose --project-directory {{ netbox_docker_compose_directory }} ps --all --format json | \
+          jq '. | select(.State=="created" or .State=="exited" or .Health=="starting" or .Health=="unhealthy") | .Name'
+      args:
+        executable: /bin/bash
+      register: result_healthy
+      retries: 60
+      delay: 10
+      changed_when: true
+      failed_when: result_healthy.stdout | length
+  rescue:
+    # Compose is not always reliable when starting services. Therefore,
+    # in case of an error at startup, another stop and start of the
+    # service is tried here.
+    - name: Rescue netbox service
+      ansible.builtin.include_tasks: rescue-service.yml
+      when: not _netbox_rescue_service | default(false) | bool
