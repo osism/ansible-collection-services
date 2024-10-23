@@ -39,7 +39,7 @@ pathd=no
 #
 vtysh_enable=yes
 zebra_options="  -A 127.0.0.1 -s 90000000"
-bgpd_options="   -A 127.0.0.1"
+bgpd_options="   {{ frr_options_bgpd }}"
 ospfd_options="  -A 127.0.0.1"
 ospf6d_options=" -A ::1"
 ripd_options="   -A 127.0.0.1"
@@ -53,7 +53,7 @@ babeld_options=" -A 127.0.0.1"
 sharpd_options=" -A 127.0.0.1"
 pbrd_options="   -A 127.0.0.1"
 staticd_options="-A 127.0.0.1"
-bfdd_options="   -A 127.0.0.1"
+bfdd_options="   {{ frr_options_bfdd }}"
 fabricd_options="-A 127.0.0.1"
 vrrpd_options="  -A 127.0.0.1"
 pathd_options="  -A 127.0.0.1"
