@@ -12,3 +12,13 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop: "{{ manager_wrapper_scripts }}"
+
+- name: Copy cilium wrapper script
+  become: true
+  ansible.builtin.template:
+    src: "wrapper/cilium.j2"
+    dest: /usr/local/bin/cilium
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: enable_osism_kubernetes | bool
