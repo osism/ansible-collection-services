@@ -59,7 +59,7 @@
         - name: ubuntu-noble
           label: ubuntu-noble
     vars:
-      ansible_molecule_ansible_version: "10.5.0"
+      ansible_molecule_ansible_version: "10.6.0"
     files:
       - '^\.zuul\.yaml$'
       - '^molecule\/requirements\.txt$'
