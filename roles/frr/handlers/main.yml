@@ -4,3 +4,4 @@
   ansible.builtin.service:
     name: "{{ frr_service_name }}"
     state: restarted
+  when: frr_automatic_restart | bool
