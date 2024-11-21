@@ -2,20 +2,20 @@
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
-- name: Copy vtysh.conf file
+- name: "Copy file: {{ frr_vtysh_file }}"
   become: true
   ansible.builtin.template:
     src: vtysh.conf.j2
-    dest: /etc/frr/vtysh.conf
+    dest: "{{ frr_vtysh_file }}"
     owner: frr
     group: frr
     mode: 0640
 
-- name: Copy daemons file
+- name: "Copy file: {{ frr_daemons_file }}"
   become: true
   ansible.builtin.template:
     src: daemons.j2
-    dest: /etc/frr/daemons
+    dest: "{{ frr_daemons_file }}"
     owner: frr
     group: frr
     mode: 0640
@@ -32,11 +32,11 @@
   delegate_to: localhost
   run_once: true
 
-- name: Copy frr.conf file from the configuration repository
+- name: "Copy file from the configuration repository: {{ frr_config_file }}"
   become: true
   ansible.builtin.template:
     src: "{{ result.stat.path }}"
-    dest: /etc/frr/frr.conf
+    dest: "{{ frr_config_file }}"
     owner: frr
     group: frr
     mode: 0640
@@ -45,11 +45,11 @@
     - result.stat.exists is defined
     - result.stat.exists | bool
 
-- name: Copy frr.conf file from the role
+- name: "Copy file from the role: {{ frr_config_file }}"
   become: true
   ansible.builtin.template:
     src: "frr_{{ frr_type }}.conf.j2"
-    dest: /etc/frr/frr.conf
+    dest: "{{ frr_config_file }}"
     owner: frr
     group: frr
     mode: 0640

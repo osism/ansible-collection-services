@@ -42,3 +42,9 @@ frr_enable_bfdd: "no"
 
 frr_options_bgpd: "-A 127.0.0.1"
 frr_options_bfdd: "-A 127.0.0.1"
+
+frr_config_file: "/etc/frr/frr.conf"
+frr_vtysh_file: "/etc/frr/vtysh.conf"
+frr_daemons_file: "/etc/frr/daemons"
+
+frr_allow_service_restart: true
