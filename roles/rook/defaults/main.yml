@@ -467,6 +467,28 @@ rook_cephobjectstore_erasurecoded_default_codingchunks: 1
 rook_cephobjectstore_failuredomain: host
 rook_cephobjectstore_default_port: 8081
 rook_cephobjectstore_preservepoolsondelete: true
+rook_cephobjectstore_keystone_acceptedRoles: []
+  # - admin
+  # - member
+rook_cephobjectstore_keystone_implicitTenants: ""
+rook_cephobjectstore_keystone_revocationInterval: 1200
+rook_cephobjectstore_keystone_tokenCacheSize: 1000
+rook_cephobjectstore_keystone_url: ""
+rook_cephobjectstore_swift_accountInUrl: true
+rook_cephobjectstore_swift_urlPrefix: ""
+rook_cephobjectstore_swift_versioningEnabled: true
+rook_cephobjectstore_s3_authKeystone: true
+rook_cephobjectstore_s3_enable: true
+# name of the secret that provides admin user credentials needs to be in same namespace
+rook_cephobjectstore_keystone_serviceUserSecretName: ceph-rgw-usersecret
+# the following settings belong to the usersecret
+rook_cephobjectstore_keystone_auth_type: ""
+rook_cephobjectstore_keystone_identity_api_version: 3
+rook_cephobjectstore_keystone_password: ""
+rook_cephobjectstore_keystone_project_domain_name: "Default"
+rook_cephobjectstore_keystone_project_name: ""
+rook_cephobjectstore_keystone_user_domain_name: "Default"
+rook_cephobjectstore_keystone_username: ""
 rook_cephobjectstores:
   - name: "{{ rook_cephobjectstore_default_name }}"
     spec:
@@ -494,6 +516,22 @@ rook_cephobjectstores:
         priorityClassName: system-cluster-critical
         placement: "{{ rook_placement_cephobjectstore }}"
         annotations: "{{ rook_annotations_cephobjecstore }}"
+      auth:
+        keystone:
+          acceptedRoles: "{{ rook_cephobjectstore_keystone_acceptedRoles }}"
+          implicitTenants: "{{ rook_cephobjectstore_keystone_implicitTenants }}"
+          revocationInterval: "{{ rook_cephobjectstore_keystone_revocationInterval }}"
+          serviceUserSecretName: "{{ rook_cephobjectstore_keystone_serviceUserSecretName }}"
+          tokenCacheSize: "{{ rook_cephobjectstore_keystone_tokenCacheSize }}"
+          url: "{{ rook_cephobjectstore_keystone_url }}"
+        protocols:
+          swift:
+            accountInUrl: "{{ rook_cephobjectstore_swift_accountInUrl }}"
+            urlPrefix: "{{ rook_cephobjectstore_swift_urlPrefix }}"
+            versioningEnabled: "{{ rook_cephobjectstore_swift_versioningEnabled }}"
+          s3:
+            authKeystone: "{{ rook_cephobjectstore_s3_authKeystone }}"
+            enable: "{{ rook_cephobjectstore_s3_enable }}"
     storageClass:
       enabled: false
 
