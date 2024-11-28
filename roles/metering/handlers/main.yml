@@ -1,6 +1,0 @@
----
-- name: Restart metering service
-  become: true
-  ansible.builtin.service:
-    name: "{{ metering_service_name }}"
-    state: restarted
