@@ -1,8 +1,0 @@
----
-- name: "Restart service {{ tang_service_name }}"
-  become: true
-  ansible.builtin.service:
-    name: "{{ tang_service_name }}"
-    daemon_reload: true
-    state: restarted
-    enabled: true

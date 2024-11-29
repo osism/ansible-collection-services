@@ -1,5 +1,0 @@
----
-tang_package_name: tang
-tang_service_name: tangd.socket
-systemd_destination: /usr/lib/systemd/system
-tang_server_port: 80

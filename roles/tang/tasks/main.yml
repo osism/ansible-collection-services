@@ -1,6 +1,0 @@
----
-- name: Include distribution specific package tasks
-  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
-
-- name: Include extra configuration tasks
-  ansible.builtin.include_tasks: "create-extraconfig.yml"
