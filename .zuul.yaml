@@ -338,15 +338,6 @@
       - '^molecule\/delegated\/tests\/squid.*$'
 
 - job:
-    name: ansible-collection-services-molecule-tang
-    parent: abstract-ansible-collection-services-molecule
-    vars:
-      ansible_role: tang
-    files:
-      - '^roles\/tang\/.*$'
-      - '^molecule\/delegated\/tests\/tang.*$'
-
-- job:
     name: ansible-collection-services-molecule-thanos_sidecar
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -464,7 +455,6 @@
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-sshd
         - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-tang
         - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-teleport
         - ansible-collection-services-molecule-traefik
@@ -510,7 +500,6 @@
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-sshd
         - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-tang
         - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-teleport
         - ansible-collection-services-molecule-traefik
