@@ -39,7 +39,7 @@
 - name: Copy keyring file
   become: true
   ansible.builtin.template:
-    src: ceph-keyring-config.j2
+    src: keyring.j2
     dest: "/etc/ceph/ceph.{{ cephclient_keyring_name }}.keyring"
     owner: root
     group: root
