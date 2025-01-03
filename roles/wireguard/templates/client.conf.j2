@@ -2,6 +2,9 @@
 MTU = {{ wireguard_mtu }}
 PrivateKey = {{ item.private_key | default('CHANGEME') }}
 Address = {{ item.ip }}
+{% if wireguard_dns is defined and wireguard_dns | length > 0 %}
+DNS = {{ wireguard_dns }}
+{% endif %}
 
 [Peer]
 PublicKey = {{ wireguard_public_key_server['content']|b64decode }}
