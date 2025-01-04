@@ -36,6 +36,7 @@ homer_service_name: "docker-compose@homer"
 
 homer_url_ara: "http://{{ ara_server_host | default(ansible_default_ipv4.address) }}:{{ ara_server_port | default(8120) }}"
 homer_url_ceph: "http://{{ kolla_internal_vip_address }}:8140"
+homer_url_cgit: "http://{{ cgit_host | default(ansible_default_ipv4.address) }}:{{ cgit_port | default(8210) }}"
 homer_url_flower: "http://{{ flower_host | default(ansible_default_ipv4.address) }}:{{ flower_port | default(5555) }}"
 homer_url_grafana: "http://{{ kolla_internal_vip_address }}:3000"
 homer_url_horizon: "http://{{ kolla_internal_vip_address }}"

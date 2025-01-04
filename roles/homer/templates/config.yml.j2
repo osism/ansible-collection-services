@@ -62,6 +62,14 @@ services:
         url: "{{ homer_url_ara }}"
         target: "_blank"
 {%   endif %}
+{%   if homer_url_cgit|length > 0 %}
+      - name: "cgit"
+        logo: "cgit.png"
+        subtitle: "Configuration and Inventory"
+        tag: "dashboard"
+        url: "{{ homer_url_cgit }}"
+        target: "_blank"
+{%   endif %}
 {%   if homer_url_flower|length > 0 %}
       - name: "Flower"
         logo: "flower.png"
