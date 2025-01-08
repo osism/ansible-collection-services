@@ -1,6 +1,6 @@
 [Interface]
 MTU = {{ wireguard_mtu }}
-PrivateKey = CHANGEME - {{ item.name }} private key
+PrivateKey = {{ item.private_key | default('CHANGEME') }}
 Address = {{ item.ip }}
 
 [Peer]
