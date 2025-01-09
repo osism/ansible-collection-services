@@ -169,14 +169,24 @@ services:
         target: "_blank"
 {%   endif %}
 {% endif %}
-{% if homer_url_horizon|length > 0 %}
+{% if homer_url_horizon|length > 0 or homer_url_skyline|length > 0 %}
   - name: "User interfaces"
     icon: "fas fa-user"
     items:
+{%   if homer_url_horizon|length > 0 %}
       - name: "Horizon"
         logo: "openstack.png"
         subtitle: "OpenStack dashboard"
         tag: "dashboard"
         url: "{{ homer_url_horizon }}"
         target: "_blank"
+{%   endif %}
+{%   if homer_url_skyline|length > 0 %}
+      - name: "Skyline"
+        logo: "skyline.png"
+        subtitle: "OpenStack dashboard"
+        tag: "dashboard"
+        url: "{{ homer_url_skyline }}"
+        target: "_blank"
+{%   endif %}
 {% endif %}
