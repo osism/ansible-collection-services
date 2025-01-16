@@ -12,7 +12,7 @@
   become: true
   ansible.builtin.command: "yum-config-manager --add-repo {{ docker_repository }}"
   changed_when: true
-  when: docker_configure_repository|bool
+  when: containerd_configure_repository|bool
 
 - name: Add Docker GPG key
   become: true
@@ -20,7 +20,7 @@
     state: present
     key: "{{ docker_repository_key }}"
   changed_when: true
-  when: docker_configure_repository|bool
+  when: containerd_configure_repository|bool
 
 - name: Update package cache
   become: true

@@ -12,10 +12,12 @@ def check_ansible_os_family(host):
 
 def test_repo(host):
     check_ansible_os_family(host)
-    docker_configure_repository = get_variable(host, "docker_configure_repository")
+    containerd_configure_repository = get_variable(
+        host, "containerd_configure_repository"
+    )
 
-    if not docker_configure_repository:
-        pytest.skip("docker_configure_repository is not true")
+    if not containerd_configure_repository:
+        pytest.skip("containerd_configure_repository is not true")
 
     key_content = get_from_url(get_dist_role_variable(host, "__docker_repository_key"))
 
