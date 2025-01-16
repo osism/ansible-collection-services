@@ -5,7 +5,7 @@
     repo: "deb [ arch=amd64 ] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     state: absent
     filename: docker
-  when: docker_configure_repository|bool
+  when: containerd_configure_repository|bool
 
 - name: Gather the apt package facts
   ansible.builtin.package_facts:
@@ -23,7 +23,7 @@
     name: apt-transport-https
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
-  when: docker_configure_repository|bool
+  when: containerd_configure_repository|bool
   changed_when: false
 
 - name: Add repository gpg key
@@ -35,7 +35,7 @@
     owner: root
     group: root
   when:
-    - docker_configure_repository|bool
+    - containerd_configure_repository|bool
 
 - name: Add repository
   become: true
@@ -45,7 +45,7 @@
     filename: docker
     update_cache: true
     mode: 0644
-  when: docker_configure_repository|bool
+  when: containerd_configure_repository|bool
 
 - name: Unlock containerd package
   become: true

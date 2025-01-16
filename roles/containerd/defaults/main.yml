@@ -9,4 +9,4 @@ containerd_packages_fail:
 ##########################
 # repository
 
-docker_configure_repository: true
+containerd_configure_repository: "{{ docker_configure_repository | default(true) }}"
