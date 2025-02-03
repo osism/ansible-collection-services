@@ -1,2 +1,4 @@
 ---
-# Not available yet
+- name: Print not supported message
+  ansible.builtin.debug:
+    msg: This role is currently not supported for CentOS.
