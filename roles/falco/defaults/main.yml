@@ -8,7 +8,7 @@ falco_configuration_files:
 ##########################
 # services
 
-falco_service_name: falco-kmod
+falco_service_name: falco-modern-bpf.service
 
 ##########################
 # packages
