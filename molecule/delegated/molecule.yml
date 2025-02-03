@@ -16,6 +16,7 @@ provisioner:
   env:
     ANSIBLE_LIBRARY: ../../plugins
     ANSIBLE_ROLES_PATH: ../../roles
+    ANSIBLE_COLLECTIONS_PATH: /home/zuul/venv/.ansible/collections
   inventory:
     group_vars:
       all:
