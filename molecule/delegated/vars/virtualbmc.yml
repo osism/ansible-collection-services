@@ -1,4 +1,0 @@
----
-operator_user: zuul
-operator_group: zuul
-nova_libvirt_container_volume: /tmp/nova_libvirt_run
