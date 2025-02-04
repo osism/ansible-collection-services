@@ -1,0 +1,26 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# dnsmasq
+
+dnsmasq_configuration_directory: /opt/dnsmasq/configuration
+dnsmasq_docker_compose_directory: /opt/dnsmasq
+
+dnsmasq_service_name: "docker-compose@dnsmasq"
+
+dnsmasq_container_name: dnsmasq
+
+dnsmasq_interface: "{{ ansible_default_ipv4.interface }}"
+dnsmasq_dhcp_range: "192.168.42.100,192.168.42.200,3h"
+dnsmasq_dhcp_hosts:
+  - aa:bb:cc:dd:ee:ff,testbed-manager,192.168.42.10
+
+dnsmasq_docker_registry: quay.io
+# renovate: datasource=docker depName=quay.io/osism/dnsmasq-osism
+dnsmasq_tag: '2.90'
+dnsmasq_image: "{{ dnsmasq_docker_registry }}/osism/dnsmasq-osism:{{ dnsmasq_tag }}"

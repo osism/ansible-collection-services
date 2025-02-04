@@ -1,0 +1,12 @@
+---
+services:
+  dnsmasq:
+    image: "{{ dnsmasq_image }}"
+    container_name: "{{ dnsmasq_container_name }}"
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "{{ dnsmasq_configuration_directory }}/dnsmasq.conf:/etc/dnsmasq.conf:ro"
