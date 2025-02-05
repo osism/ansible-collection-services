@@ -201,6 +201,15 @@
       - '^molecule\/delegated\/tests\/homer.*$'
 
 - job:
+    name: ansible-collection-services-molecule-httpd
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: httpd
+    files:
+      - '^roles\/httpd\/.*$'
+      - '^molecule\/delegated\/tests\/httpd.*$'
+
+- job:
     name: ansible-collection-services-molecule-journald
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -440,6 +449,7 @@
         - ansible-collection-services-molecule-frr
         - ansible-collection-services-molecule-hddtemp
         - ansible-collection-services-molecule-homer
+        - ansible-collection-services-molecule-httpd
         - ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager
@@ -485,6 +495,7 @@
         - ansible-collection-services-molecule-frr
         - ansible-collection-services-molecule-hddtemp
         - ansible-collection-services-molecule-homer
+        - ansible-collection-services-molecule-httpd
         - ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager

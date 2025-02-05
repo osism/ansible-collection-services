@@ -1,0 +1,7 @@
+---
+- name: Restart httpd service
+  become: true
+  ansible.builtin.service:
+    name: "{{ httpd_service_name }}"
+    state: restarted
+  when: _httpd_service_restart | default(True) | bool
