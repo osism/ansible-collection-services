@@ -11,3 +11,6 @@ services:
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "{{ dnsmasq_configuration_directory }}/dnsmasq.conf:/etc/dnsmasq.conf:ro"
+{% if dnsmasq_enable_tftp | bool %}
+      - "{{ dnsmasq_data_directory }}:/var/lib/tftp:ro"
+{% endif %}
