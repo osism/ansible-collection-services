@@ -3,6 +3,7 @@ services:
   dnsmasq:
     image: "{{ dnsmasq_image }}"
     container_name: "{{ dnsmasq_container_name }}"
+    command: "-d"
     restart: unless-stopped
     network_mode: host
     cap_add:
