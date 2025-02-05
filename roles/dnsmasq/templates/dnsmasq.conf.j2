@@ -1,0 +1,6 @@
+port=0
+interface={{ dnsmasq_interface }}
+dhcp-range={{ dnsmasq_dhcp_range }}
+{% for dhcp_host in dnsmasq_dhcp_hosts %}
+dhcp-host={{ dhcp_host }}
+{% endfor %}

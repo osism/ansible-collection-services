@@ -1,0 +1,10 @@
+---
+- name: Restart dnsmasq service
+  become: true
+  ansible.builtin.service:
+    name: "{{ dnsmasq_service_name }}"
+    state: restarted
+  register: result
+  until: result["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20

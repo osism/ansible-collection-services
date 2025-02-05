@@ -138,6 +138,15 @@
       - '^molecule\/delegated\/tests\/dnsdist.*$'
 
 - job:
+    name: ansible-collection-services-molecule-dnsmasq
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: dnsmasq
+    files:
+      - '^roles\/dnsmasq\/.*$'
+      - '^molecule\/delegated\/tests\/dnsmasq.*$'
+
+- job:
     name: ansible-collection-services-molecule-docker
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -424,6 +433,7 @@
         - ansible-collection-services-molecule-clamav
         - ansible-collection-services-molecule-containerd
         - ansible-collection-services-molecule-dnsdist
+        - ansible-collection-services-molecule-dnsmasq
         - ansible-collection-services-molecule-docker
         - ansible-collection-services-molecule-fail2ban
         - ansible-collection-services-molecule-falco
@@ -468,6 +478,7 @@
         - ansible-collection-services-molecule-clamav
         - ansible-collection-services-molecule-containerd
         - ansible-collection-services-molecule-dnsdist
+        - ansible-collection-services-molecule-dnsmasq
         - ansible-collection-services-molecule-docker
         - ansible-collection-services-molecule-fail2ban
         - ansible-collection-services-molecule-falco
