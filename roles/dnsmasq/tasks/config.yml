@@ -10,6 +10,7 @@
   loop:
     - "{{ dnsmasq_docker_compose_directory }}"
     - "{{ dnsmasq_configuration_directory }}"
+    - "{{ dnsmasq_data_directory }}"
 
 - name: Copy configuration files
   ansible.builtin.template:

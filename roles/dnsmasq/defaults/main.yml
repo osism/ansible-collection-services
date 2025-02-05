@@ -9,6 +9,7 @@ operator_group: "{{ operator_user }}"
 # dnsmasq
 
 dnsmasq_configuration_directory: /opt/dnsmasq/configuration
+dnsmasq_data_directory: /opt/dnsmasq/data
 dnsmasq_docker_compose_directory: /opt/dnsmasq
 
 dnsmasq_service_name: "docker-compose@dnsmasq"
@@ -18,6 +19,8 @@ dnsmasq_interface: "{{ ansible_default_ipv4.interface }}"
 dnsmasq_dhcp_range: "192.168.42.100,192.168.42.200,3h"
 dnsmasq_dhcp_hosts:
   - aa:bb:cc:dd:ee:ff,testbed-manager,192.168.42.10
+
+dnsmasq_enable_tftp: true
 
 dnsmasq_docker_registry: quay.io
 # renovate: datasource=docker depName=quay.io/osism/dnsmasq-osism
