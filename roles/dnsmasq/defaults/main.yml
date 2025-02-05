@@ -12,7 +12,6 @@ dnsmasq_configuration_directory: /opt/dnsmasq/configuration
 dnsmasq_docker_compose_directory: /opt/dnsmasq
 
 dnsmasq_service_name: "docker-compose@dnsmasq"
-
 dnsmasq_container_name: dnsmasq
 
 dnsmasq_interface: "{{ ansible_default_ipv4.interface }}"

@@ -23,3 +23,10 @@ def test_dnsmasq_service(host):
 
     assert service.is_running
     assert service.is_enabled
+
+
+def test_dnsmasq_container(host):
+    container_name = get_variable(host, "dnsmasq_container_name")
+    container = host.docker(container_name)
+
+    assert container.is_running
