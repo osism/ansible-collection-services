@@ -1,3 +1,5 @@
 ---
 operator_user: zuul
 operator_group: zuul
+
+httpd_data_enable: true
