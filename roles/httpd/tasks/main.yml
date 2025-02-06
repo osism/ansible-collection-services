@@ -12,6 +12,17 @@
     - "{{ httpd_data_directory }}"
     - "{{ httpd_docker_compose_directory }}"
 
+- name: Run data container
+  community.docker.docker_container:
+    name: httpd-data
+    image: "{{ httpd_data_image }}"
+    env:
+      USER_ID: "{{ httpd_data_uid }}"
+      GROUP_ID: "{{ httpd_data_gid }}"
+    volumes:
+      - "{{ httpd_data_directory }}:/export"
+    state: started
+
 - name: Copy docker-compose.yml file
   ansible.builtin.template:
     src: docker-compose.yml.j2
