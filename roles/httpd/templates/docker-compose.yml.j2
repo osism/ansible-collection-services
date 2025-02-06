@@ -1,0 +1,22 @@
+---
+services:
+  httpd:
+    container_name: "{{ httpd_container_name }}"
+    restart: unless-stopped
+    image: "{{ httpd_image }}"
+    ports:
+      - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
+    volumes:
+      - "{{ httpd_data_directory }}:/usr/local/apache2/htdocs:ro"
+    healthcheck:
+      test: "pgrep -f 'httpd -DFOREGROUND'"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet: {{ httpd_network }}

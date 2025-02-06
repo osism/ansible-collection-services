@@ -1,0 +1,35 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ httpd_configuration_directory }}"
+    - "{{ httpd_data_directory }}"
+    - "{{ httpd_docker_compose_directory }}"
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ httpd_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart httpd service
+
+- name: Manage httpd service
+  become: true
+  ansible.builtin.service:
+    name: "{{ httpd_service_name }}"
+    state: started
+    enabled: true
+  register: result
+
+- name: Set _httpd_service_restart fact
+  ansible.builtin.set_fact:  # noqa: no-handler
+    _httpd_service_restart: False
+  when: result.changed | bool

@@ -1,0 +1,29 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+##########################
+# httpd
+
+httpd_configuration_directory: /opt/httpd/configuration
+httpd_data_directory: /opt/httpd/data
+httpd_docker_compose_directory: /opt/httpd
+
+httpd_network: 172.31.101.128/28
+httpd_service_name: "docker-compose@httpd"
+
+httpd_host: 127.0.0.1
+httpd_port: 8080
+
+httpd_docker_registry: index.docker.io
+httpd_tag: alpine
+httpd_image: "{{ httpd_docker_registry }}/httpd:{{ httpd_tag }}"
+httpd_container_name: httpd
