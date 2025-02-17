@@ -1,6 +1,7 @@
 ---
 # renovate: datasource=docker depName=docker
-__docker_version: '3:26.0.2'
+__docker_default_version: '3:26.0.2'
+__docker_version: "{{ docker_version | default(__docker_default_version) }}"
 
 # In CentOS, docker and docker-cli are using a different epoch
 __docker_cli_version: "1:{{ docker_version[2:] | default(__docker_version[2:]) }}"

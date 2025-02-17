@@ -16,7 +16,7 @@ def check_ansible_os_family(host):
         pytest.skip("ansible_os_family mismatch")
 
 
-def test_repo(host):
+def test_docker_repository(host):
     check_ansible_os_family(host)
 
     docker_configure_repository = get_variable(host, "docker_configure_repository")
@@ -41,7 +41,7 @@ def test_repo(host):
     assert f.content_string == key_content
 
 
-def test_pkg(host):
+def test_docker_package(host):
     check_ansible_os_family(host)
     f = host.file("/etc/apt/preferences.d/docker")
     assert f.exists
@@ -61,7 +61,7 @@ def test_pkg(host):
         docker_cli_package_name, {"docker_package_name": docker_package_name}
     )
 
-    docker_version = get_family_role_variable(host, "__docker_version")
+    docker_version = get_family_role_variable(host, "__docker_default_version")
     docker_cli_version = docker_version
 
     package = host.package(docker_cli_package_name)
