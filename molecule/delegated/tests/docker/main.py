@@ -9,7 +9,7 @@ from ..util.util import (
 testinfra_runner, testinfra_hosts = get_ansible()
 
 
-def test_filesystem(host):
+def test_docker_filesystem(host):
     docker_configure_storage_block_device = get_variable(
         host, "docker_configure_storage_block_device"
     )
@@ -32,7 +32,7 @@ def test_filesystem(host):
     assert f.group == "root"
 
 
-def test_dirs(host):
+def test_docker_directories(host):
     docker_service_name = get_variable(host, "docker_service_name")
     directories = [
         "/etc/docker/plugins",
@@ -49,7 +49,7 @@ def test_dirs(host):
         assert f.group == "root"
 
 
-def test_configfile(host):
+def test_docker_configuration_files(host):
     docker_service_name = get_variable(host, "docker_service_name")
 
     f = host.file(f"/etc/systemd/system/{docker_service_name}.service.d/overlay.conf")
@@ -78,7 +78,7 @@ def test_configfile(host):
     assert f'"storage-driver": "{docker_storage_driver}",' in f.content_string
 
 
-def test_srv(host):
+def test_docker_service(host):
     service = host.service(get_variable(host, "docker_service_name"))
 
     assert service.is_running
@@ -97,7 +97,7 @@ def test_srv(host):
         assert service.is_enabled
 
 
-def test_user(host):
+def test_docker_user(host):
     username = get_variable(host, "docker_user")
     if username == "{{ operator_user | default('dragon') }}":
         try:
@@ -111,7 +111,7 @@ def test_user(host):
     assert "docker" in user.groups
 
 
-def test_fact(host):
+def test_docker_fact(host):
     docker_fact_files = get_variable(host, "docker_fact_files")
     assert type(docker_fact_files) is list
 
@@ -125,7 +125,7 @@ def test_fact(host):
         assert f.content_string != ""
 
 
-def test_failpkg(host):
+def test_docker_failpkg(host):
     package_names = get_variable(host, "docker_packages_fail")
     assert type(package_names) is list
 
@@ -134,7 +134,7 @@ def test_failpkg(host):
         assert not package.is_installed
 
 
-def test_containerd(host):
+def test_docker_containerd(host):
     docker_manage_containerd = get_variable(host, "docker_manage_containerd")
 
     if not docker_manage_containerd:
@@ -144,7 +144,7 @@ def test_containerd(host):
     assert package.is_installed
 
 
-def test_python(host):
+def test_docker_python(host):
     docker_python_install_from_pip = (
         get_variable(host, "docker_python_install_from_pip") is True
     )
@@ -200,7 +200,7 @@ def test_docker_login(host):
     "name,image,expected_output",
     [("docker_test", "docker.io/hello-world:latest", "Hello from Docker!")],
 )
-def test_docker_installation(host, name, image, expected_output):
+def test_docker_usability(host, name, image, expected_output):
     # Check Docker version
     docker_version = host.run("docker --version")
     assert docker_version.rc == 0
