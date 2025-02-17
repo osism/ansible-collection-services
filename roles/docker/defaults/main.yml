@@ -98,7 +98,7 @@ docker_registry_mirrors: []
 # storage driver
 
 docker_storage_driver: overlay2
-docker_storage_containerd_snapshotter: "false"
+docker_storage_containerd_snapshotter: false
 
 ##########################
 # storage block device
