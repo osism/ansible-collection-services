@@ -12,6 +12,14 @@
     docker_cli_version: "{{ __docker_cli_version }}"
   when: docker_cli_version|default(None) == None
 
+- name: Print used docker version
+  ansible.builtin.debug:
+    var: docker_version
+
+- name: Print used docker cli version
+  ansible.builtin.debug:
+    var: docker_cli_version
+
 - name: Include block storage tasks
   ansible.builtin.include_tasks: storage-block.yml
   when: docker_configure_storage_block_device|bool
