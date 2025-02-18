@@ -18,6 +18,17 @@ services:
 {% else %}
       - "{{ configuration_directory }}:/opt/configuration:ro"
 {% endif %}
+    depends_on:
+      redis:
+        condition: service_healthy
+      osism-ansible:
+        condition: service_healthy
+{% for service in ansible_services %}
+{% if service.enable|bool %}
+      {{ service.name }}:
+        condition: service_healthy
+{% endif %}
+{% endfor %}
 {% if enable_celery|bool %}
     healthcheck:
       test: pgrep celery
@@ -89,8 +100,6 @@ services:
       - NETBOX_TOKEN
 {% endif %}
     depends_on:
-      inventory_reconciler:
-        condition: service_started
       redis:
         condition: service_healthy
 {% if enable_ara|bool %}
