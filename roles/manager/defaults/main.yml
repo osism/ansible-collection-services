@@ -238,9 +238,6 @@ celery_enable: true
 osism_tag: latest
 osism_image: "{{ docker_registry_osism }}/osism/osism:{{ osism_tag }}"
 
-osism_netbox_tag: latest
-osism_netbox_image: "{{ docker_registry_osism_netbox }}/osism/osism-netbox:{{ osism_netbox_tag }}"
-
 flower_host: "{{ ansible_default_ipv4.address }}"
 flower_port: 5555
 flower_traefik: false
