@@ -136,7 +136,7 @@ services:
 
   netbox:
     restart: unless-stopped
-    image: "{{ osism_netbox_image }}"
+    image: "{{ osism_image }}"
     command: osism worker netbox
     volumes:
       - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
