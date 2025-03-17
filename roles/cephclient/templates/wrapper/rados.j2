@@ -4,7 +4,7 @@
 
 PARAMETERS=${PARAMETERS:-}
 
-if [[ -t 0 ]]; then
+if [[ -t 0 && -t 1 && -t 2 ]]; then
     INTERACTIVE=${INTERACTIVE:-true}
 else
     INTERACTIVE=${INTERACTIVE:-false}
