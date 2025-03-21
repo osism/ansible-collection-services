@@ -4,7 +4,7 @@
 
 docker_network_mtu: 1500
 
-docker_registry_cephclient: quay.io
+docker_registry_cephclient: registry.osism.tech
 
 ##########################
 # operator user

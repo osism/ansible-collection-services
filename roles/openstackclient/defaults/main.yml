@@ -4,7 +4,10 @@
 
 docker_network_mtu: 1500
 
-docker_registry_openstackclient: quay.io
+##########################
+# container registry
+
+docker_registry_openstackclient: registry.osism.tech
 
 ##########################
 # operator user
@@ -16,7 +19,7 @@ operator_group: "{{ operator_user }}"
 # openstackclient
 
 openstackclient_install_type: container
-openstackclient_version: xena
+openstackclient_version: "2024.2"
 
 ##########################
 # container

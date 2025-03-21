@@ -19,7 +19,7 @@ VENV_PATH=${VENV_PATH:-.venv}
 
 CONTAINER=${CONTAINER:-false}
 CONTAINER_IMAGE=${CONTAINER_IMAGE:-osism/seed}
-CONTAINER_REGISTRY=${CONTAINER_REGISTRY:-quay.io}
+CONTAINER_REGISTRY=${CONTAINER_REGISTRY:-registry.osism.tech}
 CONTAINER_TAG=${CONTAINER_TAG:-latest}
 
 if [[ $(whoami) != "{{ operator_user }}" ]]; then

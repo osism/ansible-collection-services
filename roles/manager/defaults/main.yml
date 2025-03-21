@@ -3,7 +3,7 @@
 # docker
 
 docker_registry: index.docker.io
-docker_registry_ansible: quay.io
+docker_registry_ansible: registry.osism.tech
 docker_registry_service: "{{ docker_registry }}"
 
 docker_registry_ara_server: "{{ docker_registry_ansible }}"
@@ -209,7 +209,7 @@ ara_worker_class: gevent
 ara_worker_connections: 1000
 ara_workers: 5
 
-# renovate: datasource=docker depName=quay.io/osism/ara-server
+# renovate: datasource=docker depName=registry.osism.tech/osism/ara-server
 ara_server_tag: '1.7.2'
 ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
 

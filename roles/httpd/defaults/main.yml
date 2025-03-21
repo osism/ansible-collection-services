@@ -33,6 +33,6 @@ httpd_data_uid: "{{ ansible_facts.user_uid }}"
 httpd_data_gid: "{{ ansible_facts.user_gid }}"
 
 httpd_data_enable: false
-httpd_data_docker_registry: quay.io
+httpd_data_docker_registry: registry.osism.tech
 httpd_data_tag: latest
 httpd_data_image: "{{ httpd_data_docker_registry }}/osism/rsync:{{ httpd_data_tag }}"
