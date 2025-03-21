@@ -3,7 +3,11 @@
 # docker
 
 docker_network_mtu: 1500
-docker_registry_nexus: quay.io
+
+##########################
+# container registry
+
+docker_registry_nexus: registry.osism.tech
 
 ##########################
 # operator user
@@ -22,7 +26,7 @@ nexus_port: 8190
 
 nexus_bind_host: 0.0.0.0
 
-# renovate: datasource=docker depName=quay.io/osism/nexus
+# renovate: datasource=docker depName=registry.osism.tech/osism/nexus
 nexus_tag: '3.76.1'
 nexus_image: "{{ docker_registry_nexus }}/osism/nexus:{{ nexus_tag }}"
 
@@ -115,7 +119,7 @@ nexus_repos_docker_proxy:
     http_port: 8193
     v1_enabled: false
     index_type: "HUB"
-    remote_url: "https://osism.harbor.regio.digital"
+    remote_url: "https://registry.osism.tech"
     use_nexus_certificates_to_access_index: false
     force_basic_auth: false
     cache_foreign_layers: true

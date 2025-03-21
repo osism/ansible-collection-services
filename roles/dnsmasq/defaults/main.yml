@@ -22,7 +22,7 @@ dnsmasq_dhcp_hosts:
 
 dnsmasq_enable_tftp: true
 
-dnsmasq_docker_registry: quay.io
-# renovate: datasource=docker depName=quay.io/osism/dnsmasq-osism
+dnsmasq_docker_registry: registry.osism.tech
+# renovate: datasource=docker depName=registry.osism.tech/osism/dnsmasq-osism
 dnsmasq_tag: '2.90'
 dnsmasq_image: "{{ dnsmasq_docker_registry }}/osism/dnsmasq-osism:{{ dnsmasq_tag }}"

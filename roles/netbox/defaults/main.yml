@@ -15,7 +15,10 @@ operator_group: "{{ operator_user }}"
 
 docker_network_mtu: 1500
 
-docker_registry_netbox: quay.io
+##########################
+# container registries
+
+docker_registry_netbox: registry.osism.tech
 docker_registry_pgautoupgrade: index.docker.io
 docker_registry_postgres: index.docker.io
 docker_registry_redis: index.docker.io
@@ -44,7 +47,7 @@ netbox_osism_api_port: 8000
 
 netbox_user: 'unit:root'
 
-# renovate: datasource=docker depName=quay.io/osism/netbox
+# renovate: datasource=docker depName=registry.osism.tech/osism/netbox
 netbox_tag: 'v4.1.10'
 netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
 
