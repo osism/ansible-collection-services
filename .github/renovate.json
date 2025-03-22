@@ -40,5 +40,12 @@
         "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?docker_version: '5:(?<currentValue>.*?)'"
       ]
     }
+  ],
+  "packageRules": [
+    {
+      "matchDepNames": ["postgres", "pgautoupgrade/pgautoupgrade"],
+      "matchPaths": ["roles/netbox/defaults/main.yml"],
+      "groupName": "postgres"
+    }
   ]
 }
