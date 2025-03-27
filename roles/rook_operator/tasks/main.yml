@@ -1,9 +1,0 @@
----
-- name: Deploy rook operator
-  kubernetes.core.helm:
-    release_name: "{{ rook_operator_helm_release_name }}"
-    chart_ref: "{{ rook_operator_helm_chart_ref }}"
-    release_namespace: "{{ rook_operator_helm_release_namespace }}"
-    create_namespace: true
-    values: "{{ _rook_operator_helm_values | combine(rook_operator_helm_values, recursive=True) }}"
-    wait: true
