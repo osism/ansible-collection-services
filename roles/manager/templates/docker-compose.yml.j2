@@ -146,7 +146,7 @@ services:
     secrets:
       - NETBOX_TOKEN
     healthcheck:
-      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism worker netbox'
+      test: pgrep osism
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
     deploy:
@@ -173,7 +173,7 @@ services:
     secrets:
       - NETBOX_TOKEN
     healthcheck:
-      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism worker conductor'
+      test: pgrep osism
     env_file:
       - "{{ manager_configuration_directory }}/conductor.env"
       - "{{ manager_configuration_directory }}/netbox.env"
@@ -195,7 +195,7 @@ services:
       - NETBOX_TOKEN
 {% endif %}
     healthcheck:
-      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism service listener'
+      test: pgrep osism
     env_file:
       - "{{ manager_configuration_directory }}/listener.env"
 {% if enable_netbox|bool %}
@@ -220,7 +220,7 @@ services:
       - NETBOX_TOKEN
 {% endif %}
     healthcheck:
-      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism service openstack'
+      test: pgrep osism
     env_file:
       - "{{ manager_configuration_directory }}/openstack.env"
 {% if enable_netbox|bool %}
@@ -238,7 +238,7 @@ services:
     volumes:
       - "{{ configuration_directory }}:/opt/configuration:ro"
     healthcheck:
-      test: pgrep -f '/usr/local/bin/python3 /usr/local/bin/osism service watchdog'
+      test: pgrep osism
 
   ##########################################
   # api service
