@@ -1,8 +1,0 @@
----
-- name: Include label-nodes tasks
-  ansible.builtin.include_tasks: label-nodes.yml
-  tags: label-nodes
-
-- name: Include deploy tasks
-  ansible.builtin.include_tasks: deploy.yml
-  tags: deploy
