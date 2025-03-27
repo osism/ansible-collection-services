@@ -4,16 +4,8 @@ exclude_paths:
   - plugins/modules
 mock_modules:
   - kolla_toolbox
-use_default_rules: true
-rulesdir:
-  - ./.ansible-lint-rules/
 skip_list:
   - galaxy[no-changelog]
-  - var-naming
-  - yaml # disabled because we use yamllint
-  - key-order[task] # disabled because we use our own rule
+  - key-order[task]
   - package-latest
-# DO NOT DELETE THE WARNLIST! It is required for our custom rules!
-# If this isn't there our custom rules will only through a warning and wont generate a failure!:
-warn_list:
-  - dummy
+  - var-naming
