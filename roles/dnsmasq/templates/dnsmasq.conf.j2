@@ -8,3 +8,12 @@ dhcp-host={{ dhcp_host }}
 enable-tftp
 tftp-root=/var/lib/tftp
 {% endif %}
+{% if dnsmasq_enable_dns | bool %}
+no-resolv
+{% for dns_server in dnsmasq_dns_servers %}
+server={{ dns_server }}
+{% endfor %}
+{% for dns_host in dnsmasq_dns_hosts %}
+address={{ dns_host }}
+{% endfor %}
+{% endif %}
