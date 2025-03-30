@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     env_file:
       - "{{ netbox_configuration_directory }}/postgres.env"
+    shm_size: {{ netbox_postgres_shm_size }}
     volumes:
       - "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
 {% if netbox_postgres_volume_type == 'volume' %}

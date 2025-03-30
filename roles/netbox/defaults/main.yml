@@ -122,6 +122,7 @@ netbox_postgres_username: netbox
 netbox_postgres_databasename: netbox
 
 netbox_postgres_volume_type: volume
+netbox_postgres_shm_size: 128m
 
 netbox_postgres_init_sql: "{{ configuration_directory }}/environments/infrastructure/files/netbox/init.sql"
 
