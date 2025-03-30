@@ -3,10 +3,12 @@ services:
   postgres:
     image: "{{ postgres_image }}"
     restart: unless-stopped
+    command: "-c 'config_file=/etc/postgresql/postgresql.conf'"
     env_file:
       - "{{ netbox_configuration_directory }}/postgres.env"
     shm_size: {{ netbox_postgres_shm_size }}
     volumes:
+      - "{{ netbox_configuration_directory }}/postgresql.conf:/etc/postgresql/postgresql.conf:ro"
       - "{{ netbox_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
 {% if netbox_postgres_volume_type == 'volume' %}
       - postgres:/var/lib/postgresql/data
