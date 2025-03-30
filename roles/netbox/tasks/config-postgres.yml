@@ -9,6 +9,14 @@
   loop:
     - postgres
 
+- name: Copy postgres configuration file
+  ansible.builtin.template:
+    src: postgresql.conf.j2
+    dest: "{{ netbox_configuration_directory }}/postgresql.conf"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
 - name: Copy secret files
   ansible.builtin.template:
     src: config-postgres-secret.j2
