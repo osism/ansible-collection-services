@@ -25,7 +25,7 @@ homer_host: 127.0.0.1
 homer_port: 8080
 
 # renovate: datasource=docker depName=registry.osism.tech/osism/homer
-homer_tag: 'v25.03.3'
+homer_tag: 'v25.04.1'
 homer_image: "{{ docker_registry_homer }}/osism/homer:{{ homer_tag }}"
 
 homer_container_name: homer
