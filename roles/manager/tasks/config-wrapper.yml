@@ -23,6 +23,16 @@
     group: "{{ operator_group }}"
   when: enable_osism_kubernetes | bool
 
+- name: Copy hubble wrapper script
+  become: true
+  ansible.builtin.template:
+    src: "wrapper/hubble.j2"
+    dest: /usr/local/bin/hubble
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: enable_osism_kubernetes | bool
+
 - name: Copy flux wrapper script
   become: true
   ansible.builtin.template:
