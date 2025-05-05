@@ -1,6 +1,8 @@
 port=0
 interface={{ dnsmasq_interface }}
+{% if dnsmasq_dhcp_range is defined and dnsmasq_dhcp_range | length > 0 %}
 dhcp-range={{ dnsmasq_dhcp_range }}
+{% endif %}
 {% for dhcp_host in dnsmasq_dhcp_hosts %}
 dhcp-host={{ dhcp_host }}
 {% endfor %}
