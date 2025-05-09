@@ -170,6 +170,7 @@ services:
       - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ state_directory }}/conductor:/state:rw"
+      - "share:/share"
     secrets:
       - NETBOX_TOKEN
     healthcheck:
