@@ -21,6 +21,12 @@ services:
     volumes:
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "{{ zuul_component_conf_dirs.zookeeper }}/zoo.cfg:/conf/zoo.cfg:z"
+{% if zuul_zookeeper_data_volume | length > 0 %}
+      - "{{ zuul_zookeeper_data_volume }}:/data:z"
+{% endif %}
+{% if zuul_zookeeper_datalog_volume | length > 0 %}
+      - "{{ zuul_zookeeper_datalog_volume }}:/datalog:z"
+{% endif %}
     command: zkServer.sh start-foreground
   nodepool_builder:
     restart: unless-stopped
@@ -113,5 +119,11 @@ volumes:
 {% endif %}
 {% if not zuul_mariadb_volume.startswith('/') %}
   {{ zuul_mariadb_volume }}:
+{% endif %}
+{% if not zuul_zookeeper_data_volume.startswith('/') %}
+  {{ zuul_zookeeper_data_volume }}:
+{% endif %}
+{% if not zuul_zookeeper_datalog_volume.startswith('/') %}
+  {{ zuul_zookeeper_datalog_volume }}:
 {% endif %}
 {% endif %}
