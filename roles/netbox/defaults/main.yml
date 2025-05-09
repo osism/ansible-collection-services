@@ -110,7 +110,7 @@ netbox_plugins_config:
 # postgres
 
 # renovate: datasource=docker depName=postgres
-postgres_tag: '16.8-alpine'
+postgres_tag: '16.9-alpine'
 postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
 
 # renovate: datasource=docker depName=pgautoupgrade/pgautoupgrade
