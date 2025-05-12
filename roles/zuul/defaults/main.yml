@@ -81,10 +81,10 @@ docker_registry: index.docker.io
 docker_registry_zuul: quay.io
 
 zuul_log_server_tag: "alpine"
-zuul_mariadb_tag: "10.6"
-zuul_nodepool_tag: "10.0.0"
+zuul_mariadb_tag: "11.7"
+zuul_nodepool_tag: "11.0.0"
 zuul_zookeeper_tag: "3.8.4"
-zuul_zuul_tag: "9.1.0"
+zuul_zuul_tag: "11.3.0"
 
 zuul_executor_image: "{{ docker_registry_zuul }}/zuul-ci/zuul-executor:{{ zuul_zuul_tag }}"
 zuul_log_server_image: "{{ docker_registry }}/httpd:{{ zuul_log_server_tag }}"
