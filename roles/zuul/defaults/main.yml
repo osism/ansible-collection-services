@@ -31,7 +31,7 @@ zuul_component_conf_dirs:
 ###############################################################################
 
 zuul_log_volume: log_server
-zuul_mariadb_volume: ""
+zuul_mariadb_volume: mariadb_data
 zuul_zookeper_data_volume: zookeeper_data
 zuul_zookeper_datalog_volume: zookeeper_datalog
 
