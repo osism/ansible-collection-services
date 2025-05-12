@@ -9,6 +9,8 @@ services:
     volumes:
       - "{{ zuul_mariadb_volume }}:/var/lib/mysql"
 {% endif %}
+    networks:
+      - default_internal
   zookeeper:
     restart: unless-stopped
     container_name: "{{ container_name.zookeeper }}"
@@ -27,6 +29,8 @@ services:
 {% if zuul_zookeeper_datalog_volume | length > 0 %}
       - "{{ zuul_zookeeper_datalog_volume }}:/datalog:z"
 {% endif %}
+    networks:
+      - default_internal
     command: zkServer.sh start-foreground
   nodepool_builder:
     restart: unless-stopped
@@ -45,6 +49,9 @@ services:
       - "/srv/nodepool:/srv/nodepool"
       - "/etc/openstack:/etc/openstack:ro"
       - "/var/log/nodepool:/var/log/nodepool:rw"
+    networks:
+      - default
+      - default_internal
   nodepool_launcher:
     restart: unless-stopped
     container_name: "{{ container_name.nodepool_launcher }}"
@@ -58,6 +65,9 @@ services:
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "/etc/openstack:/etc/openstack:ro"
       - "/var/log/nodepool:/var/log/nodepool:rw"
+    networks:
+      - default
+      - default_internal
   zuul_scheduler:
     restart: unless-stopped
     container_name: "{{ container_name.zuul_scheduler }}"
@@ -73,6 +83,9 @@ services:
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "{{ zuul_component_conf_dirs.scheduler }}/wait-to-start.sh:/wait-to-start.sh:ro"
       - "/var/log/zuul:/var/log/zuul"
+    networks:
+      - default
+      - default_internal
   zuul_web:
     restart: unless-stopped
     container_name: "{{ container_name.zuul_web }}"
@@ -87,6 +100,9 @@ services:
       - "{{ zuul_component_conf_dirs.zuul }}:/etc/zuul/:z"
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "/var/log/zuul:/var/log/zuul"
+    networks:
+      - default
+      - default_internal
   zuul_executor:
     restart: unless-stopped
     container_name: "{{ container_name.zuul_executor }}"
@@ -101,6 +117,9 @@ services:
       - "{{ zuul_component_conf_dirs.certs }}:/var/certs:z"
       - "{{ zuul_log_volume }}:/srv/static/logs:z"
       - "/var/log/zuul:/var/log/zuul"
+    networks:
+      - default
+      - default_internal
   log_server:
     restart: unless-stopped
     container_name: "{{ container_name.log_server }}"
@@ -111,8 +130,11 @@ services:
     volumes:
       - "{{ zuul_component_conf_dirs.log_server }}:/usr/local/apache2/conf:ro"
       - "{{ zuul_log_volume }}:/usr/local/apache2/htdocs:z"
-{% if not zuul_log_volume.startswith('/') or not zuul_mariadb_volume.startswith('/') %}
+    networks:
+      - default
+      - default_internal
 
+{% if not zuul_log_volume.startswith('/') or not zuul_mariadb_volume.startswith('/') %}
 volumes:
 {% if not zuul_log_volume.startswith('/') %}
   {{ zuul_log_volume }}:
@@ -127,3 +149,16 @@ volumes:
   {{ zuul_zookeeper_datalog_volume }}:
 {% endif %}
 {% endif %}
+
+networks:
+  default:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: "{{ zuul_network }}"
+        - subnet: "{{ zuul_network_v6 }}"
+  default_internal:
+    ipam:
+      config:
+        - subnet: "{{ zuul_internal_network }}
