@@ -9,6 +9,8 @@
   loop:
     - filename: NETBOX_TOKEN
       secret: "{{ netbox_api_token }}"
+    - filename: NETBOX_SECONDARIES
+      secret: "{{ netbox_secondaries | to_json }}"
   no_log: true
 
 - name: Copy netbox environment file
