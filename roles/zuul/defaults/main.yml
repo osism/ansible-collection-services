@@ -52,7 +52,7 @@ zuul_connections:
 
 zuul_tenants:
   - tenant:
-      name: my-tenant-name
+      name: osism
       source:
         opendevorg:
           untrusted-projects:
@@ -61,10 +61,10 @@ zuul_tenants:
                   - job
         githubzuulapp:
           config-projects:
-            - tibeerorg/zuul_config:
+            - osism/zuul-config:
                 load-branch: main
           untrusted-projects:
-            - tibeerorg/zuul_demo_repo
+            - osism/zuul-jobs
 
 zuul_metrics_statsd_host: ""
 zuul_metrics_statsd_port: "8125"
