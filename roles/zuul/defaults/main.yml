@@ -39,8 +39,8 @@ zuul_internal_network: "172.31.102.16/28"
 
 zuul_log_volume: log_server
 zuul_mariadb_volume: mariadb_data
-zuul_zookeper_data_volume: zookeeper_data
-zuul_zookeper_datalog_volume: zookeeper_datalog
+zuul_zookeeper_data_volume: zookeeper_data
+zuul_zookeeper_datalog_volume: zookeeper_datalog
 
 ###############################################################################
 # Zuul
