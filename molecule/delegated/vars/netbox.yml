@@ -4,3 +4,11 @@ operator_group: zuul
 
 netbox_postgres_volume_type: tmpfs
 netbox_service_netbox_start_period: 240s
+
+docker_registry_pgautoupgrade: registry.osism.tech
+docker_registry_postgres: registry.osism.tech
+docker_registry_redis: registry.osism.tech
+
+netbox_redis_image_namespace: dockerhub
+pgautoupgrade_image_namespace: dockerhub/pgautoupgrade
+postgres_image_namespace: dockerhub
