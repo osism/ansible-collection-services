@@ -49,7 +49,8 @@ netbox_user: 'unit:root'
 
 # renovate: datasource=docker depName=registry.osism.tech/osism/netbox
 netbox_tag: 'v4.1.10'
-netbox_image: "{{ docker_registry_netbox }}/osism/netbox:{{ netbox_tag }}"
+netbox_image_namespace: osism
+netbox_image: "{{ docker_registry_netbox }}/{{ netbox_image_namespace }}/netbox:{{ netbox_tag }}"
 
 # SECRET_KEY must be at least 50 characters in length.
 netbox_secret_key: "00000000000000000000000000000000000000000000000000"
@@ -111,11 +112,13 @@ netbox_plugins_config:
 
 # renovate: datasource=docker depName=postgres
 postgres_tag: '16.9-alpine'
-postgres_image: "{{ docker_registry_postgres }}/library/postgres:{{ postgres_tag }}"
+postgres_image_namespace: library
+postgres_image: "{{ docker_registry_postgres }}/{{ postgres_image_namespace }}/postgres:{{ postgres_tag }}"
 
 # renovate: datasource=docker depName=pgautoupgrade/pgautoupgrade
 pgautoupgrade_tag: '16-alpine'
-pgautoupgrade_image: "{{ docker_registry_pgautoupgrade }}/pgautoupgrade/pgautoupgrade:{{ pgautoupgrade_tag }}"
+pgautoupgrade_image_namespace: pgautoupgrade
+pgautoupgrade_image: "{{ docker_registry_pgautoupgrade }}/{{ pgautoupgrade_image_namespace }}/pgautoupgrade:{{ pgautoupgrade_tag }}"
 
 netbox_postgres_password: password
 netbox_postgres_username: netbox
@@ -131,7 +134,8 @@ netbox_postgres_init_sql: "{{ configuration_directory }}/environments/infrastruc
 
 # renovate: datasource=docker depName=redis
 netbox_redis_tag: '7.4.3-alpine'
-netbox_redis_image: "{{ docker_registry_redis }}/library/redis:{{ netbox_redis_tag }}"
+netbox_redis_image_namespace: library
+netbox_redis_image: "{{ docker_registry_redis }}/{{ netbox_redis_image_namespace }}/redis:{{ netbox_redis_tag }}"
 
 ##########################
 # traefik
