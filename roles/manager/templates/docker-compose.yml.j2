@@ -44,6 +44,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
@@ -98,6 +101,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
 {% endif %}
     depends_on:
       redis:
@@ -145,6 +151,9 @@ services:
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
     healthcheck:
       test: pgrep osism
     env_file:
@@ -173,6 +182,9 @@ services:
       - "share:/share"
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
     healthcheck:
       test: pgrep osism
     env_file:
@@ -194,6 +206,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
 {% endif %}
     healthcheck:
       test: pgrep osism
@@ -219,6 +234,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
 {% endif %}
     healthcheck:
       test: pgrep osism
@@ -255,6 +273,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
@@ -272,6 +293,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
@@ -290,6 +314,9 @@ services:
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+      - NETBOX_SECONDARIES
+{%  endif %}
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/ansible.env"
@@ -478,6 +505,10 @@ volumes:
 secrets:
   NETBOX_TOKEN:
     file: {{ manager_secrets_directory }}/NETBOX_TOKEN
+{%   if netbox_secondaries | length > 0 %}
+  NETBOX_SECONDARIES:
+    file: {{ manager_secrets_directory }}/NETBOX_SECONDARIES
+{%  endif %}
 {% endif %}
 
 ##########################################

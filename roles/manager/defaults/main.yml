@@ -79,6 +79,17 @@ enable_netbox: "{{ netbox_enable }}"
 netbox_enable: false
 netbox_api_url: ""
 netbox_api_token: ""
+netbox_secondaries: []
+# netbox_secondaries:
+#   - NETBOX_URL: <secondary netbox API URL>
+#     NETBOX_TOKEN: <secondary netbox API token>
+#     IGNORE_SSL_ERRORS: <'True'|'False'>
+#   - ...
+netbox_filter_list:
+  - state: active
+    tag:
+      - managed-by-ironic
+
 
 manager_inventory_from_netbox: false
 
