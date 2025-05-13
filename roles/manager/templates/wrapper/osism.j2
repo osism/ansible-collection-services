@@ -41,4 +41,8 @@ if [[ -n "$OSISM_APPLY_RETRY" ]]; then
     PARAMETERS="$PARAMETERS --env OSISM_APPLY_RETRY=$OSISM_APPLY_RETRY"
 fi
 
+if [[ -n "$OSISM_RETRY" ]]; then
+    PARAMETERS="$PARAMETERS --env OSISM_RETRY=$OSISM_RETRY"
+fi
+
 docker exec $PARAMETERS osismclient osism "$@"
