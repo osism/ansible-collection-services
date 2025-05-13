@@ -95,7 +95,8 @@ manager_opensearch_protocol: https
 # inventory-reconciler
 
 inventory_reconciler_tag: latest
-inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/osism/inventory-reconciler:{{ inventory_reconciler_tag }}"
+inventory_reconciler_image_namespace: osism
+inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/{{ inventory_reconciler_image_namespace }}/inventory-reconciler:{{ inventory_reconciler_tag }}"
 
 ##########################
 # ansible services
@@ -146,7 +147,8 @@ ansible_services: "{{ ansible_services_defaults + ansible_services_extra }}"
 osism_ansible_container_name: osism-ansible
 
 osism_ansible_tag: latest
-osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
+osism_ansible_image_namespace: osism
+osism_ansible_image: "{{ docker_registry_ansible }}/{{ osism_ansible_image_namespace }}/osism-ansible:{{ osism_ansible_tag }}"
 
 ##########################
 # osism-kubernetes
@@ -157,7 +159,8 @@ osism_kubernetes_enable: false
 osism_kubernetes_container_name: osism-kubernetes
 
 osism_kubernetes_tag: latest
-osism_kubernetes_image: "{{ docker_registry_ansible }}/osism/osism-kubernetes:{{ osism_kubernetes_tag }}"
+osism_kubernetes_image_namespace: osism
+osism_kubernetes_image: "{{ docker_registry_ansible }}/{{ osism_kubernetes_image_namespace }}/osism-kubernetes:{{ osism_kubernetes_tag }}"
 
 ##########################
 # ceph-ansible
@@ -168,7 +171,8 @@ ceph_ansible_enable: true
 ceph_ansible_container_name: ceph-ansible
 
 ceph_ansible_tag: pacific
-ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
+ceph_ansible_image_namespace: osism
+ceph_ansible_image: "{{ docker_registry_ansible }}/{{ ceph_ansible_image_namespace }}/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
 # kolla-ansible
@@ -179,14 +183,16 @@ kolla_ansible_enable: true
 kolla_ansible_container_name: kolla-ansible
 
 kolla_ansible_tag: xena
-kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
+kolla_ansible_image_namespace: osism
+kolla_ansible_image: "{{ docker_registry_ansible }}/{{ kolla_ansible_image_namespace }}/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
 # redis
 
 # renovate: datasource=docker depName=redis
 manager_redis_tag: '7.4.3-alpine'
-manager_redis_image: "{{ docker_registry_redis }}/library/redis:{{ manager_redis_tag }}"
+manager_redis_image_namespace: library
+manager_redis_image: "{{ docker_registry_redis }}/{{ manager_redis_image_namespace }}/redis:{{ manager_redis_tag }}"
 
 ##########################
 # ara
@@ -211,7 +217,8 @@ ara_workers: 5
 
 # renovate: datasource=docker depName=registry.osism.tech/osism/ara-server
 ara_server_tag: '1.7.2'
-ara_server_image: "{{ docker_registry_ara_server }}/osism/ara-server:{{ ara_server_tag }}"
+ara_server_image_namespace: osism
+ara_server_image: "{{ docker_registry_ara_server }}/{{ ara_server_image_namespace }}/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
 
@@ -227,7 +234,8 @@ ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 # renovate: datasource=docker depName=mariadb
 ara_server_mariadb_tag: '11.7.2'
-ara_server_mariadb_image: "{{ docker_registry_mariadb }}/library/mariadb:{{ ara_server_mariadb_tag }}"
+ara_server_mariadb_image_namespace: library
+ara_server_mariadb_image: "{{ docker_registry_mariadb }}/{{ ara_server_mariadb_image_namespace }}/mariadb:{{ ara_server_mariadb_tag }}"
 
 ##########################
 # celery
@@ -236,7 +244,8 @@ enable_celery: "{{ celery_enable }}"
 celery_enable: true
 
 osism_tag: latest
-osism_image: "{{ docker_registry_osism }}/osism/osism:{{ osism_tag }}"
+osism_image_namespace: osism
+osism_image: "{{ docker_registry_osism }}/{{ osism_image_namespace }}/osism:{{ osism_tag }}"
 
 flower_host: "{{ ansible_default_ipv4.address }}"
 flower_port: 5555
@@ -257,7 +266,8 @@ vault_port: 8200
 
 # renovate: datasource=docker depName=hashicorp/vault
 vault_tag: '1.19.3'
-vault_image: "{{ docker_registry_vault }}/hashicorp/vault:{{ vault_tag }}"
+vault_image_namespace: hashicorp
+vault_image: "{{ docker_registry_vault }}/{{ vault_image_namespace }}/vault:{{ vault_tag }}"
 
 vault_output_key_shares: false
 vault_write_key_shares: false

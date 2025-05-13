@@ -7,3 +7,9 @@ ara_server_database_type: sqlite
 osism_kubernetes_enable: true
 
 docker_configure_storage_zram_device: true
+
+docker_registry: registry.osism.tech
+
+ara_server_mariadb_image_namespace: dockerhub
+manager_redis_image_namespace: dockerhub
+vault_image_namespace: dockerhub/hashicorp
