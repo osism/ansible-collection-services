@@ -41,6 +41,9 @@
     "hosts": [{% for host in docker_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}],
     "insecure-registries": [{% for registry in docker_insecure_registries %}"{{ registry }}"{% if not loop.last %}, {% endif %}{% endfor %}],
     "ipv6": {{ docker_ipv6 }},
+{% if docker_ipv6 | bool %}
+    "fixed-cidr-v6": "{{ docker_ipv6_fixed_cidr }}",
+{% endif %}
     "live-restore": {{ docker_live_restore }},
     "log-driver": "{{ docker_log_driver }}",
     "log-level": "{{ docker_log_level }}",
