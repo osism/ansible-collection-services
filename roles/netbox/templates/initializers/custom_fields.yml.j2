@@ -35,3 +35,21 @@ ironic_parameters:
   weight: 0
   on_objects:
     - dcim.models.Device
+
+netplan_parameters:
+  type: json
+  label: Netplan parameters
+  description: Netplan parameters
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+
+frr_parameters:
+  type: json
+  label: FRR parameters
+  description: FRR parameters
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
