@@ -1,4 +1,12 @@
 ---
+- name: Set _dnsmasq_dhcp_hosts fact
+  ansible.builtin.set_fact:
+    _dnsmasq_dhcp_hosts: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_hosts__.+$', initial_value=dnsmasq_dhcp_hosts, groups=dnsmasq_dhcp_hosts_groups) }}"  # yamllint disable-line rule:line-length
+
+- name: Set _dnsmasq_dhcp_ranges fact
+  ansible.builtin.set_fact:
+    _dnsmasq_dhcp_ranges: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_ranges__.+$', initial_value=dnsmasq_dhcp_ranges, groups=dnsmasq_dhcp_ranges_groups) }}"  # yamllint disable-line rule:line-length
+
 - name: Create required directories
   become: true
   ansible.builtin.file:
