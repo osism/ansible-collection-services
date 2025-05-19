@@ -9,23 +9,35 @@ maintenance:
   on_objects:
     - dcim.models.Device
 
-provision_state:
+dnsmasq_dhcp_tag:
   type: text
-  label: Provision state
-  description: Provision state of a device
+  label: dnsmasq DHCP tag
+  description: Overwrite the default dnsmasq DHCP tag
   required: false
   weight: 0
   on_objects:
     - dcim.models.Device
+  ui_visibility: hidden-ifunset
+
+provision_state:
+  type: text
+  label: Provision state
+  description: Provision state
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
 
 power_state:
   type: text
   label: Power state
-  description: Power state of a device
+  description: Power state
   required: false
   weight: 0
   on_objects:
     - dcim.models.Device
+  ui_visibility: hidden-ifunset
 
 ironic_parameters:
   type: json
@@ -35,6 +47,7 @@ ironic_parameters:
   weight: 0
   on_objects:
     - dcim.models.Device
+  ui_visibility: hidden-ifunset
 
 netplan_parameters:
   type: json
@@ -44,6 +57,7 @@ netplan_parameters:
   weight: 0
   on_objects:
     - dcim.models.Device
+  ui_visibility: hidden-ifunset
 
 frr_parameters:
   type: json
@@ -53,3 +67,4 @@ frr_parameters:
   weight: 0
   on_objects:
     - dcim.models.Device
+  ui_visibility: hidden-ifunset
