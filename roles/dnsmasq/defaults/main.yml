@@ -20,8 +20,10 @@ dnsmasq_dhcp_ranges:
   - 192.168.42.100,192.168.42.200,255.255.255.0,3h
 dnsmasq_dhcp_hosts:
   - aa:bb:cc:dd:ee:ff,testbed-manager,192.168.42.10
+dnsmasq_dhcp_macs: []
 
 dnsmasq_dhcp_hosts_groups: generic
+dnsmasq_dhcp_macs_groups: generic
 dnsmasq_dhcp_ranges_groups: generic
 
 dnsmasq_enable_tftp: true

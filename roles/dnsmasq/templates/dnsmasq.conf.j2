@@ -6,6 +6,9 @@ dhcp-range={{ dhcp_range }}
 {% for dhcp_host in _dnsmasq_dhcp_hosts %}
 dhcp-host={{ dhcp_host }}
 {% endfor %}
+{% for dhcp_mac in _dnsmasq_dhcp_macs %}
+dhcp-mac={{ dhcp_mac }}
+{% endfor %}
 {% if dnsmasq_enable_tftp | bool %}
 enable-tftp
 tftp-root=/var/lib/tftp
