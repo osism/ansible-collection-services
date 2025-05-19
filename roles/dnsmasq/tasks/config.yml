@@ -7,6 +7,10 @@
   ansible.builtin.set_fact:
     _dnsmasq_dhcp_macs: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_macs__.+$', initial_value=dnsmasq_dhcp_macs, groups=dnsmasq_dhcp_macs_groups) }}"  # yamllint disable-line rule:line-length
 
+- name: Set _dnsmasq_dhcp_options fact
+  ansible.builtin.set_fact:
+    _dnsmasq_dhcp_options: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_options__.+$', initial_value=dnsmasq_dhcp_options, groups=dnsmasq_dhcp_options_groups) }}"  # yamllint disable-line rule:line-length
+
 - name: Set _dnsmasq_dhcp_ranges fact
   ansible.builtin.set_fact:
     _dnsmasq_dhcp_ranges: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_ranges__.+$', initial_value=dnsmasq_dhcp_ranges, groups=dnsmasq_dhcp_ranges_groups) }}"  # yamllint disable-line rule:line-length
