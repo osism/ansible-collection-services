@@ -1,9 +1,9 @@
 port=0
 interface={{ dnsmasq_interface }}
-{% for dhcp_range in dnsmasq_dhcp_ranges %}
+{% for dhcp_range in _dnsmasq_dhcp_ranges %}
 dhcp-range={{ dhcp_range }}
 {% endfor %}
-{% for dhcp_host in dnsmasq_dhcp_hosts %}
+{% for dhcp_host in _dnsmasq_dhcp_hosts %}
 dhcp-host={{ dhcp_host }}
 {% endfor %}
 {% if dnsmasq_enable_tftp | bool %}
