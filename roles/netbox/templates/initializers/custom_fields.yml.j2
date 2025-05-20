@@ -19,6 +19,16 @@ dnsmasq_dhcp_tag:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
 
+frr_local_as:
+  type: text
+  label: FRR local AS
+  description: Overwrite the default FRR local AS
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
+
 provision_state:
   type: text
   label: Provision state
