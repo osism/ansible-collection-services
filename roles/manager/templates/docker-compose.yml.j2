@@ -49,6 +49,7 @@ services:
 {%  endif %}
     env_file:
       - "{{ manager_configuration_directory }}/netbox.env"
+      - "{{ manager_configuration_directory }}/inventory-reconciler.env"
 {% endif %}
 
   ##########################################
