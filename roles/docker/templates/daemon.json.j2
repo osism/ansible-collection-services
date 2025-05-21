@@ -42,7 +42,8 @@
     "insecure-registries": [{% for registry in docker_insecure_registries %}"{{ registry }}"{% if not loop.last %}, {% endif %}{% endfor %}],
     "ipv6": {{ docker_ipv6 }},
 {% if docker_ipv6 | bool %}
-    "fixed-cidr-v6": "{{ docker_ipv6_fixed_cidr }}",
+    "ip6tables": {{ docker_ip6tables }},
+    "fixed-cidr-v6": "{{ docker_fixed_cidr_v6 }}",
 {% endif %}
     "live-restore": {{ docker_live_restore }},
     "log-driver": "{{ docker_log_driver }}",

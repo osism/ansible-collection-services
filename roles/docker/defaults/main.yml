@@ -23,7 +23,8 @@ docker_wait_after_restart_seconds: 60
 # networking
 
 docker_ipv6: "false"
-docker_ipv6_fixed_cidr: "2001:db8:1::/64"
+docker_ip6tables: "true"
+docker_fixed_cidr_v6: "fd00::/64"
 docker_disable_default_network: false
 
 ##########################
