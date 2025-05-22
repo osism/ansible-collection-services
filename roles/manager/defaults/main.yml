@@ -92,6 +92,13 @@ netbox_filter_list:
 netbox_data_types:
   - primary_ip
   - config_context
+netbox_ignored_roles:
+  - housing
+  - oob
+  - other
+  - pdu
+netbox_role_mapping:
+  manager: ["generic", "manager"]
 
 manager_inventory_from_netbox: false
 
