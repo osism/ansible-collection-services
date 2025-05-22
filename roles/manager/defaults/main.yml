@@ -89,7 +89,9 @@ netbox_filter_list:
   - state: active
     tag:
       - managed-by-ironic
-
+netbox_data_types:
+  - primary_ip
+  - config_context
 
 manager_inventory_from_netbox: false
 

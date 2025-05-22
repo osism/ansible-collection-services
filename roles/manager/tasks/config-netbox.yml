@@ -20,3 +20,11 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+
+- name: Copy inventory-reconciler environment file
+  ansible.builtin.template:
+    src: env/inventory-reconciler.env.j2
+    dest: "{{ manager_configuration_directory }}/inventory-reconciler.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
