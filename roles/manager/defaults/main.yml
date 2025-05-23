@@ -89,6 +89,10 @@ netbox_filter_conductor:
   - state: active
     tag:
       - managed-by-ironic
+netbox_filter_inventory:
+  - state: active
+    tag:
+      - managed-by-osism
 netbox_data_types:
   - primary_ip
   - config_context
