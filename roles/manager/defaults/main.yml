@@ -85,7 +85,7 @@ netbox_secondaries: []
 #     NETBOX_TOKEN: <secondary netbox API token>
 #     IGNORE_SSL_ERRORS: <'True'|'False'>
 #   - ...
-netbox_filter_list:
+netbox_filter_conductor:
   - state: active
     tag:
       - managed-by-ironic
