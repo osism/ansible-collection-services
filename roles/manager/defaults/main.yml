@@ -108,7 +108,7 @@ manager_inventory_from_netbox: false
 
 ##########################
 # opensearch integration
-#
+
 manager_opensearch_enable: true
 
 manager_opensearch_address: 127.0.0.1
@@ -123,6 +123,12 @@ inventory_reconciler_image_namespace: osism
 inventory_reconciler_image: "{{ docker_registry_inventory_reconciler }}/{{ inventory_reconciler_image_namespace }}/inventory-reconciler:{{ inventory_reconciler_tag }}"
 
 manager_inventory_reconciler_mode: manager
+
+##########################
+# schedules
+
+manager_inventory_reconciler_schedule: 600.0
+manager_gather_facts_schedule: 43200.0
 
 ##########################
 # ansible services

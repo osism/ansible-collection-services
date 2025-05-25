@@ -48,6 +48,7 @@ services:
       - NETBOX_SECONDARIES
 {%  endif %}
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/netbox.env"
       - "{{ manager_configuration_directory }}/inventory-reconciler.env"
 {% endif %}
@@ -67,6 +68,7 @@ services:
         soft: "{{ manager_ulimits_nofile_soft }}"
         hard: "{{ manager_ulimits_nofile_hard }}"
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/ansible.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
@@ -158,6 +160,7 @@ services:
     healthcheck:
       test: pgrep osism
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/netbox.env"
     deploy:
       replicas: {{ manager_netbox_replicas }}
@@ -189,6 +192,7 @@ services:
     healthcheck:
       test: pgrep osism
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/conductor.env"
       - "{{ manager_configuration_directory }}/netbox.env"
       - "{{ manager_configuration_directory }}/openstack.env"
@@ -214,6 +218,7 @@ services:
     healthcheck:
       test: pgrep osism
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/listener.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
@@ -242,6 +247,7 @@ services:
     healthcheck:
       test: pgrep osism
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/openstack.env"
 {% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
@@ -278,6 +284,7 @@ services:
       - NETBOX_SECONDARIES
 {%  endif %}
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 
@@ -298,6 +305,7 @@ services:
       - NETBOX_SECONDARIES
 {%  endif %}
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 {% endif %}
@@ -320,6 +328,7 @@ services:
 {%  endif %}
 {% endif %}
     env_file:
+      - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/client.env"
 {% if enable_netbox|bool %}
