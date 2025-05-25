@@ -29,6 +29,16 @@ frr_local_as:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
 
+inventory_hostname:
+  type: text
+  label: Inventory hostname
+  description: Overwrite the default inventory hostname
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
+
 provision_state:
   type: text
   label: Provision state
