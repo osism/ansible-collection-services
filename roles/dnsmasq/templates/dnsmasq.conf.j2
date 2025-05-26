@@ -1,5 +1,7 @@
 port=0
+{% for dnsmasq_interface in _dnsmasq_interfaces %}
 interface={{ dnsmasq_interface }}
+{% endfor %}
 {% for dhcp_range in _dnsmasq_dhcp_ranges %}
 dhcp-range={{ dhcp_range }}
 {% endfor %}
