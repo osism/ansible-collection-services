@@ -22,6 +22,7 @@
     volumes:
       - "{{ httpd_data_directory }}:/export"
     state: started
+  when: httpd_data_enable | bool
 
 - name: Copy docker-compose.yml file
   ansible.builtin.template:
