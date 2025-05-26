@@ -88,3 +88,13 @@ frr_parameters:
   on_objects:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
+
+dnsmasq_parameters:
+  type: text
+  label: dnsmasq parameters
+  description: Overwrite the default dnsmasq parameters
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
