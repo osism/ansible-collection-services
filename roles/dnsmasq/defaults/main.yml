@@ -15,7 +15,8 @@ dnsmasq_docker_compose_directory: /opt/dnsmasq
 dnsmasq_service_name: "docker-compose@dnsmasq"
 dnsmasq_container_name: dnsmasq
 
-dnsmasq_interface: "{{ ansible_default_ipv4.interface }}"
+dnsmasq_interfaces:
+  - "{{ ansible_default_ipv4.interface }}"
 dnsmasq_dhcp_ranges: []
 # example: - 192.168.42.100,192.168.42.200,255.255.255.0,3h
 dnsmasq_dhcp_hosts: []
@@ -27,6 +28,7 @@ dnsmasq_dhcp_hosts_groups: generic
 dnsmasq_dhcp_macs_groups: generic
 dnsmasq_dhcp_options_groups: generic
 dnsmasq_dhcp_ranges_groups: generic
+dnsmasq_interfaces_groups: generic
 
 dnsmasq_enable_tftp: true
 
