@@ -8,6 +8,7 @@
 
 - name: Restart netbox service
   ansible.builtin.include_tasks: restart-service.yml
+  when: netbox_service_allow_restart | bool
 
 - name: Wait for an healthy netbox service
   ansible.builtin.include_tasks: wait-for-healthy-service.yml
