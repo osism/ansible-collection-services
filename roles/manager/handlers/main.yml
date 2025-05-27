@@ -8,7 +8,9 @@
   until: result["status"]["ActiveState"] == "active"
   retries: 10
   delay: 20
-  when: _manager_service_restart | default(true) | bool
+  when:
+    - manager_service_allow_restart | bool
+    - _manager_service_restart | default(true) | bool
   notify:
     - Wait for manager service to start
     - Register that manager service was restarted
