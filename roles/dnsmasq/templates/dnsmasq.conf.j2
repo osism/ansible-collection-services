@@ -1,6 +1,5 @@
-port=0
-{% for dnsmasq_interface in _dnsmasq_interfaces %}
-interface={{ dnsmasq_interface }}
+{% for interface in _dnsmasq_interfaces %}
+interface={{ interface }}
 {% endfor %}
 {% for dhcp_range in _dnsmasq_dhcp_ranges %}
 dhcp-range={{ dhcp_range }}
@@ -29,4 +28,6 @@ address={{ dns_host }}
 {% for dynamic_host in _dnsmasq_dynamic_hosts %}
 dynamic-host={{ dynamic_host }}
 {% endfor %}
+{% else %}
+port=0
 {% endif %}
