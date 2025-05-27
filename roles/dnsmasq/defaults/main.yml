@@ -36,11 +36,10 @@ dnsmasq_interfaces_groups: generic
 dnsmasq_enable_tftp: true
 
 dnsmasq_enable_dns: false
-dnsmasq_dns_servers:
-  - 9.9.9.9
-  - 149.112.112.112
-dnsmasq_dns_hosts:
-  - "/testbed-manager/192.168.42.10"
+dnsmasq_dns_servers: []
+# example: - 9.9.9.9
+dnsmasq_dns_hosts: []
+# example: - "/testbed-manager/192.168.42.10"
 
 dnsmasq_docker_registry: registry.osism.tech
 # renovate: datasource=docker depName=registry.osism.tech/osism/dnsmasq-osism
