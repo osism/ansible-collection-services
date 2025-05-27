@@ -26,4 +26,7 @@ server={{ dns_server }}
 {% for dns_host in dnsmasq_dns_hosts %}
 address={{ dns_host }}
 {% endfor %}
+{% for dynamic_host in _dnsmasq_dynamic_hosts %}
+dynamic-host={{ dynamic_host }}
+{% endfor %}
 {% endif %}

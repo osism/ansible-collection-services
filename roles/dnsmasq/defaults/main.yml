@@ -23,11 +23,14 @@ dnsmasq_dhcp_hosts: []
 # example: - aa:bb:cc:dd:ee:ff,testbed-manager,192.168.42.10
 dnsmasq_dhcp_macs: []
 dnsmasq_dhcp_options: []
+dnsmasq_dynamic_hosts: []
+# example: - metalbox,192.168.42.0/24,192.168.42.10
 
 dnsmasq_dhcp_hosts_groups: generic
 dnsmasq_dhcp_macs_groups: generic
 dnsmasq_dhcp_options_groups: generic
 dnsmasq_dhcp_ranges_groups: generic
+dnsmasq_dynamic_hosts_groups: generic
 dnsmasq_interfaces_groups: generic
 
 dnsmasq_enable_tftp: true
