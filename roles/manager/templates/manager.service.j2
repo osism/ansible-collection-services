@@ -3,6 +3,10 @@ Description=OSISM manager service
 PartOf=osism.target
 Requires=docker.service
 After=docker.service
+{% if netbox_enable | bool %}
+Requires=netbox.service
+After=netbox.service
+{% endif %}
 
 [Service]
 Type=simple
