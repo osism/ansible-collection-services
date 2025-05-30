@@ -223,7 +223,7 @@ kolla_ansible_image: "{{ docker_registry_ansible }}/{{ kolla_ansible_image_names
 # redis
 
 # renovate: datasource=docker depName=redis
-manager_redis_tag: '7.4.3-alpine'
+manager_redis_tag: '7.4.4-alpine'
 manager_redis_image_namespace: library
 manager_redis_image: "{{ docker_registry_redis }}/{{ manager_redis_image_namespace }}/redis:{{ manager_redis_tag }}"
 
