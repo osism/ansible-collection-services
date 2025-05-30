@@ -25,6 +25,7 @@ manager_network: 172.31.101.0/27
 manager_old_service_name: "docker-compose@manager"
 manager_service_name: "manager"
 
+manager_service_manual_start: false
 manager_service_allow_restart: true
 manager_pre_pull: true
 
