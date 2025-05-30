@@ -50,6 +50,12 @@
     state: stopped
     enabled: false
 
+- name: Do a manual start of the manager service
+  ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ manager_docker_compose_directory }} up -d --remove-orphans"
+  changed_when: true
+  notify: Wait for an healthy manager service
+  when: manager_service_manual_start | bool
+
 - name: Ensure that the manager service is up and running
   block:  # noqa osism-fqcn
     - name: Manage manager service
