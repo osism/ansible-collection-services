@@ -254,6 +254,7 @@ services:
 {% endif %}
 {% endif %}
 
+{% if manager_enable_watchdog|bool %}
   ##########################################
   # watchdog service
 
@@ -265,6 +266,7 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
     healthcheck:
       test: pgrep osism
+{% endif %}
 
   ##########################################
   # api service

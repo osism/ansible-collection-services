@@ -342,6 +342,11 @@ enable_listener: false
 manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
 
 ##########################
+# watchdog
+
+manager_enable_watchdog: true
+
+##########################
 # openstack
 
 manager_enable_openstack: true
