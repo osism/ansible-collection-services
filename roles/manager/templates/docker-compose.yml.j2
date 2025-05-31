@@ -13,11 +13,7 @@ services:
       - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "interface:/interface:ro"
       - "inventory_reconciler:/inventory"
-{% if inventory_reconciler_tag != 'latest' and inventory_reconciler_tag is version('5.2.0', operator='le') %}
-      - "{{ configuration_directory }}/inventory:/opt/configuration/inventory:ro"
-{% else %}
       - "{{ configuration_directory }}:/opt/configuration:ro"
-{% endif %}
     depends_on:
       redis:
         condition: service_healthy
