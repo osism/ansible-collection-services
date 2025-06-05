@@ -99,3 +99,13 @@ dnsmasq_parameters:
   on_objects:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
+
+secrets:
+  type: text
+  label: secrets
+  description: Device specific secrets (Ansible vault encrypted)
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
