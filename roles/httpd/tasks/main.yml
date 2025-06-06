@@ -9,8 +9,18 @@
     mode: 0750
   loop:
     - "{{ httpd_configuration_directory }}"
-    - "{{ httpd_data_directory }}"
     - "{{ httpd_docker_compose_directory }}"
+
+- name: Create data directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  loop:
+    - "{{ httpd_data_directory }}"
 
 - name: Run data container
   community.docker.docker_container:
