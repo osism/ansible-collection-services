@@ -16,7 +16,7 @@ fi
 
 if [[ $INTERACTIVE == "true" ]]; then
 
-    PARAMETERS="$PARAMETERS -it"
+    PARAMETERS="$PARAMETERS -t"
 
 fi
 
@@ -45,4 +45,4 @@ if [[ -n "$OSISM_RETRY" ]]; then
     PARAMETERS="$PARAMETERS --env OSISM_RETRY=$OSISM_RETRY"
 fi
 
-docker exec $PARAMETERS osismclient osism "$@"
+docker exec -i $PARAMETERS osismclient osism "$@"
