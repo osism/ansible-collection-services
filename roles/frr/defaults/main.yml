@@ -25,6 +25,7 @@ frr_uplinks_groups:
   - generic
 
 frr_dummy_interface: dummy0
+frr_hostname: "{{ hostname_name | default(inventory_hostname_short) }}"
 frr_local_as: 4200000000
 frr_type: leaf
 frr_loopback_v4: 127.0.0.42
