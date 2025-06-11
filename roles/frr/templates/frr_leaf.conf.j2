@@ -30,7 +30,7 @@ router bgp {{ frr_local_as }}
 exit
 !
 route-map bgp_out permit 10
- match interface {{ frr_dummy_interface }}
+ match interface {{ frr_loopback_interface }}
 exit
 !
 route-map RM_SET_SRC4 permit 10

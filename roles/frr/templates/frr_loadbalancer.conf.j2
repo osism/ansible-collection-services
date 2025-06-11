@@ -54,46 +54,46 @@ ipv6 prefix-list externalbackup seq {{ item.seq }} permit {{ item.cidr }} ge 128
 {% endfor %}
 !
 route-map bgp_out permit 10
- match interface dummy0
+ match interface {{ frr_loopback_interface }}
  match ip address prefix-list internalbackup
  set metric 1
 exit
 !
 route-map bgp_out permit 20
- match interface dummy0
+ match interface {{ frr_loopback_interface }}
  match ipv6 address prefix-list internalbackup
  set metric 1
 exit
 !
 route-map bgp_out permit 30
- match interface {{ frr_dummy_interface }}
+ match interface {{ frr_loopback_interface }}
  match ip address prefix-list internal
 exit
 !
 route-map bgp_out permit 40
- match interface {{ frr_dummy_interface }}
+ match interface {{ frr_loopback_interface }}
  match ipv6 address prefix-list internal
 exit
 !
 route-map uplink_out permit 10
- match interface dummy0
+ match interface {{ frr_loopback_interface }}
  match ip address prefix-list externalbackup
  set metric 1
 exit
 !
 route-map uplink_out permit 20
- match interface dummy0
+ match interface {{ frr_loopback_interface }}
  match ipv6 address prefix-list externalbackup
  set metric 1
 exit
 !
 route-map uplink_out permit 30
- match interface dummy0
+ match interface {{ frr_loopback_interface }}
  match ip address prefix-list external
 exit
 !
 route-map uplink_out permit 40
- match interface dummy0
+ match interface {{ frr_loopback_interface }}
  match ipv6 address prefix-list external
 exit
 !
