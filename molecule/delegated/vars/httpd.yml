@@ -3,3 +3,6 @@ operator_user: zuul
 operator_group: zuul
 
 httpd_data_enable: true
+httpd_sonic_ztp_enable: true
+
+httpd_sonic_ztp_authorized_keys: ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHAsus5/h/wwuUKr1c9/6UFZe7T0oh6Zsv8gSoQvpMaR test@test.test"]

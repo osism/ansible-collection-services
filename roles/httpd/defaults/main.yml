@@ -29,6 +29,9 @@ httpd_image: "{{ httpd_docker_registry }}/httpd:{{ httpd_tag }}"
 
 httpd_container_name: httpd
 
+##########################
+# data import
+
 httpd_data_uid: "{{ ansible_facts.user_uid }}"
 httpd_data_gid: "{{ ansible_facts.user_gid }}"
 
@@ -36,3 +39,19 @@ httpd_data_enable: false
 httpd_data_docker_registry: registry.osism.tech
 httpd_data_tag: latest
 httpd_data_image: "{{ httpd_data_docker_registry }}/osism/rsync:{{ httpd_data_tag }}"
+
+##########################
+# sonic ztp
+
+http_sonic_ztp_enable: false
+
+httpd_sonic_ztp_hostname: metalbox
+httpd_sonic_ztp_firmware: sonic-broadcom-enterprise-base.bin
+httpd_sonic_ztp_directory: sonic
+
+httpd_sonic_ztp_configdb_prefix: osism_
+httpd_sonic_ztp_configdb_identifier: hostname
+httpd_sonic_ztp_configdb_suffix: _config_db.json
+
+httpd_sonic_ztp_authorized_keys: []
+httpd_sonic_ztp_authorized_keys_delete: []
