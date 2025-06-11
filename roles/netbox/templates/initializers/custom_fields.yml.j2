@@ -109,3 +109,14 @@ secrets:
   on_objects:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
+
+sonic_parameters:
+  type: json
+  label: sonic parameters
+  description: SONiC parameters
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+    - dcim.models.Interface
+  ui_visibility: hidden-ifunset
