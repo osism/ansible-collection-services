@@ -34,6 +34,10 @@
     state: started
   when: httpd_data_enable | bool
 
+- name: Include sonic-ztp tasks
+  ansible.builtin.include_tasks: sonic-ztp.yml
+  when: httpd_sonic_ztp_enable | bool
+
 - name: Copy docker-compose.yml file
   ansible.builtin.template:
     src: docker-compose.yml.j2

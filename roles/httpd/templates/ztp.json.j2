@@ -1,0 +1,30 @@
+{
+  "ztp": {
+    "01-firmware": {
+      "install": {
+        "url": "http://{{ httpd_sonic_ztp_hostname }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_firmware }}",
+        "set-default": true
+      },
+      "reboot-on-success": true
+    },
+    "02-download": {
+      "files": [
+        {
+          "url": {
+            "source": "http://{{ httpd_sonic_ztp_hostname }}/{{ httpd_sonic_ztp_directory }}/authorized_keys",
+            "destination": "/home/admin/.ssh/authorized_keys"
+          }
+        }
+      ]
+    },
+    "03-configdb-json": {
+      "dynamic-url": {
+        "source": {
+          "prefix": "http://{{ httpd_sonic_ztp_hostname }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_configdb_prefix }}",
+          "identifier": "{{ httpd_sonic_ztp_configdb_identifier }}",
+          "suffix": "{{ httpd_sonic_ztp_configdb_suffix }}"
+        }
+      }
+    }
+  }
+}

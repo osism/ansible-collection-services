@@ -1,0 +1,41 @@
+---
+- name: Create sonic-ztp directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  loop:
+    - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}"
+
+- name: Set ssh authorized keys
+  ansible.posix.authorized_key:
+    key: "{{ item }}"
+    user: "{{ operator_user }}"
+    path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/authorized_keys"
+  loop: "{{ httpd_sonic_ztp_authorized_keys }}"
+  no_log: true
+
+- name: Delete ssh authorized keys
+  ansible.posix.authorized_key:
+    key: "{{ item }}"
+    user: "{{ operator_user }}"
+    path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/authorized_keys"
+    state: absent
+  loop: "{{ httpd_sonic_ztp_authorized_keys_delete }}"
+  no_log: true
+
+- name: Make authorized_keys file world readable
+  ansible.builtin.file:
+    path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/authorized_keys"
+    mode: 0644
+
+- name: Copy ztp.json file
+  ansible.builtin.template:
+    src: ztp.json.j2
+    dest: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/ztp.json"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
