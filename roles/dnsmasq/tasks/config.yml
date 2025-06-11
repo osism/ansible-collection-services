@@ -7,6 +7,10 @@
   ansible.builtin.set_fact:
     _dnsmasq_dynamic_hosts: "{{ lookup('community.general.merge_variables', '^dnsmasq_dynamic_hosts__.+$', initial_value=dnsmasq_dynamic_hosts, groups=dnsmasq_dynamic_hosts_groups) }}"  # yamllint disable-line rule:line-length
 
+- name: Set _dnsmasq_dhcp_boot fact
+  ansible.builtin.set_fact:
+    _dnsmasq_dhcp_boot: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_boot__.+$', initial_value=dnsmasq_dhcp_boot, groups=dnsmasq_dhcp_boot_groups) }}"  # yamllint disable-line rule:line-length
+
 - name: Set _dnsmasq_dhcp_hosts fact
   ansible.builtin.set_fact:
     _dnsmasq_dhcp_hosts: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_hosts__.+$', initial_value=dnsmasq_dhcp_hosts, groups=dnsmasq_dhcp_hosts_groups) }}"  # yamllint disable-line rule:line-length

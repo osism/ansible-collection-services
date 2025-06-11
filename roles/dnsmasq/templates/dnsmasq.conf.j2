@@ -11,6 +11,9 @@ dhcp-host={{ dhcp_host }}
 {% for dhcp_mac in _dnsmasq_dhcp_macs %}
 dhcp-mac={{ dhcp_mac }}
 {% endfor %}
+{% for dhcp_boot in _dnsmasq_dhcp_boot %}
+dhcp-boot={{ dhcp_boot }}
+{% endfor %}
 {% for dhcp_option in _dnsmasq_dhcp_options %}
 dhcp-option={{ dhcp_option }}
 {% endfor %}
