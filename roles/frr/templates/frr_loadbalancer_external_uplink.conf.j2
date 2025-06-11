@@ -39,11 +39,11 @@ router bgp {{ frr_local_as }}
 exit
 !
 route-map bgp_out_internal permit 10
- match interface {{ frr_dummy_interface_internal }}
+ match interface {{ frr_loopback_interface_internal }}
 exit
 !
 route-map bgp_out_external permit 10
- match interface {{ frr_dummy_interface_external }}
+ match interface {{ frr_loopback_interface_external }}
 exit
 !
 route-map bgp_in_external permit 10

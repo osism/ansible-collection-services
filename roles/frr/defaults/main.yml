@@ -27,6 +27,8 @@ frr_uplinks_groups:
 frr_dummy_interface: dummy0
 frr_hostname: "{{ hostname_name | default(inventory_hostname_short) }}"
 frr_local_as: 4200000000
+# TODO(frickler): remove old var after deprecation
+frr_loopback_interface: "{{ frr_dummy_interface | default("loopback0") }}"
 frr_type: leaf
 frr_loopback_v4: 127.0.0.42
 frr_loopback_v6: 2001:db8:cafe:f00d::42
