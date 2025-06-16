@@ -31,6 +31,10 @@
   ansible.builtin.set_fact:
     _dnsmasq_dhcp_userclass: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_userclass__.+$', initial_value=dnsmasq_dhcp_userclass, groups=dnsmasq_dhcp_userclass_groups) }}"  # yamllint disable-line rule:line-length
 
+- name: Set _dnsmasq_dhcp_vendorclass fact
+  ansible.builtin.set_fact:
+    _dnsmasq_dhcp_vendorclass: "{{ lookup('community.general.merge_variables', '^dnsmasq_dhcp_vendorclass__.+$', initial_value=dnsmasq_dhcp_vendorclass, groups=dnsmasq_dhcp_vendorclass_groups) }}"  # yamllint disable-line rule:line-length
+
 - name: Create required directories
   become: true
   ansible.builtin.file:
