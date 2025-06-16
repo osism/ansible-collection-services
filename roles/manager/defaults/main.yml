@@ -87,10 +87,14 @@ netbox_secondaries: []
 #     NETBOX_TOKEN: <secondary netbox API token>
 #     IGNORE_SSL_ERRORS: <'True'|'False'>
 #   - ...
-netbox_filter_conductor:
+netbox_filter_conductor_ironic:
   - state: active
     tag:
       - managed-by-ironic
+netbox_filter_conductor_sonic:
+  - state: active
+    tag:
+      - managed-by-metalbox
 netbox_filter_inventory:
   - state: active
     tag:
