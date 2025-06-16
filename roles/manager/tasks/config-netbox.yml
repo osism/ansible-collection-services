@@ -1,4 +1,15 @@
 ---
+- name: Create sonic-ztp directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  loop:
+    - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}"
+
 - name: Copy secret files
   ansible.builtin.template:
     src: config-netbox-secret.j2
