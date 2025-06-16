@@ -180,6 +180,7 @@ services:
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ state_directory }}/conductor:/state:rw"
       - "share:/share"
+      - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}:/etc/sonic/export:rw"
     secrets:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}

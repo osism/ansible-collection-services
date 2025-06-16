@@ -112,6 +112,10 @@ netbox_role_mapping:
 
 manager_inventory_from_netbox: false
 
+# imported from osism.services.httpd
+httpd_data_directory: /opt/httpd/data
+httpd_sonic_ztp_directory: sonic
+
 ##########################
 # opensearch integration
 
