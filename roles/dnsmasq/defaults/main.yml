@@ -27,6 +27,7 @@ dnsmasq_dynamic_hosts: []
 # example: - metalbox,192.168.42.0/24,192.168.42.10
 dnsmasq_dhcp_boot: []
 dnsmasq_dhcp_userclass: []
+dnsmasq_dhcp_vendorclass: []
 
 dnsmasq_dhcp_boot_groups: generic
 dnsmasq_dhcp_hosts_groups: generic
@@ -34,6 +35,7 @@ dnsmasq_dhcp_macs_groups: generic
 dnsmasq_dhcp_options_groups: generic
 dnsmasq_dhcp_ranges_groups: generic
 dnsmasq_dhcp_userclass_groups: generic
+dnsmasq_dhcp_vendorclass_groups: generic
 dnsmasq_dynamic_hosts_groups: generic
 dnsmasq_interfaces_groups: generic
 

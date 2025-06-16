@@ -14,6 +14,9 @@ dhcp-mac={{ dhcp_mac }}
 {% for dhcp_userclass in _dnsmasq_dhcp_userclass %}
 dhcp-userclass={{ dhcp_userclass }}
 {% endfor %}
+{% for dhcp_vendorclass in _dnsmasq_dhcp_vendorclass %}
+dhcp-vendorclass={{ dhcp_vendorclass }}
+{% endfor %}
 {% for dhcp_boot in _dnsmasq_dhcp_boot %}
 dhcp-boot={{ dhcp_boot }}
 {% endfor %}
