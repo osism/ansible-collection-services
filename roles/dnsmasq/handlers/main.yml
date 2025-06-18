@@ -8,3 +8,11 @@
   until: result["status"]["ActiveState"] == "active"
   retries: 10
   delay: 20
+  when:
+    - _dnsmasq_service_restart | default(true) | bool
+  notify:
+    - Register that dnsmasq service was restarted
+
+- name: Register that dnsmasq service was restarted
+  ansible.builtin.set_fact:
+    _dnsmasq_service_restart: false

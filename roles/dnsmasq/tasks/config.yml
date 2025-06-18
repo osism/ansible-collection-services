@@ -57,3 +57,4 @@
     group: "{{ operator_group }}"
   loop:
     - dnsmasq.conf
+  notify: Restart dnsmasq service
