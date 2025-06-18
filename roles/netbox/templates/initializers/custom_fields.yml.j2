@@ -29,6 +29,16 @@ frr_local_as:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
 
+alternative_name:
+  type: text
+  label: Alternative name
+  description: Alternative name of the device
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
+
 inventory_hostname:
   type: text
   label: Inventory hostname
