@@ -55,3 +55,18 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0755
+
+- name: Copy .htaccess file
+  ansible.builtin.template:
+    src: htaccess.j2
+    dest: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/.htaccess"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+  when: httpd_sonic_ztp_allowed_ip | length > 0
+
+- name: Remove .htaccess file
+  ansible.builtin.file:
+    path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/.htaccess"
+    state: absent
+  when: not httpd_sonic_ztp_allowed_ip

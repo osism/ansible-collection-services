@@ -55,3 +55,5 @@ httpd_sonic_ztp_configdb_suffix: _config_db.json
 
 httpd_sonic_ztp_authorized_keys: []
 httpd_sonic_ztp_authorized_keys_delete: []
+
+httpd_sonic_ztp_allowed_ip: []
