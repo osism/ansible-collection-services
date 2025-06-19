@@ -50,7 +50,7 @@ httpd_sonic_ztp_firmware: sonic-broadcom-enterprise-base.bin
 httpd_sonic_ztp_directory: sonic
 
 httpd_sonic_ztp_configdb_prefix: osism_
-httpd_sonic_ztp_configdb_identifier: hostname
+httpd_sonic_ztp_configdb_identifier: serial-number
 httpd_sonic_ztp_configdb_suffix: _config_db.json
 
 httpd_sonic_ztp_authorized_keys: []
