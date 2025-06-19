@@ -57,3 +57,4 @@ httpd_sonic_ztp_authorized_keys: []
 httpd_sonic_ztp_authorized_keys_delete: []
 
 httpd_sonic_ztp_allowed_ip: []
+httpd_sonic_ztp_allowed_ip_groups: generic

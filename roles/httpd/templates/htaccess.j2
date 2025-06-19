@@ -1,5 +1,5 @@
 <RequireAny>
-{% for allowed_ip in httpd_sonic_ztp_allowed_ip %}
+{% for allowed_ip in _httpd_sonic_ztp_allowed_ip %}
 Require ip {{ allowed_ip }}
 {% endfor %}
 </RequireAny>
