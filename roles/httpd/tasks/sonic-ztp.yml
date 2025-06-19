@@ -47,3 +47,11 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0755
+
+- name: Copy httpd.conf file
+  ansible.builtin.template:
+    src: httpd.conf.j2
+    dest: "{{ httpd_configuration_directory }}/httpd.conf"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
