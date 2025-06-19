@@ -39,3 +39,11 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0644
+
+- name: Copy post_install script
+  ansible.builtin.template:
+    src: post_install.sh.j2
+    dest: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/post_install.sh"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
