@@ -8,6 +8,9 @@ services:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
     volumes:
       - "{{ httpd_data_directory }}:/usr/local/apache2/htdocs:ro"
+{% if httpd_sonic_ztp_enable | bool %}
+      - "{{ httpd_configuration_directory }}/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro"
+{% endif %}
     healthcheck:
       test: "pgrep -f 'httpd -DFOREGROUND'"
 
