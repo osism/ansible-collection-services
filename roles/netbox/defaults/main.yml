@@ -162,6 +162,7 @@ netbox_initializers:
   - sites
   - tags
   - users
+  - webhook
 
 netbox_init_object_permissions:
   read_write_all:
