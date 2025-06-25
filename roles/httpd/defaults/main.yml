@@ -41,6 +41,12 @@ httpd_data_tag: latest
 httpd_data_image: "{{ httpd_data_docker_registry }}/osism/rsync:{{ httpd_data_tag }}"
 
 ##########################
+# ironic
+
+httpd_ironic_enable: false
+httpd_ironic_volume: ironic
+
+##########################
 # sonic ztp
 
 httpd_sonic_ztp_enable: false
