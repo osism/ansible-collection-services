@@ -34,9 +34,22 @@
     state: started
   when: httpd_data_enable | bool
 
+- name: Include ironic tasks
+  ansible.builtin.include_tasks: ironic.yml
+  when: httpd_ironic_enable | bool
+
 - name: Include sonic-ztp tasks
   ansible.builtin.include_tasks: sonic-ztp.yml
   when: httpd_sonic_ztp_enable | bool
+
+- name: Copy httpd.conf file
+  ansible.builtin.template:
+    src: httpd.conf.j2
+    dest: "{{ httpd_configuration_directory }}/httpd.conf"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+  notify: Restart httpd service
 
 - name: Copy docker-compose.yml file
   ansible.builtin.template:

@@ -48,14 +48,6 @@
     group: "{{ operator_group }}"
     mode: 0755
 
-- name: Copy httpd.conf file
-  ansible.builtin.template:
-    src: httpd.conf.j2
-    dest: "{{ httpd_configuration_directory }}/httpd.conf"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0755
-
 - name: Set _httpd_sonic_ztp_allowed_ip fact
   ansible.builtin.set_fact:
     _httpd_sonic_ztp_allowed_ip: "{{ lookup('community.general.merge_variables', '^httpd_sonic_ztp_allowed_ip__.+$', initial_value=httpd_sonic_ztp_allowed_ip, groups=httpd_sonic_ztp_allowed_ip_groups) }}"  # yamllint disable-line rule:line-length

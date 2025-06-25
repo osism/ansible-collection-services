@@ -1,0 +1,4 @@
+---
+- name: "Ensure existence of volume {{ httpd_ironic_volume }}"
+  community.docker.docker_volume:
+    name: "{{ httpd_ironic_volume }}"
