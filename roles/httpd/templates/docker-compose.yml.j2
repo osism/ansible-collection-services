@@ -8,6 +8,12 @@ services:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
     volumes:
 {% if httpd_ironic_enable | bool %}
+      - "/etc/hosts:/etc/hosts:ro"
+{% if ansible_os_family == 'Debian' %}
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% elif ansible_os_family == 'RedHat' %}
+      - "/etc/pki/tls/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% endif %}
       - "{{ httpd_ironic_volume }}:/usr/local/apache2/htdocs/ironic:ro"
 {% if httpd_sonic_ztp_enable | bool %}
       - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}:/usr/local/apache2/htdocs/sonic:ro"

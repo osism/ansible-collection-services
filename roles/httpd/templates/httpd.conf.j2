@@ -305,6 +305,22 @@ Alias /sonic /usr/local/apache2/htdocs/sonic
 </Directory>
 {% endif %}
 
+{% if httpd_ironic_enable | bool %}
+Listen [::]:6385
+
+<VirtualHost [::]:6385>
+    ProxyPreserveHost On
+    ProxyRequests Off
+    
+    ProxyPass / http://foobar:4321/
+    ProxyPassReverse / http://foobar:4321/
+    
+    ProxyTimeout 300
+    
+    SSLEngine off
+</VirtualHost>
+{% endif %}
+
 #
 # DirectoryIndex: sets the file that Apache will serve if a directory
 # is requested.

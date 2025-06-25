@@ -45,6 +45,7 @@ httpd_data_image: "{{ httpd_data_docker_registry }}/osism/rsync:{{ httpd_data_ta
 
 httpd_ironic_enable: false
 httpd_ironic_volume: ironic
+httpd_ironic_api_url: "http://metalbox:6385/"
 
 ##########################
 # sonic ztp
