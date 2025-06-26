@@ -40,7 +40,7 @@ traefik_configuration_extra: {}
 traefik_configuration_dynamic: {}
 
 # renovate: datasource=docker depName=traefik
-traefik_tag: 'v3.4.1'
+traefik_tag: 'v3.4.3'
 traefik_image: "{{ docker_registry_traefik }}/traefik:{{ traefik_tag }}"
 
 traefik_container_name: traefik
