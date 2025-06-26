@@ -4,3 +4,6 @@
 chown -R admin:admin /home/admin/.ssh
 chmod 0700 /home/admin/.ssh
 chmod 0600 /home/admin/.ssh/authorized_keys
+
+# do not enforce manual password changes
+chage -d 999999 admin
