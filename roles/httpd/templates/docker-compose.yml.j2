@@ -8,7 +8,7 @@ services:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
     volumes:
 {% if httpd_ironic_enable | bool %}
-      - "{{ httpd_ironic_volume }}:/usr/local/apache2/htdocs/ironic:ro"
+      - "{{ httpd_ironic_volume }}:/var/lib/ironic:ro"
 {% endif %}
 {% if httpd_sonic_ztp_enable | bool %}
       - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}:/usr/local/apache2/htdocs/sonic:ro"
