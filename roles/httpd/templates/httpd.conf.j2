@@ -301,8 +301,8 @@ Alias /sonic /usr/local/apache2/htdocs/sonic
 {% endif %}
 
 {% if httpd_ironic_enable | bool %}
-Alias /ironic /usr/local/apache2/htdocs/ironic
-<Directory "/usr/local/apache2/htdocs/ironic">
+Alias /ironic/httpboot /usr/local/apache2/htdocs/ironic/httpboot
+<Directory "/usr/local/apache2/htdocs/ironic/httpboot">
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted
