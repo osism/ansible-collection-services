@@ -6,8 +6,17 @@ services:
     image: "{{ httpd_image }}"
     ports:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
+{% if httpd_ironic_enable | bool %}
+{% if _httpd_loopback_ipv4 | length %}
+      - "{{ _httpd_loopback_ipv4 }}:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
+{% endif %}
+{% if _httpd_loopback_ipv6 | length %}
+      - "{{ _httpd_loopback_ipv6 }}:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
+{% endif %}
+{% endif %}
     volumes:
 {% if httpd_ironic_enable | bool %}
+      - /etc/hosts:/etc/hosts:ro
       - "{{ httpd_ironic_volume }}:/var/lib/ironic:ro"
 {% endif %}
 {% if httpd_sonic_ztp_enable | bool %}
