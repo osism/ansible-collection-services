@@ -262,13 +262,8 @@ ServerAdmin you@example.com
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 
-{% if httpd_ironic_enable | bool %}
-DocumentRoot "/usr/local/apache2/htdocs/ironic"
-<Directory "/usr/local/apache2/htdocs/ironic">
-{% else %}
-DocumentRoot "/usr/local/apache2/htdocs"
-<Directory "/usr/local/apache2/htdocs">
-{% endif %}
+DocumentRoot "/usr/local/apache2/htdocs/root"
+<Directory "/usr/local/apache2/htdocs/root">
     #
     # Possible values for the Options directive are "None", "All",
     # or any combination of:
@@ -296,9 +291,18 @@ DocumentRoot "/usr/local/apache2/htdocs"
     Require all granted
 </Directory>
 
-{% if httpd_ironic_enable | bool and httpd_sonic_ztp_enable | bool %}
+{% if httpd_sonic_ztp_enable | bool %}
 Alias /sonic /usr/local/apache2/htdocs/sonic
 <Directory "/usr/local/apache2/htdocs/sonic">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+{% endif %}
+
+{% if httpd_ironic_enable | bool %}
+Alias /ironic /usr/local/apache2/htdocs/ironic
+<Directory "/usr/local/apache2/htdocs/ironic">
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted
