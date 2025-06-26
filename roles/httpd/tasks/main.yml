@@ -21,6 +21,7 @@
     mode: 0755
   loop:
     - "{{ httpd_data_directory }}"
+    - "{{ httpd_data_directory }}/root"
 
 - name: Run data container
   community.docker.docker_container:

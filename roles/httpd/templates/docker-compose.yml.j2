@@ -9,15 +9,12 @@ services:
     volumes:
 {% if httpd_ironic_enable | bool %}
       - "{{ httpd_ironic_volume }}:/usr/local/apache2/htdocs/ironic:ro"
+{% endif %}
 {% if httpd_sonic_ztp_enable | bool %}
       - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}:/usr/local/apache2/htdocs/sonic:ro"
 {% endif %}
-{% else %}
-      - "{{ httpd_data_directory }}:/usr/local/apache2/htdocs:ro"
-{% endif %}
-{% if httpd_sonic_ztp_enable | bool %}
+      - "{{ httpd_data_directory }}/root:/usr/local/apache2/htdocs/root:ro"
       - "{{ httpd_configuration_directory }}/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro"
-{% endif %}
     healthcheck:
       test: "pgrep -f 'httpd -DFOREGROUND'"
 
