@@ -11,9 +11,9 @@ services:
       - "{{ httpd_ironic_volume }}:/var/lib/ironic:ro"
 {% endif %}
 {% if httpd_sonic_ztp_enable | bool %}
-      - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}:/usr/local/apache2/htdocs/sonic:ro"
+      - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}:/usr/local/apache2/sonic:ro"
 {% endif %}
-      - "{{ httpd_data_directory }}/root:/usr/local/apache2/htdocs/root:ro"
+      - "{{ httpd_data_directory }}/root:/usr/local/apache2/htdocs:ro"
       - "{{ httpd_configuration_directory }}/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro"
     healthcheck:
       test: "pgrep -f 'httpd -DFOREGROUND'"
