@@ -2,3 +2,20 @@
 - name: "Ensure existence of volume {{ httpd_ironic_volume }}"
   community.docker.docker_volume:
     name: "{{ httpd_ironic_volume }}"
+
+- name: "Copy script to prepare the volume {{ httpd_ironic_volume }}"
+  ansible.builtin.copy:
+    src: prepare-ironic-volume.sh
+    dest: "{{ httpd_configuration_directory }}/prepare-ironic-volume.sh"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+
+- name: "Prepare volume {{ httpd_ironic_volume }}"
+  community.docker.docker_container:
+    name: httpd-ironic
+    image: "{{ httpd_image }}"
+    entrypoint: /prepare-ironic-volume.sh
+    volumes:
+      - "{{ httpd_configuration_directory }}/prepare-ironic-volume.sh:/prepare-ironic-volume.sh"
+      - "{{ httpd_ironic_volume }}:/var/lib/ironic"
