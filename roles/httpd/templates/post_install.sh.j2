@@ -7,3 +7,6 @@ chmod 0600 /home/admin/.ssh/authorized_keys
 
 # do not enforce a password change after the initial login
 chage -d 99999 admin
+
+# update status in Metalbox
+curl -X POST http://metalbox/v1/switches/$(hostname)/ztp/complete
