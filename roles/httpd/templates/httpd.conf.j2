@@ -2,7 +2,9 @@ ServerRoot "/usr/local/apache2"
 ServerAdmin metal@in-a-box.cloud
 
 Listen 80
+{% if httpd_ironic_enable | bool %}
 Listen 6385
+{% endif %}
 
 LoadModule access_compat_module modules/mod_access_compat.so
 LoadModule alias_module modules/mod_alias.so
@@ -53,6 +55,11 @@ Alias /sonic /usr/local/apache2/sonic
     AllowOverride All
     Require all granted
 </Directory>
+
+ProxyPreserveHost On
+ProxyPass /v1/ http://metalbox:8000/v1/
+ProxyPassReverse /v1/ http://metalbox:8000/v1/
+ProxyAddHeaders On
 {% endif %}
 
 {% if httpd_ironic_enable | bool %}
