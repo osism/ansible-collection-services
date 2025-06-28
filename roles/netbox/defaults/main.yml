@@ -24,6 +24,13 @@ docker_registry_postgres: index.docker.io
 docker_registry_redis: index.docker.io
 
 ##########################
+# netbox-nginx
+
+netbox_nginx_processes_max: 4
+netbox_nginx_processes_spare: 1
+netbox_nginx_processes_idle_timeout: 120
+
+##########################
 # netbox
 
 netbox_required_packages:
