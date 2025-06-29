@@ -11,7 +11,7 @@ services:
       - "{{ _httpd_loopback_ipv4 }}:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
 {% endif %}
 {% if _httpd_loopback_ipv6 | length %}
-      - "{{ _httpd_loopback_ipv6 }}:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
+      - "[{{ _httpd_loopback_ipv6 }}]:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
 {% endif %}
 {% endif %}
     volumes:

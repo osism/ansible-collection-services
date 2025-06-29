@@ -55,7 +55,7 @@
 - name: Set _httpd_loopback_ipv4 and _httpd_loopback_ipv6 facts
   ansible.builtin.set_fact:
     _httpd_loopback_ipv4: "{{ hostvars[inventory_hostname]['ansible_' + httpd_ironic_interface]['ipv4']['address'] | default('') }}"
-    _httpd_loopback_ipv6: "{{ hostvars[inventory_hostname]['ansible_' + httpd_ironic_interface]['ipv6']['address'] | default('') }}"
+    _httpd_loopback_ipv6: "{{ hostvars[inventory_hostname]['ansible_' + httpd_ironic_interface]['ipv6'][0]['address'] | default('') }}"
   when: httpd_ironic_enable | bool
 
 - name: Copy docker-compose.yml file
