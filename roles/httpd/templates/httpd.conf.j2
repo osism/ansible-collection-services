@@ -41,35 +41,37 @@ LoadModule version_module modules/mod_version.so
     Require all denied
 </Directory>
 
-DocumentRoot "/usr/local/apache2/htdocs"
-<Directory "/usr/local/apache2/htdocs">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
+<VirtualHost 0.0.0.0:80>
+    DocumentRoot "/usr/local/apache2/htdocs"
+    <Directory "/usr/local/apache2/htdocs">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
 
 {% if httpd_sonic_ztp_enable | bool %}
-Alias /sonic /usr/local/apache2/sonic
-<Directory "/usr/local/apache2/sonic">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
+    Alias /sonic /usr/local/apache2/sonic
+    <Directory "/usr/local/apache2/sonic">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
 
-ProxyPreserveHost On
-ProxyPass /v1/ http://metalbox:8000/v1/
-ProxyPassReverse /v1/ http://metalbox:8000/v1/
-ProxyAddHeaders On
+    ProxyPreserveHost On
+    ProxyPass /v1/ http://metalbox:8000/v1/
+    ProxyPassReverse /v1/ http://metalbox:8000/v1/
+    ProxyAddHeaders On
 {% endif %}
 
 {% if httpd_ironic_enable | bool %}
-Alias /ironic /var/lib/ironic/httpboot
-<Directory "/var/lib/ironic/httpboot">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
+    Alias /ironic /var/lib/ironic/httpboot
+    <Directory "/var/lib/ironic/httpboot">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
 {% endif %}
+</VirtualHost>
 
 {% if httpd_ironic_enable | bool %}
 <VirtualHost 0.0.0.0:6385>
