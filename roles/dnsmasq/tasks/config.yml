@@ -1,10 +1,4 @@
 ---
-- name: Ignore some extra vars in metalbox mode
-  ansible.builtin.set_fact:
-    dnsmasq_dhcp_options: []
-    dnsmasq_dhcp_boot: []
-  when: dnsmasq_mode == "metalbox"
-
 - name: Set _dnsmasq_interfaces fact
   ansible.builtin.set_fact:
     _dnsmasq_interfaces: "{{ lookup('community.general.merge_variables', '^dnsmasq_interfaces__.+$', initial_value=dnsmasq_interfaces, groups=dnsmasq_interfaces_groups) }}"  # yamllint disable-line rule:line-length
