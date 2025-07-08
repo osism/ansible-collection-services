@@ -16,4 +16,4 @@ for nameserver in $(jq -r '.DNS_NAMESERVER | keys[]' /etc/sonic/config_db.json 2
 done
 
 # update status in Metalbox
-curl -X POST http://metalbox/v1/switches/$(hostname)/ztp/complete
+ip vrf exec mgmt curl -X POST http://metalbox/v1/switches/$(hostname)/ztp/complete
