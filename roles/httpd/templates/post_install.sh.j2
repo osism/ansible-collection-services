@@ -8,5 +8,12 @@ chmod 0600 /home/admin/.ssh/authorized_keys
 # do not enforce a password change after the initial login
 chage -d 99999 admin
 
+# add nameserver to /etc/resolv.conf
+for nameserver in $(jq -r '.DNS_NAMESERVER | keys[]' /etc/sonic/config_db.json 2>/dev/null); do
+    if [[ -n "$nameserver" ]]; then
+        echo "nameserver $nameserver" >> /etc/resolv.conf
+    fi
+done
+
 # update status in Metalbox
 curl -X POST http://metalbox/v1/switches/$(hostname)/ztp/complete
