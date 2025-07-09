@@ -1,0 +1,17 @@
+---
+- name: Restart gnmic service
+  become: true
+  ansible.builtin.service:
+    name: "{{ gnmic_service_name }}"
+    state: restarted
+  register: result
+  until: result["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20
+  when: _gnmic_service_restart | default(true) | bool
+  notify:
+    - Register that gnmic service was restarted
+
+- name: Register that gnmic service was restarted
+  ansible.builtin.set_fact:
+    _gnmic_service_restart: false

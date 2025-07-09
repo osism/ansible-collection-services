@@ -1,0 +1,20 @@
+---
+services:
+  gnmic:
+    container_name: "{{ gnmic_container_name }}"
+    restart: unless-stopped
+    image: "{{ gnmic_image }}"
+    command: subscribe --config /etc/gnmic.yaml
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "{{ gnmic_configuration_directory }}/gnmic.yaml:/etc/gnmic.yaml:ro"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet: {{ gnmic_network }}

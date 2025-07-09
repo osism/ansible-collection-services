@@ -1,0 +1,31 @@
+---
+username: admin
+password: NokiaSrl1!
+insecure: true
+encoding: json_ietf
+log: true
+
+targets:
+  192.168.1.131:57400:
+    username: gnmic
+    password: secret_password
+
+subscriptions:
+  sub1:
+    paths:
+      - /interface/statistics
+    stream-mode: sample
+    sample-interval: 10s
+
+  sub2:
+    paths:
+      - /interface/subinterface/statistics
+    stream-mode: sample
+    sample-interval: 10s
+    
+outputs:
+  prom-remote:
+    type: prometheus_write
+    url: http://clab-lab16-prometheus:9090/api/v1/write
+    metadata:
+      include: true
