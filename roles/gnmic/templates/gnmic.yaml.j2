@@ -14,5 +14,5 @@ subscriptions:
     
 {% if _gnmic_outputs | length %}
 outputs:
-  {{ _gnmic_outpus | to_nice_yaml(indent=2)|indent(2) }}
+  {{ _gnmic_outputs | to_nice_yaml(indent=2)|indent(2) }}
 {% endif %}
