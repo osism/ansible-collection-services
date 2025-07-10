@@ -1,0 +1,29 @@
+---
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+docker_registry: registry.osism.tech
+gnmic_docker_registry: "{{ docker_registry }}"
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# gnmic
+
+gnmic_docker_compose_directory: /opt/gnmic
+gnmic_configuration_directory: /opt/gnmic/configuration
+
+# renovate: datasource=docker depName=registry.osism.tech/osism/gnmic
+gnmic_tag: '0.41.0'
+gnmic_image: "{{ gnmic_docker_registry }}/osism/gnmic:{{ gnmic_tag }}"
+
+gnmic_network: 172.31.101.208/28
+
+gnmic_container_name: gnmic
+gnmic_service_name: "docker-compose@gnmic"
