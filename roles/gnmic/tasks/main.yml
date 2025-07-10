@@ -1,4 +1,16 @@
 ---
+- name: Set _gnmic_targets fact
+  ansible.builtin.set_fact:
+    _gnmic_targets: "{{ lookup('community.general.merge_variables', '^gnmic_targets__.+$', initial_value=gnmic_targets, groups=gnmic_targets_groups) }}"  # yamllint disable-line rule:line-length
+
+- name: Set _gnmic_subscriptions fact
+  ansible.builtin.set_fact:
+    _gnmic_subscriptions: "{{ lookup('community.general.merge_variables', '^gnmic_subscriptions__.+$', initial_value=gnmic_subscriptions, groups=gnmic_subscriptions_groups) }}"  # yamllint disable-line rule:line-length
+
+- name: Set _gnmic_outputs fact
+  ansible.builtin.set_fact:
+    _gnmic_outputs: "{{ lookup('community.general.merge_variables', '^gnmic_outputs__.+$', initial_value=gnmic_outputs, groups=gnmic_outputs_groups) }}"  # yamllint disable-line rule:line-length
+
 - name: Create required directories
   become: true
   ansible.builtin.file:

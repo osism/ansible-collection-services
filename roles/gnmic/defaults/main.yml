@@ -27,3 +27,17 @@ gnmic_network: 172.31.101.208/28
 
 gnmic_container_name: gnmic
 gnmic_service_name: "docker-compose@gnmic"
+
+gnmic_targets: {}
+gnmic_subscriptions:
+  all-interfaces:
+    paths:
+      - COUNTERS/Ethernet*
+    target: COUNTERS_DB
+    stream-mode: sample
+    sample-interval: 10s
+gnmic_outputs: {}
+
+gnmic_targets_groups: generic
+gnmic_subscriptions_groups: generic
+gnmic_outputs_groups: generic
