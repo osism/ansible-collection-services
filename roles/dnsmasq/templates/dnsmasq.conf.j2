@@ -28,7 +28,9 @@ enable-tftp
 tftp-root=/var/lib/tftp
 {% endif %}
 {% if dnsmasq_enable_dns | bool %}
+no-hosts
 no-resolv
+localise-queries
 {% for dns_server in dnsmasq_dns_servers %}
 server={{ dns_server }}
 {% endfor %}
