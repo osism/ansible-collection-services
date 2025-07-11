@@ -22,6 +22,7 @@ dnsmasq_dhcp_ranges: []
 dnsmasq_dhcp_hosts: []
 # example: - aa:bb:cc:dd:ee:ff,testbed-manager,192.168.42.10
 dnsmasq_dhcp_macs: []
+dnsmasq_dhcp_options_force: []
 dnsmasq_dhcp_options: []
 dnsmasq_dynamic_hosts: []
 # example: - metalbox,192.168.42.0/24,192.168.42.10
@@ -32,6 +33,7 @@ dnsmasq_dhcp_vendorclass: []
 dnsmasq_dhcp_boot_groups: generic
 dnsmasq_dhcp_hosts_groups: generic
 dnsmasq_dhcp_macs_groups: generic
+dnsmasq_dhcp_options_force_groups: generic
 dnsmasq_dhcp_options_groups: generic
 dnsmasq_dhcp_ranges_groups: generic
 dnsmasq_dhcp_userclass_groups: generic
