@@ -23,6 +23,9 @@ dhcp-boot={{ dhcp_boot }}
 {% for dhcp_option in _dnsmasq_dhcp_options %}
 dhcp-option={{ dhcp_option }}
 {% endfor %}
+{% for dhcp_option_force in _dnsmasq_dhcp_options_force %}
+dhcp-option-force={{ dhcp_option_force }}
+{% endfor %}
 {% if dnsmasq_enable_tftp | bool %}
 enable-tftp
 tftp-root=/var/lib/tftp
