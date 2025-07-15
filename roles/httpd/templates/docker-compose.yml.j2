@@ -10,9 +10,9 @@ services:
 {% if _httpd_loopback_ipv4 | length %}
       - "{{ _httpd_loopback_ipv4 }}:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
 {% endif %}
-{% if _httpd_loopback_ipv6 | length %}
-      - "[{{ _httpd_loopback_ipv6 }}]:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
-{% endif %}
+{% for ipv6_addr in _httpd_loopback_ipv6 %}
+      - "[{{ ipv6_addr }}]:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
+{% endfor %}
 {% endif %}
     volumes:
 {% if httpd_ironic_enable | bool %}
