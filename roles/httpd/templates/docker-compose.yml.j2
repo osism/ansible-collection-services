@@ -8,10 +8,11 @@ services:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
 {% if httpd_ironic_enable | bool %}
 {% if _httpd_loopback_ipv4 | length %}
-      - "{{ _httpd_loopback_ipv4 }}:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
+      - "{{ _httpd_loopback_ipv4 }}:{{ httpd_ironic_port }}:6385"
 {% endif %}
 {% for ipv6_addr in _httpd_loopback_ipv6 %}
-      - "[{{ ipv6_addr }}]:{{ httpd_ironic_port }}:{{ httpd_ironic_port }}"
+      - "[{{ ipv6_addr }}]:{{ httpd_ironic_port }}:6385"
+      - "[{{ ipv6_addr }}]:{{ httpd_port }}:80"
 {% endfor %}
 {% endif %}
     volumes:
