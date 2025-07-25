@@ -91,7 +91,7 @@
           {{
             _nexus_repos_global_list | default([])
             +
-            (nexus_repos_docker_proxy | map('combine', {"format": "docker", "type": "proxy"}) | list)
+            (nexus_repos_docker_proxy | default([]) | map('combine', {"format": "docker", "type": "proxy"}) | list)
           }}
 
 - name: Process definitions for apt repositories  # noqa: osism-fqcn
@@ -110,7 +110,7 @@
           {{
             _nexus_repos_global_list | default([])
             +
-            (nexus_repos_apt_proxy | map('combine', {"format": "apt", "type": "proxy"}) | list)
+            (nexus_repos_apt_proxy | default([]) | map('combine', {"format": "apt", "type": "proxy"}) | list)
           }}
 
 - name: Create configured repositories
