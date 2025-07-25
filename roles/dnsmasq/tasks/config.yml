@@ -1,4 +1,8 @@
 ---
+- name: Set _dnsmasq_extra_parameters fact
+  ansible.builtin.set_fact:
+    _dnsmasq_extra_parameters: "{{ lookup('community.general.merge_variables', '^dnsmasq_extra_parameters__.+$', initial_value=dnsmasq_extra_parameters, groups=dnsmasq_extra_parameters_groups) }}"  # yamllint disable-line rule:line-length
+
 - name: Set _dnsmasq_interfaces fact
   ansible.builtin.set_fact:
     _dnsmasq_interfaces: "{{ lookup('community.general.merge_variables', '^dnsmasq_interfaces__.+$', initial_value=dnsmasq_interfaces, groups=dnsmasq_interfaces_groups) }}"  # yamllint disable-line rule:line-length
