@@ -41,6 +41,9 @@ dnsmasq_dhcp_vendorclass_groups: generic
 dnsmasq_dynamic_hosts_groups: generic
 dnsmasq_interfaces_groups: generic
 
+dnsmasq_extra_parameters: []
+dnsmasq_extra_parameters_groups: generic
+
 dnsmasq_enable_tftp: true
 
 dnsmasq_enable_dns: false

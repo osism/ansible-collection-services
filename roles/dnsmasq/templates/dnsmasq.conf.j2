@@ -46,3 +46,6 @@ dynamic-host={{ dynamic_host }}
 {% else %}
 port=0
 {% endif %}
+{% for extra_parameter in _dnsmasq_extra_parameters %}
+{{ extra_parameter.key }}={{ extra_parameter.value }}
+{% endfor %}
