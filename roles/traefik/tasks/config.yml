@@ -53,11 +53,11 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   notify: Restart traefik service
-  when: traefik_configuration_dynamic.keys() | length
+  when: traefik_configuration_dynamic.keys() | length > 0
 
 - name: Remove dynamic configuration
   ansible.builtin.file:
     path: "{{ traefik_configuration_directory }}/dynamic.yml"
     state: absent
   notify: Restart traefik service
-  when: not traefik_configuration_dynamic.keys() | length
+  when: not traefik_configuration_dynamic.keys() | length > 0

@@ -49,7 +49,7 @@
 - name: Restart and upgrade netbox service
   when:
     - result_container.exists
-    - "_postgres_version_image is ansible.builtin.version(_postgres_version_container, '>')"
+    - _postgres_version_image is ansible.builtin.version(_postgres_version_container, '>')
   block:  # noqa osism-fqcn
     - name: Stop netbox service
       become: true
