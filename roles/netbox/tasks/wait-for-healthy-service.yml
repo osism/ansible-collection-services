@@ -15,7 +15,7 @@
       retries: 60
       delay: 10
       changed_when: true
-      failed_when: result_healthy.stdout | length
+      failed_when: result_healthy.stdout | length > 0
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the
