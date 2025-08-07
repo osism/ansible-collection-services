@@ -130,3 +130,13 @@ sonic_parameters:
     - dcim.models.Device
     - dcim.models.Interface
   ui_visibility: hidden-ifunset
+
+device_interface_label:
+  type: text
+  label: device interface label
+  description: Device interface label
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+  ui_visibility: hidden-ifunset
