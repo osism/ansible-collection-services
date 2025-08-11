@@ -32,5 +32,5 @@
 
 - name: Set _wazuh_agent_service_restart fact
   ansible.builtin.set_fact:  # noqa: no-handler
-    _wazuh_agent_service_restart: False
+    _wazuh_agent_service_restart: false
   when: result.changed | bool
