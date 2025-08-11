@@ -10,6 +10,7 @@ docker_registry_ara_server: "{{ docker_registry_ansible }}"
 docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
 docker_registry_osism: "{{ docker_registry_ansible }}"
+docker_registry_osism_frontend: "{{ docker_registry_ansible }}"
 docker_registry_osism_netbox: "{{ docker_registry_ansible }}"
 docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
@@ -316,6 +317,25 @@ vault_output_key_shares: false
 vault_write_key_shares: false
 
 vault_key_shares_path: "{{ manager_secrets_directory }}/vault_key_shares.yml"
+
+##########################
+# frontend
+
+enable_frontend: "{{ frontend_enable }}"
+frontend_enable: false
+
+frontend_container_name: osism-frontend
+
+frontend_host: "{{ ansible_default_ipv4.address }}"
+frontend_port: 3000
+frontend_traefik: false
+
+# renovate: datasource=docker depName=registry.osism.tech/osism/osism-frontend
+frontend_tag: latest
+frontend_image_namespace: osism
+frontend_image: "{{ docker_registry_osism_frontend }}/{{ frontend_image_namespace }}/osism-frontend:{{ frontend_tag }}"
+
+frontend_osism_api_url: "http://{{ osism_api_host }}:{{ osism_api_port }}"
 
 ##########################
 # wrapper

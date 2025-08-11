@@ -77,5 +77,5 @@
 
 - name: Set _httpd_service_restart fact
   ansible.builtin.set_fact:  # noqa: no-handler
-    _httpd_service_restart: False
+    _httpd_service_restart: false
   when: result.changed | bool
