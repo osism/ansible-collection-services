@@ -13,3 +13,5 @@ docker_registry: registry.osism.tech
 ara_server_mariadb_image_namespace: dockerhub
 manager_redis_image_namespace: dockerhub
 vault_image_namespace: dockerhub/hashicorp
+
+frontend_enable: true
