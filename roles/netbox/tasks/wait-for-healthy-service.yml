@@ -1,9 +1,9 @@
 ---
 - name: Wait for an healthy netbox service
   block:  # noqa osism-fqcn
-      # The command returns a list of IDs of containers from the service
-      # that are currently starting or unhealthy. As long as the list is not empty
-      # the service is not in a good state.
+    # The command returns a list of IDs of containers from the service
+    # that are currently starting or unhealthy. As long as the list is not empty
+    # the service is not in a good state.
     - name: Check that all containers are in a good state
       ansible.builtin.shell: |
         set -o pipefail

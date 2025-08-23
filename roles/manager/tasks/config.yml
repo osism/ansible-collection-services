@@ -43,6 +43,11 @@
   tags: vault
   when: enable_vault|bool
 
+- name: Include frontend config tasks
+  ansible.builtin.include_tasks: config-frontend.yml
+  tags: frontend
+  when: enable_frontend|bool
+
 - name: Include ansible config tasks
   ansible.builtin.include_tasks: config-ansible.yml
   tags: ansible
