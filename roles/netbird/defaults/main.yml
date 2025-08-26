@@ -20,3 +20,4 @@ netbird_management_url: ""
 netbird_preshared_key: ""
 netbird_setup_key: ""
 netbird_wireguard_port: 51820
+netbird_disable_dns: false
