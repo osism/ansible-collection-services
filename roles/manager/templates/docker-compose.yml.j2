@@ -234,6 +234,7 @@ services:
       - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
       - "{{ manager_configuration_directory }}/conductor.yml:/etc/conductor.yml:ro"
       - "{{ configuration_directory }}/environments/openstack:/etc/openstack:ro"
+      - "share:/share"
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
