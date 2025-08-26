@@ -32,14 +32,14 @@
   ansible.builtin.set_fact:
     netbird_environment: "{{ netbird_environment | combine({'NB_SETUP_KEY': netbird_setup_key}) }}"
 
-- name: Set netbird_command fact
+- name: Set netbird_command fact (with DNS)
   ansible.builtin.set_fact:
     netbird_command: netbird up
   when: not netbird_disable_dns | bool
 
-- name: Set netbird_command fact
+- name: Set netbird_command fact (without DNS)
   ansible.builtin.set_fact:
-    netbird_command: netbird up --disable-dns
+    netbird_command: netbird up --disable-dns --dns-resolver-address=""
   when: netbird_disable_dns | bool
 
 - name: Manage connection
