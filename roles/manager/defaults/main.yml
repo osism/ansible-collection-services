@@ -260,7 +260,7 @@ ara_worker_connections: 1000
 ara_workers: 5
 
 # renovate: datasource=docker depName=registry.osism.tech/osism/ara-server
-ara_server_tag: '1.7.2'
+ara_server_tag: '1.7.3'
 ara_server_image_namespace: osism
 ara_server_image: "{{ docker_registry_ara_server }}/{{ ara_server_image_namespace }}/ara-server:{{ ara_server_tag }}"
 
