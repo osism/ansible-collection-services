@@ -112,6 +112,7 @@ netbox_role_mapping:
   manager: ["generic", "manager"]
 
 manager_inventory_from_netbox: false
+manager_inventory_ignore_maintenance_state: false
 manager_inventory_ignore_provision_state: false
 
 # imported from osism.services.httpd
