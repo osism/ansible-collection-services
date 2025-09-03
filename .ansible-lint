@@ -1,11 +1,9 @@
 ---
 exclude_paths:
-  - .github/
   - plugins/modules
 mock_modules:
   - kolla_toolbox
 skip_list:
-  - galaxy[no-changelog]
   - key-order[task]
   - package-latest
   - var-naming
