@@ -1,0 +1,50 @@
+---
+- name: Deploy service manager version check script
+  become: true
+  ansible.builtin.template:
+    src: check-service-manager-versions.sh.j2
+    dest: /usr/local/bin/check-service-manager-versions
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - verify-versions
+
+- name: Execute service manager version check
+  ansible.builtin.command:
+    cmd: /usr/local/bin/check-service-manager-versions
+  register: version_check_result
+  changed_when: false
+  failed_when: version_check_result.rc == 1  # Only fail on version mismatches (rc=1), not warnings (rc=2)
+  when:
+    - not manager_service_manual_start | bool
+    - manager_service_allow_restart | bool
+  tags:
+    - verify-versions
+
+- name: Display version check results
+  ansible.builtin.debug:
+    var: version_check_result.stdout_lines
+  when:
+    - not manager_service_manual_start | bool
+    - manager_service_allow_restart | bool
+    - version_check_result is defined
+  tags:
+    - verify-versions
+
+- name: Skip version check due to service configuration
+  ansible.builtin.debug:
+    msg: |
+      Container version check skipped due to service configuration:
+      - manager_service_manual_start: {{ manager_service_manual_start }}
+      - manager_service_allow_restart: {{ manager_service_allow_restart }}
+
+      Version check is only executed when:
+      - manager_service_manual_start is false AND
+      - manager_service_allow_restart is true
+
+      To manually check versions, run: /usr/local/bin/check-service-manager-versions
+  when:
+    - manager_service_manual_start | bool or not manager_service_allow_restart | bool
+  tags:
+    - verify-versions
