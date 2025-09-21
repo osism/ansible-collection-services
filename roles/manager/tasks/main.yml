@@ -17,3 +17,7 @@
 - name: Include initialize tasks
   ansible.builtin.include_tasks: initialize.yml
   tags: initialize
+
+- name: Include version verification tasks
+  ansible.builtin.include_tasks: verify-versions.yml
+  tags: verify-versions

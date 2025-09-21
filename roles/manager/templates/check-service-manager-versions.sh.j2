@@ -1,0 +1,237 @@
+#!/bin/bash
+
+# Script to check if running Docker containers match expected versions
+# Generated from Ansible template - versions automatically updated during upgrades
+
+set -uo pipefail
+
+echo "=== OSISM Container Version Check ==="
+echo "Checking running containers against expected versions..."
+echo
+
+# Check if Docker Compose is available
+if ! command -v docker &> /dev/null; then
+    echo "ERROR: Docker command not found. Please ensure Docker is installed and accessible."
+    exit 1
+fi
+
+if ! docker compose version &> /dev/null; then
+    echo "ERROR: Docker Compose not available. Please ensure Docker Compose is installed."
+    exit 1
+fi
+
+# Change to manager directory
+cd {{ manager_docker_compose_directory }} || {
+    echo "ERROR: Cannot access manager directory {{ manager_docker_compose_directory }}"
+    exit 1
+}
+
+# Check if we can run docker compose ps
+if ! docker compose ps &> /dev/null; then
+    echo "ERROR: Cannot access Docker Compose services. Please check Docker daemon is running and docker-compose.yml exists."
+    exit 1
+fi
+
+ERRORS=0
+WARNINGS=0
+
+# Function to check container version using docker compose
+check_service() {
+    local service_name="$1"
+    local expected_image="$2"
+    local is_enabled="$3"
+    local description="$4"
+
+    echo "Checking service: $service_name ($description)"
+    echo "  Expected: $expected_image"
+    echo "  Enabled:  $is_enabled"
+
+    # Check if service is running using docker compose ps (continue on error)
+    local running_image
+    local docker_exit_code=0
+
+    running_image=$(docker compose ps --format "{{ '{{.Image}}' }}" "$service_name" 2>/dev/null) || docker_exit_code=$?
+
+    if [[ $docker_exit_code -eq 0 ]] && [[ -n "$running_image" ]]; then
+        echo "  Running:  $running_image"
+
+        # Compare versions
+        if [[ "$running_image" == "$expected_image" ]]; then
+            echo "  Status:   ✅ MATCH"
+        else
+            echo "  Status:   ❌ MISMATCH"
+            ((ERRORS++))
+        fi
+    else
+        # Service not running or docker error
+        if [[ $docker_exit_code -ne 0 ]]; then
+            echo "  Status:   ⚠️  DOCKER ERROR (exit code: $docker_exit_code)"
+            ((WARNINGS++))
+        elif [[ "$is_enabled" == "true" ]]; then
+            echo "  Status:   ⚠️  NOT RUNNING (expected to be enabled)"
+            ((WARNINGS++))
+        else
+            echo "  Status:   ℹ️  NOT RUNNING (disabled)"
+        fi
+    fi
+    echo
+}
+
+# Check inventory-reconciler
+check_service "inventory_reconciler" \
+    "{{ inventory_reconciler_image }}" \
+    "true" \
+    "Inventory Reconciler Service"
+
+# Check osism-ansible (always enabled)
+check_service "osism-ansible" \
+    "{{ osism_ansible_image }}" \
+    "true" \
+    "OSISM Ansible Service"
+
+{% for service in ansible_services %}
+{% if service.name != 'osism-ansible' %}
+# Check {{ service.name }}
+check_service "{{ service.name }}" \
+    "{{ service.image }}" \
+    "{{ service.enable|lower }}" \
+    "{{ service.name|title }} Service"
+
+{% endif %}
+{% endfor %}
+
+# Check osismclient
+check_service "osismclient" \
+    "{{ osism_image }}" \
+    "true" \
+    "OSISM Client"
+
+{% if enable_ara|bool %}
+# Check ARA server
+check_service "ara-server" \
+    "{{ ara_server_image }}" \
+    "{{ enable_ara|lower }}" \
+    "ARA Server"
+
+{% if ara_server_database_type == 'mysql' %}
+# Check MariaDB (for ARA)
+check_service "mariadb" \
+    "{{ ara_server_mariadb_image }}" \
+    "{{ enable_ara|lower }}" \
+    "MariaDB for ARA"
+
+{% endif %}
+{% endif %}
+
+{% if enable_vault|bool %}
+# Check Vault
+check_service "vault" \
+    "{{ vault_image }}" \
+    "{{ enable_vault|lower }}" \
+    "HashiCorp Vault"
+
+{% endif %}
+
+{% if enable_frontend|bool %}
+# Check Frontend
+check_service "frontend" \
+    "{{ frontend_image }}" \
+    "{{ enable_frontend|lower }}" \
+    "OSISM Frontend"
+
+{% endif %}
+
+# Check Redis
+check_service "redis" \
+    "{{ manager_redis_image }}" \
+    "true" \
+    "Redis Cache"
+
+{% if enable_celery|bool %}
+# Check API service
+check_service "api" \
+    "{{ osism_image }}" \
+    "{{ enable_celery|lower }}" \
+    "OSISM API Service"
+
+{% if enable_netbox|bool %}
+# Check Netbox integration
+check_service "netbox" \
+    "{{ osism_image }}" \
+    "{{ enable_netbox|lower }}" \
+    "Netbox Integration"
+
+# Check Conductor
+check_service "conductor" \
+    "{{ osism_image }}" \
+    "{{ enable_netbox|lower }}" \
+    "Conductor Service"
+
+{% endif %}
+
+{% if enable_listener|bool %}
+# Check OpenStack Listener
+check_service "listener" \
+    "{{ osism_image }}" \
+    "{{ enable_listener|lower }}" \
+    "OpenStack Event Listener"
+
+{% endif %}
+
+{% if manager_enable_openstack|bool %}
+# Check OpenStack integration
+check_service "openstack" \
+    "{{ osism_image }}" \
+    "{{ manager_enable_openstack|lower }}" \
+    "OpenStack Integration"
+
+{% endif %}
+
+{% if manager_enable_watchdog|bool %}
+# Check Watchdog
+check_service "watchdog" \
+    "{{ osism_image }}" \
+    "{{ manager_enable_watchdog|lower }}" \
+    "Watchdog Service"
+
+{% endif %}
+
+{% if beat_enable|bool %}
+# Check Beat service
+check_service "beat" \
+    "{{ osism_image }}" \
+    "{{ beat_enable|lower }}" \
+    "Celery Beat Scheduler"
+
+{% endif %}
+
+{% if flower_enable|bool %}
+# Check Flower
+check_service "flower" \
+    "{{ osism_image }}" \
+    "{{ flower_enable|lower }}" \
+    "Celery Flower Monitor"
+
+{% endif %}
+{% endif %}
+
+echo "=== Summary ==="
+echo "Errors (version mismatches): $ERRORS"
+echo "Warnings (expected containers not running): $WARNINGS"
+
+if [[ $ERRORS -gt 0 ]]; then
+    echo
+    echo "❌ Found $ERRORS container(s) with version mismatches!"
+    echo "Please update the containers to match expected versions."
+    echo "Expected versions are defined in the Ansible configuration."
+    exit 1
+elif [[ $WARNINGS -gt 0 ]]; then
+    echo
+    echo "⚠️  Found $WARNINGS expected container(s) not running."
+    echo "Check if these services should be enabled in the configuration."
+    exit 2
+else
+    echo
+    echo "✅ All running containers match expected versions!"
+    exit 0
+fi
