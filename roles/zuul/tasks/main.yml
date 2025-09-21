@@ -20,7 +20,7 @@
     owner: "{{ zuul_user }}"
     group: "{{ zuul_group }}"
     mode: 0755
-  loop: "{{ zuul_component_conf_dirs | dict2items }}"
+  loop: "{{ zuul_component_conf_dirs |  dict2items }}"
 
 - name: Create log directory
   become: true
