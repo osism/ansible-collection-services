@@ -332,9 +332,9 @@ frontend_port: 3000
 frontend_traefik: false
 
 # renovate: datasource=docker depName=registry.osism.tech/osism/osism-frontend
-frontend_tag: latest
-frontend_image_namespace: osism
-frontend_image: "{{ docker_registry_osism_frontend }}/{{ frontend_image_namespace }}/osism-frontend:{{ frontend_tag }}"
+osism_frontend_tag: latest
+osism_frontend_image_namespace: osism
+osism_frontend_image: "{{ docker_registry_osism_frontend }}/{{ osism_frontend_image_namespace }}/osism-frontend:{{ osism_frontend_tag }}"
 
 frontend_osism_api_url: "http://{{ osism_api_host }}:{{ osism_api_port }}"
 
