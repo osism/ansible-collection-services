@@ -499,7 +499,7 @@ services:
 
   frontend:
     container_name: "{{ frontend_container_name }}"
-    image: "{{ frontend_image }}"
+    image: "{{ osism_frontend_image }}"
     restart: unless-stopped
 {% if not frontend_traefik|bool %}
     ports:

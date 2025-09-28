@@ -135,7 +135,7 @@ check_service "vault" \
 {% if enable_frontend|bool %}
 # Check Frontend
 check_service "frontend" \
-    "{{ frontend_image }}" \
+    "{{ osism_frontend_image }}" \
     "{{ enable_frontend|lower }}" \
     "OSISM Frontend"
 
