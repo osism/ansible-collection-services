@@ -1,0 +1,42 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ substation_configuration_directory }}"
+    - "{{ substation_data_directory }}"
+    - "{{ substation_docker_compose_directory }}"
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ substation_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart substation service
+
+- name: Manage substation service
+  become: true
+  ansible.builtin.service:
+    name: "{{ substation_service_name }}"
+    state: started
+    enabled: true
+  register: result
+  until: result["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20
+
+- name: Copy substation wrapper script
+  become: true
+  ansible.builtin.template:
+    src: substation.j2
+    dest: /usr/local/bin/substation
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"

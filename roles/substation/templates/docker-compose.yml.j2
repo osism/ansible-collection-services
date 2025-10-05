@@ -1,0 +1,36 @@
+---
+services:
+  substation:
+    container_name: "{{ substation_container_name }}"
+    restart: unless-stopped
+    image: "{{ substation_image }}"
+    entrypoint: /bin/sh
+    command: sleep infinity
+    stdin_open: true
+    tty: true
+{% if substation_host_networking | bool %}
+    network_mode: host
+{% endif %}
+    volumes:
+      - "{{ substation_configuration_directory }}:/configuration:ro"
+      - "{{ substation_data_directory }}:/data"
+      - "/etc/hosts:/etc/hosts:ro"
+{% if ansible_os_family == 'Debian' %}
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% elif ansible_os_family == 'RedHat' %}
+      - "/etc/pki/tls/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% endif %}
+    environment:
+      REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+
+{% if not substation_host_networking | bool %}
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ substation_network }}
+{% endif %}

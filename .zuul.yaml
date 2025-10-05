@@ -379,6 +379,17 @@
       - '^molecule\/delegated\/tests\/smartd.*$'
 
 - job:
+    name: ansible-collection-services-molecule-substation
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: substation
+    files:
+      - '^roles\/substation\/.*$'
+      - '^molecule\/delegated\/prepare\/substation.*$'
+      - '^molecule\/delegated\/tests\/substation.*$'
+      - '^molecule\/delegated\/vars\/substation.*$'
+
+- job:
     name: ansible-collection-services-molecule-sshd
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -506,6 +517,7 @@
         - ansible-collection-services-molecule-rsyslog
         - ansible-collection-services-molecule-scaphandre
         - ansible-collection-services-molecule-smartd
+        - ansible-collection-services-molecule-substation
         - ansible-collection-services-molecule-sshd
         - ansible-collection-services-molecule-squid
         - ansible-collection-services-molecule-thanos_sidecar
