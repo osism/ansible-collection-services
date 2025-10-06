@@ -4,15 +4,15 @@ services:
     container_name: "{{ substation_container_name }}"
     restart: unless-stopped
     image: "{{ substation_image }}"
-    entrypoint: /bin/sh
-    command: sleep infinity
+    entrypoint: /usr/local/bin/entrypoint.sh
     stdin_open: true
     tty: true
 {% if substation_host_networking | bool %}
     network_mode: host
 {% endif %}
     volumes:
-      - "{{ substation_configuration_directory }}:/configuration:ro"
+      - "{{ substation_docker_compose_directory }}/entrypoint.sh:/usr/local/bin/entrypoint.sh:ro"
+      - "{{ substation_configuration_directory }}:/root/.config/openstack:ro"
       - "{{ substation_data_directory }}:/data"
       - "/etc/hosts:/etc/hosts:ro"
 {% if ansible_os_family == 'Debian' %}
