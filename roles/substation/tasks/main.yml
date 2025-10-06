@@ -21,6 +21,15 @@
     mode: 0640
   notify: Restart substation service
 
+- name: Copy substation entrypoint script
+  become: true
+  ansible.builtin.copy:
+    src: entrypoint.sh
+    dest: "{{ substation_docker_compose_directory }}/entrypoint.sh"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
 - name: Manage substation service
   become: true
   ansible.builtin.service:
