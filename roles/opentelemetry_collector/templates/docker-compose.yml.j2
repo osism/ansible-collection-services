@@ -1,0 +1,39 @@
+---
+services:
+  opentelemetry-collector:
+    container_name: "{{ opentelemetry_collector_container_name }}"
+    restart: unless-stopped
+    image: "{{ opentelemetry_collector_image }}"
+{% if opentelemetry_collector_host_networking | bool %}
+    network_mode: host
+{% endif %}
+    volumes:
+      - "{{ opentelemetry_collector_configuration_directory }}/otel-collector-config.yml:/etc/otelcol-contrib/config.yaml:ro"
+      - "{{ opentelemetry_collector_data_directory }}:/data"
+      - "/etc/hosts:/etc/hosts:ro"
+{% if ansible_os_family == 'Debian' %}
+      - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% elif ansible_os_family == 'RedHat' %}
+      - "/etc/pki/tls/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+{% endif %}
+    environment:
+      DASH0_AUTH_TOKEN: "{{ opentelemetry_collector_dash0_auth_token }}"
+      PROMETHEUS_PASSWORD: "{{ opentelemetry_collector_prometheus_password }}"
+    ports:
+      - "{{ opentelemetry_collector_bind_host }}:13133:13133"  # Health check endpoint
+      - "{{ opentelemetry_collector_bind_host }}:1777:1777"    # pprof extension
+      - "{{ opentelemetry_collector_bind_host }}:8888:8888"    # Prometheus metrics
+      - "{{ opentelemetry_collector_bind_host }}:4317:4317"    # OTLP gRPC receiver
+      - "{{ opentelemetry_collector_bind_host }}:4318:4318"    # OTLP HTTP receiver
+
+{% if not opentelemetry_collector_host_networking | bool %}
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet:  {{ opentelemetry_collector_network }}
+{% endif %}
