@@ -1,0 +1,119 @@
+# OpenTelemetry Collector Configuration
+# This configuration receives metrics from Prometheus and logs via OTLP, exporting them to dash0
+
+# Extension configuration
+extensions:
+  # Health check extension
+  health_check:
+    endpoint: "{{ opentelemetry_collector_health_check_endpoint }}"
+
+  # pprof extension for performance profiling
+  pprof:
+    endpoint: "{{ opentelemetry_collector_pprof_endpoint }}"
+
+# Receiver configuration
+receivers:
+  # Prometheus receiver - scrapes metrics from Prometheus
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: '{{ opentelemetry_collector_prometheus_job_name }}'
+          scrape_interval: {{ opentelemetry_collector_prometheus_scrape_interval }}
+{% if opentelemetry_collector_prometheus_password %}
+          basic_auth:
+            username: {{ opentelemetry_collector_prometheus_username }}
+            password: ${env:PROMETHEUS_PASSWORD}
+{% endif %}
+          static_configs:
+            - targets:
+                - '{{ opentelemetry_collector_prometheus_endpoint }}'
+          metrics_path: '/federate'
+          params:
+            'match[]':
+              - '{__name__=~".+"}'
+
+  # OTLP receiver - receives traces, metrics, and logs via OTLP protocol
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "{{ opentelemetry_collector_otlp_grpc_endpoint }}"
+      http:
+        endpoint: "{{ opentelemetry_collector_otlp_http_endpoint }}"
+
+# Processor configuration
+processors:
+  # Batch processor - batches metrics before export
+  batch:
+    timeout: 10s
+    send_batch_size: 1024
+
+  # Memory limiter - prevents OOM by limiting memory usage
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+    spike_limit_mib: 128
+
+# Exporter configuration
+exporters:
+  # OTLP exporter - sends metrics to dash0
+  otlp:
+    endpoint: "{{ opentelemetry_collector_dash0_endpoint }}"
+    headers:
+      Authorization: "Bearer ${env:DASH0_AUTH_TOKEN}"
+    compression: gzip
+    timeout: 30s
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 30s
+      max_elapsed_time: 300s
+
+  # Debug exporter - for debugging (optional)
+  debug:
+    verbosity: detailed
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+# Service configuration - defines pipelines
+service:
+  # Extensions to enable
+  extensions:
+    - health_check
+    - pprof
+
+  # Telemetry configuration for the collector itself
+  telemetry:
+    logs:
+      level: {{ opentelemetry_collector_log_level }}
+    metrics:
+      level: detailed
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: "{{ opentelemetry_collector_metrics_host }}"
+                port: {{ opentelemetry_collector_metrics_port }}
+
+  # Data pipelines
+  pipelines:
+    # Metrics pipeline: Prometheus -> processors -> dash0
+    metrics:
+      receivers:
+        - prometheus
+      processors:
+        - memory_limiter
+        - batch
+      exporters:
+        - otlp
+        - debug
+
+    # Logs pipeline: OTLP -> processors -> dash0
+    logs:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - batch
+      exporters:
+        - otlp
+        - debug

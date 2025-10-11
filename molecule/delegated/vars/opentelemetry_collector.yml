@@ -1,0 +1,17 @@
+---
+operator_user: zuul
+operator_group: zuul
+
+# Override dash0 credentials for testing (use dummy values)
+opentelemetry_collector_dash0_auth_token: "test-token-dummy"
+opentelemetry_collector_dash0_endpoint: "https://ingress.eu-west-1.aws.dash0.com"
+
+# Override Prometheus endpoint for testing (hostname:port format)
+opentelemetry_collector_prometheus_endpoint: "localhost:9091"
+
+# Override OTLP receiver endpoints for testing
+opentelemetry_collector_otlp_grpc_endpoint: "0.0.0.0:4317"
+opentelemetry_collector_otlp_http_endpoint: "0.0.0.0:4318"
+
+# Override bind host for port exposure
+opentelemetry_collector_bind_host: "0.0.0.0"

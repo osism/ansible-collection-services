@@ -1,0 +1,42 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ opentelemetry_collector_configuration_directory }}"
+    - "{{ opentelemetry_collector_data_directory }}"
+    - "{{ opentelemetry_collector_docker_compose_directory }}"
+
+- name: Copy OpenTelemetry Collector configuration file
+  ansible.builtin.template:
+    src: otel-collector-config.yml.j2
+    dest: "{{ opentelemetry_collector_configuration_directory }}/otel-collector-config.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+  notify: Restart opentelemetry-collector service
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ opentelemetry_collector_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart opentelemetry-collector service
+
+- name: Manage opentelemetry-collector service
+  become: true
+  ansible.builtin.service:
+    name: "{{ opentelemetry_collector_service_name }}"
+    state: started
+    enabled: true
+  register: result
+  until: result["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20

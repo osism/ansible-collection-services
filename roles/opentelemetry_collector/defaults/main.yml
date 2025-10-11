@@ -1,0 +1,78 @@
+---
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+##########################
+# container registry
+
+docker_registry_opentelemetry_collector: docker.io
+
+##########################
+# operator user
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# opentelemetry-collector
+
+# renovate: datasource=docker depName=otel/opentelemetry-collector-contrib
+opentelemetry_collector_version: '0.136.0'
+
+##########################
+# container
+
+opentelemetry_collector_configuration_directory: /opt/opentelemetry-collector/configuration
+opentelemetry_collector_data_directory: /opt/opentelemetry-collector/data
+opentelemetry_collector_docker_compose_directory: /opt/opentelemetry-collector
+
+opentelemetry_collector_tag: "{{ opentelemetry_collector_version }}"
+opentelemetry_collector_image: "{{ docker_registry_opentelemetry_collector }}/otel/opentelemetry-collector-contrib:{{ opentelemetry_collector_tag }}"
+
+opentelemetry_collector_container_name: opentelemetry-collector
+
+opentelemetry_collector_network: 172.31.101.240/28
+opentelemetry_collector_host_networking: false
+
+opentelemetry_collector_service_name: "docker-compose@opentelemetry-collector"
+
+##########################
+# collector configuration
+
+# Log level (debug, info, warn, error)
+opentelemetry_collector_log_level: info
+
+# Prometheus receiver configuration
+opentelemetry_collector_prometheus_endpoint: "{{ kolla_internal_fqdn | default('localhost') }}:9091"
+opentelemetry_collector_prometheus_scrape_interval: 60s
+opentelemetry_collector_prometheus_job_name: prometheus
+
+# Prometheus authentication (optional - leave empty if not needed)
+opentelemetry_collector_prometheus_username: admin
+opentelemetry_collector_prometheus_password: "{{ prometheus_password | default('') }}"
+
+# OTLP receiver configuration
+# Receives logs, metrics, and traces from applications via OTLP protocol
+opentelemetry_collector_otlp_grpc_endpoint: "0.0.0.0:4317"
+opentelemetry_collector_otlp_http_endpoint: "0.0.0.0:4318"
+
+# dash0 OTLP exporter configuration
+# NOTE: These values must be configured by the user
+opentelemetry_collector_dash0_endpoint: "https://ingress.eu-west-1.aws.dash0.com:443"
+opentelemetry_collector_dash0_auth_token: ""
+
+# Additional collector settings
+opentelemetry_collector_health_check_endpoint: "0.0.0.0:13133"
+opentelemetry_collector_pprof_endpoint: "0.0.0.0:1777"
+
+# Docker port bind address
+# Controls which network interface the exposed ports bind to in docker-compose
+# Default: "0.0.0.0" (all interfaces)
+# Security: Set to "127.0.0.1" to restrict access to localhost only
+opentelemetry_collector_bind_host: "0.0.0.0"
+
+# Telemetry metrics configuration
+opentelemetry_collector_metrics_host: "0.0.0.0"
+opentelemetry_collector_metrics_port: 8888

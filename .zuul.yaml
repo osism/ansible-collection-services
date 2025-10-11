@@ -325,6 +325,15 @@
       - '^molecule\/delegated\/tests\/openstackclient.*$'
 
 - job:
+    name: ansible-collection-services-molecule-opentelemetry_collector
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: opentelemetry_collector
+    files:
+      - '^roles\/opentelemetry_collector\/.*$'
+      - '^molecule\/delegated\/tests\/opentelemetry_collector.*$'
+
+- job:
     name: ansible-collection-services-molecule-osquery
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -506,22 +515,23 @@
         - ansible-collection-services-molecule-journald
         - ansible-collection-services-molecule-lldpd
         - ansible-collection-services-molecule-manager
-        - ansible-collection-services-molecule-netbox
         - ansible-collection-services-molecule-netbird
+        - ansible-collection-services-molecule-netbox
         - ansible-collection-services-molecule-netdata
         - ansible-collection-services-molecule-nexus
         - ansible-collection-services-molecule-openstackclient
+        - ansible-collection-services-molecule-opentelemetry_collector
         - ansible-collection-services-molecule-osquery
         - ansible-collection-services-molecule-phpmyadmin
         - ansible-collection-services-molecule-rng
         - ansible-collection-services-molecule-rsyslog
         - ansible-collection-services-molecule-scaphandre
         - ansible-collection-services-molecule-smartd
-        - ansible-collection-services-molecule-substation
-        - ansible-collection-services-molecule-sshd
         - ansible-collection-services-molecule-squid
-        - ansible-collection-services-molecule-thanos_sidecar
+        - ansible-collection-services-molecule-sshd
+        - ansible-collection-services-molecule-substation
         - ansible-collection-services-molecule-teleport
+        - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-wazuh-agent
