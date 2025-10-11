@@ -1,0 +1,43 @@
+---
+services:
+  stepca:
+    container_name: "{{ stepca_container_name }}"
+    image: "{{ stepca_image }}"
+    restart: unless-stopped
+    environment:
+      - DOCKER_STEPCA_INIT_NAME={{ stepca_init_name }}
+      - DOCKER_STEPCA_INIT_DNS_NAMES={{ stepca_init_dns_names }}
+{% if stepca_init_provisioner_name %}
+      - DOCKER_STEPCA_INIT_PROVISIONER_NAME={{ stepca_init_provisioner_name }}
+{% endif %}
+{% if stepca_init_ssh %}
+      - DOCKER_STEPCA_INIT_SSH={{ stepca_init_ssh }}
+{% endif %}
+{% if stepca_init_password %}
+      - DOCKER_STEPCA_INIT_PASSWORD={{ stepca_init_password }}
+{% endif %}
+    ports:
+      - "{{ stepca_host | ansible.utils.ipwrap }}:{{ stepca_port }}:9000"
+    volumes:
+      - step:/home/step
+    healthcheck:
+      test: step ca health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - default
+
+volumes:
+  step:
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet: {{ stepca_network }}

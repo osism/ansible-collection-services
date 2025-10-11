@@ -1,0 +1,52 @@
+---
+##########################
+# configuration
+
+configuration_directory: /opt/configuration
+
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+
+##########################
+# container registries
+
+docker_registry_stepca: index.docker.io
+
+##########################
+# stepca
+
+stepca_required_packages: []
+
+stepca_configuration_directory: /opt/stepca/configuration
+stepca_docker_compose_directory: /opt/stepca
+
+stepca_network: 172.31.102.32/28
+
+stepca_container_name: stepca
+stepca_service_name: "stepca"
+
+stepca_service_allow_restart: true
+stepca_pre_pull: true
+
+stepca_host: 0.0.0.0
+stepca_port: 9000
+
+# renovate: datasource=docker depName=smallstep/step-ca
+stepca_tag: '0.28.4'
+stepca_image: "{{ docker_registry_stepca }}/smallstep/step-ca:{{ stepca_tag }}"
+
+# CA Configuration - Environment variables for automatic initialization
+# These variables are used when the container initializes for the first time
+stepca_init_name: "OSISM CA"
+stepca_init_dns_names: "{{ kolla_internal_fqdn | default('localhost') }}"
+stepca_init_provisioner_name: "dragon"
+stepca_init_ssh: true
+stepca_init_password: ""  # Leave empty for auto-generation on first run

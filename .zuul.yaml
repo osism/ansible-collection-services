@@ -408,6 +408,15 @@
       - '^molecule\/delegated\/tests\/sshd.*$'
 
 - job:
+    name: ansible-collection-services-molecule-stepca
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: stepca
+    files:
+      - '^roles\/stepca\/.*$'
+      - '^molecule\/delegated\/tests\/stepca.*$'
+
+- job:
     name: ansible-collection-services-molecule-squid
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -529,6 +538,7 @@
         - ansible-collection-services-molecule-smartd
         - ansible-collection-services-molecule-squid
         - ansible-collection-services-molecule-sshd
+        - ansible-collection-services-molecule-stepca
         - ansible-collection-services-molecule-substation
         - ansible-collection-services-molecule-teleport
         - ansible-collection-services-molecule-thanos_sidecar

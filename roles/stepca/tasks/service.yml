@@ -1,0 +1,46 @@
+---
+- name: Copy stepca systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: stepca.service.j2
+    dest: "/etc/systemd/system/stepca.service"
+    mode: 0644
+    owner: root
+    group: root
+  register: stepca_systemd_unit_file
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ stepca_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart stepca service
+
+- name: Pull container images
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ stepca_docker_compose_directory }}"
+  when: stepca_pre_pull | bool
+  retries: 3
+  delay: 30
+
+- name: Ensure that the stepca service is up and running
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ stepca_service_name }}"
+    state: started
+    enabled: true
+    daemon_reload: "{{ stepca_systemd_unit_file.changed }}"
+  register: stepca_service
+  until: stepca_service["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20
+
+- name: Register that stepca service was started
+  ansible.builtin.set_fact:
+    _stepca_service_restart: false
+  when: stepca_service.changed  # noqa no-handler
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
