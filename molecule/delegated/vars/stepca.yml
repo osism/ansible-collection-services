@@ -1,0 +1,7 @@
+---
+operator_user: zuul
+operator_group: zuul
+
+# Minimal test configuration
+stepca_init_name: "Test CA"
+stepca_init_dns_names: "localhost,127.0.0.1"

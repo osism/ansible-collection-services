@@ -1,0 +1,12 @@
+---
+- name: Include config tasks
+  ansible.builtin.include_tasks: config.yml
+  tags: config
+
+- name: Include wrapper config tasks
+  ansible.builtin.include_tasks: config-wrapper.yml
+  tags: wrapper
+
+- name: Include service tasks
+  ansible.builtin.include_tasks: service.yml
+  tags: service

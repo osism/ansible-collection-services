@@ -1,0 +1,9 @@
+---
+- name: Copy step wrapper script
+  become: true
+  ansible.builtin.template:
+    src: "wrapper/step.j2"
+    dest: /usr/local/bin/step
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
