@@ -1,0 +1,21 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ stepca_docker_compose_directory }}"
+    - "{{ stepca_configuration_directory }}"
+
+- name: Create stepca environment file
+  ansible.builtin.template:
+    src: stepca.env.j2
+    dest: "{{ stepca_configuration_directory }}/stepca.env"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  notify: Restart stepca service

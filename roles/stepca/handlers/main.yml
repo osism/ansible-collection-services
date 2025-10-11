@@ -1,0 +1,7 @@
+---
+- name: Restart stepca service
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ stepca_service_name }}"
+    state: restarted
+  when: stepca_service_allow_restart | bool
