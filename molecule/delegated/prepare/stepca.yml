@@ -1,0 +1,34 @@
+---
+- name: Ensure EPEL repository
+  ansible.builtin.include_role:
+    name: osism.commons.repository
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure docker
+  ansible.builtin.include_role:
+    name: docker
+  vars:
+    docker_user: zuul
+    docker_group: zuul
+    docker_python_install: false
+
+- name: Ensure docker-compose
+  ansible.builtin.include_role:
+    name: osism.commons.docker_compose
+  vars:
+    docker_compose_service_user: zuul
+    docker_compose_service_group: zuul
+
+- name: Install jq for Debian/Ubuntu
+  become: true
+  ansible.builtin.apt:
+    name: jq
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install jq for RedHat/CentOS
+  become: true
+  ansible.builtin.dnf:
+    name: jq
+    state: present
+  when: ansible_os_family == "RedHat"
