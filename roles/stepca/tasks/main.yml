@@ -10,3 +10,6 @@
 - name: Include service tasks
   ansible.builtin.include_tasks: service.yml
   tags: service
+
+- name: Include ACME provisioner tasks
+  ansible.builtin.include_tasks: provisioner-acme.yml

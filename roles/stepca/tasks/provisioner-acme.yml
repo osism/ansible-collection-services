@@ -1,0 +1,32 @@
+---
+- name: Wait for stepca container to be healthy
+  become: true
+  ansible.builtin.command:
+    cmd: docker exec {{ stepca_container_name }} step ca health
+  register: stepca_health
+  until: stepca_health.rc == 0
+  retries: 30
+  delay: 10
+  changed_when: false
+  when: stepca_init_acme_provisioner | bool
+
+- name: Check if ACME provisioner already exists
+  become: true
+  ansible.builtin.command:
+    cmd: docker exec {{ stepca_container_name }} step ca provisioner list
+  register: stepca_provisioner_list
+  changed_when: false
+  failed_when: false
+  when: stepca_init_acme_provisioner | bool
+
+- name: Create ACME provisioner
+  become: true
+  ansible.builtin.command:
+    cmd: docker exec {{ stepca_container_name }} step ca provisioner add {{ stepca_init_acme_provisioner_name }} --type ACME --require-eab={{ stepca_init_acme_require_eab | lower }}
+  register: stepca_acme_provisioner_created
+  when:
+    - stepca_init_acme_provisioner | bool
+    - stepca_provisioner_list.stdout is defined
+    - stepca_init_acme_provisioner_name not in stepca_provisioner_list.stdout
+  changed_when: stepca_acme_provisioner_created.rc == 0
+  notify: Restart stepca service
