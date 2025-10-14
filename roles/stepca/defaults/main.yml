@@ -47,12 +47,12 @@ stepca_image: "{{ docker_registry_stepca }}/smallstep/step-ca:{{ stepca_tag }}"
 # These variables are used when the container initializes for the first time
 stepca_init_name: "OSISM"
 stepca_init_dns_names: "{{ kolla_internal_fqdn | default('localhost') }}"
-stepca_init_provisioner_name: "dragon"
+stepca_init_provisioner_name: "jwk"
 stepca_init_ssh: true
 stepca_init_password: ""  # Leave empty for auto-generation on first run
 
 # ACME Provisioner Configuration
 # Configure automatic creation of ACME provisioner after CA initialization
 stepca_init_acme_provisioner: true
-stepca_init_acme_provisioner_name: "dragon"
+stepca_init_acme_provisioner_name: "acme"
 stepca_init_acme_require_eab: false
