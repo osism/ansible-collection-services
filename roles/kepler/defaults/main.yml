@@ -1,0 +1,33 @@
+---
+##########################
+# operator
+
+operator_user: "dragon"
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+docker_registry_kepler: "quay.io"
+
+##########################
+# kepler
+
+kepler_configuration_directory: "/opt/kepler/configuration"
+kepler_container_name: "kepler"
+kepler_docker_compose_directory: "/opt/kepler"
+kepler_exporter: "prometheus"
+kepler_flags: "{{ kepler_flags_defaults + kepler_flags_extra }}"
+kepler_flags_defaults: "--config.file=/etc/kepler/config.yaml"
+kepler_flags_extras:
+kepler_host: "0.0.0.0"
+kepler_image: "{{ kepler_repository }}:{{ kepler_tag }}"
+kepler_kubeconfig_directory: "/opt/kepler/kubeconfig"
+kepler_network: "172.31.101.80/28"
+kepler_port: 28282
+kepler_port_container: "{{ kepler_port }}"
+kepler_repository: "{{ docker_registry_kepler }}/sustainable_computing_io/kepler"
+kepler_service_name: "docker-compose@kepler"
+kepler_share_pids_with_host: true
+kepler_tag: "v0.11.2"

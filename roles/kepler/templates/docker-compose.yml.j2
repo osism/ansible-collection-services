@@ -1,0 +1,42 @@
+---
+services:
+  kepler:
+    container_name: "{{ kepler_container_name }}"
+    entrypoint: kepler {{ kepler_flags|join(" ") }}
+    image: "{{ kepler_image }}"
+    privileged: true
+    restart: unless-stopped
+{% if kepler_share_pids_with_host %}
+    pid: host
+{% endif %}
+    ports:
+      - "{{ kepler_host | ansible.utils.ipwrap }}:{{ kepler_port }}:{{ kepler_port_container }}/tcp"
+    volumes:
+      - type: bind
+        source: /proc
+        target: /host/proc
+        read_only: true
+      - type: bind
+        source: /sys
+        target: /host/sys
+        read_only: true
+      - type: bind
+        source: "{{ kepler_configuration_directory }}"
+        target: /etc/kepler
+        read_only: true
+      - type: bind
+        source: "{{ kepler_kubeconfig_directory }}"
+        target: /host/kube
+        read_only: true
+    command:
+      - --config.file=/etc/kepler/config.yaml
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet: {{ kepler_network }}

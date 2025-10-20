@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Vinícius Zavam
+  description: Role osism.services.kepler
+  company: OSBA ECO:DIGIT
+  license: Apache License 2.0
+  min_ansible_version: 2.16.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+    - name: EL
+      versions:
+        - "9"
+  galaxy_tags:
+    - osism
+    - system
+dependencies: []
