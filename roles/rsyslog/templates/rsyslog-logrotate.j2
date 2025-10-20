@@ -1,0 +1,32 @@
+/var/log/syslog
+{
+    rotate {{ rsyslog_logrotate_count }}
+    weekly
+    size {{ rsyslog_logrotate_size }}
+    missingok
+    notifempty
+    delaycompress
+    compress
+    sharedscripts
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}
+
+/var/log/mail.log
+/var/log/kern.log
+/var/log/auth.log
+/var/log/user.log
+/var/log/cron.log
+{
+    rotate {{ rsyslog_logrotate_count }}
+    weekly
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}

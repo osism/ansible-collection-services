@@ -4,3 +4,9 @@
   ansible.builtin.service:
     name: "{{ rsyslog_service_name }}"
     state: restarted
+
+- name: Restart logrotate service
+  become: true
+  ansible.builtin.service:
+    name: logrotate
+    state: restarted

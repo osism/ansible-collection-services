@@ -26,3 +26,10 @@ fluentd_host: "{{ rsyslog_fluentd_host }}"
 rsyslog_additional_protocol: udp
 rsyslog_additional_host: ""
 rsyslog_additional_port: 5140
+
+##########################
+# logrotate
+
+rsyslog_logrotate_enabled: true
+rsyslog_logrotate_size: 1G
+rsyslog_logrotate_count: 10
