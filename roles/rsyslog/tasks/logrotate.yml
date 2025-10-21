@@ -1,0 +1,16 @@
+---
+- name: Ensure logrotate package is installed
+  become: true
+  ansible.builtin.package:
+    name: logrotate
+    state: present
+
+- name: Configure logrotate for rsyslog
+  become: true
+  ansible.builtin.template:
+    src: rsyslog-logrotate.j2
+    dest: /etc/logrotate.d/rsyslog
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart logrotate service

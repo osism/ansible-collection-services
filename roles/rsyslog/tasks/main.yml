@@ -40,3 +40,8 @@
 - name: Include additional log server tasks
   ansible.builtin.include_tasks: additional-log-server.yml
   when: rsyslog_additional_host is defined and rsyslog_additional_host|length > 0
+
+- name: Include logrotate tasks
+  ansible.builtin.include_tasks: logrotate.yml
+  tags: logrotate
+  when: rsyslog_logrotate_enabled|bool
