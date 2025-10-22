@@ -7,6 +7,10 @@ services:
   inventory_reconciler:
     restart: unless-stopped
     image: "{{ inventory_reconciler_image }}"
+    ulimits:
+      nofile:
+        soft: "{{ manager_ulimits_nofile_soft }}"
+        hard: "{{ manager_ulimits_nofile_hard }}"
     tmpfs:
       - /inventory.pre:uid=45000,gid=45000
     volumes:
