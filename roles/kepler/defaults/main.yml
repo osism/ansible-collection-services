@@ -24,7 +24,7 @@ kepler_flags_extras:
 kepler_host: "0.0.0.0"
 kepler_image: "{{ kepler_repository }}:{{ kepler_tag }}"
 kepler_kubeconfig_directory: "/opt/kepler/kubeconfig"
-kepler_network: "172.31.101.80/28"
+kepler_network: "172.31.102.48/28"
 kepler_port: 28282
 kepler_port_container: "{{ kepler_port }}"
 kepler_repository: "{{ docker_registry_kepler }}/sustainable_computing_io/kepler"
