@@ -27,25 +27,31 @@
 
 - name: Check for frr.conf file in the configuration repository
   ansible.builtin.stat:
-    path: "{{ configuration_directory | default('/opt/configuration') }}/environments/generic/files/frr/frr_{{ frr_type }}.conf"
+    path: "{{ item }}"
   register: result
   delegate_to: localhost
-  run_once: true
+  with_first_found:
+    - files:
+        - "frr_{{ inventory_hostname }}.conf"
+        - "frr_{{ frr_type }}.conf"
+      paths:
+        - "{{ configuration_directory | default('/opt/configuration') }}/environments/generic/files/frr/"
+      skip: true
 
-- name: "Copy file from the configuration repository: {{ frr_config_file }}"
+- name: Copy frr.conf file from the configuration repository
   become: true
   ansible.builtin.template:
-    src: "{{ result.stat.path }}"
+    src: "{{ result.results.0.stat.path }}"
     dest: "{{ frr_config_file }}"
     owner: frr
     group: frr
     mode: 0640
   notify: Restart frr service
   when:
-    - result.stat.exists is defined
-    - result.stat.exists | bool
+    - result.results.0.stat.exists is defined
+    - result.results.0.stat.exists | bool
 
-- name: "Copy file from the role: {{ frr_config_file }}"
+- name: "Copy default frr.conf file of type {{ frr_type }}"
   become: true
   ansible.builtin.template:
     src: "frr_{{ frr_type }}.conf.j2"
@@ -55,8 +61,7 @@
     mode: 0640
   notify: Restart frr service
   when:
-    - result.stat.exists is defined
-    - not result.stat.exists | bool
+    - result.results.0.stat.exists is not defined
 
 - name: Set sysctl parameters
   become: true
