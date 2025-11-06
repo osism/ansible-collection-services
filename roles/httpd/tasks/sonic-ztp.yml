@@ -15,6 +15,7 @@
     key: "{{ item }}"
     user: "{{ operator_user }}"
     path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/authorized_keys"
+    manage_dir: false
   loop: "{{ httpd_sonic_ztp_authorized_keys }}"
   no_log: true
 
@@ -24,6 +25,7 @@
     user: "{{ operator_user }}"
     path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/authorized_keys"
     state: absent
+    manage_dir: false
   loop: "{{ httpd_sonic_ztp_authorized_keys_delete }}"
   no_log: true
 
