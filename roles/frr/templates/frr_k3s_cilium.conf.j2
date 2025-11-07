@@ -4,6 +4,19 @@ hostname {{ frr_hostname }}
 log syslog informational
 service integrated-vtysh-config
 !
+{# BFD profile configuration if defined #}
+{% if frr_bfd_profiles is defined and frr_bfd_profiles | length > 0 %}
+bfd
+{% for profile in frr_bfd_profiles %}
+ profile {{ profile.name }}
+  receive-interval {{ profile.receive_interval }}
+  transmit-interval {{ profile.transmit_interval }}
+  detect-multiplier {{ profile.detect_multiplier }}
+ exit
+{% endfor %}
+exit
+!
+{% endif %}
 router bgp {{ frr_local_as }}
  no bgp ebgp-requires-policy
  bgp bestpath as-path multipath-relax
@@ -12,6 +25,12 @@ router bgp {{ frr_local_as }}
  neighbor {{ item.address }} remote-as {{ item.remote_as }}
  neighbor {{ item.address }} update-source {{ item.interface }}
  neighbor {{ item.address }} soft-reconfiguration inbound
+{# Enable BFD for neighbor if configured #}
+{% if item.bfd is defined and item.bfd %}
+ neighbor {{ item.address }} bfd
+{% elif item.bfd_profile is defined %}
+ neighbor {{ item.address }} bfd profile {{ item.bfd_profile }}
+{% endif %}
 {% endfor %}
  !
  address-family ipv4 unicast
