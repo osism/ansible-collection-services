@@ -10,6 +10,9 @@ router bgp {{ frr_local_as }}
  bgp router-id {{ frr_loopback_v4 }}
 {% for item in _frr_uplinks + frr_uplinks_external %}
  neighbor {{ item.interface }} interface remote-as {{ item.remote_as }}
+{% if "password" in item %}
+ neighbor {{ item.interface }} password {{ item.password }}
+{% endif %}
 {% endfor %}
  !
  address-family ipv4 unicast
