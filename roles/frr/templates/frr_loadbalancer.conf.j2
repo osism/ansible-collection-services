@@ -10,9 +10,15 @@ router bgp {{ frr_local_as }}
  bgp bestpath as-path multipath-relax
 {% for item in frr_neigh_v4 %}
  neighbor {{ item.address }} remote-as {{ item.remote_as }}
+{% if "password" in item %}
+ neighbor {{ item.address }} password {{ item.password }}
+{% endif %}
 {% endfor %}
 {% for item in frr_neigh_v6 %}
  neighbor {{ item.address }} remote-as {{ item.remote_as }}
+{% if "password" in item %}
+ neighbor {{ item.address }} password {{ item.password }}
+{% endif %}
 {% endfor %}
  !
  address-family ipv4 unicast

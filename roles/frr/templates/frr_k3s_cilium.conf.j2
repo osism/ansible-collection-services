@@ -10,6 +10,9 @@ router bgp {{ frr_local_as }}
  bgp router-id {{ frr_loopback_v4 }}
 {% for item in _frr_uplinks %}
  neighbor {{ item.address }} remote-as {{ item.remote_as }}
+{% if "password" in item %}
+ neighbor {{ item.address }} password {{ item.password }}
+{% endif %}
  neighbor {{ item.address }} update-source {{ item.interface }}
  neighbor {{ item.address }} soft-reconfiguration inbound
 {% endfor %}
