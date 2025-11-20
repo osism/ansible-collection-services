@@ -29,6 +29,17 @@ frr_local_as:
     - dcim.models.Device
   ui_visibility: hidden-ifunset
 
+frr_local_pref:
+  type: integer
+  label: FRR local preference
+  description: Set the FRR local preference of the interface
+  required: false
+  weight: 0
+  on_objects:
+    - dcim.models.Device
+    - dcim.models.Interface
+  ui_visibility: hidden-ifunset
+
 alternative_name:
   type: text
   label: Alternative name
