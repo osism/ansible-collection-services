@@ -18,6 +18,9 @@ router bgp {{ frr_local_as }}
  address-family ipv4 unicast
   redistribute connected route-map bgp_out
 {% for item in _frr_uplinks %}
+{% if "local_pref" in item %}
+  neighbor {{ item.interface }} route-map local-pref-{{ item.local_pref }} in
+{% endif %}
   neighbor {{ item.interface }} route-map bgp_out out
 {% endfor %}
   maximum-paths 2
@@ -44,6 +47,12 @@ route-map RM_SET_SRC6 permit 10
  set src {{ frr_loopback_v6 }}
 exit
 !
+{% for item in frr_local_pref %}
+route-map local-pref-{{ item }} permit 10
+  set local-preference {{ item }}
+exit
+!
+{% endfor %}
 ip protocol bgp route-map RM_SET_SRC4
 !
 ipv6 protocol bgp route-map RM_SET_SRC6
