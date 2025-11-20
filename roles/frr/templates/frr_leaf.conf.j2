@@ -30,6 +30,9 @@ router bgp {{ frr_local_as }}
   redistribute connected route-map bgp_out
 {% for item in _frr_uplinks %}
   neighbor {{ item.interface }} activate
+{% if "local_pref" in item %}
+  neighbor {{ item.interface }} route-map local-pref-{{ item.local_pref }} in
+{% endif %}
   neighbor {{ item.interface }} route-map bgp_out out
 {% endfor %}
  exit-address-family
