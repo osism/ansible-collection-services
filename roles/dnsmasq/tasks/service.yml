@@ -8,13 +8,43 @@
     mode: 0640
   notify: Restart dnsmasq service
 
-- name: Manage dnsmasq service
-  become: true
-  ansible.builtin.service:
-    name: "{{ dnsmasq_service_name }}"
-    state: started
-    enabled: true
-  register: result
-  until: result["status"]["ActiveState"] == "active"
-  retries: 10
-  delay: 20
+- name: Ensure that the dnsmasq service is up and running
+  block:  # noqa osism-fqcn
+    - name: Manage dnsmasq service
+      become: true
+      ansible.builtin.service:
+        name: "{{ dnsmasq_service_name }}"
+        state: started
+        enabled: true
+      register: result
+      until: result["status"]["ActiveState"] == "active"
+      retries: 10
+      delay: 20
+      notify: Wait for dnsmasq service to start
+  rescue:
+    # Compose is not always reliable when starting services. Therefore,
+    # in case of an error at startup, another stop and start of the
+    # service is tried here.
+    - name: Stop dnsmasq service
+      become: true
+      ansible.builtin.service:
+        name: "{{ dnsmasq_service_name }}"
+        state: stopped
+
+    - name: Do a manual start of the dnsmasq service
+      ansible.builtin.command: "/usr/bin/docker compose --project-directory {{ dnsmasq_docker_compose_directory }} up -d --remove-orphans"
+      changed_when: true
+      failed_when: false
+
+    # This does not change anything on the service side, but the unit is
+    # then in the expected state.
+    - name: Start dnsmasq service again
+      become: true
+      ansible.builtin.service:
+        name: "{{ dnsmasq_service_name }}"
+        state: started
+      register: result
+      until: result["status"]["ActiveState"] == "active"
+      retries: 10
+      delay: 20
+      notify: Register that dnsmasq service was started
