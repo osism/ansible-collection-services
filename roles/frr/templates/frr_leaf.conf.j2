@@ -42,6 +42,12 @@ route-map bgp_out permit 10
  match interface {{ frr_loopback_interface }}
 exit
 !
+{% for _frr_extra_interface in frr_extra_interfaces %}
+route-map bgp_out permit {{ (loop.index + 1) * 10 }}
+ match interface {{ _frr_extra_interface }}
+exit
+!
+{% endfor %}
 route-map RM_SET_SRC4 permit 10
  set src {{ frr_loopback_v4 }}
 exit
