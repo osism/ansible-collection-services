@@ -156,7 +156,6 @@ docker_redhat_repository: "https://download.docker.com/linux/centos/docker-ce.re
 ##########################
 # default ulimits
 
-# Beispiel:
 # docker_default_ulimits:
 #   nofile:
 #     Name: "nofile"
