@@ -349,7 +349,7 @@ services:
       - "interface:/interface:ro"
       - "inventory_reconciler:/ansible/inventory:ro"
       - "share:/share"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ configuration_directory }}:/opt/configuration"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "{{ manager_data_directory }}:/data:ro"
 
