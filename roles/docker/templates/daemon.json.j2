@@ -1,4 +1,16 @@
 {
+{% if docker_default_ulimits is defined and docker_default_ulimits | length > 0 %}
+    "default-ulimits": {
+{% for ulimit_name, ulimit_values in docker_default_ulimits.items() %}
+        "{{ ulimit_name }}": {
+            "Name": "{{ ulimit_values.Name }}",
+            "Soft": {{ ulimit_values.Soft }},
+            "Hard": {{ ulimit_values.Hard }}
+        }{% if not loop.last %},{% endif %}
+{% endfor %}
+
+    },
+{% endif %}
 {% if docker_opts | length %}
 {% for key, value in docker_opts | dictsort %}
 {% if value is sameas false %}
