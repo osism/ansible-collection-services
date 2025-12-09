@@ -29,7 +29,7 @@ sharpd=no
 pbrd=no
 bfdd={{ frr_enable_bfdd }}
 fabricd=no
-vrrpd=no
+vrrpd={{ 'yes' if frr_vrrp_groups | length > 0 else frr_enable_vrrpd }}
 pathd=no
 
 #
