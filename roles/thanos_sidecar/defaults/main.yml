@@ -2,7 +2,7 @@
 ##########################
 # operator
 
-operator_user: mato
+operator_user: dragon
 operator_group: "{{ operator_user }}"
 
 ##########################
