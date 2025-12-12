@@ -119,12 +119,12 @@ netbox_plugins_config:
 # postgres
 
 # renovate: datasource=docker depName=postgres
-postgres_tag: '16.10-alpine'
+postgres_tag: '18.1-alpine'
 postgres_image_namespace: library
 postgres_image: "{{ docker_registry_postgres }}/{{ postgres_image_namespace }}/postgres:{{ postgres_tag }}"
 
 # renovate: datasource=docker depName=pgautoupgrade/pgautoupgrade
-pgautoupgrade_tag: '16-alpine'
+pgautoupgrade_tag: '18-alpine'
 pgautoupgrade_image_namespace: pgautoupgrade
 pgautoupgrade_image: "{{ docker_registry_pgautoupgrade }}/{{ pgautoupgrade_image_namespace }}/pgautoupgrade:{{ pgautoupgrade_tag }}"
 
