@@ -154,6 +154,16 @@ docker_redhat_repository: "https://download.docker.com/linux/centos/docker-ce.re
 #     size: 24
 
 ##########################
+# default ulimits
+
+# docker_default_ulimits:
+#   nofile:
+#     Name: "nofile"
+#     Soft: 262144
+#     Hard: 1048576
+docker_default_ulimits: {}
+
+##########################
 # runtime
 
 docker_default_runtime: runc
