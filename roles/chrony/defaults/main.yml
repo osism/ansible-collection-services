@@ -12,7 +12,7 @@ chrony_servers:
   - 3.de.pool.ntp.org
 
 # NTP server options.
-chrony_server_options: iburst
+chrony_server_options: iburst nts
 
 # Configure Chrony to synchronize the hardware clock
 chrony_sync_rtc: false
