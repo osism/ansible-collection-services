@@ -61,10 +61,15 @@ frr_local_pref:
 
 frr_enable_bgpd: "yes"
 frr_enable_bfdd: "no"
+frr_enable_ospfd: "no"
+frr_enable_ospf6d: "no"
 frr_enable_vrrpd: "no"
 
 frr_options_bgpd: "-A 127.0.0.1"
 frr_options_bfdd: "-A 127.0.0.1"
+frr_options_ospfd: "-A 127.0.0.1"
+frr_options_ospf6d: "-A ::1"
+frr_options_vrrpd: "-A 127.0.0.1"
 
 frr_config_file: "/etc/frr/frr.conf"
 frr_vtysh_file: "/etc/frr/vtysh.conf"

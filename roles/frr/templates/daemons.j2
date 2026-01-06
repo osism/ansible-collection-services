@@ -15,8 +15,8 @@
 # The watchfrr, zebra and staticd daemons are always started.
 #
 bgpd={{ frr_enable_bgpd }}
-ospfd=no
-ospf6d=no
+ospfd={{ frr_enable_ospfd }}
+ospf6d={{ frr_enable_ospf6d }}
 ripd=no
 ripngd=no
 isisd=no
@@ -40,8 +40,8 @@ pathd=no
 vtysh_enable=yes
 zebra_options="  -A 127.0.0.1 -s 90000000"
 bgpd_options="   {{ frr_options_bgpd }}"
-ospfd_options="  -A 127.0.0.1"
-ospf6d_options=" -A ::1"
+ospfd_options="  {{ frr_options_ospfd }}"
+ospf6d_options=" {{ frr_options_ospf6d }}"
 ripd_options="   -A 127.0.0.1"
 ripngd_options=" -A ::1"
 isisd_options="  -A 127.0.0.1"
@@ -55,7 +55,7 @@ pbrd_options="   -A 127.0.0.1"
 staticd_options="-A 127.0.0.1"
 bfdd_options="   {{ frr_options_bfdd }}"
 fabricd_options="-A 127.0.0.1"
-vrrpd_options="  -A 127.0.0.1"
+vrrpd_options="  {{ frr_options_vrrpd }}"
 pathd_options="  -A 127.0.0.1"
 
 # configuration profile
