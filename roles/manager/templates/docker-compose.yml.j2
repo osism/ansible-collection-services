@@ -276,14 +276,15 @@ services:
       - "{{ osism_api_host | ansible.utils.ipwrap }}:{{ osism_api_port }}:8000"
     healthcheck:
       test: pgrep uvicorn
+    volumes:
+      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "inventory_reconciler:/inventory:ro"
 {% if enable_netbox|bool %}
     secrets:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
 {%  endif %}
-    volumes:
-      - "{{ _manager_ca_certificates_file }}:/etc/ssl/certs/ca-certificates.crt:ro"
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
       - "{{ manager_configuration_directory }}/netbox.env"
