@@ -55,7 +55,8 @@ if [[ ! -e $VENV_PATH ]]; then
     $PYTHON_EXECUTABLE -m venv "$VENV_PATH"
 
     source $VENV_PATH/bin/activate
-    pip3 install --no-cache-dir "$ANSIBLE_VERSION" "$NETADDR_VERSION"
+    pip3 install --no-cache-dir uv
+    uv pip install "$ANSIBLE_VERSION" "$NETADDR_VERSION"
 else
     source $VENV_PATH/bin/activate
 fi
