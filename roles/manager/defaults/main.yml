@@ -89,15 +89,15 @@ netbox_secondaries: []
 #     IGNORE_SSL_ERRORS: <'True'|'False'>
 #   - ...
 netbox_filter_conductor_ironic:
-  - state: active
+  - status: active
     tag:
       - managed-by-ironic
 netbox_filter_conductor_sonic:
-  - state: active
+  - status: active
     tag:
       - managed-by-metalbox
 netbox_filter_inventory:
-  - state: active
+  - status: active
     tag:
       - managed-by-osism
 netbox_data_types:
