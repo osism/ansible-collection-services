@@ -71,6 +71,11 @@ frr_options_ospfd: "-A 127.0.0.1"
 frr_options_ospf6d: "-A ::1"
 frr_options_vrrpd: "-A 127.0.0.1"
 
+# Set frr_config_template to provide the complete FRR configuration
+# as a Jinja2 template from a variable (e.g. injected via Netbox config context).
+# When defined, this takes precedence over all other configuration sources.
+# frr_config_template:
+
 frr_config_file: "/etc/frr/frr.conf"
 frr_vtysh_file: "/etc/frr/vtysh.conf"
 frr_daemons_file: "/etc/frr/daemons"

@@ -25,43 +25,73 @@
   ansible.builtin.set_fact:
     _frr_uplinks: "{{ lookup('community.general.merge_variables', '^frr_uplinks__.+$', initial_value=frr_uplinks, groups=frr_uplinks_groups) }}"
 
-- name: Check for frr.conf file in the configuration repository
-  ansible.builtin.stat:
-    path: "{{ item }}"
-  register: result
+- name: Write frr_config_template to temporary file
+  ansible.builtin.copy:
+    content: "{{ frr_config_template }}"
+    dest: "/tmp/.frr_config_template_{{ inventory_hostname }}.j2"
+    mode: 0600
+  changed_when: false
   delegate_to: localhost
-  with_first_found:
-    - files:
-        - "frr_{{ inventory_hostname }}.conf"
-        - "frr_{{ frr_type }}.conf"
-      paths:
-        - "{{ configuration_directory | default('/opt/configuration') }}/environments/generic/files/frr/"
-      skip: true
+  when: frr_config_template is defined
 
-- name: Copy frr.conf file from the configuration repository
+- name: "Render frr.conf from frr_config_template variable"
   become: true
   ansible.builtin.template:
-    src: "{{ result.results.0.stat.path }}"
+    src: "/tmp/.frr_config_template_{{ inventory_hostname }}.j2"
     dest: "{{ frr_config_file }}"
     owner: frr
     group: frr
     mode: 0640
   notify: Restart frr service
-  when:
-    - result.results.0.stat.exists is defined
-    - result.results.0.stat.exists | bool
+  when: frr_config_template is defined
 
-- name: "Copy default frr.conf file of type {{ frr_type }}"
-  become: true
-  ansible.builtin.template:
-    src: "frr_{{ frr_type }}.conf.j2"
-    dest: "{{ frr_config_file }}"
-    owner: frr
-    group: frr
-    mode: 0640
-  notify: Restart frr service
-  when:
-    - result.results.0.stat.exists is not defined
+- name: Remove temporary frr_config_template file
+  ansible.builtin.file:
+    path: "/tmp/.frr_config_template_{{ inventory_hostname }}.j2"
+    state: absent
+  changed_when: false
+  delegate_to: localhost
+  when: frr_config_template is defined
+
+- when: frr_config_template is not defined
+  block:  # noqa osism-fqcn
+    - name: Check for frr.conf file in the configuration repository
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      register: result
+      delegate_to: localhost
+      with_first_found:
+        - files:
+            - "frr_{{ inventory_hostname }}.conf"
+            - "frr_{{ frr_type }}.conf"
+          paths:
+            - "{{ configuration_directory | default('/opt/configuration') }}/environments/generic/files/frr/"
+          skip: true
+
+    - name: Copy frr.conf file from the configuration repository
+      become: true
+      ansible.builtin.template:
+        src: "{{ result.results.0.stat.path }}"
+        dest: "{{ frr_config_file }}"
+        owner: frr
+        group: frr
+        mode: 0640
+      notify: Restart frr service
+      when:
+        - result.results.0.stat.exists is defined
+        - result.results.0.stat.exists | bool
+
+    - name: "Copy default frr.conf file of type {{ frr_type }}"
+      become: true
+      ansible.builtin.template:
+        src: "frr_{{ frr_type }}.conf.j2"
+        dest: "{{ frr_config_file }}"
+        owner: frr
+        group: frr
+        mode: 0640
+      notify: Restart frr service
+      when:
+        - result.results.0.stat.exists is not defined
 
 - name: Set sysctl parameters
   become: true
