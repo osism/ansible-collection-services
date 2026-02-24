@@ -4,6 +4,9 @@ services:
     container_name: "{{ httpd_container_name }}"
     restart: unless-stopped
     image: "{{ httpd_image }}"
+{% if httpd_network_mode == "host" %}
+    network_mode: host
+{% else %}
     ports:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
 {% if httpd_ironic_enable | bool %}
@@ -14,6 +17,7 @@ services:
       - "[{{ ipv6_addr }}]:{{ httpd_ironic_port }}:6385"
       - "[{{ ipv6_addr }}]:{{ httpd_port }}:80"
 {% endfor %}
+{% endif %}
 {% endif %}
     volumes:
 {% if httpd_ironic_enable | bool %}
@@ -28,6 +32,7 @@ services:
     healthcheck:
       test: "pgrep -f 'httpd -DFOREGROUND'"
 
+{% if httpd_network_mode != "host" %}
 networks:
   default:
     driver: bridge
@@ -38,6 +43,7 @@ networks:
       config:
         - subnet: {{ httpd_network }}
 
+{% endif %}
 {% if httpd_ironic_enable | bool %}
 volumes:
   {{ httpd_ironic_volume }}:

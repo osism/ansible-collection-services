@@ -18,6 +18,8 @@ httpd_data_directory: /opt/httpd/data
 httpd_docker_compose_directory: /opt/httpd
 
 httpd_network: 172.31.101.128/28
+httpd_network_mode: bridge
+httpd_l3mdev_accept: true
 httpd_service_name: "docker-compose@httpd"
 
 httpd_host: 127.0.0.1
@@ -47,6 +49,8 @@ httpd_ironic_enable: false
 httpd_ironic_volume: ironic
 httpd_ironic_port: 6385
 httpd_ironic_interface: loopback0
+httpd_ironic_listen_addresses:
+  - 0.0.0.0
 
 ##########################
 # sonic ztp

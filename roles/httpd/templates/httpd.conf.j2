@@ -1,9 +1,20 @@
 ServerRoot "/usr/local/apache2"
 ServerAdmin metal@in-a-box.cloud
 
+{% if httpd_network_mode == "host" %}
+Listen {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}
+{% if httpd_ironic_enable | bool %}
+{% for addr in httpd_ironic_listen_addresses %}
+Listen {{ addr | ansible.utils.ipwrap }}:{{ httpd_ironic_port }}
+{% endfor %}
+{% endif %}
+{% else %}
 Listen 80
 {% if httpd_ironic_enable | bool %}
-Listen 6385
+{% for addr in httpd_ironic_listen_addresses %}
+Listen {{ addr | ansible.utils.ipwrap }}:6385
+{% endfor %}
+{% endif %}
 {% endif %}
 
 LoadModule access_compat_module modules/mod_access_compat.so
@@ -41,7 +52,11 @@ LoadModule version_module modules/mod_version.so
     Require all denied
 </Directory>
 
+{% if httpd_network_mode == "host" %}
+<VirtualHost {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}>
+{% else %}
 <VirtualHost 0.0.0.0:80>
+{% endif %}
     DocumentRoot "/usr/local/apache2/htdocs"
     <Directory "/usr/local/apache2/htdocs">
         Options Indexes FollowSymLinks
@@ -74,7 +89,11 @@ LoadModule version_module modules/mod_version.so
 </VirtualHost>
 
 {% if httpd_ironic_enable | bool %}
-<VirtualHost 0.0.0.0:6385>
+{% if httpd_network_mode == "host" %}
+<VirtualHost {% for addr in httpd_ironic_listen_addresses %}{{ addr | ansible.utils.ipwrap }}:{{ httpd_ironic_port }}{% if not loop.last %} {% endif %}{% endfor %}>
+{% else %}
+<VirtualHost {% for addr in httpd_ironic_listen_addresses %}{{ addr | ansible.utils.ipwrap }}:6385{% if not loop.last %} {% endif %}{% endfor %}>
+{% endif %}
     ProxyPreserveHost On
     ProxyPass / http://metalbox:6385/
     ProxyPassReverse / http://metalbox:6385/

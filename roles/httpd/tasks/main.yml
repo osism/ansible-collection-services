@@ -1,4 +1,28 @@
 ---
+- name: Set net.ipv4.tcp_l3mdev_accept
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.tcp_l3mdev_accept
+    value: "1"
+    sysctl_set: true
+    state: present
+    reload: true
+  when:
+    - httpd_network_mode == "host"
+    - httpd_l3mdev_accept | bool
+
+- name: Set net.ipv4.udp_l3mdev_accept
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.udp_l3mdev_accept
+    value: "1"
+    sysctl_set: true
+    state: present
+    reload: true
+  when:
+    - httpd_network_mode == "host"
+    - httpd_l3mdev_accept | bool
+
 - name: Create required directories
   become: true
   ansible.builtin.file:
