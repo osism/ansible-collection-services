@@ -16,6 +16,8 @@
     name: httpd-ironic
     image: "{{ httpd_image }}"
     entrypoint: /prepare-ironic-volume.sh
+    detach: false
+    cleanup: true
     volumes:
       - "{{ httpd_configuration_directory }}/prepare-ironic-volume.sh:/prepare-ironic-volume.sh"
       - "{{ httpd_ironic_volume }}:/var/lib/ironic"
