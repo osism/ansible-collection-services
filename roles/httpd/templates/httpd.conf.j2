@@ -1,6 +1,15 @@
 ServerRoot "/usr/local/apache2"
 ServerAdmin metal@in-a-box.cloud
 
+KeepAlive On
+KeepAliveTimeout 60
+MaxKeepAliveRequests 0
+
+EnableMMAP On
+EnableSendfile On
+
+RequestReadTimeout header=60 body=0
+
 {% if httpd_network_mode == "host" %}
 Listen {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}
 {% if httpd_ironic_enable | bool %}
