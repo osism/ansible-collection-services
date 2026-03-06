@@ -562,12 +562,18 @@ secrets:
 networks:
   default:
     driver: bridge
+{% if manager_network_enable_ipv6 | bool %}
+    enable_ipv6: true
+{% endif %}
     driver_opts:
       com.docker.network.driver.mtu: {{ docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ manager_network }}
+{% if manager_network_enable_ipv6 | bool %}
+        - subnet: {{ manager_network_ipv6 }}
+{% endif %}
 {% if ara_server_traefik|bool %}
   {{ traefik_external_network_name }}:
     external: true

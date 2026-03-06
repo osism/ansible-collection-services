@@ -118,12 +118,18 @@ secrets:
 networks:
   default:
     driver: bridge
+{% if netbox_network_enable_ipv6 | bool %}
+    enable_ipv6: true
+{% endif %}
     driver_opts:
       com.docker.network.driver.mtu: {{ docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ netbox_network }}
+{% if netbox_network_enable_ipv6 | bool %}
+        - subnet: {{ netbox_network_ipv6 }}
+{% endif %}
 {% if netbox_traefik|bool %}
   {{ traefik_external_network_name }}:
     external: true
