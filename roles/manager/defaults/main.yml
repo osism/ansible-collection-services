@@ -124,7 +124,7 @@ httpd_sonic_ztp_directory: sonic
 
 manager_opensearch_enable: true
 
-manager_opensearch_address: 127.0.0.1
+manager_opensearch_address: localhost
 manager_opensearch_port: 9200
 manager_opensearch_protocol: https
 
@@ -253,7 +253,7 @@ ara_password: password
 
 ara_server_traefik: false
 
-ara_server_host: "{{ ansible_default_ipv4.address }}"
+ara_server_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 ara_server_port: 8120
 
 ara_threads: 1
@@ -271,7 +271,7 @@ ara_server_image: "{{ docker_registry_ara_server }}/{{ ara_server_image_namespac
 ara_server_database_type: mysql
 ara_server_mariadb_volume_type: volume
 
-ara_server_mariadb_host: "{{ ansible_default_ipv4.address }}"
+ara_server_mariadb_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 ara_server_mariadb_port: 3306
 
 ara_server_mariadb_username: ara
@@ -293,11 +293,11 @@ osism_tag: latest
 osism_image_namespace: osism
 osism_image: "{{ docker_registry_osism }}/{{ osism_image_namespace }}/osism:{{ osism_tag }}"
 
-flower_host: "{{ ansible_default_ipv4.address }}"
+flower_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 flower_port: 5555
 flower_traefik: false
 
-osism_api_host: "{{ ansible_default_ipv4.address }}"
+osism_api_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 osism_api_port: 8000
 
 ##########################
@@ -307,7 +307,7 @@ vault_container_name: vault
 
 enable_vault: false
 
-vault_host: "{{ ansible_default_ipv4.address }}"
+vault_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 vault_port: 8200
 
 # renovate: datasource=docker depName=hashicorp/vault
@@ -328,7 +328,7 @@ frontend_enable: false
 
 frontend_container_name: osism-frontend
 
-frontend_host: "{{ ansible_default_ipv4.address }}"
+frontend_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 frontend_port: 3000
 frontend_traefik: false
 
@@ -337,7 +337,7 @@ osism_frontend_tag: latest
 osism_frontend_image_namespace: osism
 osism_frontend_image: "{{ docker_registry_osism_frontend }}/{{ osism_frontend_image_namespace }}/osism-frontend:{{ osism_frontend_tag }}"
 
-frontend_osism_api_url: "http://{{ osism_api_host }}:{{ osism_api_port }}"
+frontend_osism_api_url: "http://{{ osism_api_host | ansible.utils.ipwrap }}:{{ osism_api_port }}"
 
 ##########################
 # wrapper
@@ -370,7 +370,7 @@ manager_environment_extra: {}
 # listener
 
 enable_listener: false
-manager_listener_broker_uri: "amqp://openstack:password@127.0.0.1:5672/"
+manager_listener_broker_uri: "amqp://openstack:password@localhost:5672/"
 
 ##########################
 # watchdog
