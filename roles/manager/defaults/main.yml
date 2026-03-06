@@ -22,6 +22,8 @@ docker_network_mtu: 1500
 # generic
 
 manager_network: 172.31.101.0/27
+manager_network_enable_ipv6: false
+manager_network_ipv6: fd00:dead:beef:cafe::/64
 
 manager_old_service_name: "docker-compose@manager"
 manager_service_name: "manager"
