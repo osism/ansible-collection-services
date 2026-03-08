@@ -24,10 +24,16 @@ services:
 networks:
   default:
     driver: bridge
+{% if openstackclient_network_enable_ipv6 | bool %}
+    enable_ipv6: true
+{% endif %}
     driver_opts:
       com.docker.network.driver.mtu: {{ docker_network_mtu }}
     ipam:
       driver: default
       config:
         - subnet:  {{ openstackclient_network }}
+{% if openstackclient_network_enable_ipv6 | bool %}
+        - subnet: {{ openstackclient_network_ipv6 }}
+{% endif %}
 {% endif %}

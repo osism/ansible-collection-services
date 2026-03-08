@@ -41,6 +41,8 @@ netbox_secrets_directory: /opt/netbox/secrets
 netbox_docker_compose_directory: /opt/netbox
 
 netbox_network: 172.31.100.176/28
+netbox_network_enable_ipv6: false
+netbox_network_ipv6: fd00:dead:beef:cafc::/64
 netbox_old_service_name: "docker-compose@netbox"
 netbox_service_name: "netbox"
 

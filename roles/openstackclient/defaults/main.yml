@@ -34,6 +34,8 @@ openstackclient_image: "{{ docker_registry_openstackclient }}/osism/openstackcli
 openstackclient_container_name: openstackclient
 
 openstackclient_network: 172.31.100.16/28
+openstackclient_network_enable_ipv6: false
+openstackclient_network_ipv6: fd00:dead:beef:cafd::/64
 openstackclient_host_networking: false
 
 openstackclient_service_name: "docker-compose@openstackclient"
