@@ -1,0 +1,57 @@
+frr version {{ frr_version }}
+frr defaults traditional
+hostname {{ frr_hostname }}
+no ipv6 forwarding
+service integrated-vtysh-config
+!
+router bgp {{ frr_local_as }}
+ bgp router-id {{ frr_loopback_v4 }}
+ bgp bestpath as-path multipath-relax
+ neighbor switches peer-group
+ neighbor switches remote-as external
+ neighbor switches timers connect 30
+{% for item in _frr_uplinks %}
+ neighbor {{ item }} interface peer-group switches
+{% endfor %}
+ !
+ address-family ipv4 unicast
+  redistribute connected route-map RM-redist-loopback
+  no neighbor switches send-community
+  neighbor switches route-map RM-switches-in in
+  neighbor switches route-map RM-switches-out out
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  redistribute connected route-map RM-redist-loopback
+  no neighbor switches send-community
+  neighbor switches activate
+  neighbor switches route-map RM-switches-in in
+  neighbor switches route-map RM-switches-out out
+  maximum-paths 2
+ exit-address-family
+
+exit
+!
+route-map RM-redist-loopback permit 100
+ match interface {{ frr_loopback_interface }}
+exit
+!
+route-map RM-switches-in permit 100
+exit
+!
+route-map RM-switches-out permit 100
+ match interface {{ frr_loopback_interface }}
+exit
+!
+route-map RM_SET_SRC4 permit 10
+ set src {{ frr_loopback_v4 }}
+exit
+!
+route-map RM_SET_SRC6 permit 10
+ set src {{ frr_loopback_v6 }}
+exit
+!
+ip protocol bgp route-map RM_SET_SRC4
+!
+ipv6 protocol bgp route-map RM_SET_SRC6
