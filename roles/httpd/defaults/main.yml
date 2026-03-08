@@ -19,7 +19,7 @@ httpd_docker_compose_directory: /opt/httpd
 
 httpd_network: 172.31.101.128/28
 httpd_network_mode: bridge
-httpd_l3mdev_accept: true
+httpd_l3mdev_accept: false
 httpd_service_name: "docker-compose@httpd"
 
 httpd_host: 127.0.0.1
