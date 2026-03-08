@@ -11,7 +11,7 @@ router bgp {{ frr_local_as }}
  neighbor switches remote-as external
  neighbor switches timers connect 30
 {% for item in _frr_uplinks %}
- neighbor {{ item }} interface peer-group switches
+ neighbor {{ item.interface }} interface peer-group switches
 {% endfor %}
  !
  address-family ipv4 unicast
