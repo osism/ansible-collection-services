@@ -9,6 +9,9 @@ router bgp {{ frr_local_as }}
  bgp bestpath as-path multipath-relax
  neighbor switches peer-group
  neighbor switches remote-as external
+{% if frr_yrzn001_password is defined and frr_yrzn001_password %}
+ neighbor switches password {{ frr_yrzn001_password }}
+{% endif %}
  neighbor switches timers connect 30
 {% for item in _frr_uplinks %}
  neighbor {{ item.interface }} interface peer-group switches
