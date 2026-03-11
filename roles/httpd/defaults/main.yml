@@ -31,6 +31,8 @@ httpd_image: "{{ httpd_docker_registry }}/httpd:{{ httpd_tag }}"
 
 httpd_container_name: httpd
 
+httpd_log_ignore_partial_content: true
+
 ##########################
 # data import
 
