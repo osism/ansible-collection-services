@@ -129,7 +129,11 @@ LogLevel warn
       LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
     </IfModule>
 
+{% if httpd_log_ignore_partial_content | bool %}
+    CustomLog /proc/self/fd/1 common "expr=%{REQUEST_STATUS} != 206"
+{% else %}
     CustomLog /proc/self/fd/1 common
+{% endif %}
 </IfModule>
 
 <IfModule alias_module>
