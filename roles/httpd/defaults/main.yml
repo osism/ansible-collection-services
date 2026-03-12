@@ -34,6 +34,15 @@ httpd_container_name: httpd
 httpd_log_ignore_partial_content: true
 
 ##########################
+# ssl
+
+httpd_ssl_enable: false
+httpd_ssl_directory: /opt/httpd/ssl
+httpd_ssl_port: 443
+httpd_ssl_certificate: ""
+httpd_ssl_certificate_key: ""
+
+##########################
 # data import
 
 httpd_data_uid: "{{ ansible_facts.user_uid }}"

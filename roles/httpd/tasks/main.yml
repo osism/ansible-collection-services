@@ -59,6 +59,36 @@
     state: started
   when: httpd_data_enable | bool
 
+- name: Create ssl directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ httpd_ssl_directory }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  when: httpd_ssl_enable | bool
+
+- name: Copy ssl certificate file
+  ansible.builtin.copy:
+    content: "{{ httpd_ssl_certificate }}"
+    dest: "{{ httpd_ssl_directory }}/ssl.crt"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0644
+  when: httpd_ssl_enable | bool
+  notify: Restart httpd service
+
+- name: Copy ssl certificate key file
+  ansible.builtin.copy:
+    content: "{{ httpd_ssl_certificate_key }}"
+    dest: "{{ httpd_ssl_directory }}/ssl.key"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  when: httpd_ssl_enable | bool
+  notify: Restart httpd service
+
 - name: Include ironic tasks
   ansible.builtin.include_tasks: ironic.yml
   when: httpd_ironic_enable | bool

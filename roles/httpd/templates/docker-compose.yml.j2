@@ -9,6 +9,9 @@ services:
 {% else %}
     ports:
       - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}:80"
+{% if httpd_ssl_enable | bool %}
+      - "{{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_ssl_port }}:443"
+{% endif %}
 {% if httpd_ironic_enable | bool %}
 {% if _httpd_loopback_ipv4 | length %}
       - "{{ _httpd_loopback_ipv4 }}:{{ httpd_ironic_port }}:6385"
@@ -29,6 +32,9 @@ services:
 {% endif %}
       - "{{ httpd_data_directory }}/root:/usr/local/apache2/htdocs:ro"
       - "{{ httpd_configuration_directory }}/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro"
+{% if httpd_ssl_enable | bool %}
+      - "{{ httpd_ssl_directory }}:/usr/local/apache2/conf/ssl:ro"
+{% endif %}
     healthcheck:
       test: "pgrep -f 'httpd -DFOREGROUND'"
 
