@@ -13,7 +13,7 @@ router bgp {{ frr_local_as }}
  neighbor switches password {{ frr_yrzn001_password }}
 {% endif %}
  neighbor switches timers connect 30
-{% for item in _frr_uplinks %}
+{% for item in frr_uplinks_data | default(_frr_uplinks, true) %}
  neighbor {{ item.interface }} interface peer-group switches
 {% endfor %}
  !
