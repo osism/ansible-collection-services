@@ -90,11 +90,11 @@ check_service "osism-ansible" \
     "OSISM Ansible Service"
 
 {% for service in ansible_services %}
-{% if service.name != 'osism-ansible' %}
+{% if service.name != 'osism-ansible' and service.enable|bool %}
 # Check {{ service.name }}
 check_service "{{ service.name }}" \
     "{{ service.image }}" \
-    "{{ service.enable|lower }}" \
+    "true" \
     "{{ service.name|title }} Service"
 
 {% endif %}
