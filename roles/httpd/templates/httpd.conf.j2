@@ -12,6 +12,9 @@ RequestReadTimeout header=60 body=0
 
 {% if httpd_network_mode == "host" %}
 Listen {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}
+{% if httpd_ssl_enable | bool %}
+Listen {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_ssl_port }}
+{% endif %}
 {% if httpd_ironic_enable | bool %}
 {% for addr in httpd_ironic_listen_addresses %}
 Listen {{ addr | ansible.utils.ipwrap }}:{{ httpd_ironic_port }}
@@ -19,6 +22,9 @@ Listen {{ addr | ansible.utils.ipwrap }}:{{ httpd_ironic_port }}
 {% endif %}
 {% else %}
 Listen 80
+{% if httpd_ssl_enable | bool %}
+Listen 443
+{% endif %}
 {% if httpd_ironic_enable | bool %}
 {% for addr in httpd_ironic_listen_addresses %}
 Listen {{ addr | ansible.utils.ipwrap }}:6385
@@ -50,6 +56,9 @@ LoadModule setenvif_module modules/mod_setenvif.so
 LoadModule status_module modules/mod_status.so
 LoadModule unixd_module modules/mod_unixd.so
 LoadModule version_module modules/mod_version.so
+{% if httpd_ssl_enable | bool %}
+LoadModule ssl_module modules/mod_ssl.so
+{% endif %}
 
 <IfModule unixd_module>
     User www-data
@@ -96,6 +105,41 @@ LoadModule version_module modules/mod_version.so
     </Directory>
 {% endif %}
 </VirtualHost>
+
+{% if httpd_ssl_enable | bool %}
+{% if httpd_network_mode == "host" %}
+<VirtualHost {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_ssl_port }}>
+{% else %}
+<VirtualHost 0.0.0.0:443>
+{% endif %}
+    SSLEngine on
+    SSLCertificateFile "/usr/local/apache2/conf/ssl/ssl.crt"
+    SSLCertificateKeyFile "/usr/local/apache2/conf/ssl/ssl.key"
+
+    DocumentRoot "/usr/local/apache2/htdocs"
+    <Directory "/usr/local/apache2/htdocs">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+{% if httpd_ironic_enable | bool %}
+    Alias /ironic /var/lib/ironic/httpboot
+    <Directory "/var/lib/ironic/httpboot">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+{% endif %}
+
+    ErrorLog /proc/self/fd/2
+{% if httpd_log_ignore_partial_content | bool %}
+    CustomLog /proc/self/fd/1 common "expr=%{REQUEST_STATUS} != 206"
+{% else %}
+    CustomLog /proc/self/fd/1 common
+{% endif %}
+</VirtualHost>
+{% endif %}
 
 {% if httpd_ironic_enable | bool %}
 {% if httpd_network_mode == "host" %}
