@@ -82,6 +82,7 @@ required_packages_manager:
 
 enable_netbox: "{{ netbox_enable }}"
 netbox_enable: false
+netbox_external: false
 netbox_api_url: ""
 netbox_api_token: ""
 netbox_secondaries: []
