@@ -5,6 +5,7 @@
         enabled = yes
         destination = {{ netdata_api_host }}:{{ netdata_api_port }}
         api key = {{ netdata_api_key }}
+        enable compression = {{ netdata_stream_enable_compression }}
 {% endif %}
 {% if netdata_host_type == 'server' %}
 [stream]
@@ -12,7 +13,8 @@
 [{{ netdata_api_key }}]
         enabled = yes
         default history = {{ netdata_default_history }}
-        default memory mode = save
+        default memory mode = {{ netdata_memory_mode }}
         health enabled by default = auto
-        allow from = *
+        allow from = {{ netdata_allow_streaming_from }}
+        enable compression = {{ netdata_stream_enable_compression }}
 {% endif %}

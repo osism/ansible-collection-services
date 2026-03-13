@@ -42,20 +42,28 @@ netdata_api_port: 19999
 
 netdata_hostname: "{{ inventory_hostname_short }}"
 
+# client & server
+
+netdata_update_every: 10
+netdata_stream_enable_compression: true
+
 # client
 
-netdata_update_every: 5
-netdata_page_cache_size: 128
+netdata_page_cache_size: 32
 
 # server
 
 netdata_accept_a_streaming_request_every_seconds: 1
-netdata_default_history: 3600
+netdata_default_history: 86400
 netdata_enable_cloud: false
 
 # possible values: [dbengine, ram, save, map, none, alloc]
-netdata_memory_mode: map
+netdata_memory_mode: dbengine
+
+netdata_server_page_cache_size: 2048
+netdata_server_dbengine_multihost_disk_space: 8192
+netdata_allow_streaming_from: "*"
 
 # NOTE: The more nodes streaming to the server the higher this
 #       value must be set.
-netdata_sys_vm_max_map_count: 262120
+netdata_sys_vm_max_map_count: 1048576
