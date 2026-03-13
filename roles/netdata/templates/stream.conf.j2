@@ -5,6 +5,8 @@
         enabled = yes
         destination = {{ netdata_api_host }}:{{ netdata_api_port }}
         api key = {{ netdata_api_key }}
+        timeout seconds = {{ netdata_stream_timeout_seconds }}
+        buffer size bytes = {{ netdata_stream_buffer_size_bytes }}
         enable compression = {{ netdata_stream_enable_compression }}
 {% endif %}
 {% if netdata_host_type == 'server' %}
@@ -17,4 +19,7 @@
         health enabled by default = auto
         allow from = {{ netdata_allow_streaming_from }}
         enable compression = {{ netdata_stream_enable_compression }}
+        enable replication = {{ netdata_stream_replication_enabled }}
+        seconds to replicate = {{ netdata_stream_seconds_to_replicate }}
+        replication step = {{ netdata_stream_replication_step }}
 {% endif %}
