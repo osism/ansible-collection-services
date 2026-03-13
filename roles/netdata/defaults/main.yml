@@ -50,10 +50,12 @@ netdata_stream_enable_compression: true
 # client
 
 netdata_page_cache_size: 32
+netdata_stream_timeout_seconds: 600
+netdata_stream_buffer_size_bytes: 10485760
 
 # server
 
-netdata_accept_a_streaming_request_every_seconds: 1
+netdata_accept_a_streaming_request_every_seconds: 0
 netdata_default_history: 86400
 netdata_enable_cloud: false
 
@@ -63,6 +65,10 @@ netdata_memory_mode: dbengine
 netdata_server_page_cache_size: 2048
 netdata_server_dbengine_multihost_disk_space: 8192
 netdata_allow_streaming_from: "*"
+
+netdata_stream_replication_enabled: true
+netdata_stream_seconds_to_replicate: 86400
+netdata_stream_replication_step: 600
 
 # NOTE: The more nodes streaming to the server the higher this
 #       value must be set.
