@@ -81,3 +81,13 @@ frr_vtysh_file: "/etc/frr/vtysh.conf"
 frr_daemons_file: "/etc/frr/daemons"
 
 frr_allow_service_restart: true
+
+# YRZN Metalbox configuration
+frr_yrzn_metalbox_bmc_loopback: loopback0
+frr_yrzn_metalbox_bmc_peer_group: bmc-switches
+frr_yrzn_metalbox_data_loopback: loopback1
+frr_yrzn_metalbox_data_peer_group: data-switches
+frr_yrzn_metalbox_timers_connect: 30
+frr_yrzn_metalbox_timers_keepalive: 3
+frr_yrzn_metalbox_timers_holdtime: 9
+frr_yrzn_metalbox_maximum_paths: 2
