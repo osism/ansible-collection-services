@@ -1,0 +1,72 @@
+frr version {{ frr_version }}
+frr defaults traditional
+hostname {{ frr_hostname }}
+no ipv6 forwarding
+service integrated-vtysh-config
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+
+route-map DATA-FILTER-IN deny 10
+ match ip address prefix-list DEFAULT-ONLY
+
+route-map DATA-FILTER-IN permit 20
+
+route-map DATA-redistribute-loopback permit 100
+        match interface {{ frr_yrzn_network_data_loopback }}
+exit
+
+route-map DATA-FILTER-OUT permit 100
+        match interface {{ frr_yrzn_network_data_loopback }}
+exit
+
+route-map PROVIDER-redistribute-loopback permit 100
+        match interface {{ frr_yrzn_network_provider_loopback }}
+exit
+
+route-map PROVIDER-FILTER-IN permit 100
+
+route-map PROVIDER-FILTER-OUT permit 100
+        match interface {{ frr_yrzn_network_provider_loopback }}
+exit
+
+router bgp {{ frr_yrzn_network_provider_as }} vrf {{ frr_yrzn_network_provider_vrf }}
+        bgp router-id {{ frr_yrzn_network_provider_router_id }}
+        bgp bestpath as-path multipath-relax
+        neighbor {{ frr_yrzn_network_provider_peer_group }} peer-group
+        neighbor {{ frr_yrzn_network_provider_peer_group }} remote-as external
+        neighbor {{ frr_yrzn_network_provider_peer_group }} timers connect {{ frr_yrzn_network_timers_connect }}
+        neighbor {{ frr_yrzn_network_provider_peer_group }} timers {{ frr_yrzn_network_timers_keepalive }} {{ frr_yrzn_network_timers_holdtime }}
+{% if frr_yrzn_network_provider_password is defined and frr_yrzn_network_provider_password %}
+        neighbor {{ frr_yrzn_network_provider_peer_group }} password {{ frr_yrzn_network_provider_password }}
+{% endif %}
+        no neighbor {{ frr_yrzn_network_provider_peer_group }} send-community
+        address-family ipv4 unicast
+                maximum-paths {{ frr_yrzn_network_maximum_paths }}
+                redistribute connected route-map PROVIDER-redistribute-loopback
+                neighbor {{ frr_yrzn_network_provider_peer_group }} route-map PROVIDER-FILTER-IN in
+                neighbor {{ frr_yrzn_network_provider_peer_group }} route-map PROVIDER-FILTER-OUT out
+        exit-address-family
+{% for item in frr_uplinks_provider %}
+        neighbor {{ item.interface }} interface peer-group {{ frr_yrzn_network_provider_peer_group }}
+{% endfor %}
+
+router bgp {{ frr_local_as }}
+        bgp router-id {{ frr_loopback_v4 }}
+        bgp bestpath as-path multipath-relax
+        neighbor {{ frr_yrzn_network_data_peer_group }} peer-group
+        neighbor {{ frr_yrzn_network_data_peer_group }} remote-as external
+        neighbor {{ frr_yrzn_network_data_peer_group }} timers connect {{ frr_yrzn_network_timers_connect }}
+        neighbor {{ frr_yrzn_network_data_peer_group }} timers {{ frr_yrzn_network_timers_keepalive }} {{ frr_yrzn_network_timers_holdtime }}
+{% if frr_yrzn_network_data_password is defined and frr_yrzn_network_data_password %}
+        neighbor {{ frr_yrzn_network_data_peer_group }} password {{ frr_yrzn_network_data_password }}
+{% endif %}
+        no neighbor {{ frr_yrzn_network_data_peer_group }} send-community
+        address-family ipv4 unicast
+                maximum-paths {{ frr_yrzn_network_maximum_paths }}
+                redistribute connected route-map DATA-redistribute-loopback
+                neighbor {{ frr_yrzn_network_data_peer_group }} route-map DATA-FILTER-IN in
+                neighbor {{ frr_yrzn_network_data_peer_group }} route-map DATA-FILTER-OUT out
+        exit-address-family
+{% for item in frr_uplinks_data %}
+        neighbor {{ item.interface }} interface peer-group {{ frr_yrzn_network_data_peer_group }}
+{% endfor %}

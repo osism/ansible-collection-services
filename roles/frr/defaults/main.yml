@@ -91,3 +91,13 @@ frr_yrzn_metalbox_timers_connect: 30
 frr_yrzn_metalbox_timers_keepalive: 3
 frr_yrzn_metalbox_timers_holdtime: 9
 frr_yrzn_metalbox_maximum_paths: 2
+
+# YRZN Network configuration
+frr_yrzn_network_data_loopback: loopback0
+frr_yrzn_network_data_peer_group: data-switches
+frr_yrzn_network_provider_loopback: loopback1
+frr_yrzn_network_provider_peer_group: provider-switches
+frr_yrzn_network_timers_connect: 30
+frr_yrzn_network_timers_keepalive: 3
+frr_yrzn_network_timers_holdtime: 9
+frr_yrzn_network_maximum_paths: 2
