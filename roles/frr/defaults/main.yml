@@ -101,3 +101,4 @@ frr_yrzn_network_timers_connect: 30
 frr_yrzn_network_timers_keepalive: 3
 frr_yrzn_network_timers_holdtime: 9
 frr_yrzn_network_maximum_paths: 2
+frr_yrzn_network_announced_networks: []
