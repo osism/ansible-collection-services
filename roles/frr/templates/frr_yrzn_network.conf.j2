@@ -6,7 +6,7 @@ service integrated-vtysh-config
 !
 ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
 {% for item in frr_yrzn_network_announced_networks %}
-ip prefix-list {{ item.name }} seq 5 permit {{ item.prefix }} ge 32 le 32
+ip prefix-list ANNOUNCED-NETWORKS seq {{ 10 + loop.index0 * 10 }} permit {{ item.prefix }} ge 32 le 32
 {% endfor %}
 !
 ! === Data Fabric ===
@@ -35,12 +35,10 @@ route-map PROVIDER-FILTER-IN permit 100
 route-map PROVIDER-FILTER-OUT permit 100
  match interface {{ frr_yrzn_network_provider_loopback }}
 exit
-{% for item in frr_yrzn_network_announced_networks %}
 !
-route-map PROVIDER-FILTER-OUT permit {{ 110 + loop.index0 * 10 }}
- match ip address prefix-list {{ item.name }}
+route-map PROVIDER-FILTER-OUT permit 110
+ match ip address prefix-list ANNOUNCED-NETWORKS
 exit
-{% endfor %}
 !
 ! === BGP: vrf-provider ===
 !
