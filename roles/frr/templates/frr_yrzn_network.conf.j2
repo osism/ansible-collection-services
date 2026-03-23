@@ -56,9 +56,7 @@ router bgp {{ frr_yrzn_network_provider_as }} vrf {{ frr_yrzn_network_provider_v
  address-family ipv4 unicast
   maximum-paths {{ frr_yrzn_network_maximum_paths }}
   redistribute connected route-map PROVIDER-redistribute-loopback
-{% if frr_yrzn_network_announced_networks | length > 0 %}
   redistribute static
-{% endif %}
   neighbor {{ frr_yrzn_network_provider_peer_group }} route-map PROVIDER-FILTER-IN in
   neighbor {{ frr_yrzn_network_provider_peer_group }} route-map PROVIDER-FILTER-OUT out
  exit-address-family
