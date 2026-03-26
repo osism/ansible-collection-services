@@ -1,4 +1,10 @@
+{% if dnsdist_network_mode == "host" %}
+{% for host in dnsdist_hosts %}
+addLocal('{{ host | ansible.utils.ipwrap }}:{{ dnsdist_port }}')
+{% endfor %}
+{% else %}
 addLocal('0.0.0.0:53')
+{% endif %}
 setACL({'0.0.0.0/0', '::/0'})
 
 {% for server in dnsdist_servers %}

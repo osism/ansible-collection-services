@@ -22,6 +22,7 @@ dnsdist_configuration_directory: /opt/dnsdist/configuration
 dnsdist_docker_compose_directory: /opt/dnsdist
 
 dnsdist_network: 172.31.101.80/28
+dnsdist_network_mode: bridge
 dnsdist_service_name: "docker-compose@dnsdist"
 
 dnsdist_container_name: dnsdist
