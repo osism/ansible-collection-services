@@ -82,12 +82,8 @@
     abstract: true
     nodeset:
       nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
         - name: debian-bookworm
           label: debian-bookworm
-        - name: ubuntu-jammy
-          label: ubuntu-jammy
         - name: ubuntu-noble
           label: ubuntu-noble
     vars:
