@@ -314,7 +314,7 @@ vault_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.addr
 vault_port: 8200
 
 # renovate: datasource=docker depName=hashicorp/vault
-vault_tag: '1.21.0'
+vault_tag: '1.21.4'
 vault_image_namespace: hashicorp
 vault_image: "{{ docker_registry_vault }}/{{ vault_image_namespace }}/vault:{{ vault_tag }}"
 
