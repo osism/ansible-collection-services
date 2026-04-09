@@ -53,7 +53,8 @@
   delegate_to: localhost
   when: frr_config_template is defined
 
-- when: frr_config_template is not defined
+- name: Find the correct frr.conf template
+  when: frr_config_template is not defined
   block:  # noqa osism-fqcn
     - name: Check for frr.conf file in the configuration repository
       ansible.builtin.stat:
