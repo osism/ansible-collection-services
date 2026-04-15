@@ -1,0 +1,42 @@
+---
+##########################
+# operator
+
+operator_user: "dragon"
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_network_mtu: 1500
+docker_network_leaf: "172.32.102.0/29"
+docker_registry_leaf: "ghcr.io"
+
+##########################
+# leaf config template
+
+leaf_config_port: 9010
+leaf_config_prometheus_url: "{{ prometheus_internal_endpoint }}"        # https://github.com/osism/defaults/blob/main/all/001-kolla-defaults.yml
+leaf_config_prometheus_user: "{{ prometheus_user | default('admin') }}"
+leaf_config_prometheus_pass: "{{ prometheus_pass | default('') }}"
+
+##########################
+# leaf
+
+leaf_configuration_directory: "/opt/leaf/configuration"
+leaf_container_name: "leaf"
+leaf_container_privileged: false
+leaf_docker_compose_directory: "/opt/leaf"
+leaf_exporter: "prometheus"
+leaf_flags: "{{ leaf_flags_defaults + leaf_flags_extra }}"
+leaf_flags_defaults: "--config /etc/leaf/config.yaml"
+leaf_flags_extras:
+leaf_host: "0.0.0.0"
+leaf_image: "{{ leaf_repository }}:{{ leaf_tag }}"
+leaf_kubeconfig_directory: "/opt/leaf/kubeconfig"
+leaf_port: "{{ leaf_config_port | default('9010') }}"
+leaf_port_container: "{{ leaf_config_port }}"
+leaf_repository: "{{ docker_registry_leaf }}/eco-digit/leaf"
+leaf_service_name: "docker-compose@leaf"
+leaf_share_pids_with_host: false
+leaf_tag: "1.0.0"
