@@ -1,0 +1,5 @@
+---
+operator_user: zuul
+operator_group: zuul
+
+prometheus_internal_endpoint: "http://127.0.0.1:9090"

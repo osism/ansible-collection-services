@@ -184,6 +184,17 @@
       - '^molecule\/delegated\/tests\/docker.*$'
 
 - job:
+    name: ansible-collection-services-molecule-ecodigit_leaf
+    parent: abstract-ansible-collection-services-molecule
+    vars:
+      ansible_role: ecodigit_leaf
+    files:
+      - '^roles\/ecodigit_leaf\/.*$'
+      - '^molecule\/delegated\/prepare\/ecodigit_leaf.*$'
+      - '^molecule\/delegated\/vars\/ecodigit_leaf.*$'
+      - '^molecule\/delegated\/tests\/ecodigit_leaf.*$'
+
+- job:
     name: ansible-collection-services-molecule-fail2ban
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -510,6 +521,7 @@
         - ansible-collection-services-molecule-dnsdist
         - ansible-collection-services-molecule-dnsmasq
         - ansible-collection-services-molecule-docker
+        - ansible-collection-services-molecule-ecodigit_leaf
         - ansible-collection-services-molecule-fail2ban
         - ansible-collection-services-molecule-falco
         - ansible-collection-services-molecule-frr

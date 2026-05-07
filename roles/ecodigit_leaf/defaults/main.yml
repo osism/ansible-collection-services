@@ -29,8 +29,9 @@ leaf_container_privileged: false
 leaf_docker_compose_directory: "/opt/leaf"
 leaf_exporter: "prometheus"
 leaf_flags: "{{ leaf_flags_defaults + leaf_flags_extra }}"
-leaf_flags_defaults: "--config /etc/leaf/config.yaml"
-leaf_flags_extras:
+leaf_flags_defaults:
+  - "--config /etc/leaf/config.yaml"
+leaf_flags_extra: []
 leaf_host: "0.0.0.0"
 leaf_image: "{{ leaf_repository }}:{{ leaf_tag }}"
 leaf_kubeconfig_directory: "/opt/leaf/kubeconfig"

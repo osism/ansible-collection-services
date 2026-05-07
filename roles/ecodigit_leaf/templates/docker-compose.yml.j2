@@ -28,8 +28,6 @@ services:
         source: "{{ leaf_kubeconfig_directory }}"
         target: /host/kube
         read_only: true
-    command:
-      - --config /etc/leaf/config.yaml
 
 networks:
   default:
