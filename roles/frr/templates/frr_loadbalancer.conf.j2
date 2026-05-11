@@ -27,10 +27,10 @@ router bgp {{ frr_local_as }}
  neighbor {{ item.address }} password {{ item.password }}
 {% endif %}
 {# Enable BFD for IPv4 neighbor if configured #}
-{% if item.bfd is defined and item.bfd %}
- neighbor {{ item.address }} bfd
-{% elif item.bfd_profile is defined %}
+{% if item.bfd_profile is defined %}
  neighbor {{ item.address }} bfd profile {{ item.bfd_profile }}
+{% elif item.bfd is defined and item.bfd %}
+ neighbor {{ item.address }} bfd
 {% endif %}
 {% endfor %}
 {% for item in frr_neigh_v6 %}
@@ -39,10 +39,10 @@ router bgp {{ frr_local_as }}
  neighbor {{ item.address }} password {{ item.password }}
 {% endif %}
 {# Enable BFD for IPv6 neighbor if configured #}
-{% if item.bfd is defined and item.bfd %}
- neighbor {{ item.address }} bfd
-{% elif item.bfd_profile is defined %}
+{% if item.bfd_profile is defined %}
  neighbor {{ item.address }} bfd profile {{ item.bfd_profile }}
+{% elif item.bfd is defined and item.bfd %}
+ neighbor {{ item.address }} bfd
 {% endif %}
 {% endfor %}
  !

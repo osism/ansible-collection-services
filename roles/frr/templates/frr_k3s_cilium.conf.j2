@@ -29,10 +29,10 @@ router bgp {{ frr_local_as }}
  neighbor {{ item.address }} update-source {{ item.interface }}
  neighbor {{ item.address }} soft-reconfiguration inbound
 {# Enable BFD for neighbor if configured #}
-{% if item.bfd is defined and item.bfd %}
- neighbor {{ item.address }} bfd
-{% elif item.bfd_profile is defined %}
+{% if item.bfd_profile is defined %}
  neighbor {{ item.address }} bfd profile {{ item.bfd_profile }}
+{% elif item.bfd is defined and item.bfd %}
+ neighbor {{ item.address }} bfd
 {% endif %}
 {% endfor %}
  !
@@ -42,6 +42,4 @@ router bgp {{ frr_local_as }}
 {% endfor %}
  exit-address-family
  !
- address-family ipv6 unicast
- exit-address-family
 exit
