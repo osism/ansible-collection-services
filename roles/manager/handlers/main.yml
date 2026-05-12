@@ -1,16 +1,25 @@
 ---
 - name: Restart manager service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ manager_service_name }}"
     state: restarted
-  register: result
-  until: result["status"]["ActiveState"] == "active"
-  retries: 10
-  delay: 20
   when:
     - manager_service_allow_restart | bool
     - _manager_service_restart | default(true) | bool
+  notify:
+    - Wait until manager service is active
+
+- name: Wait until manager service is active
+  become: true
+  ansible.builtin.command:
+    cmd: "systemctl is-active {{ manager_service_name }}"
+  register: _manager_is_active
+  changed_when: false
+  failed_when: false
+  until: _manager_is_active.stdout | trim == "active"
+  retries: 10
+  delay: 20
   notify:
     - Wait for manager service to start
     - Register that manager service was restarted

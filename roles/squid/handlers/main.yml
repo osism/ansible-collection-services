@@ -1,14 +1,23 @@
 ---
 - name: Restart squid service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ squid_service_name }}"
     state: restarted
-  register: result
-  until: result["status"]["ActiveState"] == "active"
+  when: squid_service_restart|bool
+  notify:
+    - Wait until squid service is active
+
+- name: Wait until squid service is active
+  become: true
+  ansible.builtin.command:
+    cmd: "systemctl is-active {{ squid_service_name }}"
+  register: _squid_is_active
+  changed_when: false
+  failed_when: false
+  until: _squid_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  when: squid_service_restart|bool
   notify:
     - Wait for squid service to start
     - Register that squid service was restarted
