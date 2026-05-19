@@ -17,11 +17,18 @@
 
 - name: Manage cgit service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ cgit_service_name }}"
     state: started
     enabled: true
-  register: result
-  until: result["status"]["ActiveState"] == "active"
+
+- name: Wait until cgit service is active
+  become: true
+  ansible.builtin.command:
+    cmd: "systemctl is-active {{ cgit_service_name }}"
+  register: _cgit_is_active
+  changed_when: false
+  failed_when: false
+  until: _cgit_is_active.stdout | trim == "active"
   retries: 10
   delay: 20

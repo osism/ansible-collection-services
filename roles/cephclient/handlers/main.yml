@@ -1,15 +1,23 @@
 ---
 - name: Restart cephclient service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ cephclient_service_name }}"
     state: restarted
-  register: result
-  until: result["status"]["ActiveState"] == "active"
+  notify:
+    - Wait until cephclient service is active
+    - Ensure that all containers are up
+
+- name: Wait until cephclient service is active
+  become: true
+  ansible.builtin.command:
+    cmd: "systemctl is-active {{ cephclient_service_name }}"
+  register: _cephclient_is_active
+  changed_when: false
+  failed_when: false
+  until: _cephclient_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Ensure that all containers are up
 
 - name: Ensure that all containers are up
   ansible.builtin.command:

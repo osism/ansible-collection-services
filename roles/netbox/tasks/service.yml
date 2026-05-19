@@ -49,10 +49,18 @@
         enabled: true
         daemon_reload: "{{ netbox_systemd_unit_file.changed }}"
       register: netbox_service
-      until: netbox_service["status"]["ActiveState"] == "active"
+      notify: Wait for an healthy netbox service
+
+    - name: Wait until netbox service is active
+      become: true
+      ansible.builtin.command:
+        cmd: "systemctl is-active {{ netbox_service_name }}"
+      register: _netbox_is_active
+      changed_when: false
+      failed_when: false
+      until: _netbox_is_active.stdout | trim == "active"
       retries: 10
       delay: 20
-      notify: Wait for an healthy netbox service
 
   rescue:
     # Compose is not always reliable when starting services. Therefore,
