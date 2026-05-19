@@ -6,6 +6,7 @@
     state: restarted
   notify:
     - Wait until opentelemetry-collector service is active
+    - Ensure that all containers are up
 
 - name: Wait until opentelemetry-collector service is active
   become: true
@@ -17,8 +18,6 @@
   until: _opentelemetry_collector_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Ensure that all containers are up
 
 - name: Ensure that all containers are up
   ansible.builtin.command:

@@ -7,6 +7,7 @@
   when: _gnmic_service_restart | default(true) | bool
   notify:
     - Wait until gnmic service is active
+    - Register that gnmic service was restarted
 
 - name: Wait until gnmic service is active
   become: true
@@ -18,8 +19,6 @@
   until: _gnmic_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Register that gnmic service was restarted
 
 - name: Register that gnmic service was restarted
   ansible.builtin.set_fact:

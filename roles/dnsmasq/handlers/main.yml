@@ -8,6 +8,7 @@
     - _dnsmasq_service_restart | default(true) | bool
   notify:
     - Wait until dnsmasq service is active
+    - Register that dnsmasq service was restarted
 
 - name: Wait until dnsmasq service is active
   become: true
@@ -19,8 +20,6 @@
   until: _dnsmasq_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Register that dnsmasq service was restarted
 
 - name: Register that dnsmasq service was restarted
   ansible.builtin.set_fact:

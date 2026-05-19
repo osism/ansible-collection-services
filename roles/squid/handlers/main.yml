@@ -7,6 +7,8 @@
   when: squid_service_restart|bool
   notify:
     - Wait until squid service is active
+    - Wait for squid service to start
+    - Register that squid service was restarted
 
 - name: Wait until squid service is active
   become: true
@@ -18,9 +20,6 @@
   until: _squid_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Wait for squid service to start
-    - Register that squid service was restarted
 
 - name: Wait for squid service to start
   ansible.builtin.pause:

@@ -51,6 +51,7 @@
         name: "{{ squid_service_name }}"
         state: started
         enabled: true
+      notify: Wait for squid service to start
 
     - name: Wait until squid service is active
       become: true
@@ -62,7 +63,6 @@
       until: _squid_is_active.stdout | trim == "active"
       retries: 10
       delay: 20
-      notify: Wait for squid service to start
   rescue:
     # Compose is not always reliable when starting services. Therefore,
     # in case of an error at startup, another stop and start of the

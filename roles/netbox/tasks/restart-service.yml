@@ -91,6 +91,8 @@
         name: "{{ netbox_service_name }}"
         state: started
       register: netbox_service
+      notify:
+        - Wait for netbox service to start
 
     - name: Wait until netbox service is active
       become: true
@@ -102,8 +104,6 @@
       until: _netbox_is_active.stdout | trim == "active"
       retries: 10
       delay: 20
-      notify:
-        - Wait for netbox service to start
 
 - name: Restart netbox service
   become: true

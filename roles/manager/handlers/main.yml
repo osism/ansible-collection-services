@@ -9,6 +9,8 @@
     - _manager_service_restart | default(true) | bool
   notify:
     - Wait until manager service is active
+    - Wait for manager service to start
+    - Register that manager service was restarted
 
 - name: Wait until manager service is active
   become: true
@@ -20,9 +22,6 @@
   until: _manager_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Wait for manager service to start
-    - Register that manager service was restarted
 
 - name: Wait for manager service to start
   ansible.builtin.pause:

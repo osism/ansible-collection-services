@@ -7,6 +7,8 @@
   when: _nexus_service_restart | default(true) | bool
   notify:
     - Wait until nexus service is active
+    - Wait for nexus service to start
+    - Register that nexus service was restarted
 
 - name: Wait until nexus service is active
   become: true
@@ -18,9 +20,6 @@
   until: _nexus_is_active.stdout | trim == "active"
   retries: 10
   delay: 20
-  notify:
-    - Wait for nexus service to start
-    - Register that nexus service was restarted
 
 - name: Wait for nexus service to start
   ansible.builtin.pause:
