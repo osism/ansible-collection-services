@@ -1,3 +1,5 @@
+import re
+
 import pytest
 
 from .util.util import get_ansible, get_variable
@@ -42,6 +44,41 @@ def test_client_config_files(host):
         assert config_file.group == user
         assert config_file.mode == 0o600
         assert "AllowedIPs =" in config_file.content_string
+
+
+def test_gateway_forwarding(host):
+    with host.sudo("root"):
+        postup_line = host.run(
+            r"grep -oP 'PostUp\s*=\s*\K.+' /etc/wireguard/wg0.conf"
+        ).stdout.strip()
+
+    postrouting_m = re.search(
+        r"iptables\s+-t\s+nat\s+-A\s+POSTROUTING\s+(.*?)(?:;|$)", postup_line
+    )
+    assert postrouting_m, f"No POSTROUTING rule found in PostUp: {postup_line!r}"
+    postrouting_args = postrouting_m.group(1)
+
+    net_m = re.search(r"-s\s+(\S+)", postrouting_args)
+    if_m = re.search(r"-o\s+(\S+)", postrouting_args)
+    assert (
+        net_m and if_m
+    ), f"Could not parse -s/-o from POSTROUTING args: {postrouting_args!r}"
+    client_network = net_m.group(1)
+    outbound_if = if_m.group(1)
+
+    with host.sudo():
+        ip_forward = host.run("sysctl -n net.ipv4.ip_forward")
+        assert ip_forward.rc == 0
+        assert (
+            ip_forward.stdout.strip() == "1"
+        ), "IP forwarding must be enabled for gateway mode"
+
+        check = host.run(
+            f"iptables -t nat -C POSTROUTING -s {client_network} -o {outbound_if} -j MASQUERADE"
+        )
+        assert (
+            check.rc == 0
+        ), f"MASQUERADE rule for {client_network} via {outbound_if} not found in POSTROUTING"
 
 
 @pytest.mark.parametrize("interface", ["wg0"])

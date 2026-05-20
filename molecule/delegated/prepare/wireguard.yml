@@ -10,3 +10,10 @@
   ansible.builtin.user:
     name: runner
     group: docker
+
+- name: Enable IP forwarding
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
