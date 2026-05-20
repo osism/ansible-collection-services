@@ -44,6 +44,17 @@ def test_client_config_files(host):
         assert "AllowedIPs =" in config_file.content_string
 
 
+def test_gateway_forwarding(host):
+    with host.sudo():
+        ip_forward = host.run("sysctl -n net.ipv4.ip_forward")
+        assert ip_forward.rc == 0
+        assert ip_forward.stdout.strip() == "1", "IP forwarding must be enabled for gateway mode"
+
+        masquerade = host.run("iptables -t nat -L POSTROUTING -n")
+        assert masquerade.rc == 0
+        assert "MASQUERADE" in masquerade.stdout, "MASQUERADE rule required for gateway routing"
+
+
 @pytest.mark.parametrize("interface", ["wg0"])
 def test_wireguard_functionality(host, interface):
     with host.sudo():

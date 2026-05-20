@@ -2,8 +2,8 @@
 Address = {{ wireguard_server_address }}
 ListenPort = {{ wireguard_listen_port }}
 PrivateKey = {{ wireguard_private_key_server['content']|b64decode }}
-PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT
-PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT
+PostUp   = sysctl -w net.ipv4.ip_forward=1; iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wireguard_outbound_interface }} -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o {{ wireguard_outbound_interface }} -j MASQUERADE; iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT
 {% for user in wireguard_users %}
 
 [Peer]

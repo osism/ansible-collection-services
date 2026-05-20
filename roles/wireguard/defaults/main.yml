@@ -8,3 +8,4 @@ wireguard_endpoint: "{{ wireguard_server_public_address }}:{{ wireguard_listen_p
 wireguard_create_client_config: false
 wireguard_client_allowed_ips: "192.168.16.0/20,172.31.252.0/23,10.43.0.0/16,192.168.112.0/20,192.168.128.0/20"
 wireguard_dns: ""
+wireguard_outbound_interface: "{{ ansible_default_ipv4.interface }}"
