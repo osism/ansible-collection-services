@@ -1,0 +1,17 @@
+---
+- name: Prepare
+  hosts: all
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        extra_args: "--break-system-packages"
+      loop:
+        - docker
+        - netaddr
+        - requests
+
+    - name: Include required prepare tasks
+      ansible.builtin.include_tasks:
+        file: "{{ playbook_dir }}/../delegated/prepare/{{ molecule_role }}.yml"
