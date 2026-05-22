@@ -1,0 +1,10 @@
+---
+# Stub scenario that prevents molecule from logging a CRITICAL error
+# when looking for shared state before each test run. Has no platforms
+# and no functionality; it only needs to be loadable.
+scenario:
+  name: default
+  test_sequence: []
+platforms: []
+provisioner:
+  name: ansible
