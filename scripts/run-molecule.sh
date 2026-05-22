@@ -63,6 +63,10 @@ fi
 
 export PATH="$PWD/$VENV/bin:$PATH"
 export MOLECULE_COLLECTIONS_PATH="$PWD/$VENV/.ansible/collections:$HOME/.ansible/collections"
+# Molecule detects galaxy.yml and warns that scenarios should move to
+# extensions/molecule/. Setting MOLECULE_GLOB explicitly bypasses that
+# collection-detection path and keeps the existing molecule/ layout.
+export MOLECULE_GLOB="molecule/*/molecule.yml"
 
 if [ -z "${MOLECULE_DRIVER:-}" ]; then
     if command -v podman &>/dev/null; then
@@ -77,7 +81,10 @@ fi
 
 run_role() {
     echo "=== molecule: $1 (driver: $MOLECULE_DRIVER) ==="
-    ANSIBLE_ROLE="$1" "$VENV/bin/python" -m molecule test -s local --driver-name "$MOLECULE_DRIVER"
+    # Driver is read from molecule/local/molecule.yml; not passed on the
+    # command line to avoid applying it to the default stub scenario too,
+    # which would cause a driver-mismatch WARNING.
+    ANSIBLE_ROLE="$1" "$VENV/bin/python" -m molecule test -s local
 }
 
 if [ "$ROLE" = "all" ]; then
