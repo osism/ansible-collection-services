@@ -46,6 +46,9 @@ provisioner:
         docker_default_ulimits: {}
 verifier:
   name: testinfra
+  # Resolve additional_files_or_dirs relative to the delegated tests directory,
+  # not the non-existent molecule/local/tests/
+  directory: ../delegated/tests
   options:
     v: 2
   additional_files_or_dirs:
