@@ -78,12 +78,13 @@ if [ -z "${MOLECULE_DRIVER:-}" ]; then
         exit 1
     fi
 fi
+# molecule/local/molecule.yml uses ${DRIVER} for driver.name. Molecule
+# keeps all MOLECULE_* variables unexpanded in molecule.yml (MOLECULE_KEEP_STRING),
+# so MOLECULE_DRIVER cannot be referenced directly from the YAML.
+export DRIVER="$MOLECULE_DRIVER"
 
 run_role() {
     echo "=== molecule: $1 (driver: $MOLECULE_DRIVER) ==="
-    # Driver is read from molecule/local/molecule.yml; not passed on the
-    # command line to avoid applying it to the default stub scenario too,
-    # which would cause a driver-mismatch WARNING.
     ANSIBLE_ROLE="$1" "$VENV/bin/python" -m molecule test -s local
 }
 

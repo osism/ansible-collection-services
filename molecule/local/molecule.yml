@@ -4,7 +4,7 @@ dependency:
   options:
     requirements-file: molecule/delegated/collections.yml
 driver:
-  name: podman
+  name: "${DRIVER}"
 platforms:
   - name: "molecule-${ANSIBLE_ROLE}"
     image: molecule-local-debian12
