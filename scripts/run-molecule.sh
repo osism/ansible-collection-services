@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Roles that cannot pass in the local container scenario and are always skipped
+# in 'all' mode. To force execution of a skipped role, run it by name directly.
+declare -A SKIP_REASONS=(
+    [auditd]="kernel audit subsystem (CAP_AUDIT_CONTROL)"
+    [chrony]="CAP_SYS_TIME unavailable in container"
+    [docker]="zram storage device not present in container"
+    [falco]="package not available in Debian repos"
+    [frr]="sysctl not accessible (CAP_SYS_ADMIN)"
+    [kepler]="missing prepare file"
+    [manager]="sysctl fs.inotify.max_user_watches (CAP_SYS_ADMIN)"
+    [wireguard]="kernel module required"
+    [zuul]="SSH keypair + ZooKeeper TLS pre-configuration required"
+)
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+RESET='\033[0m'
+
 usage() {
     echo "Usage: $0 <role-name>"
     echo "       $0 all"
@@ -62,21 +81,49 @@ run_role() {
 }
 
 if [ "$ROLE" = "all" ]; then
-    PASS=()
-    FAIL=()
+    declare -A RESULT
+    PASS_COUNT=0
+    FAIL_COUNT=0
+    SKIP_COUNT=0
+
+    COL_WIDTH=0
+    for role_dir in roles/*/; do
+        name="$(basename "$role_dir")"
+        (( ${#name} > COL_WIDTH )) && COL_WIDTH=${#name}
+    done
+    (( COL_WIDTH += 2 ))
+
     for role_dir in roles/*/; do
         role="$(basename "$role_dir")"
+        if [[ -v SKIP_REASONS["$role"] ]]; then
+            RESULT["$role"]="SKIP"
+            SKIP_COUNT=$(( SKIP_COUNT + 1 ))
+            continue
+        fi
         if run_role "$role"; then
-            PASS+=("$role")
+            RESULT["$role"]="PASS"
+            PASS_COUNT=$(( PASS_COUNT + 1 ))
         else
-            FAIL+=("$role")
+            RESULT["$role"]="FAIL"
+            FAIL_COUNT=$(( FAIL_COUNT + 1 ))
         fi
     done
+
     echo ""
-    echo "=== Results: ${#PASS[@]} passed, ${#FAIL[@]} failed ==="
-    [ ${#PASS[@]} -gt 0 ] && printf "  PASS: %s\n" "${PASS[@]}"
-    [ ${#FAIL[@]} -gt 0 ] && printf "  FAIL: %s\n" "${FAIL[@]}"
-    [ ${#FAIL[@]} -eq 0 ]
+    echo "=== Results: $PASS_COUNT passed, $SKIP_COUNT skipped, $FAIL_COUNT failed ==="
+    echo ""
+    for role_dir in roles/*/; do
+        role="$(basename "$role_dir")"
+        printf "  %-${COL_WIDTH}s" "$role"
+        case "${RESULT[$role]:-}" in
+            PASS) printf "${GREEN}pass${RESET}\n" ;;
+            FAIL) printf "${RED}FAIL${RESET}\n" ;;
+            SKIP) printf "${YELLOW}skip${RESET}  %s\n" "${SKIP_REASONS[$role]}" ;;
+        esac
+    done
+    echo ""
+
+    [ "$FAIL_COUNT" -eq 0 ]
 else
     run_role "$ROLE"
 fi
