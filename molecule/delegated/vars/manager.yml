@@ -13,3 +13,5 @@ manager_redis_image_namespace: dockerhub
 vault_image_namespace: dockerhub/hashicorp
 
 frontend_enable: true
+
+osism_api_host: "127.0.0.1"
