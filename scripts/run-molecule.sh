@@ -108,6 +108,11 @@ if [ "$ROLE" = "all" ]; then
             SKIP_COUNT=$(( SKIP_COUNT + 1 ))
             continue
         fi
+        # Reset state before each run: a crashed container from the previous
+        # role can leave created=true in the state file, causing the next
+        # role to skip create and converge against a non-existent container.
+        ANSIBLE_ROLE="$role" "$VENV/bin/python" -m molecule reset -s local \
+            >/dev/null 2>&1 || true
         if run_role "$role"; then
             RESULT["$role"]="PASS"
             PASS_COUNT=$(( PASS_COUNT + 1 ))
