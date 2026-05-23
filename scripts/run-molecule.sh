@@ -8,15 +8,15 @@ declare -A SKIP_REASONS=(
     [cephclient]="docker cp remount-ro blocked by fuse-overlayfs in container"
     [chrony]="CAP_SYS_TIME unavailable in container"
     [docker]="zram storage device not present in container"
-    [falco]="package not available in Debian repos"
+    [falco]="kernel module (kmod driver) cannot load in a container; CI runs on real VMs"
     [frr]="sysctl not accessible (CAP_SYS_ADMIN)"
     [hddtemp]="CAP_SYS_MODULE ineffective in rootless Podman user namespace"
-    [kepler]="missing prepare file"
+    [kepler]="no CI job (role never wired up for testing)"
     [manager]="sysctl fs.inotify.max_user_watches (CAP_SYS_ADMIN)"
     [openstackclient]="docker cp remount-ro blocked by fuse-overlayfs in container"
     [rng]="rng-tools5 has no software fallback; /dev/hwrng inaccessible in rootless container"
     [wireguard]="kernel module required"
-    [zuul]="SSH keypair + ZooKeeper TLS pre-configuration required"
+    [zuul]="CI job not in check pipeline; requires SSH keypair and TLS certs"
 )
 
 # Estimated run times for roles tested in 'all' mode (shown by --help).
