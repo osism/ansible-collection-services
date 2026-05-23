@@ -7,7 +7,8 @@ RUN apt-get update && \
         sudo \
         kmod iptables \
         fuse-overlayfs fuse3 \
-        iproute2 rsync && \
+        iproute2 rsync \
+        curl dnsutils net-tools && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -f /lib/systemd/system/multi-user.target.wants/* \
