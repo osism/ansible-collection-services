@@ -44,6 +44,13 @@ provisioner:
         # Docker's default-ulimits hard nofile (1048576) exceeds the Podman
         # container's own hard limit (524288); runc refuses to apply them
         docker_default_ulimits: {}
+        # get_variable() returns the raw Jinja2 template from role defaults
+        # when configuration_directory is absent from the test context; the
+        # delegated/localhost driver silently evaluates it as a literal path
+        # (shell does not expand {{ }}), but the container transport passes
+        # it through Ansible which raises "undefined variable".  Providing a
+        # concrete value here ensures the testinfra path check works locally.
+        netbox_postgres_init_sql: /opt/configuration/environments/infrastructure/files/netbox/init.sql
 verifier:
   name: testinfra
   # Resolve additional_files_or_dirs relative to the delegated tests directory,
