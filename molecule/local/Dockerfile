@@ -2,13 +2,20 @@ FROM debian:bookworm
 ENV container docker
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        systemd systemd-sysv \
-        python3 python3-pip \
+        curl \
+        dnsutils \
+        fuse-overlayfs \
+        fuse3 \
+        iproute2 \
+        iptables \
+        kmod \
+        net-tools \
+        python3 \
+        python3-pip \
+        rsync \
         sudo \
-        kmod iptables \
-        fuse-overlayfs fuse3 \
-        iproute2 rsync \
-        curl dnsutils net-tools && \
+        systemd \
+        systemd-sysv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -f /lib/systemd/system/multi-user.target.wants/* \
