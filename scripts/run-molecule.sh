@@ -19,22 +19,105 @@ declare -A SKIP_REASONS=(
     [zuul]="SSH keypair + ZooKeeper TLS pre-configuration required"
 )
 
+# Estimated run times for roles tested in 'all' mode (shown by --help).
+declare -A ESTIMATED_TIMES=(
+    [adminer]="4:36"
+    [cgit]="5:58"
+    [clamav]="2:56"
+    [containerd]="2:33"
+    [dnsdist]="5:18"
+    [dnsmasq]="4:25"
+    [fail2ban]="1:37"
+    [gnmic]="4:58"
+    [homer]="5:07"
+    [httpd]="4:35"
+    [journald]="1:34"
+    [lldpd]="1:31"
+    [netbird]="2:17"
+    [netbox]="17:17"
+    [netdata]="3:28"
+    [nexus]="7:29"
+    [opentelemetry_collector]="6:02"
+    [osquery]="2:18"
+    [phpmyadmin]="4:48"
+    [rsyslog]="2:35"
+    [scaphandre]="4:41"
+    [smartd]="1:53"
+    [squid]="7:12"
+    [sshd]="1:27"
+    [stepca]="5:24"
+    [substation]="5:49"
+    [teleport]="2:31"
+    [thanos_sidecar]="6:55"
+    [traefik]="6:23"
+    [tuned]="1:55"
+    [wazuh_agent]="2:24"
+    [zabbix_agent]="4:37"
+)
+
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 RESET='\033[0m'
 
+format_time() {
+    local secs=$1
+    if (( secs >= 3600 )); then
+        printf "%d:%02d:%02d" $(( secs / 3600 )) $(( (secs % 3600) / 60 )) $(( secs % 60 ))
+    else
+        printf "%d:%02d" $(( secs / 60 )) $(( secs % 60 ))
+    fi
+}
+
 usage() {
+    local col_width=0
+    for role_dir in roles/*/; do
+        name="$(basename "$role_dir")"
+        (( ${#name} > col_width )) && col_width=${#name}
+    done
+    (( col_width += 2 ))
+
+    local test_count=0 skip_count=0
+    for role_dir in roles/*/; do
+        role="$(basename "$role_dir")"
+        if [[ -v SKIP_REASONS["$role"] ]]; then
+            (( skip_count += 1 ))
+        else
+            (( test_count += 1 ))
+        fi
+    done
+
+    local total_est=0
+    for role_dir in roles/*/; do
+        role="$(basename "$role_dir")"
+        est="${ESTIMATED_TIMES[$role]:-?}"
+        if [[ ! -v SKIP_REASONS["$role"] ]] && [[ "$est" != "?" ]]; then
+            mins="${est%%:*}"
+            secs="${est##*:}"
+            total_est=$(( total_est + mins * 60 + 10#$secs ))
+        fi
+    done
+
     echo "Usage: $0 <role-name>"
     echo "       $0 all"
     echo ""
-    echo "Available roles:"
-    for role_dir in roles/*/; do basename "$role_dir"; done
+    echo "=== $test_count to test, $skip_count skipped (estimated total: ~$(format_time $total_est)) ==="
+    echo ""
+    for role_dir in roles/*/; do
+        role="$(basename "$role_dir")"
+        printf "  %-${col_width}s" "$role"
+        if [[ -v SKIP_REASONS["$role"] ]]; then
+            printf "${YELLOW}skip${RESET}  %s\n" "${SKIP_REASONS[$role]}"
+        else
+            est="${ESTIMATED_TIMES[$role]:-?}"
+            printf "test  ~%s\n" "$est"
+        fi
+    done
 }
 
 case "${1:-}" in
-    -h|--help) usage; exit 0 ;;
-    "")        usage; exit 1 ;;
+    -h|--help)   usage; exit 0 ;;
+    "")          usage; exit 1 ;;
 esac
 
 ROLE="${ANSIBLE_ROLE:-$1}"
@@ -94,6 +177,7 @@ run_role() {
 
 if [ "$ROLE" = "all" ]; then
     declare -A RESULT
+    declare -A ELAPSED
     PASS_COUNT=0
     FAIL_COUNT=0
     SKIP_COUNT=0
@@ -104,6 +188,8 @@ if [ "$ROLE" = "all" ]; then
         (( ${#name} > COL_WIDTH )) && COL_WIDTH=${#name}
     done
     (( COL_WIDTH += 2 ))
+
+    all_start=$(date +%s)
 
     for role_dir in roles/*/; do
         role="$(basename "$role_dir")"
@@ -117,6 +203,7 @@ if [ "$ROLE" = "all" ]; then
         # role to skip create and converge against a non-existent container.
         ANSIBLE_ROLE="$role" "$VENV/bin/python" -m molecule reset -s local \
             >/dev/null 2>&1 || true
+        role_start=$(date +%s)
         if run_role "$role"; then
             RESULT["$role"]="PASS"
             PASS_COUNT=$(( PASS_COUNT + 1 ))
@@ -124,17 +211,20 @@ if [ "$ROLE" = "all" ]; then
             RESULT["$role"]="FAIL"
             FAIL_COUNT=$(( FAIL_COUNT + 1 ))
         fi
+        ELAPSED["$role"]=$(( $(date +%s) - role_start ))
     done
 
+    total_secs=$(( $(date +%s) - all_start ))
+
     echo ""
-    echo "=== Results: $PASS_COUNT passed, $SKIP_COUNT skipped, $FAIL_COUNT failed ==="
+    echo "=== Results: $PASS_COUNT passed, $SKIP_COUNT skipped, $FAIL_COUNT failed (total: $(format_time $total_secs)) ==="
     echo ""
     for role_dir in roles/*/; do
         role="$(basename "$role_dir")"
         printf "  %-${COL_WIDTH}s" "$role"
         case "${RESULT[$role]:-}" in
-            PASS) printf "${GREEN}pass${RESET}\n" ;;
-            FAIL) printf "${RED}FAIL${RESET}\n" ;;
+            PASS) printf "${GREEN}pass${RESET}  %s\n" "$(format_time "${ELAPSED[$role]:-0}")" ;;
+            FAIL) printf "${RED}FAIL${RESET}  %s\n" "$(format_time "${ELAPSED[$role]:-0}")" ;;
             SKIP) printf "${YELLOW}skip${RESET}  %s\n" "${SKIP_REASONS[$role]}" ;;
         esac
     done
