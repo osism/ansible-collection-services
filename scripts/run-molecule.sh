@@ -5,12 +5,16 @@ set -euo pipefail
 # in 'all' mode. To force execution of a skipped role, run it by name directly.
 declare -A SKIP_REASONS=(
     [auditd]="kernel audit subsystem (CAP_AUDIT_CONTROL)"
+    [cephclient]="docker cp remount-ro blocked by fuse-overlayfs in container"
     [chrony]="CAP_SYS_TIME unavailable in container"
     [docker]="zram storage device not present in container"
     [falco]="package not available in Debian repos"
     [frr]="sysctl not accessible (CAP_SYS_ADMIN)"
+    [hddtemp]="CAP_SYS_MODULE ineffective in rootless Podman user namespace"
     [kepler]="missing prepare file"
     [manager]="sysctl fs.inotify.max_user_watches (CAP_SYS_ADMIN)"
+    [openstackclient]="docker cp remount-ro blocked by fuse-overlayfs in container"
+    [rng]="rng-tools5 has no software fallback; /dev/hwrng inaccessible in rootless container"
     [wireguard]="kernel module required"
     [zuul]="SSH keypair + ZooKeeper TLS pre-configuration required"
 )
