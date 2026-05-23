@@ -71,11 +71,13 @@ def test_otel_collector_container_running(host):
     """Test that the OpenTelemetry Collector container is running."""
     container_name = get_variable(host, "opentelemetry_collector_container_name")
 
-    # Check if container exists and is running
+    # Check if container exists and is running.
+    # --quiet outputs container IDs only, avoiding the Go template syntax
+    # {{.Names}} which Ansible's shell module misinterprets as Jinja2.
     container_check = host.run(
-        f"docker ps --filter name={container_name} --format '{{{{.Names}}}}'"
+        f"docker ps --filter name={container_name} --quiet"
     )
-    assert container_name in container_check.stdout
+    assert container_check.stdout.strip() != ""
 
 
 def test_otel_config_prometheus_scrape(host):
