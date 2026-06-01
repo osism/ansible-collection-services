@@ -1,6 +1,6 @@
 ---
 - name: Wait for an healthy netbox service
-  block:  # noqa osism-fqcn
+  block:
     # The command returns a list of IDs of containers from the service
     # that are currently starting or unhealthy. As long as the list is not empty
     # the service is not in a good state.

@@ -74,7 +74,7 @@
     args:
       docker_bearer_token_realm: "{{ nexus_docker_bearer_token_realm }}"
 
-- name: Process definitions for docker  # noqa: osism-fqcn
+- name: Process definitions for docker
   block:
     - name: Apply defaults to docker proxy repos
       ansible.builtin.set_fact:
@@ -94,7 +94,7 @@
             (nexus_repos_docker_proxy | default([]) | map('combine', {"format": "docker", "type": "proxy"}) | list)
           }}
 
-- name: Process definitions for apt repositories  # noqa: osism-fqcn
+- name: Process definitions for apt repositories
   block:
     - name: Apply defaults to apt proxy repos
       ansible.builtin.set_fact:

@@ -55,7 +55,7 @@
 
 - name: Find the correct frr.conf template
   when: frr_config_template is not defined
-  block:  # noqa osism-fqcn
+  block:
     - name: Check for frr.conf file in the configuration repository
       ansible.builtin.stat:
         path: "{{ item }}"

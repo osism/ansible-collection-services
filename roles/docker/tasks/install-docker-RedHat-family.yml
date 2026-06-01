@@ -73,7 +73,7 @@
     - docker_python_install | bool
     - not docker_python_install_from_pip | bool
 
-- name: Install python bindings with pip  # noqa: key-order[task], osism-fqcn
+- name: Install python bindings with pip  # noqa: key-order[task]
   become: true
   block:
     - name: Remove python docker packages (install python bindings from pip)

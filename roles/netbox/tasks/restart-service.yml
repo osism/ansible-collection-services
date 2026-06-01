@@ -50,7 +50,7 @@
   when:
     - result_container.exists
     - _postgres_version_image is ansible.builtin.version(_postgres_version_container, '>')
-  block:  # noqa osism-fqcn
+  block:
     - name: Stop netbox service
       become: true
       ansible.builtin.service:
