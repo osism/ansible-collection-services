@@ -1,0 +1,72 @@
+---
+# Zuul post-run for the molecule jobs: publish per-container docker logs so a
+# container that never becomes healthy (e.g. the chronically flaky netbox
+# rqworker) can be diagnosed from the build logs instead of requiring a local
+# reproduction.
+#
+# This runs in the post phase regardless of how the molecule run ended, which
+# is essential here: the netbox health gate is a *handler*, so its failure
+# happens at play-end (flush_handlers) outside any block/rescue in the role or
+# converge playbook. By that point molecule has aborted but `destroy` has not
+# run, so the containers are still up and their logs are intact.
+#
+# Output goes to ~/zuul-output/logs/container-logs/, which the base job's
+# fetch-output post-run publishes (per node). All tasks are best-effort
+# (failed_when: false) so the post phase never fails because of collection.
+- name: Collect container logs
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Create container log directory
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/zuul-output/logs/container-logs"
+        state: directory
+        mode: "0755"
+
+    - name: Capture container overview
+      ansible.builtin.shell: >-
+        docker ps --all --format
+        'table {{ '{{ .Names }}' }}\t{{ '{{ .State }}' }}\t{{ '{{ .Status }}' }}'
+        > {{ ansible_user_dir }}/zuul-output/logs/container-logs/_overview.txt 2>&1
+      args:
+        executable: /bin/bash
+      changed_when: false
+      failed_when: false
+
+    - name: List containers
+      ansible.builtin.command: docker ps --all --format '{{ '{{ .Names }}' }}'
+      register: _containers
+      changed_when: false
+      failed_when: false
+
+    - name: Save per-container logs
+      ansible.builtin.shell: >-
+        docker logs {{ _container }}
+        > {{ ansible_user_dir }}/zuul-output/logs/container-logs/{{ _container }}.txt 2>&1
+      args:
+        executable: /bin/bash
+      loop: "{{ _containers.stdout_lines | default([]) }}"
+      loop_control:
+        loop_var: _container
+      changed_when: false
+      failed_when: false
+      when: _containers.rc == 0
+
+    - name: Save per-container inspect (state and health)
+      ansible.builtin.shell: >-
+        docker inspect --format '{{ '{{ json .State }}' }}' {{ _container }}
+        > {{ ansible_user_dir }}/zuul-output/logs/container-logs/{{ _container }}.inspect.json 2>&1
+      args:
+        executable: /bin/bash
+      loop: "{{ _containers.stdout_lines | default([]) }}"
+      loop_control:
+        loop_var: _container
+      changed_when: false
+      failed_when: false
+      when: _containers.rc == 0
+
+    - name: Open container log permissions
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/zuul-output/logs/container-logs"
+        mode: u=rwX,g=rX,o=rX
+        recurse: true
