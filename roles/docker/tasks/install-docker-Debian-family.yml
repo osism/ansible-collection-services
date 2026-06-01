@@ -115,7 +115,7 @@
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
     allow_downgrade: true
 
-- name: Install python bindings with apt  # noqa: key-order[task], osism-fqcn
+- name: Install python bindings with apt  # noqa: key-order[task]
   become: true
   block:
     - name: Unblock installation of python docker packages
@@ -145,7 +145,7 @@
     - docker_python_install | bool
     - not docker_python_install_from_pip | bool
 
-- name: Install python bindings with pip  # noqa: key-order[task], osism-fqcn
+- name: Install python bindings with pip  # noqa: key-order[task]
   become: true
   block:
 

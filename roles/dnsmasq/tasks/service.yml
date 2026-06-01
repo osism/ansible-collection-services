@@ -9,7 +9,7 @@
   notify: Restart dnsmasq service
 
 - name: Ensure that the dnsmasq service is up and running
-  block:  # noqa osism-fqcn
+  block:
     - name: Manage dnsmasq service
       become: true
       ansible.builtin.service:
