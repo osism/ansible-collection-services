@@ -84,11 +84,26 @@ services:
 
   netbox-worker:
     <<: *netbox
+    # service_started, not service_healthy: gating the worker on netbox's
+    # health makes `docker compose up` abandon it ("dependency netbox failed
+    # to start: container is unhealthy") whenever netbox flaps unhealthy during
+    # slow startup/migrations, leaving the worker stuck `Created`.
     depends_on:
       netbox:
-        condition: service_healthy
-    entrypoint: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py
-    command: rqworker
+        condition: service_started
+    # The worker bypasses the image entrypoint, so with service_started it
+    # would start rqworker before migrations exist and spew `UndefinedTable`
+    # errors. Wait until the DB is reachable and fully migrated (`migrate
+    # --check` exits 0 only then), then exec rqworker (so the pgrep
+    # healthcheck still matches the final process).
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        until /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py migrate --check >/dev/null 2>&1; do
+          echo "waiting for netbox database migrations..."
+          sleep 5
+        done
+        exec /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker
     ports: []
     healthcheck:
       test: pgrep -f '/opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker'
