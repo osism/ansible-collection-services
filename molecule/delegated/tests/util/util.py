@@ -85,7 +85,7 @@ def get_from_url(url, binary=False):
         encoding = resource.headers.get_content_charset()
         if encoding is None:
             encoding = "utf-8"
-        content = resource.read().decode(encoding)
+        content = resource.read().decode(encoding).rstrip()
     else:
         content = resource.read()
 

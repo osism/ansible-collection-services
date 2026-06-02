@@ -1,2 +1,7 @@
 ---
 zuul_base_conf_dir: /home/zuul
+
+# Default contains {{ webhook_token }} etc.; all undefined → entire dict
+# becomes AnsibleUndefined. Empty dict lets the for-loop in zuul.conf.j2
+# skip the connections section cleanly.
+zuul_connections: {}

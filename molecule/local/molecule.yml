@@ -1,0 +1,74 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: molecule/delegated/collections.yml
+driver:
+  name: "${DRIVER}"
+platforms:
+  - name: "molecule-${ANSIBLE_ROLE}"
+    image: molecule-local-debian12
+    dockerfile: Dockerfile
+    pre_build_image: false
+    systemd: always
+    privileged: true
+    command: /lib/systemd/systemd
+    # systemd needs access to the host cgroup hierarchy; the podman driver
+    # handles this automatically via --systemd=always, docker does not.
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    # docker-only: podman applies --cgroupns=host implicitly with --systemd=always
+    cgroupns_mode: host
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../delegated/converge.yml
+    # verify is intentionally absent: verifier.name is testinfra, so the
+    # ansible verify playbook is never called. The delegated verify.yml
+    # (which requires verify/<role>.yml per role) is not used here.
+  env:
+    ANSIBLE_LIBRARY: ../../plugins
+    ANSIBLE_ROLES_PATH: ../../roles
+    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_COLLECTIONS_PATH}"
+  connection_options:
+    ansible_user: root
+  inventory:
+    group_vars:
+      all:
+        molecule_role: "${ANSIBLE_ROLE}"
+        prepared_vars_path: "/tmp/ansible-molecule"
+        # overlay2 and containerd snapshotter both fail inside a container
+        # (overlay-on-overlay unsupported at kernel level for image layer extraction);
+        # fuse-overlayfs is FUSE-based and has no kernel overlay-on-overlay constraint
+        docker_storage_driver: fuse-overlayfs
+        # Docker's default-ulimits hard nofile (1048576) exceeds the Podman
+        # container's own hard limit (524288); runc refuses to apply them
+        docker_default_ulimits: {}
+        # get_variable() returns the raw Jinja2 template from role defaults
+        # when configuration_directory is absent from the test context; the
+        # delegated/localhost driver silently evaluates it as a literal path
+        # (shell does not expand {{ }}), but the container transport passes
+        # it through Ansible which raises "undefined variable".  Providing a
+        # concrete value here ensures the testinfra path check works locally.
+        netbox_postgres_init_sql: /opt/configuration/environments/infrastructure/files/netbox/init.sql
+verifier:
+  name: testinfra
+  # Resolve additional_files_or_dirs relative to the delegated tests directory,
+  # not the non-existent molecule/local/tests/
+  directory: ../delegated/tests
+  options:
+    v: 2
+  additional_files_or_dirs:
+    - "${ANSIBLE_ROLE}.py"
+    - "${ANSIBLE_ROLE}/*.py"
+  env:
+    ROLE_NAME: "${ANSIBLE_ROLE}"
+scenario:
+  name: local
+  test_sequence:
+    - dependency
+    - create
+    - prepare
+    - converge
+    - verify
+    - destroy

@@ -25,13 +25,6 @@
     group: root
   notify: Restart rsyslog service
 
-- name: Manage rsyslog service
-  become: true
-  ansible.builtin.service:
-    name: "{{ rsyslog_service_name }}"
-    state: started
-    enabled: true
-
 - name: Include fluentd tasks
   ansible.builtin.include_tasks: fluentd.yml
   tags: fluentd
@@ -40,6 +33,13 @@
 - name: Include additional log server tasks
   ansible.builtin.include_tasks: additional-log-server.yml
   when: rsyslog_additional_host is defined and rsyslog_additional_host|length > 0
+
+- name: Manage rsyslog service
+  become: true
+  ansible.builtin.service:
+    name: "{{ rsyslog_service_name }}"
+    state: started
+    enabled: true
 
 - name: Include logrotate tasks
   ansible.builtin.include_tasks: logrotate.yml
