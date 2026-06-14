@@ -113,5 +113,9 @@ def test_function(host):
     assert result.rc == 0
     assert result.stdout.strip() == "200"
 
-    result = host.run(f"curl {url} | grep -i 'Traefik UI'")
+    # Check the Traefik API responds; stable across versions, unlike the
+    # dashboard HTML.
+    api_url = f"{service_host}:{service_port}/api/version"
+    result = host.run(f"curl -o /dev/null -w '%{{http_code}}' {api_url}")
     assert result.rc == 0
+    assert result.stdout.strip() == "200"
