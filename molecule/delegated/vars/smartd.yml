@@ -1,1 +1,5 @@
 ---
+smartd_devices:
+  - device: /dev/sda
+    type: cciss,0
+    options: "-a -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
