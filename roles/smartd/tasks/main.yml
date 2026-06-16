@@ -21,6 +21,17 @@
     mode: 0644
   notify: Restart smartd service
 
+- name: Copy smartd configuration file
+  become: true
+  ansible.builtin.template:
+    src: smartd.conf.j2
+    dest: /etc/smartd.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: smartd_configure | bool or smartd_devices | length > 0
+  notify: Restart smartd service
+
 - name: Manage smartd service
   become: true
   ansible.builtin.service:
