@@ -4,3 +4,29 @@
 
 smartd_package_name: smartmontools
 smartd_service_name: smartd
+
+##########################
+# configuration
+
+# Manage /etc/smartd.conf. When false the file is left untouched, which
+# preserves the package default and any manual edits. Management is also
+# enabled automatically when smartd_devices is not empty.
+smartd_configure: false
+
+# Devices to monitor. Each entry renders one line in /etc/smartd.conf as
+# "<device> -d <type> <options>". The type and options keys are optional.
+# Setting any device replaces the default DEVICESCAN line.
+# Example:
+#   smartd_devices:
+#     - device: /dev/sda
+#       type: cciss,0
+#       options: "-a -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
+smartd_devices: []
+
+# Emit a DEVICESCAN line when no smartd_devices are configured. Set to false
+# to disable the default device scan. Ignored when smartd_devices is set.
+smartd_devicescan: true
+
+# Directives appended to the DEVICESCAN line. The default matches the
+# Debian/Ubuntu smartmontools package default.
+smartd_devicescan_options: "-d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
