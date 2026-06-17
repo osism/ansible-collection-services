@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 {% for device in smartd_devices %}
-{{ device.device }}{{ (' -d ' + device.type) if device.type is defined else '' }}{{ (' ' + device.options) if device.options is defined else '' }}
+{{ device.device }}{{ (' -d ' + device.type) if device.type is defined and device.type else '' }}{{ (' ' + device.options) if device.options is defined and device.options else '' }}
 {% endfor %}
 {% if smartd_devices | length == 0 and smartd_devicescan | bool %}
 DEVICESCAN{{ (' ' + smartd_devicescan_options) if smartd_devicescan_options else '' }}
