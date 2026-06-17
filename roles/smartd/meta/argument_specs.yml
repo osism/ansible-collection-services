@@ -1,0 +1,57 @@
+---
+argument_specs:
+  main:
+    short_description: Install smartmontools and manage /etc/smartd.conf
+    options:
+      smartd_package_name:
+        type: str
+        required: false
+        description: Name of the smartmontools package to install.
+
+      smartd_service_name:
+        type: str
+        required: false
+        description: Name of the smartd service to manage.
+
+      smartd_configure:
+        type: bool
+        required: false
+        description:
+          - Manage /etc/smartd.conf. When false the file is left untouched,
+            which preserves the package default and any manual edits.
+          - Management is also enabled automatically when smartd_devices is
+            not empty.
+
+      smartd_devices:
+        type: list
+        elements: dict
+        required: false
+        description:
+          - Devices to monitor. Each entry renders one line in
+            /etc/smartd.conf as "<device> -d <type> <options>".
+          - Setting any device replaces the default DEVICESCAN line.
+        options:
+          device:
+            type: str
+            required: true
+            description: Device to monitor, for example /dev/sda.
+          type:
+            type: str
+            required: false
+            description: Device type passed to smartd via "-d", for example cciss,0.
+          options:
+            type: str
+            required: false
+            description: Additional directives appended to the device line.
+
+      smartd_devicescan:
+        type: bool
+        required: false
+        description:
+          - Emit a DEVICESCAN line when no smartd_devices are configured.
+          - Ignored when smartd_devices is set.
+
+      smartd_devicescan_options:
+        type: str
+        required: false
+        description: Directives appended to the DEVICESCAN line.
