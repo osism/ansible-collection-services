@@ -1,0 +1,24 @@
+---
+- name: Install prometheus-frr-exporter package
+  become: true
+  ansible.builtin.apt:
+    name: "{{ frr_exporter_package_name }}"
+    state: present
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+
+- name: "Copy file: /etc/default/{{ frr_exporter_service_name }}"
+  become: true
+  ansible.builtin.template:
+    src: prometheus-frr-exporter.j2
+    dest: "/etc/default/{{ frr_exporter_service_name }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart prometheus-frr-exporter service
+
+- name: Manage prometheus-frr-exporter service
+  become: true
+  ansible.builtin.service:
+    name: "{{ frr_exporter_service_name }}"
+    state: started
+    enabled: true
