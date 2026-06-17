@@ -31,6 +31,7 @@
   when: netbox_pre_pull | bool
   retries: 3
   delay: 30
+  notify: Restart netbox service
 
 - name: "Stop and disable old service {{ netbox_old_service_name }}"
   become: true
