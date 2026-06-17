@@ -42,6 +42,7 @@
   community.docker.docker_compose_v2_pull:
     project_src: "{{ manager_docker_compose_directory }}"
   when: manager_pre_pull | bool
+  notify: Restart manager service
 
 - name: "Stop and disable old service {{ manager_old_service_name }}"
   become: true
