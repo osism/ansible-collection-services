@@ -20,7 +20,7 @@ smartd_configure: false
 #   smartd_devices:
 #     - device: /dev/sda
 #       type: cciss,0
-#       options: "-a -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
+#       options: "-a -n standby -m root"
 smartd_devices: []
 
 # Emit a DEVICESCAN line when no smartd_devices are configured. Only takes
@@ -30,6 +30,13 @@ smartd_devices: []
 # suppress the DEVICESCAN line. Ignored when smartd_devices is set.
 smartd_devicescan: true
 
-# Directives appended to the DEVICESCAN line. The default matches the
-# Debian/Ubuntu smartmontools package default.
-smartd_devicescan_options: "-d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
+# Directives appended to the DEVICESCAN line. The default is OS-family
+# specific: Debian/Ubuntu uses the package's smartd-runner helper, the RedHat
+# family falls back to smartd's built-in mailer (overridden in vars/RedHat.yml).
+# Override this variable to use your own directives on any platform.
+smartd_devicescan_options: "{{ smartd_devicescan_options_default }}"
+
+# OS-family default for smartd_devicescan_options. The Debian/Ubuntu value
+# lives here so it stays defined during role argument validation; the RedHat
+# family overrides it in vars/RedHat.yml.
+smartd_devicescan_options_default: "-d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"

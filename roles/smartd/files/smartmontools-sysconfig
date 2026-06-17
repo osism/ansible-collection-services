@@ -1,0 +1,3 @@
+# Command line options for the smartd daemon (/etc/sysconfig/smartmontools).
+# Managed by Ansible, role osism.services.smartd.
+smartd_opts="-A /var/log/smartd/ -i 600"
