@@ -1,0 +1,6 @@
+---
+# On the Debian family the smartd defaults file lives in /etc/default and the
+# smartmontools package ships the smartd-runner helper used by the default
+# DEVICESCAN line (see defaults/main.yml).
+smartd_defaults_file: /etc/default/smartmontools
+smartd_defaults_src: smartmontools

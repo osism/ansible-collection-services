@@ -1,0 +1,8 @@
+---
+# On the RedHat family the smartd defaults file lives in /etc/sysconfig and the
+# Debian-only smartd-runner helper does not exist, so the default DEVICESCAN
+# line falls back to smartd's built-in mailer (-H -m root) instead of pointing
+# -M exec at a path that is not installed.
+smartd_defaults_file: /etc/sysconfig/smartmontools
+smartd_defaults_src: smartmontools-sysconfig
+smartd_devicescan_options_default: "-H -m root"
