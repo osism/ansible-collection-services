@@ -44,6 +44,17 @@ def test_smartd_conf(host):
     assert "DEVICESCAN" not in config_file.content_string
 
 
+def test_smartd_conf_devicescan(host):
+    config_file = host.file("/etc/smartd.conf.devicescan")
+    assert config_file.exists
+    assert config_file.is_file
+    assert (
+        "DEVICESCAN -d removable -n standby -m root "
+        "-M exec /usr/share/smartmontools/smartd-runner" in config_file.content_string
+    )
+    assert "/dev/sda" not in config_file.content_string
+
+
 """
 The ConditionVirtualization is a systemd condition that checks whether the system is
 running in a virtualized environment. It can be used as part of the systemd service
