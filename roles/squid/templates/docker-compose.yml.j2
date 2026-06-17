@@ -4,14 +4,18 @@ services:
     container_name: "{{ squid_container_name }}"
     restart: unless-stopped
     image: "{{ squid_image }}"
+{% if squid_host_network %}
+    network_mode: host
+{% else %}
     ports:
       - "{{ squid_host | ansible.utils.ipwrap }}:{{ squid_port }}:3128"
+{% endif %}
     volumes:
       - "{{ squid_configuration_directory }}/conf.d:/etc/squid/conf.d:ro"
       - squid:/var/spool/squid
     healthcheck:
       test: pgrep -f '/usr/sbin/squid -f /etc/squid/squid.conf -NYC'
-
+{% if not squid_host_network %}
 networks:
   default:
     driver: bridge
@@ -21,6 +25,6 @@ networks:
       driver: default
       config:
         - subnet: {{ squid_network }}
-
+{% endif %}
 volumes:
   squid:
