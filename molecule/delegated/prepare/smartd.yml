@@ -6,3 +6,19 @@
     name: apt-utils
     state: present
   when: "'Debian' in ansible_os_family"
+
+# The converge renders /etc/smartd.conf from the explicit smartd_devices in
+# vars/smartd.yml. Render the empty-devices DEVICESCAN branch to a side path
+# as well so the tests can assert that path without a second converge run.
+- name: Render smartd.conf DEVICESCAN sample for the tests
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/smartd.conf.devicescan
+    content: "{{ lookup('ansible.builtin.template', playbook_dir + '/../../roles/smartd/templates/smartd.conf.j2') }}"
+    owner: root
+    group: root
+    mode: "0644"
+  vars:
+    smartd_devices: []
+    smartd_devicescan: true
+    smartd_devicescan_options: "-d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
