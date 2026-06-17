@@ -24,6 +24,7 @@
   when: stepca_pre_pull | bool
   retries: 3
   delay: 30
+  notify: Restart stepca service
 
 - name: Ensure that the stepca service is up and running
   become: true
