@@ -25,6 +25,7 @@ squid_configuration_directory: /opt/squid/configuration
 squid_docker_compose_directory: /opt/squid
 
 squid_network: 172.31.101.144/28
+squid_network_mode: bridge
 squid_service_name: "docker-compose@squid"
 
 squid_host: 127.0.0.1
