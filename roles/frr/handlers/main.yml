@@ -5,3 +5,9 @@
     name: "{{ frr_service_name }}"
     state: restarted
   when: frr_allow_service_restart | bool
+
+- name: Restart prometheus-frr-exporter service
+  become: true
+  ansible.builtin.service:
+    name: "{{ frr_exporter_service_name }}"
+    state: restarted

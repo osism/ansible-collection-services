@@ -116,3 +116,13 @@ frr_yrzn_network_timers_keepalive: 3
 frr_yrzn_network_timers_holdtime: 9
 frr_yrzn_network_maximum_paths: 2
 frr_yrzn_network_announced_networks: []
+
+# prometheus-frr-exporter
+# Optional Prometheus exporter for the local FRR instance. Disabled by
+# default and only deployed on Debian-family systems when explicitly
+# enabled. Binds to localhost by default.
+frr_exporter_enable: false
+frr_exporter_package_name: prometheus-frr-exporter
+frr_exporter_service_name: prometheus-frr-exporter
+frr_exporter_host: 127.0.0.1
+frr_exporter_port: 9342
