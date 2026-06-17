@@ -84,3 +84,46 @@ def test_function_bfdd(host):
         result = host.run("vtysh -c 'show bfd peers'")
         assert result.rc == 0
         assert "BFD Peers" in result.stdout
+
+
+def test_exporter_pkg(host):
+    if not get_variable(host, "frr_exporter_enable"):
+        pytest.skip("frr_exporter_enable disabled")
+
+    package = host.package(get_variable(host, "frr_exporter_package_name"))
+    assert package.is_installed
+
+
+def test_exporter_defaultsfile(host):
+    if not get_variable(host, "frr_exporter_enable"):
+        pytest.skip("frr_exporter_enable disabled")
+
+    service_name = get_variable(host, "frr_exporter_service_name")
+    host_addr = get_variable(host, "frr_exporter_host")
+    port = get_variable(host, "frr_exporter_port")
+
+    f = host.file(f"/etc/default/{service_name}")
+    assert f.exists
+    assert not f.is_directory
+    assert f.mode == 0o644
+    assert f.user == "root"
+    assert f.group == "root"
+    assert f"--web.listen-address={host_addr}:{port}" in f.content_string
+
+
+def test_exporter_srv(host):
+    if not get_variable(host, "frr_exporter_enable"):
+        pytest.skip("frr_exporter_enable disabled")
+
+    service = host.service(get_variable(host, "frr_exporter_service_name"))
+    assert service.is_running
+    assert service.is_enabled
+
+
+def test_exporter_listening(host):
+    if not get_variable(host, "frr_exporter_enable"):
+        pytest.skip("frr_exporter_enable disabled")
+
+    host_addr = get_variable(host, "frr_exporter_host")
+    port = get_variable(host, "frr_exporter_port")
+    assert host.socket(f"tcp://{host_addr}:{port}").is_listening
