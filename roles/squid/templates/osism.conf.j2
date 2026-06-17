@@ -7,3 +7,7 @@ max_filedescriptors 1048576
 cache_dir ufs /var/spool/squid 100 16 256
 
 http_access allow all
+{% if squid_network_mode == "host" %}
+
+http_port {{ squid_host | ansible.utils.ipwrap }}:{{ squid_port }}
+{% endif %}
