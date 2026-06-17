@@ -23,8 +23,11 @@ smartd_configure: false
 #       options: "-a -n standby -m root -M exec /usr/share/smartmontools/smartd-runner"
 smartd_devices: []
 
-# Emit a DEVICESCAN line when no smartd_devices are configured. Set to false
-# to disable the default device scan. Ignored when smartd_devices is set.
+# Emit a DEVICESCAN line when no smartd_devices are configured. Only takes
+# effect when /etc/smartd.conf is managed (smartd_configure: true); with the
+# default smartd_configure: false the file is left untouched and the package's
+# own DEVICESCAN line stays active regardless of this setting. Set to false to
+# suppress the DEVICESCAN line. Ignored when smartd_devices is set.
 smartd_devicescan: true
 
 # Directives appended to the DEVICESCAN line. The default matches the
