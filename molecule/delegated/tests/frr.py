@@ -126,4 +126,23 @@ def test_exporter_listening(host):
 
     host_addr = get_variable(host, "frr_exporter_host")
     port = get_variable(host, "frr_exporter_port")
+
+    # The exporter must be reachable on its configured address ...
     assert host.socket(f"tcp://{host_addr}:{port}").is_listening
+
+    # ... and bound *only* there. is_listening against a wildcard bind
+    # (0.0.0.0/::) also succeeds for loopback connections, so it would pass even
+    # if the exporter ignored /etc/default/... and fell back to 0.0.0.0:9342.
+    # Assert the address actually in effect matches frr_exporter_host exactly,
+    # which both rejects a wildcard exposure and proves the rendered
+    # --web.listen-address argument took effect. ss reports IPv6 literals
+    # bracketed, mirroring the template.
+    expected = f"[{host_addr}]:{port}" if ":" in host_addr else f"{host_addr}:{port}"
+    local_addrs = [
+        line.split()[3]
+        for line in host.check_output(f"ss -ltnH 'sport = :{port}'").splitlines()
+        if line.strip()
+    ]
+    assert local_addrs, f"nothing is listening on port {port}"
+    for addr in local_addrs:
+        assert addr == expected, f"exporter bound to {addr}, expected {expected}"

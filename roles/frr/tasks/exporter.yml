@@ -1,24 +1,67 @@
 ---
-- name: Install prometheus-frr-exporter package
-  become: true
-  ansible.builtin.apt:
-    name: "{{ frr_exporter_package_name }}"
-    state: present
-    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+- name: Deploy prometheus-frr-exporter
+  when: frr_exporter_enable | bool
+  block:
+    - name: Install prometheus-frr-exporter package
+      become: true
+      ansible.builtin.apt:
+        name: "{{ frr_exporter_package_name }}"
+        state: present
+        lock_timeout: "{{ apt_lock_timeout | default(300) }}"
 
-- name: "Copy file: /etc/default/{{ frr_exporter_service_name }}"
-  become: true
-  ansible.builtin.template:
-    src: prometheus-frr-exporter.j2
-    dest: "/etc/default/{{ frr_exporter_service_name }}"
-    owner: root
-    group: root
-    mode: 0644
-  notify: Restart prometheus-frr-exporter service
+    # The exporter only honours frr_exporter_host/frr_exporter_port because the
+    # Debian package's systemd unit reads this file via
+    # EnvironmentFile=/etc/default/prometheus-frr-exporter and passes $ARGS to
+    # ExecStart. If a package revision renames the file or drops $ARGS, this
+    # template is silently ignored and the exporter falls back to 0.0.0.0:9342.
+    # The bind-address assertion in molecule/delegated/tests/frr.py guards
+    # against that by checking the address actually in effect.
+    - name: "Copy file: /etc/default/{{ frr_exporter_service_name }}"
+      become: true
+      ansible.builtin.template:
+        src: prometheus-frr-exporter.j2
+        dest: "/etc/default/{{ frr_exporter_service_name }}"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart prometheus-frr-exporter service
 
-- name: Manage prometheus-frr-exporter service
-  become: true
-  ansible.builtin.service:
-    name: "{{ frr_exporter_service_name }}"
-    state: started
-    enabled: true
+    - name: Manage prometheus-frr-exporter service
+      become: true
+      ansible.builtin.service:
+        name: "{{ frr_exporter_service_name }}"
+        state: started
+        enabled: true
+
+# Setting frr_exporter_enable back to false must actually tear the exporter
+# down again, otherwise a previously deployed exporter would keep running and
+# listening (possibly on a wildcard address) after an operator believes they
+# disabled it.
+- name: Remove prometheus-frr-exporter
+  when: not (frr_exporter_enable | bool)
+  block:
+    - name: Gather package facts
+      become: true
+      ansible.builtin.package_facts:
+        manager: apt
+
+    - name: Stop and disable prometheus-frr-exporter service
+      become: true
+      ansible.builtin.service:
+        name: "{{ frr_exporter_service_name }}"
+        state: stopped
+        enabled: false
+      when: frr_exporter_package_name in ansible_facts.packages
+
+    - name: Remove prometheus-frr-exporter package
+      become: true
+      ansible.builtin.apt:
+        name: "{{ frr_exporter_package_name }}"
+        state: absent
+        lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+
+    - name: "Remove file: /etc/default/{{ frr_exporter_service_name }}"
+      become: true
+      ansible.builtin.file:
+        path: "/etc/default/{{ frr_exporter_service_name }}"
+        state: absent

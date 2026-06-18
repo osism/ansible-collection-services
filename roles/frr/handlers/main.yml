@@ -6,6 +6,10 @@
     state: restarted
   when: frr_allow_service_restart | bool
 
+# Unlike "Restart frr service", this restart is intentionally not gated on
+# frr_allow_service_restart: bouncing the exporter is data-plane-safe (it does
+# not touch FRR routing) and we want bind-address changes (e.g. tightening
+# frr_exporter_host from a wildcard back to localhost) to take effect at once.
 - name: Restart prometheus-frr-exporter service
   become: true
   ansible.builtin.service:

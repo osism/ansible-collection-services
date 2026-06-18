@@ -113,6 +113,4 @@
 
 - name: Include prometheus-frr-exporter tasks
   ansible.builtin.include_tasks: exporter.yml
-  when:
-    - frr_exporter_enable | bool
-    - ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian"

@@ -120,7 +120,9 @@ frr_yrzn_network_announced_networks: []
 # prometheus-frr-exporter
 # Optional Prometheus exporter for the local FRR instance. Disabled by
 # default and only deployed on Debian-family systems when explicitly
-# enabled. Binds to localhost by default.
+# enabled. Setting frr_exporter_enable back to false stops, disables and
+# removes the exporter again. Binds to localhost by default;
+# frr_exporter_host accepts an IPv4, IPv6 or hostname value.
 frr_exporter_enable: false
 frr_exporter_package_name: prometheus-frr-exporter
 frr_exporter_service_name: prometheus-frr-exporter
