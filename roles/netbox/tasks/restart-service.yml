@@ -1,4 +1,24 @@
 ---
+# Never act on the netbox service while its initial database migration is
+# still running. A restart landing mid-migration -- e.g. the redundant restart
+# the docker-compose.yml copy notifies on a first deploy -- interrupts NetBox's
+# squashed-migration recording and leaves the database unrecoverable
+# ("Conflicting migrations detected; multiple leaf nodes ... in dcim"),
+# crash-looping netbox. Block until netbox is healthy (migrations complete)
+# before any stop/restart below.
+- name: Wait for netbox to be healthy before restarting
+  ansible.builtin.shell: |
+    set -o pipefail
+    docker compose --project-directory {{ netbox_docker_compose_directory }} ps --all --format json | \
+      jq '. | select(.State=="created" or .State=="exited" or .Health=="starting" or .Health=="unhealthy") | .Name'
+  args:
+    executable: /bin/bash
+  register: result_pre_restart_healthy
+  retries: 60
+  delay: 10
+  changed_when: false
+  failed_when: result_pre_restart_healthy.stdout | length > 0
+
 - name: Get infos on postgres container
   community.docker.docker_container_info:
     name: netbox-postgres-1
