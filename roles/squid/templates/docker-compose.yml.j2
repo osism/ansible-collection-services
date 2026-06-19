@@ -11,6 +11,7 @@ services:
       - "{{ squid_host | ansible.utils.ipwrap }}:{{ squid_port }}:3128"
 {% endif %}
     volumes:
+      - "{{ squid_configuration_directory }}/squid.conf:/etc/squid/squid.conf:ro"
       - "{{ squid_configuration_directory }}/conf.d:/etc/squid/conf.d:ro"
       - squid:/var/spool/squid
     healthcheck:
