@@ -107,15 +107,23 @@
 
     - name: Start netbox service
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ netbox_service_name }}"
         state: started
       register: netbox_service
-      until: netbox_service["status"]["ActiveState"] == "active"
-      retries: 10
-      delay: 20
       notify:
         - Wait for netbox service to start
+
+    - name: Wait until netbox service is active
+      become: true
+      ansible.builtin.command:
+        cmd: "systemctl is-active {{ netbox_service_name }}"
+      register: _netbox_is_active
+      changed_when: false
+      failed_when: false
+      until: _netbox_is_active.stdout | trim == "active"
+      retries: 10
+      delay: 20
 
 - name: Restart netbox service
   become: true

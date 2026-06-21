@@ -32,11 +32,18 @@
 
 - name: Manage opentelemetry-collector service
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ opentelemetry_collector_service_name }}"
     state: started
     enabled: true
-  register: result
-  until: result["status"]["ActiveState"] == "active"
+
+- name: Wait until opentelemetry-collector service is active
+  become: true
+  ansible.builtin.command:
+    cmd: "systemctl is-active {{ opentelemetry_collector_service_name }}"
+  register: _opentelemetry_collector_is_active
+  changed_when: false
+  failed_when: false
+  until: _opentelemetry_collector_is_active.stdout | trim == "active"
   retries: 10
   delay: 20

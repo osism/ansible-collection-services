@@ -12,12 +12,19 @@
   block:
     - name: Manage dnsmasq service
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ dnsmasq_service_name }}"
         state: started
         enabled: true
-      register: result
-      until: result["status"]["ActiveState"] == "active"
+
+    - name: Wait until dnsmasq service is active
+      become: true
+      ansible.builtin.command:
+        cmd: "systemctl is-active {{ dnsmasq_service_name }}"
+      register: _dnsmasq_is_active
+      changed_when: false
+      failed_when: false
+      until: _dnsmasq_is_active.stdout | trim == "active"
       retries: 10
       delay: 20
       notify: Wait for dnsmasq service to start
@@ -27,7 +34,7 @@
     # service is tried here.
     - name: Stop dnsmasq service
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ dnsmasq_service_name }}"
         state: stopped
 
@@ -40,11 +47,18 @@
     # then in the expected state.
     - name: Start dnsmasq service again
       become: true
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: "{{ dnsmasq_service_name }}"
         state: started
-      register: result
-      until: result["status"]["ActiveState"] == "active"
+
+    - name: Wait until dnsmasq service is active after rescue
+      become: true
+      ansible.builtin.command:
+        cmd: "systemctl is-active {{ dnsmasq_service_name }}"
+      register: _dnsmasq_is_active
+      changed_when: false
+      failed_when: false
+      until: _dnsmasq_is_active.stdout | trim == "active"
       retries: 10
       delay: 20
       notify: Register that dnsmasq service was started
