@@ -1,0 +1,42 @@
+---
+services:
+  leaf:
+    container_name: "{{ leaf_container_name }}"
+    entrypoint: leaf {{ leaf_flags|join(" ") }}
+    image: "{{ leaf_image }}"
+    privileged: {{ leaf_container_privileged }}
+    restart: unless-stopped
+{% if leaf_share_pids_with_host %}
+    pid: host
+{% endif %}
+    ports:
+      - "{{ leaf_host | ansible.utils.ipwrap }}:{{ leaf_port }}:{{ leaf_port_container }}/tcp"
+    volumes:
+      - type: bind
+        source: /proc
+        target: /host/proc
+        read_only: true
+      - type: bind
+        source: /sys
+        target: /host/sys
+        read_only: true
+      - type: bind
+        source: "{{ leaf_configuration_directory }}"
+        target: /etc/leaf
+        read_only: true
+      - type: bind
+        source: "{{ leaf_kubeconfig_directory }}"
+        target: /host/kube
+        read_only: true
+    command:
+      - --config /etc/leaf/config.yaml
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: {{ docker_network_mtu }}
+    ipam:
+      driver: default
+      config:
+        - subnet: {{ docker_network_leaf }}
