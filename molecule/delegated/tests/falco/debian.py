@@ -40,27 +40,6 @@ def test_pkg(host):
     assert package.is_installed
 
 
-def test_kernelmodfile(host):
-    check_ansible_os_family(host)
-
-    f = host.file("/etc/modules-load.d/falco.conf")
-    assert f.exists
-    assert not f.is_directory
-    assert f.mode == 0o644
-    assert f.user == "root"
-    assert f.group == "root"
-    assert f.content_string == "falco"
-
-
-def test_kernelmod(host):
-    check_ansible_os_family(host)
-
-    with host.sudo():
-        loaded_modules = host.check_output("lsmod").splitlines()
-
-    assert any("falco" in line for line in loaded_modules)
-
-
 def test_srv(host):
     check_ansible_os_family(host)
 

@@ -44,52 +44,13 @@
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
   notify: "Restart service {{ falco_service_name }}"
 
-- name: Specify driver type with falcoctl
-  become: true
-  ansible.builtin.command:
-    cmd: "falcoctl driver config --type kmod"
-  notify: "Restart service {{ falco_service_name }}"
-  changed_when: true
-
-- name: Install falco driver
-  become: true
-  ansible.builtin.command:
-    cmd: "falcoctl driver install"
-  changed_when: true
-
-- name: Symlink kernel modules
-  become: true
-  ansible.builtin.shell:
-    cmd: |
-      ln -s /root/.falco/*/x86_64/falco_*.ko /lib/modules/$(uname -r)/falco.ko
-      depmod
-  notify: "Restart service {{ falco_service_name }}"
-  changed_when: true
-
-- name: Check if /var/run/reboot-required exist
-  ansible.builtin.stat:
-    path: /var/run/reboot-required
-  register: result
-
-- name: Print message if /var/run/reboot-required exist
-  ansible.builtin.debug:
-    msg: "Reboot of {{ inventory_hostname }} required to get the latest kernel running"
-  when: result.stat.islnk is defined
-
-- name: Persist falco kernel module via modules-load.d
-  become: true
-  ansible.builtin.copy:
-    content: falco
-    dest: /etc/modules-load.d/falco.conf
-    owner: root
-    group: root
-    mode: 0644
-
-- name: Load falco kernel module
-  become: true
-  community.general.modprobe:
-    name: falco
-    state: present
+# No kernel module is built or loaded here: the role runs
+# falco-modern-bpf.service, which uses the modern eBPF probe (CO-RE, shipped in
+# the falco package) and needs no driver build. The previous kmod workflow
+# (falcoctl driver config/install, .ko symlink, modules-load.d, modprobe) was
+# left over from the pre-#1749 falco-kmod service and only broke installs:
+# falcoctl driver install fails on any Debian host lacking a prebuilt .ko and
+# without dkms to compile one.
 
 - name: "Manage service {{ falco_service_name }}"
   become: true
