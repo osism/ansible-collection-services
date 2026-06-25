@@ -19,7 +19,8 @@ PLAYBOOK=${PLAYBOOK:-manager}
 PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE:-python3}
 VENV_PATH=${VENV_PATH:-.venv}
 
-CONTAINER=${CONTAINER:-false}
+CONTAINER=${CONTAINER:-auto}
+CONTAINER_ENGINE=${CONTAINER_ENGINE:-docker}
 CONTAINER_IMAGE=${CONTAINER_IMAGE:-osism/seed}
 CONTAINER_REGISTRY=${CONTAINER_REGISTRY:-registry.osism.tech}
 CONTAINER_TAG=${CONTAINER_TAG:-latest}
@@ -29,8 +30,85 @@ if [[ $(whoami) != "{{ operator_user }}" ]]; then
     exit 1
 fi
 
-if [[ $CONTAINER == "true" ]]; then
-    exec docker run --rm -v $CONFIGURATION_DIRECTORY:/opt/configuration:ro -it $CONTAINER_REGISTRY/$CONTAINER_IMAGE:$CONTAINER_TAG $PLAYBOOK
+# Decide whether to run the update inside the osism/seed container. Mirrors
+# run.sh's SEED_CONTAINER selector:
+#   auto  (default) use the container when a container engine is available --
+#                   which on a manager is effectively always, as it hosts the
+#                   control plane in containers; otherwise fall back to the
+#                   local-venv path below
+#   true            require the container (error if the engine is missing)
+#   false           force the local-venv path
+# A seed-deployed manager has no local venv, so auto keeps the documented
+# update working there out of the box; CONTAINER=false restores the old
+# venv-only behaviour for a self-bootstrapped manager.
+run_in_container=false
+case "$CONTAINER" in
+    false)
+        ;;
+    true)
+        if ! command -v "$CONTAINER_ENGINE" >/dev/null 2>&1; then
+            echo >&2 "ERROR: CONTAINER=true but container engine '$CONTAINER_ENGINE' not found on PATH"
+            exit 1
+        fi
+        run_in_container=true
+        ;;
+    auto)
+        if command -v "$CONTAINER_ENGINE" >/dev/null 2>&1 && "$CONTAINER_ENGINE" info >/dev/null 2>&1; then
+            run_in_container=true
+        fi
+        ;;
+    *)
+        echo >&2 "ERROR: invalid CONTAINER value '$CONTAINER' (expected one of: auto, true, false)"
+        exit 1
+        ;;
+esac
+
+if [[ $run_in_container == "true" ]]; then
+    # Seed-container self-update path. Mirrors the SEED_CONTAINER block of
+    # run.sh (osism/generics): the play runs inside the osism/seed container
+    # with the configuration repository bind-mounted, and the seed container
+    # materializes the (vault-encrypted) operator key into that mount itself --
+    # so the mount must be writable and the vault password must be forwarded.
+    container_args=(run --rm -i)
+
+    # Only request a TTY when stdin is one; the old hardcoded -it broke
+    # non-interactive callers (e.g. orchestration over ssh: "the input device
+    # is not a TTY").
+    if [[ -t 0 ]]; then
+        container_args+=(-t)
+    fi
+
+    # Writable (not :ro) so the in-container keypair step can write id_rsa.operator.
+    container_args+=(-v "$CONFIGURATION_DIRECTORY:/opt/configuration")
+
+    # Forward the connection/auth Ansible vars run.sh forwards, but only when the
+    # caller set them. MANAGER_VERSION is intentionally omitted -- the release is
+    # selected from the mounted configuration.yml, not a possibly-stale env
+    # override. ANSIBLE_INVENTORY and ANSIBLE_PRIVATE_KEY are likewise not
+    # forwarded: the seed-container entrypoint resolves both from the mounted
+    # configuration (hardcoded "-i hosts --private-key id_rsa.operator"), exactly
+    # as run.sh's container path does.
+    for var in ANSIBLE_USER ANSIBLE_ASK_PASS ANSIBLE_BECOME_ASK_PASS ANSIBLE_SSH_ARGS; do
+        if [[ -n "${!var+x}" ]]; then
+            container_args+=(-e "$var=${!var}")
+        fi
+    done
+
+    # Vault: forward an explicitly set password file, otherwise auto-detect the
+    # .vault_pass wrapper shipped in the configuration repository (as run.sh
+    # does). Without this the play cannot decrypt secrets.yml -- and the
+    # operator key itself is vault-encrypted, so it cannot be materialized.
+    if [[ -n "${ANSIBLE_VAULT_PASSWORD_FILE+x}" ]]; then
+        container_args+=(-e "ANSIBLE_VAULT_PASSWORD_FILE=$ANSIBLE_VAULT_PASSWORD_FILE")
+    elif [[ -e "$CONFIGURATION_DIRECTORY/environments/.vault_pass" ]]; then
+        container_args+=(-e "ANSIBLE_VAULT_PASSWORD_FILE=/opt/configuration/environments/.vault_pass")
+    fi
+
+    # Pass the playbook and any extra ansible-playbook args ("$@", e.g.
+    # --ask-vault-pass, --limit) through to the container.
+    container_args+=("$CONTAINER_REGISTRY/$CONTAINER_IMAGE:$CONTAINER_TAG" "$PLAYBOOK" "$@")
+
+    exec "$CONTAINER_ENGINE" "${container_args[@]}"
 fi
 
 if [[ -e /usr/bin/ansible || -e /usr/local/bin/ansible ]]; then
