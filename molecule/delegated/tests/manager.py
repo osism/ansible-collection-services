@@ -150,6 +150,11 @@ def test_manager_config(host):
         assert f.group == get_variable(host, "operator_group")
         assert "#!/usr/bin/env bash" in f.content_string
 
+    # osism-update-manager must abort on error instead of masking a failed
+    # update behind a trailing popd / hardcoded exit 0 (exit-code masking bug).
+    update_manager = host.file("/usr/local/bin/osism-update-manager")
+    assert "set -euo pipefail" in update_manager.content_string
+
 
 def test_max_user_watches_and_instances(host):
     sysctl_max_user_watches = host.sysctl("fs.inotify.max_user_watches")
