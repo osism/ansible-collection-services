@@ -153,7 +153,33 @@ def test_manager_config(host):
     # osism-update-manager must abort on error instead of masking a failed
     # update behind a trailing popd / hardcoded exit 0 (exit-code masking bug).
     update_manager = host.file("/usr/local/bin/osism-update-manager")
-    assert "set -euo pipefail" in update_manager.content_string
+    update_manager_content = update_manager.content_string
+    assert "set -euo pipefail" in update_manager_content
+
+    # The CONTAINER=true (seed-container self-update) path must reach parity
+    # with run.sh's SEED_CONTAINER block so it works on a seed-deployed manager
+    # (no local venv). See osism-update-manager-seed-container-unwired.
+    #   - forward the vault password / auto-detect .vault_pass (the play, and
+    #     the vault-encrypted operator key, cannot be read without it)
+    assert "ANSIBLE_VAULT_PASSWORD_FILE" in update_manager_content
+    assert ".vault_pass" in update_manager_content
+    #   - writable config mount (in-container keypair step writes id_rsa.operator)
+    assert "/opt/configuration:ro" not in update_manager_content
+    #   - conditional TTY, not a hardcoded -it (breaks non-interactive callers)
+    assert "[[ -t 0 ]]" in update_manager_content
+    #   - pass extra args through to the container
+    assert '"$PLAYBOOK" "$@"' in update_manager_content
+    #   - default to auto with engine autodetect so a seed-deployed manager
+    #     (no venv) works out of the box; CONTAINER=false forces the venv path
+    assert "CONTAINER=${CONTAINER:-auto}" in update_manager_content
+    assert '"$CONTAINER_ENGINE" info' in update_manager_content
+    #   - forward run.sh's connection/auth vars too (full allowlist parity);
+    #     MANAGER_VERSION / inventory / private key are deliberately not forwarded
+    #     (resolved from the mounted config inside the seed container)
+    assert (
+        "ANSIBLE_USER ANSIBLE_ASK_PASS ANSIBLE_BECOME_ASK_PASS ANSIBLE_SSH_ARGS"
+        in update_manager_content
+    )
 
 
 def test_max_user_watches_and_instances(host):
