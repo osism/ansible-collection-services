@@ -163,6 +163,9 @@ def test_manager_config(host):
     #     the vault-encrypted operator key, cannot be read without it)
     assert "ANSIBLE_VAULT_PASSWORD_FILE" in update_manager_content
     assert ".vault_pass" in update_manager_content
+    #   - forward the interactive vault-prompt toggle too (run.sh parity); the
+    #     documented --ask-vault-pass path for a Redis-only manager with no file
+    assert "ANSIBLE_ASK_VAULT_PASS" in update_manager_content
     #   - writable config mount (in-container keypair step writes id_rsa.operator)
     assert "/opt/configuration:ro" not in update_manager_content
     #   - conditional TTY, not a hardcoded -it (breaks non-interactive callers)

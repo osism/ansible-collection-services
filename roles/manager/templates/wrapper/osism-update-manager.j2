@@ -104,6 +104,14 @@ if [[ $run_in_container == "true" ]]; then
         container_args+=(-e "ANSIBLE_VAULT_PASSWORD_FILE=/opt/configuration/environments/.vault_pass")
     fi
 
+    # Forward the interactive vault-prompt toggle when the caller set it, as
+    # run.sh does. This is the documented mechanism for a Redis-only manager
+    # with no .vault_pass file (upgrade-guide "--ask-vault-pass"); it pairs with
+    # the conditional -t above so the prompt can be answered inside the container.
+    if [[ -n "${ANSIBLE_ASK_VAULT_PASS+x}" ]]; then
+        container_args+=(-e "ANSIBLE_ASK_VAULT_PASS=$ANSIBLE_ASK_VAULT_PASS")
+    fi
+
     # Pass the playbook and any extra ansible-playbook args ("$@", e.g.
     # --ask-vault-pass, --limit) through to the container.
     container_args+=("$CONTAINER_REGISTRY/$CONTAINER_IMAGE:$CONTAINER_TAG" "$PLAYBOOK" "$@")
