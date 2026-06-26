@@ -4,6 +4,12 @@
 
 set -euo pipefail
 
+# Record which of the documented venv-path overrides the caller set, before the
+# defaults below apply. The seed-container path cannot honor them and warns
+# instead of silently ignoring them (see the container block).
+caller_set_inventory=${ANSIBLE_INVENTORY+x}
+caller_set_private_key=${ANSIBLE_PRIVATE_KEY+x}
+
 ANSIBLE_COLLECTION_SERVICES_SOURCE=${ANSIBLE_COLLECTION_SERVICES_SOURCE:-git+https://github.com/osism/ansible-collection-services}
 ANSIBLE_INVENTORY=${ANSIBLE_INVENTORY:-{{ configuration_directory }}/inventory}
 ANSIBLE_PLAYBOOKS_MANAGER_SOURCE=${ANSIBLE_PLAYBOOKS_MANAGER_SOURCE:-git+https://github.com/osism/ansible-playbooks-manager}
@@ -69,6 +75,15 @@ if [[ $run_in_container == "true" ]]; then
     # with the configuration repository bind-mounted, and the seed container
     # materializes the (vault-encrypted) operator key into that mount itself --
     # so the mount must be writable and the vault password must be forwarded.
+
+    # The documented venv-path overrides ANSIBLE_INVENTORY / ANSIBLE_PRIVATE_KEY
+    # (CHANGELOG, #1033) cannot be honored here: the seed image hardcodes
+    # "-i hosts --private-key id_rsa.operator". Warn rather than silently ignore
+    # them; CONTAINER=false runs the venv path that honors them.
+    if [[ -n "$caller_set_inventory" || -n "$caller_set_private_key" ]]; then
+        echo >&2 "WARNING: ANSIBLE_INVENTORY/ANSIBLE_PRIVATE_KEY are ignored on the seed-container update path; set CONTAINER=false to use them."
+    fi
+
     container_args=(run --rm -i)
 
     # Only request a TTY when stdin is one; the old hardcoded -it broke
