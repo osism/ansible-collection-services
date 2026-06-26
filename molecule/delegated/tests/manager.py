@@ -183,6 +183,10 @@ def test_manager_config(host):
         "ANSIBLE_USER ANSIBLE_ASK_PASS ANSIBLE_BECOME_ASK_PASS ANSIBLE_SSH_ARGS"
         in update_manager_content
     )
+    #   - warn (do not silently ignore) when a caller sets the venv-only
+    #     ANSIBLE_INVENTORY / ANSIBLE_PRIVATE_KEY overrides on the container path
+    assert "caller_set_inventory" in update_manager_content
+    assert "are ignored on the seed-container update path" in update_manager_content
 
 
 def test_max_user_watches_and_instances(host):
