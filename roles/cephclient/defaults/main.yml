@@ -13,11 +13,6 @@ operator_user: dragon
 operator_group: "{{ operator_user }}"
 
 ##########################
-# rook
-
-cephclient_rook_namespace: rook-ceph
-
-##########################
 # cephclient
 
 cephclient_install_type: container
