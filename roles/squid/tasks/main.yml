@@ -1,6 +1,14 @@
 ---
 # tasks file for squid
 
+- name: Assert that squid_network_mode is supported
+  ansible.builtin.assert:
+    that:
+      - squid_network_mode in ["bridge", "host"]
+    fail_msg: >-
+      squid_network_mode must be either 'bridge' or 'host',
+      got '{{ squid_network_mode }}'.
+
 - name: Include install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
   tags: install
@@ -17,6 +25,15 @@
     - "{{ squid_configuration_directory }}"
     - "{{ squid_configuration_directory }}/conf.d"
     - "{{ squid_docker_compose_directory }}"
+
+- name: Copy squid base configuration file
+  ansible.builtin.template:
+    src: squid.conf.j2
+    dest: "{{ squid_configuration_directory }}/squid.conf"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  notify: Restart squid service
 
 - name: Copy squid configuration files
   ansible.builtin.template:
