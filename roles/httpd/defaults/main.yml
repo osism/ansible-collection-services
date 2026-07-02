@@ -69,12 +69,15 @@ httpd_ironic_listen_addresses:
 httpd_sonic_ztp_enable: false
 
 httpd_sonic_ztp_hostname: metalbox
-httpd_sonic_ztp_firmware: sonic-broadcom-enterprise-base.bin
 httpd_sonic_ztp_directory: sonic
 
 httpd_sonic_ztp_configdb_prefix: osism_
 httpd_sonic_ztp_configdb_identifier: serial-number
 httpd_sonic_ztp_configdb_suffix: _config_db.json
+
+httpd_sonic_ztp_firmware_prefix: sonic-broadcom-enterprise-base_
+httpd_sonic_ztp_firmware_identifier: serial-number
+httpd_sonic_ztp_firmware_suffix: .bin
 
 httpd_sonic_ztp_authorized_keys: []
 httpd_sonic_ztp_authorized_keys_delete: []
