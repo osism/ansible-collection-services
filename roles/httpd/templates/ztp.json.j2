@@ -2,7 +2,13 @@
   "ztp": {
     "01-firmware": {
       "install": {
-        "url": "http://{{ httpd_sonic_ztp_hostname }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_firmware }}",
+        "dynamic-url": {
+          "source": {
+            "prefix": "http://{{ httpd_sonic_ztp_hostname }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_firmware_prefix }}",
+            "identifier": "{{ httpd_sonic_ztp_firmware_identifier }}",
+            "suffix": "{{ httpd_sonic_ztp_firmware_suffix }}"
+          }
+        },
         "set-default": true
       },
       "reboot-on-success": true
