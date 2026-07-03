@@ -1,4 +1,4 @@
-molecule==26.4.0
+molecule==26.6.0
 Jinja2==3.1.6
 pytest==9.1.1
 pytest-testinfra==10.2.2
