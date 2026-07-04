@@ -18,12 +18,17 @@
     {
       "fileMatch":[
         "^roles\\/adminer\\/defaults\\/main.yml$",
+        "^roles\\/cgit\\/defaults\\/main.yml$",
         "^roles\\/dnsdist\\/defaults\\/main.yml$",
+        "^roles\\/dnsmasq\\/defaults\\/main.yml$",
+        "^roles\\/gnmic\\/defaults\\/main.yml$",
         "^roles\\/homer\\/defaults\\/main.yml$",
         "^roles\\/manager\\/defaults\\/main.yml$",
         "^roles\\/netbox\\/defaults\\/main.yml$",
         "^roles\\/nexus\\/defaults\\/main.yml$",
         "^roles\\/phpmyadmin\\/defaults\\/main.yml$",
+        "^roles\\/scaphandre\\/defaults\\/main.yml$",
+        "^roles\\/stepca\\/defaults\\/main.yml$",
         "^roles\\/traefik\\/defaults\\/main.yml$"
       ],
       "matchStrings":[
@@ -40,6 +45,13 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "Batch role-default image bumps into a single monthly PR. Deploy versions are governed by osism/release base.yml (renovated there on its own cadence); these role defaults are fallbacks, so throttle them to keep PR noise low.",
+      "matchFileNames": ["roles/**/defaults/main.yml"],
+      "matchDatasources": ["docker"],
+      "groupName": "role image defaults",
+      "schedule": ["before 9am on the first day of the month"]
+    },
     {
       "matchDepNames": ["postgres", "pgautoupgrade/pgautoupgrade"],
       "matchPaths": ["roles/netbox/defaults/main.yml"],
