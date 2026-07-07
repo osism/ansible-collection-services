@@ -80,6 +80,7 @@
     name: abstract-ansible-collection-services-molecule
     parent: ansible-molecule
     abstract: true
+    post-run: playbooks/collect-container-logs.yml
     nodeset:
       nodes:
         - name: debian-bookworm
