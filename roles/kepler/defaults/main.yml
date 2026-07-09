@@ -9,7 +9,7 @@ operator_group: "{{ operator_user }}"
 # docker
 
 docker_network_mtu: 1500
-docker_registry_kepler: "quay.io"
+docker_registry_kepler: "registry.osism.tech/quay"
 
 ##########################
 # kepler
@@ -30,4 +30,5 @@ kepler_port_container: "{{ kepler_port }}"
 kepler_repository: "{{ docker_registry_kepler }}/sustainable_computing_io/kepler"
 kepler_service_name: "docker-compose@kepler"
 kepler_share_pids_with_host: true
-kepler_tag: "v0.11.2"
+# renovate: datasource=docker depName=quay.io/sustainable_computing_io/kepler
+kepler_tag: 'v0.11.4'

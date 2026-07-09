@@ -23,6 +23,7 @@
         "^roles\\/dnsmasq\\/defaults\\/main.yml$",
         "^roles\\/gnmic\\/defaults\\/main.yml$",
         "^roles\\/homer\\/defaults\\/main.yml$",
+        "^roles\\/kepler\\/defaults\\/main.yml$",
         "^roles\\/manager\\/defaults\\/main.yml$",
         "^roles\\/netbox\\/defaults\\/main.yml$",
         "^roles\\/nexus\\/defaults\\/main.yml$",
