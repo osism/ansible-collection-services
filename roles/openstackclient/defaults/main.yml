@@ -19,7 +19,7 @@ operator_group: "{{ operator_user }}"
 # openstackclient
 
 openstackclient_install_type: container
-openstackclient_version: "2024.2"
+openstackclient_version: "{{ openstack_version }}"
 
 ##########################
 # container
