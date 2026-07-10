@@ -1,3 +1,8 @@
 ---
 operator_user: zuul
 operator_group: zuul
+
+# In real deployments ceph_version is an environment global (set in the
+# environment's configuration.yml). cephclient_version now defaults to it,
+# so supply a representative value here for the standalone molecule converge.
+ceph_version: reef

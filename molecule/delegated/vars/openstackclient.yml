@@ -1,3 +1,8 @@
 ---
 operator_user: zuul
 operator_group: zuul
+
+# In real deployments openstack_version is an environment global (set in the
+# environment's configuration.yml). openstackclient_version now defaults to it,
+# so supply a representative value here for the standalone molecule converge.
+openstack_version: "2025.1"
