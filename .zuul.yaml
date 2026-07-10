@@ -422,15 +422,6 @@
       - '^molecule\/delegated\/tests\/squid.*$'
 
 - job:
-    name: ansible-collection-services-molecule-thanos_sidecar
-    parent: abstract-ansible-collection-services-molecule
-    vars:
-      ansible_role: thanos_sidecar
-    files:
-      - '^roles\/thanos_sidecar\/.*$'
-      - '^molecule\/delegated\/tests\/thanos_sidecar.*$'
-
-- job:
     name: ansible-collection-services-molecule-teleport
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -537,7 +528,6 @@
         - ansible-collection-services-molecule-stepca
         - ansible-collection-services-molecule-substation
         - ansible-collection-services-molecule-teleport
-        - ansible-collection-services-molecule-thanos_sidecar
         - ansible-collection-services-molecule-traefik
         - ansible-collection-services-molecule-tuned
         - ansible-collection-services-molecule-wazuh-agent
