@@ -259,6 +259,9 @@ ara_server_traefik: false
 ara_server_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.address, true) }}"
 ara_server_port: 8120
 
+# CONN_MAX_AGE=0: a >0 value leaks DB connections under the gevent worker class
+# (per-request greenlet-local connections are never closed) -> MariaDB exhaustion.
+ara_database_conn_max_age: 0
 ara_threads: 1
 ara_worker_class: gevent
 ara_worker_connections: 1000
