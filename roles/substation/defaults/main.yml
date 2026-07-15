@@ -18,7 +18,8 @@ operator_group: "{{ operator_user }}"
 ##########################
 # substation
 
-substation_version: latest
+# renovate: datasource=docker depName=ghcr.io/cloudnull/substation/substation
+substation_tag: '1774452086'
 
 ##########################
 # container
@@ -27,7 +28,6 @@ substation_configuration_directory: /opt/substation/configuration
 substation_data_directory: /opt/substation/data
 substation_docker_compose_directory: /opt/substation
 
-substation_tag: "{{ substation_version }}"
 substation_image: "{{ docker_registry_substation }}/cloudnull/substation/substation:{{ substation_tag }}"
 
 substation_container_name: substation
