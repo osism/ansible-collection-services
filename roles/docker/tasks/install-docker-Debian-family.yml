@@ -138,6 +138,10 @@
     - name: Install python3 docker package from Debian Sid
       ansible.builtin.apt:
         deb: "{{ docker_python3_package_deb }}"
+      register: result
+      until: result is succeeded
+      retries: 5
+      delay: 10
       when:
         - "ansible_distribution_version is version('24.04', '>=')"
 
