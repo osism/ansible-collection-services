@@ -127,7 +127,7 @@
     - Wait for netbox service to start
   when:
     - (not result_container.exists or
-       (result_container.exists and "_postgres_version_image is ansible.builtin.version(_postgres_version_container, '>=')"))
+       (result_container.exists and _postgres_version_image is ansible.builtin.version(_postgres_version_container, '>=')))
 
 - name: Register that netbox service was started
   ansible.builtin.set_fact:
