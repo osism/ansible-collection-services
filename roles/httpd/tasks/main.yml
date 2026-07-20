@@ -52,8 +52,8 @@
     name: httpd-data
     image: "{{ httpd_data_image }}"
     env:
-      USER_ID: "{{ httpd_data_uid }}"
-      GROUP_ID: "{{ httpd_data_gid }}"
+      USER_ID: "{{ httpd_data_uid | string }}"
+      GROUP_ID: "{{ httpd_data_gid | string }}"
     volumes:
       - "{{ httpd_data_directory }}:/export"
     state: started
