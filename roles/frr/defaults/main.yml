@@ -56,6 +56,13 @@ frr_vrrp_groups: []
 
 frr_incoming_table_external: 254
 
+# Maximum number of ECMP paths installed per BGP address family
+# (maximum-paths). Unset by default, so the FRR built-in default
+# applies (256 in the Debian and RedHat family packages), which means
+# all available paths are used. Set a value only to limit the number
+# of paths. Not used by the yrzn templates.
+frr_maximum_paths: null
+
 frr_local_pref:
   - 1000
 
@@ -95,6 +102,9 @@ frr_vtysh_file: "/etc/frr/vtysh.conf"
 frr_daemons_file: "/etc/frr/daemons"
 
 frr_allow_service_restart: true
+
+# YRZN 001 configuration
+frr_yrzn001_maximum_paths: 2
 
 # YRZN Metalbox configuration
 frr_yrzn_metalbox_bmc_loopback: loopback0
