@@ -54,7 +54,9 @@ router bgp {{ frr_local_as }}
 {% for item in frr_neigh_v6 %}
   no neighbor {{ item.address }} activate
 {% endfor %}
-  maximum-paths 2
+{% if frr_maximum_paths %}
+  maximum-paths {{ frr_maximum_paths }}
+{% endif %}
  exit-address-family
  !
  address-family ipv6 unicast

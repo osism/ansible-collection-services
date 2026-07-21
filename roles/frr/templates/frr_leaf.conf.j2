@@ -42,7 +42,9 @@ router bgp {{ frr_local_as }}
 {% endif %}
   neighbor {{ item.interface }} route-map bgp_out out
 {% endfor %}
-  maximum-paths 2
+{% if frr_maximum_paths %}
+  maximum-paths {{ frr_maximum_paths }}
+{% endif %}
  exit-address-family
  !
  address-family ipv6 unicast
