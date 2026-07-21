@@ -22,7 +22,7 @@ router bgp {{ frr_local_as }}
   no neighbor switches send-community
   neighbor switches route-map RM-switches-in in
   neighbor switches route-map RM-switches-out out
-  maximum-paths 2
+  maximum-paths {{ frr_yrzn001_maximum_paths }}
  exit-address-family
  !
  address-family ipv6 unicast
@@ -31,7 +31,7 @@ router bgp {{ frr_local_as }}
   neighbor switches activate
   neighbor switches route-map RM-switches-in in
   neighbor switches route-map RM-switches-out out
-  maximum-paths 2
+  maximum-paths {{ frr_yrzn001_maximum_paths }}
  exit-address-family
 
 exit
