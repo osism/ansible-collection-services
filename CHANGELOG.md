@@ -7,6 +7,99 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20260721.0] - 2026-07-21
+
+### Changed
+- kepler: pin image to the OSISM registry mirror and Renovate-tracked tag v0.11.4 (osism/ansible-collection-services#2134)
+- substation: pin image to immutable tag 1774452086 and enable Renovate tracking (osism/ansible-collection-services#2138)
+
+### Fixed
+- manager: default ARA database CONN_MAX_AGE to 0 to prevent MariaDB connection exhaustion under the gevent worker class (osism/ansible-collection-services#2137)
+- docker: retry python3-docker deb download on transient network failures (osism/ansible-collection-services#2139)
+- httpd: stringify USER_ID/GROUP_ID env values for ansible-core 2.19 compatibility (osism/ansible-collection-services#2144)
+- netbox: fix quoted version guard that made restarts unconditional and broke ansible-core 2.19 compatibility (osism/ansible-collection-services#2143)
+
+### Removed
+- thanos_sidecar: drop unused and unmanaged role and service (osism/ansible-collection-services#2136)
+
+### Dependencies
+- ansible 11.12.0 → 11.13.0 (osism/ansible-collection-services#2140)
+- molecule ansible test pin 11.13.0 → 12.3.0 (osism/ansible-collection-services#2145)
+
+## [v0.20260712.0] - 2026-07-12
+
+### Added
+- FRR: Add optional Prometheus exporter (prometheus-frr-exporter) for the local FRR instance via `frr_exporter_enable`, with configurable bind address, IPv6 support, and automatic teardown when disabled (osism/ansible-collection-services#2112)
+- Smartd: Add configurable `/etc/smartd.conf` management via `smartd_devices`/`smartd_configure`, with argument validation and RedHat family support (osism/ansible-collection-services#2097)
+- Add support for running squid with Docker host network mode, binding the listener directly to the configured address instead of the container's default 0.0.0.0 (osism/ansible-collection-services#2114)
+
+### Changed
+- Switch sonic firmware install in the httpd ztp template to a dynamic URL, allowing per-device firmware images (osism/ansible-collection-services#2131)
+- Batch role image default bumps into a single monthly renovate PR and add cgit, dnsmasq, gnmic, scaphandre and stepca to tracked role defaults (osism/ansible-collection-services#2133)
+
+### Fixed
+- Manager, netbox, and stepca: Recreate containers after pulling new images, fixing version-check and restart failures on rolling-tag deployments (osism/ansible-collection-services#2106, osism/ansible-collection-services#2109, osism/ansible-collection-services#2110)
+- Netbox: Don't restart the service while the initial database migration is still running, preventing a corrupted migration state (osism/ansible-collection-services#2119)
+- Falco: Drop the obsolete kmod driver workflow that failed on hosts without a prebuilt kernel module (osism/ansible-collection-services#2120)
+- Manager: Stop `osism-update-manager` from masking failures by adding `set -euo pipefail` and propagating the container exit code (osism/ansible-collection-services#2124)
+- Fix project-board automation for fork pull requests by switching from `pull_request` to `pull_request_target` (osism/ansible-collection-services#2126)
+- Wire the osism-update-manager seed-container update path with vault password forwarding, a writable configuration mount, conditional TTY allocation, ask-vault-pass forwarding, and a warning when venv-only overrides are dropped (osism/ansible-collection-services#2125)
+- Make openstackclient and cephclient track the deployed OpenStack/Ceph series instead of a frozen default version (osism/ansible-collection-services#2135)
+
+### Removed
+- Remove the rook install type from cephclient (osism/ansible-collection-services#2129)
+
+### Dependencies
+- molecule 25.9.0 → 26.6.0 (osism/ansible-collection-services#2094, osism/ansible-collection-services#2102, osism/ansible-collection-services#2132)
+- registry.osism.tech/osism/netbox v4.3.4 → v4.3.5 (osism/ansible-collection-services#2093)
+- ansible 11.11.0 → 11.13.0 (osism/ansible-collection-services#2098)
+- registry.osism.tech/osism/homer v25.10.1 → v25.11.1 (osism/ansible-collection-services#2095)
+- pytest 8.4.2 → 9.1.1 (osism/ansible-collection-services#2118, osism/ansible-collection-services#2103, osism/ansible-collection-services#2121)
+- actions/checkout v5 → v7 (osism/ansible-collection-services#2100, osism/ansible-collection-services#2116)
+- ara-server 1.7.5 → 1.7.5-r1 (osism/ansible-collection-services#2130)
+
+## [v0.20260615.0] - 2026-06-15
+
+### Changed
+- Remove obsolete osism-fqcn noqa suppressions on block tasks now that the underlying ansible-lint rule is fixed (osism/ansible-collection-services#2089)
+
+### Fixed
+- Netbox: start the rqworker once the netbox service has started and wait for database migrations to complete before running rqworker, fixing a flake where the worker was abandoned during slow netbox startup (osism/ansible-collection-services#2091)
+- Molecule: check the Traefik API instead of grepping the dashboard HTML for "Traefik UI", fixing test failures on Traefik >= v3.5.0 (osism/ansible-collection-services#2092)
+
+## [v0.20260601.0] - 2026-06-01
+
+### Added
+- Add automatic addition of opened issues and pull requests to project boards (osism/ansible-collection-services#2080)
+- Add optional BFD (Bidirectional Forwarding Detection) support for FRR BGP neighbors (osism/ansible-collection-services#2022)
+- Add MASQUERADE rule and IP forwarding check for wireguard gateway mode (osism/ansible-collection-services#2086)
+
+### Changed
+- Add retry logic for dnsmasq service startup to handle unreliable Docker Compose starts (osism/ansible-collection-services#2029)
+
+### Fixed
+- Add default molecule stub scenario to silence misleading CRITICAL error message (osism/ansible-collection-services#2087)
+
+## [v0.20260429.0] - 2026-04-29
+
+### Added
+- Add CHANGELOG.md file (osism/ansible-collection-services#2070)
+- dnsdist: Add support for network host mode via `dnsdist_network_mode` (osism/ansible-collection-services#2074)
+
+### Changed
+- docker: Set default ulimits for nofile (osism/ansible-collection-services#2076)
+
+### Fixed
+- frr: Always redistribute static routes in YRZN Network template regardless of announced networks (osism/ansible-collection-services#2071)
+- frr: Fix ansible-lint failure by naming block in tasks (osism/ansible-collection-services#2077)
+- manager: Include conductor.env in ansible service environment files (osism/ansible-collection-services#2079)
+
+### Removed
+- zuul: Remove CentOS 9 and Ubuntu 22.04 test jobs (osism/ansible-collection-services#2073)
+
+### Dependencies
+- ara-server 1.7.3 → 1.7.5 (osism/ansible-collection-services#2072)
+
 ## [v0.20260319.0] - 2026-03-19
 
 ### Added
