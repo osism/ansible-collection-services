@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20260730.0] - 2026-07-30
+
+### Fixed
+- Manager service now retries container image pulls on transient errors instead of failing the whole phase on a single Docker Hub error (osism/ansible-collection-services#2150)
+- FRR leaf, loadbalancer and loadbalancer_external_uplink templates no longer hardcode maximum-paths 2, which limited ECMP to two paths with four uplinks and broke connections; new frr_maximum_paths variable allows configuring the limit (osism/ansible-collection-services#2147)
+
+### Dependencies
+- postgres 16.10 → 16.14 (osism/ansible-collection-services#2099)
+- ansible 11.13.0 → 12.3.0 (osism/ansible-collection-services#2117, osism/ansible-collection-services#2149)
+- actions/setup-python v6 → v7 (osism/ansible-collection-services#2148)
+
 ## [v0.20260721.0] - 2026-07-21
 
 ### Changed
