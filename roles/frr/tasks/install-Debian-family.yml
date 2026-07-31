@@ -1,4 +1,19 @@
 ---
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+# NOTE: A held package makes apt-get abort as soon as the version has to be
+#       changed, therefore the package is always unlocked before it is
+#       installed.
+- name: Unlock frr package
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: "{{ frr_package_name }}"
+    selection: install
+  when: frr_package_name in ansible_facts.packages
+  tags: molecule-idempotence-notest
+
 - name: Pin frr package version
   become: true
   ansible.builtin.copy:
@@ -15,3 +30,11 @@
     name: "{{ frr_package_name }}"
     state: present
     lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+
+- name: Lock frr package
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: "{{ frr_package_name }}"
+    selection: hold
+  when: frr_version_lock | bool
+  tags: molecule-idempotence-notest

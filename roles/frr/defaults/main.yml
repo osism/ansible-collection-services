@@ -4,6 +4,14 @@ frr_service_name: frr
 
 frr_version: "8.1"
 
+# Lock the currently installed frr package version. When enabled, the
+# package is put on hold (apt-mark hold on the Debian family, dnf
+# versionlock on the RedHat family) so that a later apt-get upgrade or
+# dnf upgrade does not upgrade frr. The role itself still applies
+# version changes, the lock is released before the package is installed
+# and set again afterwards. Set this to false to release the lock.
+frr_version_lock: true
+
 frr_sysctl_defaults:
   - name: net.ipv4.ip_forward
     value: 1
