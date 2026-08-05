@@ -7,16 +7,6 @@
   "regexManagers":[
     {
       "fileMatch":[
-        "^roles\\/manager\\/templates\\/wrapper\\/osism-update-manager.j2$"
-      ],
-      "matchStrings":[
-        "-(?<depName>ansible)==(?<currentValue>.*?)\\}",
-        "-(?<depName>netaddr)==(?<currentValue>.*?)\\}"
-      ],
-      "datasourceTemplate":"pypi"
-    },
-    {
-      "fileMatch":[
         "^roles\\/adminer\\/defaults\\/main.yml$",
         "^roles\\/cgit\\/defaults\\/main.yml$",
         "^roles\\/dnsdist\\/defaults\\/main.yml$",

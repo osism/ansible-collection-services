@@ -363,7 +363,6 @@ manager_wrapper_scripts:
   - osism-run-without-secrets
   - osism-state
   - osism-update-docker
-  - osism-update-manager
   - osism-validate
 
 ##########################
