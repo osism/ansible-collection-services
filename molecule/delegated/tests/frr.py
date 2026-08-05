@@ -1,3 +1,5 @@
+import re
+
 import pytest
 
 from .util.util import get_ansible, get_variable, jinja_list_concat
@@ -11,6 +13,20 @@ def test_pkg(host):
 
     package = host.package(package_name)
     assert package.is_installed
+
+
+def test_version_lock(host):
+    if not get_variable(host, "frr_version_lock"):
+        pytest.skip("frr_version_lock disabled")
+
+    package_name = get_variable(host, "frr_package_name")
+
+    if host.exists("apt-mark"):
+        assert package_name in host.check_output("apt-mark showhold").split()
+    else:
+        with host.sudo():
+            locked = host.check_output("dnf versionlock list")
+        assert re.search(rf"^{re.escape(package_name)}-[0-9]+:", locked, re.MULTILINE)
 
 
 def test_daemonfile(host):
