@@ -20,3 +20,4 @@
     group: "{{ operator_group }}"
   loop:
     - dnsdist.conf
+  notify: Restart dnsdist service
