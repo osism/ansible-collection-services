@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20260806.0] - 2026-08-06
+
+### Added
+- Add frr_version_lock option to lock the installed frr package version and prevent unintended upgrades (osism/ansible-collection-services#2152)
+- Allow dnsdist server definitions with arbitrary newServer() parameters and make dnsdist ACLs configurable (osism/ansible-collection-services#2155)
+
+### Fixed
+- Restart dnsdist service automatically when its configuration changes (osism/ansible-collection-services#2155)
+
+### Removed
+- Remove osism-update-manager wrapper script and its references (osism/ansible-collection-services#2154)
+
 ## [v0.20260730.0] - 2026-07-30
 
 ### Fixed
