@@ -48,3 +48,7 @@ dnsdist_servers:
 #dnsdist_servers:
 #  - address: '"208.67.222.222"'
 #    qps: 10
+
+dnsdist_acls:
+  - 0.0.0.0/0
+  - ::/0

@@ -5,7 +5,9 @@ addLocal('{{ host | ansible.utils.ipwrap }}:{{ dnsdist_port }}')
 {% else %}
 addLocal('0.0.0.0:53')
 {% endif %}
-setACL({'0.0.0.0/0', '::/0'})
+{% if dnsdist_acls %}
+setACL({{ '{' }}'{{ dnsdist_acls | join("', '") }}'{{ '}' }})
+{% endif %}
 
 {% for server in dnsdist_servers %}
 {% if server is mapping %}
