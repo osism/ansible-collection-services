@@ -8,7 +8,11 @@ addLocal('0.0.0.0:53')
 setACL({'0.0.0.0/0', '::/0'})
 
 {% for server in dnsdist_servers %}
+{% if server is mapping %}
+newServer({{ '{' }}{{ server | items | map('join', '=') | join(', ') }}{{ '}' }})
+{% else %}
 newServer({address="{{ server }}", qps=5})
+{% endif %}
 {% endfor %}
 
 setServerPolicy(firstAvailable)
