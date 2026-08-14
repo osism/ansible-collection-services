@@ -10,6 +10,32 @@
   loop:
     - "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}"
 
+- name: Create onie-installer link
+  ansible.builtin.file:
+    src: "{{ httpd_sonic_ztp_firmware_prefix }}{{ httpd_sonic_ztp_onie_installer_version }}{{ httpd_sonic_ztp_firmware_suffix }}"
+    dest: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_onie_installer_name }}"
+    state: link
+    force: true
+    follow: false
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  when: httpd_sonic_ztp_onie_installer_version | length > 0
+
+- name: Stat onie-installer link
+  ansible.builtin.stat:
+    path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_onie_installer_name }}"
+    follow: false
+  register: _httpd_sonic_ztp_onie_installer
+  when: httpd_sonic_ztp_onie_installer_version | length == 0
+
+- name: Remove onie-installer link
+  ansible.builtin.file:
+    path: "{{ httpd_data_directory }}/{{ httpd_sonic_ztp_directory }}/{{ httpd_sonic_ztp_onie_installer_name }}"
+    state: absent
+  when:
+    - httpd_sonic_ztp_onie_installer_version | length == 0
+    - _httpd_sonic_ztp_onie_installer.stat.islnk | default(false)
+
 - name: Set ssh authorized keys
   ansible.posix.authorized_key:
     key: "{{ item }}"

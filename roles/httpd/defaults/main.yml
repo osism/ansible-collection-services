@@ -79,6 +79,12 @@ httpd_sonic_ztp_firmware_prefix: sonic-broadcom-enterprise-base_
 httpd_sonic_ztp_firmware_identifier: serial-number
 httpd_sonic_ztp_firmware_suffix: .bin
 
+# Stable name a switch in ONIE asks for, so the ONIE DHCP option (114) can
+# point to a URL that does not change with the firmware version.
+httpd_sonic_ztp_onie_installer_name: onie-installer
+httpd_sonic_ztp_onie_installer_version: ""
+httpd_sonic_ztp_onie_installer_per_device: true
+
 httpd_sonic_ztp_authorized_keys: []
 httpd_sonic_ztp_authorized_keys_delete: []
 
