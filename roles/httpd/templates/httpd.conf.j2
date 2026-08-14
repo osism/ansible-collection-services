@@ -1,3 +1,4 @@
+{% set _httpd_sonic_ztp_onie_per_device = httpd_sonic_ztp_enable | bool and httpd_sonic_ztp_onie_installer_per_device | bool and httpd_sonic_ztp_firmware_identifier == "serial-number" %}
 ServerRoot "/usr/local/apache2"
 ServerAdmin metal@in-a-box.cloud
 
@@ -52,6 +53,9 @@ LoadModule mpm_event_module modules/mod_mpm_event.so
 LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule reqtimeout_module modules/mod_reqtimeout.so
+{% if _httpd_sonic_ztp_onie_per_device %}
+LoadModule rewrite_module modules/mod_rewrite.so
+{% endif %}
 LoadModule setenvif_module modules/mod_setenvif.so
 LoadModule status_module modules/mod_status.so
 LoadModule unixd_module modules/mod_unixd.so
@@ -88,6 +92,19 @@ LoadModule ssl_module modules/mod_ssl.so
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
+{% if _httpd_sonic_ztp_onie_per_device %}
+
+        # A switch in ONIE sends its serial number with every installer
+        # request. Serve the per device image that is also used for the ZTP
+        # firmware install, so a switch installed from ONIE ends up on the
+        # same version it would get from ZTP. Requests without that header,
+        # and requests for a device that has no image, fall through to
+        # {{ httpd_sonic_ztp_onie_installer_name }} itself.
+        RewriteEngine On
+        RewriteCond %{HTTP:ONIE-SERIAL-NUMBER} ^[A-Za-z0-9][A-Za-z0-9._-]*$
+        RewriteCond /usr/local/apache2/sonic/{{ httpd_sonic_ztp_firmware_prefix }}%{HTTP:ONIE-SERIAL-NUMBER}{{ httpd_sonic_ztp_firmware_suffix }} -f
+        RewriteRule ^{{ httpd_sonic_ztp_onie_installer_name }}$ {{ httpd_sonic_ztp_firmware_prefix }}%{HTTP:ONIE-SERIAL-NUMBER}{{ httpd_sonic_ztp_firmware_suffix }} [L]
+{% endif %}
     </Directory>
 
     ProxyPreserveHost On
