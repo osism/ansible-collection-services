@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20260818.0] - 2026-08-18
+
+### Added
+- Add a stable `onie-installer` symlink and per-device ONIE rewrite for SONiC ZTP firmware in the `httpd` role (osism/ansible-collection-services#2157)
+
+### Dependencies
+- molecule 26.6.0 → 26.8.0 (osism/ansible-collection-services#2158)
+
 ## [v0.20260806.0] - 2026-08-06
 
 ### Added
