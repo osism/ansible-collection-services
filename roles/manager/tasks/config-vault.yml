@@ -6,6 +6,8 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  notify:
+    - Ensure that all containers are up
 
 - name: Copy Vault configuration file
   ansible.builtin.template:

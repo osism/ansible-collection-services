@@ -31,6 +31,8 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  notify:
+    - Ensure that all containers are up
 
 - name: Copy inventory-reconciler environment file
   ansible.builtin.template:
@@ -39,3 +41,5 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  notify:
+    - Ensure that all containers are up
