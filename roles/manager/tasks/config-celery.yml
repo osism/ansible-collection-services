@@ -28,6 +28,8 @@
   loop:
     - conductor
     - openstack
+  notify:
+    - Ensure that all containers are up
 
 - name: Copy listener environment file
   ansible.builtin.template:
@@ -37,6 +39,8 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   when: enable_listener|bool
+  notify:
+    - Ensure that all containers are up
 
 # NOTE: Since we deploy the manager, we use the conductor.yml directly from the manager.
 

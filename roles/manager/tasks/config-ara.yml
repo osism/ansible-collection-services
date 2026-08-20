@@ -9,6 +9,8 @@
   loop:
     - ara
     - ara-server
+  notify:
+    - Ensure that all containers are up
 
 - name: Copy MariaDB environment file
   ansible.builtin.template:
@@ -18,3 +20,5 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   when: ara_server_database_type == "mysql"
+  notify:
+    - Ensure that all containers are up
