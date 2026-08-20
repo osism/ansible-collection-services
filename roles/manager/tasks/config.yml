@@ -24,6 +24,8 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  notify:
+    - Ensure that all containers are up
 
 - name: Copy client environment file
   ansible.builtin.template:
@@ -32,6 +34,8 @@
     mode: 0640
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
+  notify:
+    - Ensure that all containers are up
 
 - name: Include ara config tasks
   ansible.builtin.include_tasks: config-ara.yml
