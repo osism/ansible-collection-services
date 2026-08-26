@@ -48,6 +48,48 @@ frr_internalbackup_v6: []
 
 frr_extra_interfaces: []
 
+# Numbered BGP neighbors, in addition to the interface based unnumbered
+# uplinks in frr_uplinks. Use this for a peer that is not on a directly
+# connected link, such as a route injector that speaks BGP to this router.
+#
+# Only address and remote_as are required. activate_ipv4 defaults to true
+# because "frr defaults traditional" implies "bgp default ipv4-unicast";
+# set it to false to render "no neighbor <address> activate" in the IPv4
+# address family. activate_ipv6 defaults to false, matching FRR itself.
+# route_map_out defaults to bgp_out, the same policy the uplinks use.
+#
+# Example:
+# frr_bgp_neighbors:
+#   - address: 2001:db8::1
+#     remote_as: 65001
+#     description: route injector
+#     passive: true         # optional, for a peer that only dials outward
+#     ebgp_multihop: 8      # optional, for a peer that is not adjacent
+#     update_source: loopback0  # optional
+#     password: secret      # optional
+#     activate_ipv4: false  # optional, default true
+#     activate_ipv6: true   # optional, default false
+#     route_map_in: RM_IN   # optional
+#     route_map_out: bgp_out    # optional, default bgp_out
+frr_bgp_neighbors: []
+
+# Prefixes that bgp_out permits outbound in addition to the connected routes
+# the interface clauses match. Needed to re-advertise a route this router did
+# not originate: route_match_interface() compares against the ifindex zebra
+# sets on a redistributed connected route, which is unset on a route learned
+# from a peer, so an interface clause can never match one.
+#
+# Entries are split by family on the address itself. ge and le are optional
+# and map to the prefix list keywords of the same name.
+#
+# Example:
+# frr_bgp_out_prefixes:
+#   - prefix: 2001:db8:1::/48
+#     le: 64
+frr_bgp_out_prefixes: []
+frr_bgp_out_prefix_list4: PL_BGP_OUT4
+frr_bgp_out_prefix_list6: PL_BGP_OUT6
+
 # VRRP configuration
 # Example:
 # frr_vrrp_groups:

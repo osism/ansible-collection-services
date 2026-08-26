@@ -33,6 +33,29 @@ router bgp {{ frr_local_as }}
  neighbor {{ item.interface }} bfd
 {% endif %}
 {% endfor %}
+{% for item in frr_bgp_neighbors %}
+ neighbor {{ item.address }} remote-as {{ item.remote_as }}
+{% if "description" in item %}
+ neighbor {{ item.address }} description {{ item.description }}
+{% endif %}
+{% if "password" in item %}
+ neighbor {{ item.address }} password {{ item.password }}
+{% endif %}
+{% if item.passive | default(false) | bool %}
+ neighbor {{ item.address }} passive
+{% endif %}
+{% if "ebgp_multihop" in item %}
+ neighbor {{ item.address }} ebgp-multihop {{ item.ebgp_multihop }}
+{% endif %}
+{% if "update_source" in item %}
+ neighbor {{ item.address }} update-source {{ item.update_source }}
+{% endif %}
+{% if item.bfd_profile is defined %}
+ neighbor {{ item.address }} bfd profile {{ item.bfd_profile }}
+{% elif item.bfd is defined and item.bfd %}
+ neighbor {{ item.address }} bfd
+{% endif %}
+{% endfor %}
  !
  address-family ipv4 unicast
   redistribute connected route-map bgp_out
@@ -41,6 +64,18 @@ router bgp {{ frr_local_as }}
   neighbor {{ item.interface }} route-map local-pref-{{ item.local_pref }} in
 {% endif %}
   neighbor {{ item.interface }} route-map bgp_out out
+{% endfor %}
+{% for item in frr_bgp_neighbors %}
+{# frr defaults traditional implies bgp default ipv4-unicast, so a neighbor is
+   activated here unless it is explicitly switched off. #}
+{% if item.activate_ipv4 | default(true) | bool %}
+{% if "route_map_in" in item %}
+  neighbor {{ item.address }} route-map {{ item.route_map_in }} in
+{% endif %}
+  neighbor {{ item.address }} route-map {{ item.route_map_out | default("bgp_out") }} out
+{% else %}
+  no neighbor {{ item.address }} activate
+{% endif %}
 {% endfor %}
 {% if frr_maximum_paths | int > 0 %}
   maximum-paths {{ frr_maximum_paths | int }}
@@ -56,6 +91,15 @@ router bgp {{ frr_local_as }}
 {% endif %}
   neighbor {{ item.interface }} route-map bgp_out out
 {% endfor %}
+{% for item in frr_bgp_neighbors %}
+{% if item.activate_ipv6 | default(false) | bool %}
+  neighbor {{ item.address }} activate
+{% if "route_map_in" in item %}
+  neighbor {{ item.address }} route-map {{ item.route_map_in }} in
+{% endif %}
+  neighbor {{ item.address }} route-map {{ item.route_map_out | default("bgp_out") }} out
+{% endif %}
+{% endfor %}
  exit-address-family
 exit
 !
@@ -69,6 +113,49 @@ route-map bgp_out permit {{ (loop.index + 1) * 10 }}
 exit
 !
 {% endfor %}
+{#
+  The interface clauses above can only ever export connected routes.
+  route_match_interface() compares the named interface against the ifindex
+  carried on the path, which zebra sets when it redistributes a connected route
+  and which is unset for a route learned from a peer. A prefix based clause is
+  therefore the only way to re-advertise something this router did not
+  originate itself, for example the prefixes an external route injector
+  announces to it.
+
+  The clauses are numbered after the interface ones so both lists can grow
+  without colliding.
+#}
+{% set _frr_bgp_out_seq = (frr_extra_interfaces | length + 2) * 10 %}
+{% set _frr_bgp_out = namespace(v4=[], v6=[]) %}
+{% for item in frr_bgp_out_prefixes %}
+{% if ":" in item.prefix %}
+{% set _frr_bgp_out.v6 = _frr_bgp_out.v6 + [item] %}
+{% else %}
+{% set _frr_bgp_out.v4 = _frr_bgp_out.v4 + [item] %}
+{% endif %}
+{% endfor %}
+{% if _frr_bgp_out.v4 | length > 0 %}
+{% for item in _frr_bgp_out.v4 %}
+ip prefix-list {{ frr_bgp_out_prefix_list4 }} seq {{ loop.index * 10 }} permit {{ item.prefix }}{% if "ge" in item %} ge {{ item.ge }}{% endif %}{% if "le" in item %} le {{ item.le }}{% endif %}
+
+{% endfor %}
+!
+route-map bgp_out permit {{ _frr_bgp_out_seq }}
+ match ip address prefix-list {{ frr_bgp_out_prefix_list4 }}
+exit
+!
+{% endif %}
+{% if _frr_bgp_out.v6 | length > 0 %}
+{% for item in _frr_bgp_out.v6 %}
+ipv6 prefix-list {{ frr_bgp_out_prefix_list6 }} seq {{ loop.index * 10 }} permit {{ item.prefix }}{% if "ge" in item %} ge {{ item.ge }}{% endif %}{% if "le" in item %} le {{ item.le }}{% endif %}
+
+{% endfor %}
+!
+route-map bgp_out permit {{ _frr_bgp_out_seq + 10 }}
+ match ipv6 address prefix-list {{ frr_bgp_out_prefix_list6 }}
+exit
+!
+{% endif %}
 route-map RM_SET_SRC4 permit 10
  set src {{ frr_loopback_v4 }}
 exit
