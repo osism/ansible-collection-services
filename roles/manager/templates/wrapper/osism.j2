@@ -20,6 +20,19 @@ if [[ $INTERACTIVE == "true" ]]; then
 
 fi
 
+# Python block-buffers stdout when it is not a TTY, so without this a
+# non-interactive invocation -- CI, cron, `> log`, or the very common
+# `osism apply ... | tee log` -- receives the play output one 8 KB block at a
+# time instead of as it happens. A chatty play fills 8 KB in seconds and nobody
+# notices; a long quiet one does not. `osism apply tempest` emits only a ~85
+# byte "STILL ALIVE" banner every 30 s for hours, so a block takes ~49 minutes
+# to fill and the run looks hung for ~50 minutes at a stretch.
+#
+# Note this cannot be solved with stdbuf (as run-openstack.sh attempts):
+# stdbuf hooks libc stdio via LD_PRELOAD, and python does not use libc for
+# sys.stdout.
+PARAMETERS="$PARAMETERS --env PYTHONUNBUFFERED=1"
+
 # The update from the docker service on the manager is done with
 # osism-update-docker script as it cannot be done within a container as it
 # may be recreated during the update.
