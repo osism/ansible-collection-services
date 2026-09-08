@@ -1,5 +1,6 @@
 import pytest
 import re
+import yaml
 from .util.util import get_ansible, get_variable, get_role_variable
 from packaging.version import Version
 
@@ -35,6 +36,29 @@ def test_manager_config(host):
     assert client_env.user == get_variable(host, "operator_user")
     assert client_env.group == get_variable(host, "operator_group")
     assert "OPENSEARCH_ADDRESS=" in client_env.content_string
+
+    all_env = host.file(f"{config_dir}/all.env")
+    assert all_env.exists
+    assert not all_env.is_directory
+    assert all_env.mode == 0o640
+    assert all_env.user == get_variable(host, "operator_user")
+    assert all_env.group == get_variable(host, "operator_group")
+    assert "INVENTORY_RECONCILER_SCHEDULE=" in all_env.content_string
+
+    proxy_variables = [
+        "HTTP_PROXY",
+        "http_proxy",
+        "HTTPS_PROXY",
+        "https_proxy",
+        "NO_PROXY",
+        "no_proxy",
+    ]
+    if get_variable(host, "manager_configure_proxy"):
+        for variable in proxy_variables:
+            assert f"{variable}=" in all_env.content_string
+    else:
+        for variable in proxy_variables:
+            assert f"{variable}=" not in all_env.content_string
 
     # config-ara
     if host.file(get_variable(host, "enable_ara")) == "true":
@@ -228,6 +252,25 @@ def test_docker_compose(host):
             assert re.search(
                 rf'container_name: "{container}"', f.content_string
             ), f"Container name '{container}' not found in docker-compose.yml"
+
+    # NOTE: all.env carries the proxy configuration, every service of the
+    #       manager has to read it, also without the netbox integration.
+    all_env = f"{get_variable(host, 'manager_configuration_directory')}/all.env"
+    services = yaml.safe_load(f.content_string)["services"]
+    for name in [
+        "api",
+        "beat",
+        "flower",
+        "inventory_reconciler",
+        "osism-ansible",
+        "osismclient",
+        "watchdog",
+    ]:
+        if name not in services:
+            continue
+        assert all_env in services[name].get(
+            "env_file", []
+        ), f"Service '{name}' does not read all.env"
 
 
 def test_manager_service(host):
