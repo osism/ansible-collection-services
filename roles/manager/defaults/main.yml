@@ -372,6 +372,48 @@ manager_environment_extra: {}
 #   REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
 
 ##########################
+# proxy
+
+# NOTE: The services of the manager use container networking. If the outbound
+#       traffic of the manager network cannot leave the node directly, an HTTP
+#       proxy can be used for the outbound HTTP/HTTPS traffic instead. The
+#       proxy is set for all services of the manager, the traffic within the
+#       manager network is excluded via manager_proxy_no_proxy.
+
+manager_configure_proxy: false
+
+manager_proxy_http: "http://proxy.tld:8080"
+manager_proxy_https: "{{ manager_proxy_http }}"
+
+manager_proxy_no_proxy_default:
+  - localhost
+  - 127.0.0.1
+  - "::1"
+  # NOTE: The services reach each other by their service name within the
+  #       manager network. This traffic never goes through the proxy.
+  - api
+  - ara-server
+  - beat
+  - cache
+  - conductor
+  - flower
+  - frontend
+  - inventory_reconciler
+  - listener
+  - mariadb
+  - netbox
+  - openstack
+  - osismclient
+  - redis
+  - vault
+  - watchdog
+# NOTE: Internal endpoints outside of the manager network belong here, for
+#       example the internal OpenStack API, an internally reachable netbox or
+#       the networks of the managed nodes.
+manager_proxy_no_proxy_extra: []
+manager_proxy_no_proxy: "{{ manager_proxy_no_proxy_default + [manager_network] + ([manager_network_ipv6] if manager_network_enable_ipv6 | bool else []) + (ansible_services | map(attribute='name') | list) + manager_proxy_no_proxy_extra }}"
+
+##########################
 # listener
 
 enable_listener: false

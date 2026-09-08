@@ -42,8 +42,10 @@ services:
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
 {%  endif %}
+{% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
+{% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
       - "{{ manager_configuration_directory }}/inventory-reconciler.env"
 {% endif %}
@@ -263,6 +265,8 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
     healthcheck:
       test: pgrep osism
+    env_file:
+      - "{{ manager_configuration_directory }}/all.env"
 {% endif %}
 
   ##########################################
@@ -285,8 +289,10 @@ services:
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
 {%  endif %}
+{% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
+{% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
       - "{{ manager_configuration_directory }}/openstack.env"
 {% endif %}
@@ -307,8 +313,10 @@ services:
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
 {%  endif %}
+{% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
+{% if enable_netbox|bool %}
       - "{{ manager_configuration_directory }}/netbox.env"
 {% endif %}
 {% endif %}
@@ -363,6 +371,8 @@ services:
     restart: unless-stopped
     image: "{{ osism_image }}"
     command: osism service flower
+    env_file:
+      - "{{ manager_configuration_directory }}/all.env"
 {% if not flower_traefik|bool %}
     ports:
       - "{{ flower_host | ansible.utils.ipwrap }}:{{ flower_port }}:5555"
