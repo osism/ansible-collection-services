@@ -41,7 +41,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
@@ -103,7 +103,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     depends_on:
       redis:
@@ -153,7 +153,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
     healthcheck:
       test: pgrep osism
     env_file:
@@ -186,7 +186,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
     healthcheck:
       test: pgrep osism
     env_file:
@@ -211,7 +211,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     healthcheck:
       test: pgrep osism
@@ -241,7 +241,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     healthcheck:
       test: pgrep osism
@@ -288,7 +288,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
@@ -312,7 +312,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
@@ -336,7 +336,7 @@ services:
       - NETBOX_TOKEN
 {%   if netbox_secondaries | length > 0 %}
       - NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
     env_file:
       - "{{ manager_configuration_directory }}/all.env"
@@ -564,7 +564,7 @@ secrets:
 {%   if netbox_secondaries | length > 0 %}
   NETBOX_SECONDARIES:
     file: {{ manager_secrets_directory }}/NETBOX_SECONDARIES
-{%  endif %}
+{%   endif %}
 {% endif %}
 
 ##########################################

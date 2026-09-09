@@ -6,6 +6,47 @@ from packaging.version import Version
 
 testinfra_runner, testinfra_hosts = get_ansible()
 
+MANAGER_DEFAULTS = "../../roles/manager/defaults/main.yml"
+MANAGER_FIXTURE = "../../molecule/delegated/vars/manager.yml"
+ALL_ENV_TEMPLATE = "../../roles/manager/templates/env/all.env.j2"
+
+PROXY_VARIABLES = [
+    "HTTP_PROXY",
+    "http_proxy",
+    "HTTPS_PROXY",
+    "https_proxy",
+    "NO_PROXY",
+    "no_proxy",
+]
+
+
+def render_all_env(host, **variables):
+    """Render env/all.env.j2 of the manager role with the given variables.
+
+    The role defaults and the molecule fixture are passed to Ansible as extra
+    vars, so the templated defaults, above all manager_proxy_no_proxy, are
+    evaluated by Ansible in the same way as in the role. The given variables
+    take precedence over both. Returns the rendered file as a dictionary.
+    """
+    variables = {
+        **host.ansible("include_vars", MANAGER_DEFAULTS)["ansible_facts"],
+        **host.ansible("include_vars", MANAGER_FIXTURE)["ansible_facts"],
+        **variables,
+    }
+    path = host.ansible("tempfile", "suffix=.env", check=False)["path"]
+    try:
+        host.ansible(
+            "template",
+            f"src={ALL_ENV_TEMPLATE} dest={path}",
+            check=False,
+            extra_vars=variables,
+        )
+        content = host.file(path).content_string
+    finally:
+        host.ansible("file", f"path={path} state=absent", check=False)
+
+    return dict(line.split("=", 1) for line in content.splitlines() if line)
+
 
 # testing config.yml tasks
 def test_manager_config(host):
@@ -45,20 +86,11 @@ def test_manager_config(host):
     assert all_env.group == get_variable(host, "operator_group")
     assert "INVENTORY_RECONCILER_SCHEDULE=" in all_env.content_string
 
-    proxy_variables = [
-        "HTTP_PROXY",
-        "http_proxy",
-        "HTTPS_PROXY",
-        "https_proxy",
-        "NO_PROXY",
-        "no_proxy",
-    ]
-    if get_variable(host, "manager_configure_proxy"):
-        for variable in proxy_variables:
-            assert f"{variable}=" in all_env.content_string
-    else:
-        for variable in proxy_variables:
-            assert f"{variable}=" not in all_env.content_string
+    # NOTE: The molecule fixture keeps the proxy disabled, this is the
+    #       disabled branch of all.env.j2. The enabled branch is covered by
+    #       test_manager_proxy_environment on a rendering of the template.
+    for variable in PROXY_VARIABLES:
+        assert f"{variable}=" not in all_env.content_string
 
     # config-ara
     if host.file(get_variable(host, "enable_ara")) == "true":
@@ -175,6 +207,54 @@ def test_manager_config(host):
         assert "#!/usr/bin/env bash" in f.content_string
 
 
+def test_manager_proxy_environment(host):
+    # NOTE: The enabled branch is rendered separately from the converge.
+    #       Enabling the proxy in the molecule fixture would send the
+    #       outbound traffic of every manager service to an unreachable
+    #       proxy for the rest of the scenario.
+    proxy = "http://proxy.molecule.test:3128"
+    no_proxy_extra = ["192.168.16.0/20", "api-int.molecule.test"]
+    manager_network = get_variable(host, "manager_network")
+    manager_network_ipv6 = get_variable(host, "manager_network_ipv6")
+
+    environment = render_all_env(
+        host,
+        manager_configure_proxy=True,
+        manager_proxy_http=proxy,
+        manager_proxy_no_proxy_extra=no_proxy_extra,
+        manager_network_enable_ipv6=False,
+    )
+    assert environment["HTTP_PROXY"] == proxy
+    assert environment["http_proxy"] == proxy
+    # manager_proxy_https follows manager_proxy_http by default
+    assert environment["HTTPS_PROXY"] == proxy
+    assert environment["https_proxy"] == proxy
+    assert environment["no_proxy"] == environment["NO_PROXY"]
+
+    no_proxy = environment["NO_PROXY"].split(",")
+    assert manager_network in no_proxy
+    assert manager_network_ipv6 not in no_proxy
+    # from manager_proxy_no_proxy_default and from ansible_services
+    for name in [
+        "localhost",
+        "api",
+        "netbox",
+        "openstack",
+        "osism-ansible",
+        "kolla-ansible",
+    ]:
+        assert name in no_proxy, f"Service '{name}' is not excluded from the proxy"
+    for entry in no_proxy_extra:
+        assert entry in no_proxy, f"Entry '{entry}' is not excluded from the proxy"
+
+    environment = render_all_env(
+        host,
+        manager_configure_proxy=True,
+        manager_network_enable_ipv6=True,
+    )
+    assert manager_network_ipv6 in environment["NO_PROXY"].split(",")
+
+
 def test_max_user_watches_and_instances(host):
     sysctl_max_user_watches = host.sysctl("fs.inotify.max_user_watches")
     assert sysctl_max_user_watches == 32768
@@ -260,8 +340,12 @@ def test_docker_compose(host):
     for name in [
         "api",
         "beat",
+        "conductor",
         "flower",
         "inventory_reconciler",
+        "listener",
+        "netbox",
+        "openstack",
         "osism-ansible",
         "osismclient",
         "watchdog",
