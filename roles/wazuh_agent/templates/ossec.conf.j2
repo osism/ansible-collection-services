@@ -16,6 +16,26 @@
     <time-reconnect>60</time-reconnect>
     <auto_restart>yes</auto_restart>
     <crypto_method>aes</crypto_method>
+    {% if wazuh_agent_enrollment_enabled | bool %}
+    <enrollment>
+      <enabled>yes</enabled>
+      {% if wazuh_agent_enrollment_manager_address | length > 0 %}
+      <manager_address>{{ wazuh_agent_enrollment_manager_address }}</manager_address>
+      {% endif %}
+      {% if wazuh_agent_enrollment_agent_name | length > 0 %}
+      <agent_name>{{ wazuh_agent_enrollment_agent_name }}</agent_name>
+      {% endif %}
+      {% if wazuh_agent_enrollment_port | string | length > 0 %}
+      <port>{{ wazuh_agent_enrollment_port }}</port>
+      {% endif %}
+      {% if wazuh_agent_enrollment_groups | length > 0 %}
+      <groups>{{ wazuh_agent_enrollment_groups }}</groups>
+      {% endif %}
+      {% if wazuh_agent_enrollment_agent_address | length > 0 %}
+      <agent_address>{{ wazuh_agent_enrollment_agent_address }}</agent_address>
+      {% endif %}
+    </enrollment>
+    {% endif %}
   </client>
 
   <client_buffer>

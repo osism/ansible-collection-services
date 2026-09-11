@@ -34,3 +34,14 @@ wazuh_agent_client_id: 0001
 wazuh_agent_client_name: sample
 wazuh_agent_client_address: any
 wazuh_agent_client_password: password
+
+##########################
+# enrollment
+
+wazuh_agent_enrollment_enabled: false
+wazuh_agent_enrollment_key: ""
+wazuh_agent_enrollment_manager_address: ""
+wazuh_agent_enrollment_agent_name: ""
+wazuh_agent_enrollment_port: ""
+wazuh_agent_enrollment_groups: ""
+wazuh_agent_enrollment_agent_address: ""

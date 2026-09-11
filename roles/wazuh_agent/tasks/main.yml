@@ -12,6 +12,18 @@
     mode: 0660
   notify: Restart wazuh-agent service
 
+- name: Copy authd.pass file
+  become: true
+  ansible.builtin.copy:
+    content: "{{ wazuh_agent_enrollment_key }}"
+    dest: /var/ossec/etc/authd.pass
+    owner: root
+    group: wazuh
+    mode: 0640
+  when: wazuh_agent_enrollment_key | length > 0
+  no_log: true
+  notify: Restart wazuh-agent service
+
 - name: Copy client.keys file
   become: true
   ansible.builtin.template:
@@ -20,6 +32,7 @@
     owner: root
     group: wazuh
     mode: 0640
+  when: not wazuh_agent_enrollment_enabled | bool
   notify: Restart wazuh-agent service
 
 - name: Manage wazuh-agent service
