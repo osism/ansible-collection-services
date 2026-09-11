@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20260911.0] - 2026-09-11
+
+### Added
+- Support configuring an HTTP/HTTPS proxy for outbound traffic of the manager services, with automatic exclusion of internal manager endpoints (osism/ansible-collection-services#2165)
+
+### Fixed
+- Reload the manager services instead of restarting them when an environment file changes, so updated values actually reach the running containers (osism/ansible-collection-services#2160)
+- Run the containerized process behind the osism CLI wrapper unbuffered so non-interactive output (piped, redirected, or run via cron/CI) is written as it happens instead of arriving in delayed blocks (osism/ansible-collection-services#2164)
+
 ## [v0.20260818.0] - 2026-08-18
 
 ### Added
