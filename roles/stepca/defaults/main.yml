@@ -40,7 +40,7 @@ stepca_host: 0.0.0.0
 stepca_port: 9000
 
 # renovate: datasource=docker depName=smallstep/step-ca
-stepca_tag: '0.28.4'
+stepca_tag: '0.30.2'
 stepca_image: "{{ docker_registry_stepca }}/smallstep/step-ca:{{ stepca_tag }}"
 
 # CA Configuration - Environment variables for automatic initialization
