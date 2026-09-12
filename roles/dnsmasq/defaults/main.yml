@@ -54,5 +54,5 @@ dnsmasq_dns_hosts: []
 
 dnsmasq_docker_registry: registry.osism.tech
 # renovate: datasource=docker depName=registry.osism.tech/osism/dnsmasq-osism
-dnsmasq_tag: '2.90'
+dnsmasq_tag: '2.91'
 dnsmasq_image: "{{ dnsmasq_docker_registry }}/osism/dnsmasq-osism:{{ dnsmasq_tag }}"
