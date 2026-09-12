@@ -239,7 +239,7 @@ kolla_ansible_image: "{{ docker_registry_ansible }}/{{ kolla_ansible_image_names
 # redis
 
 # renovate: datasource=docker depName=redis
-manager_redis_tag: '7.4.6-alpine'
+manager_redis_tag: '8.10.1-alpine'
 manager_redis_image_namespace: library
 manager_redis_image: "{{ docker_registry_redis }}/{{ manager_redis_image_namespace }}/redis:{{ manager_redis_tag }}"
 
@@ -285,7 +285,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 # renovate: datasource=docker depName=mariadb
-ara_server_mariadb_tag: '11.8.3'
+ara_server_mariadb_tag: '12.3.3'
 ara_server_mariadb_image_namespace: library
 ara_server_mariadb_image: "{{ docker_registry_mariadb }}/{{ ara_server_mariadb_image_namespace }}/mariadb:{{ ara_server_mariadb_tag }}"
 
@@ -317,7 +317,7 @@ vault_host: "{{ ansible_default_ipv4.address | default(ansible_default_ipv6.addr
 vault_port: 8200
 
 # renovate: datasource=docker depName=hashicorp/vault
-vault_tag: '1.21.0'
+vault_tag: '2.1.0'
 vault_image_namespace: hashicorp
 vault_image: "{{ docker_registry_vault }}/{{ vault_image_namespace }}/vault:{{ vault_tag }}"
 
