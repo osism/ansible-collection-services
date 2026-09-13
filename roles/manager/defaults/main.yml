@@ -11,8 +11,6 @@ docker_registry_inventory_reconciler: "{{ docker_registry_ansible }}"
 docker_registry_mariadb: "{{ docker_registry_service }}"
 docker_registry_osism: "{{ docker_registry_ansible }}"
 docker_registry_osism_frontend: "{{ docker_registry_ansible }}"
-docker_registry_osism_netbox: "{{ docker_registry_ansible }}"
-docker_registry_receptor: "{{ docker_registry_ansible }}"
 docker_registry_redis: "{{ docker_registry_service }}"
 docker_registry_vault: "{{ docker_registry_service }}"
 
