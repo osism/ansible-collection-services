@@ -1,0 +1,9 @@
+---
+services:
+  wazuh_proxy:
+    container_name: "{{ wazuh_proxy_container_name }}"
+    restart: unless-stopped
+    image: "{{ wazuh_proxy_image }}"
+    volumes:
+      - "{{ wazuh_proxy_configuration_directory }}/nginx.conf:/etc/nginx/nginx.conf:ro"
+    network_mode: host

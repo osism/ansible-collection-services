@@ -1,0 +1,20 @@
+---
+- name: Copy docker-compose.yml file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ wazuh_proxy_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: "0640"
+  notify: Restart wazuh_proxy service
+
+- name: Manage wazuh_proxy service
+  become: true
+  ansible.builtin.service:
+    name: "{{ wazuh_proxy_service_name }}"
+    state: started
+    enabled: true
+  register: result
+  until: result["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20
