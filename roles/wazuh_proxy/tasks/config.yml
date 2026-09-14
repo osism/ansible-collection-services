@@ -1,0 +1,21 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: "0750"
+  loop:
+    - "{{ wazuh_proxy_docker_compose_directory }}"
+    - "{{ wazuh_proxy_configuration_directory }}"
+
+- name: Copy nginx.conf configuration file
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: "{{ wazuh_proxy_configuration_directory }}/nginx.conf"
+    mode: "0644"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  notify: Restart wazuh_proxy service

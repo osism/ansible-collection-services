@@ -1,0 +1,37 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# container registry
+
+docker_registry_wazuh_proxy: index.docker.io
+
+##########################
+# wazuh_proxy
+
+wazuh_proxy_configuration_directory: /opt/wazuh-proxy/configuration
+wazuh_proxy_docker_compose_directory: /opt/wazuh-proxy
+
+wazuh_proxy_service_name: "docker-compose@wazuh-proxy"
+wazuh_proxy_container_name: wazuh_proxy
+
+wazuh_proxy_tag: "1.31.5"
+wazuh_proxy_image: "{{ docker_registry_wazuh_proxy }}/nginx:{{ wazuh_proxy_tag }}"
+
+# Address the proxy listens on for both the registration and the agent
+# connection service.
+wazuh_proxy_listen_address: 0.0.0.0
+
+# Registration service
+wazuh_proxy_registration_listen_port: 1515
+wazuh_proxy_registration_upstream_servers:
+  - 127.0.0.1:1515
+
+# Agent connection service
+wazuh_proxy_agent_connection_listen_port: 1514
+wazuh_proxy_agent_connection_upstream_servers:
+  - 127.0.0.1:1514

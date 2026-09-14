@@ -1,0 +1,35 @@
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+stream {
+    upstream registration {
+{% for server in wazuh_proxy_registration_upstream_servers %}
+        server {{ server }};
+{% endfor %}
+    }
+
+    upstream agent_connection {
+{% for server in wazuh_proxy_agent_connection_upstream_servers %}
+        server {{ server }};
+{% endfor %}
+    }
+
+    server {
+        listen {{ wazuh_proxy_listen_address | ansible.utils.ipwrap }}:{{ wazuh_proxy_registration_listen_port }};
+        proxy_pass registration;
+    }
+
+    server {
+        listen {{ wazuh_proxy_listen_address | ansible.utils.ipwrap }}:{{ wazuh_proxy_agent_connection_listen_port }};
+        proxy_pass agent_connection;
+    }
+}
