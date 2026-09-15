@@ -74,11 +74,8 @@ LoadModule ssl_module modules/mod_ssl.so
     Require all denied
 </Directory>
 
-{% if httpd_network_mode == "host" %}
-<VirtualHost {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}>
-{% else %}
-<VirtualHost 0.0.0.0:80>
-{% endif %}
+{# Body shared by the plain and the TLS virtual host, defined once so the two cannot drift. #}
+{% macro vhost_common() %}
     DocumentRoot "/usr/local/apache2/htdocs"
     <Directory "/usr/local/apache2/htdocs">
         Options Indexes FollowSymLinks
@@ -121,6 +118,13 @@ LoadModule ssl_module modules/mod_ssl.so
         Require all granted
     </Directory>
 {% endif %}
+{% endmacro %}
+{% if httpd_network_mode == "host" %}
+<VirtualHost {{ httpd_host | ansible.utils.ipwrap }}:{{ httpd_port }}>
+{% else %}
+<VirtualHost 0.0.0.0:80>
+{% endif %}
+{{ vhost_common() -}}
 </VirtualHost>
 
 {% if httpd_ssl_enable | bool %}
@@ -133,21 +137,7 @@ LoadModule ssl_module modules/mod_ssl.so
     SSLCertificateFile "/usr/local/apache2/conf/ssl/ssl.crt"
     SSLCertificateKeyFile "/usr/local/apache2/conf/ssl/ssl.key"
 
-    DocumentRoot "/usr/local/apache2/htdocs"
-    <Directory "/usr/local/apache2/htdocs">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-{% if httpd_ironic_enable | bool %}
-    Alias /ironic /var/lib/ironic/httpboot
-    <Directory "/var/lib/ironic/httpboot">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-{% endif %}
+{{ vhost_common() -}}
 
     ErrorLog /proc/self/fd/2
 {% if httpd_log_ignore_partial_content | bool %}
