@@ -19,6 +19,7 @@
         "^roles\\/nexus\\/defaults\\/main.yml$",
         "^roles\\/phpmyadmin\\/defaults\\/main.yml$",
         "^roles\\/scaphandre\\/defaults\\/main.yml$",
+        "^roles\\/snmp_exporter\\/defaults\\/main.yml$",
         "^roles\\/stepca\\/defaults\\/main.yml$",
         "^roles\\/traefik\\/defaults\\/main.yml$"
       ],
