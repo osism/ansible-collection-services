@@ -1,0 +1,46 @@
+---
+##########################
+# operator
+
+operator_user: dragon
+operator_group: "{{ operator_user }}"
+
+##########################
+# docker
+
+docker_registry_snmp_exporter: index.docker.io
+
+##########################
+# snmp_exporter
+
+snmp_exporter_configuration_directory: /opt/snmp-exporter/configuration
+snmp_exporter_docker_compose_directory: /opt/snmp-exporter
+
+snmp_exporter_container_name: snmp-exporter
+snmp_exporter_service_name: "docker-compose@snmp-exporter"
+
+snmp_exporter_host: 0.0.0.0
+snmp_exporter_port: 9116
+snmp_exporter_port_container: "{{ snmp_exporter_port }}"
+
+snmp_exporter_flags_defaults:
+  - "--config.file=/etc/snmp_exporter/snmp.yml"
+snmp_exporter_flags_extra: []
+snmp_exporter_flags: "{{ snmp_exporter_flags_defaults + snmp_exporter_flags_extra }}"
+
+snmp_exporter_tag: "v0.27.0"
+snmp_exporter_repository: "{{ docker_registry_snmp_exporter }}/prom/snmp-exporter"
+snmp_exporter_image: "{{ snmp_exporter_repository }}:{{ snmp_exporter_tag }}"
+
+##########################
+# configuration
+
+configuration_directory: /opt/configuration
+
+# Optional custom snmp.yaml (MIB walk configuration). When a file exists at
+# this path on the control node it is copied to the target host and bind
+# mounted into the container, replacing the snmp.yml bundled with the image.
+# Store an override in the local Ansible environment at:
+#   {{ configuration_directory }}/environments/generic/files/snmp_exporter/snmp.yaml
+snmp_exporter_snmp_config: >-
+  {{ configuration_directory }}/environments/infrastructure/files/snmp_exporter/snmp.yaml
