@@ -17,9 +17,6 @@ rsyslog_fluentd: true
 rsyslog_fluentd_host: 127.0.0.1
 rsyslog_fluentd_port: 5140
 
-fluentd_port: "{{ rsyslog_fluentd_port }}"
-fluentd_host: "{{ rsyslog_fluentd_host }}"
-
 ##########################
 # additional rsyslog
 
