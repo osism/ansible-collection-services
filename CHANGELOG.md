@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261001.0] - 2026-10-01
+
+### Added
+- Support wazuh_agent enrollment via authd, with configurable manager address, agent name, port, groups and agent address (osism/ansible-collection-services#2167)
+- Add wazuh_proxy role to deploy an nginx stream proxy for outbound wazuh agent registration and connection traffic (osism/ansible-collection-services#2169)
+
+### Fixed
+- Httpd TLS virtual host now serves the same content as the plain virtual host, including the /sonic ONIE alias and the /v1/ API proxy (osism/ansible-collection-services#2170)
+
+### Removed
+- Drop orphaned docker_registry_osism_netbox and docker_registry_receptor manager registry defaults that no longer affect any rendered value (osism/ansible-collection-services#2168)
+
+### Dependencies
+- molecule 26.8.0 → 26.9.0 (osism/ansible-collection-services#2172)
+
 ## [v0.20260911.0] - 2026-09-11
 
 ### Added
