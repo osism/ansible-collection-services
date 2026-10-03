@@ -4,6 +4,13 @@ services:
     container_name: "{{ stepca_container_name }}"
     image: "{{ stepca_image }}"
     restart: unless-stopped
+    # The CA URL is built from the first DNS name, by default the internal
+    # VIP's FQDN, which does not reach this host. Resolve the names to the
+    # container itself so that `step ca health` checks this CA.
+    extra_hosts:
+{% for name in stepca_init_dns_names.split(',') %}
+      - "{{ name | trim }}:127.0.0.1"
+{% endfor %}
     environment:
       - DOCKER_STEPCA_INIT_NAME={{ stepca_init_name }}
       - DOCKER_STEPCA_INIT_DNS_NAMES={{ stepca_init_dns_names }}
