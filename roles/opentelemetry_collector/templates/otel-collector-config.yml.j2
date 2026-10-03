@@ -1,5 +1,9 @@
 # OpenTelemetry Collector Configuration
 # This configuration receives metrics from Prometheus and logs via OTLP, exporting them to dash0
+{# The OTLP gRPC exporter is called otlp_grpc since 0.144.0; otlp remains
+   a deprecated alias. Older tags only know otlp. #}
+{% set otlp_exporter = 'otlp' if (opentelemetry_collector_tag | string is match('[0-9]+\\.[0-9]+')
+                                  and opentelemetry_collector_tag | string is version('0.144.0', '<')) else 'otlp_grpc' %}
 
 # Extension configuration
 extensions:
@@ -56,7 +60,7 @@ processors:
 # Exporter configuration
 exporters:
   # OTLP exporter - sends metrics to dash0
-  otlp:
+  {{ otlp_exporter }}:
     endpoint: "{{ opentelemetry_collector_dash0_endpoint }}"
     headers:
       Authorization: "Bearer ${env:DASH0_AUTH_TOKEN}"
@@ -104,7 +108,7 @@ service:
         - memory_limiter
         - batch
       exporters:
-        - otlp
+        - {{ otlp_exporter }}
         - debug
 
     # Logs pipeline: OTLP -> processors -> dash0
@@ -115,5 +119,5 @@ service:
         - memory_limiter
         - batch
       exporters:
-        - otlp
+        - {{ otlp_exporter }}
         - debug
