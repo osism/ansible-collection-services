@@ -17,8 +17,8 @@ services:
 {% if stepca_init_provisioner_name %}
       - DOCKER_STEPCA_INIT_PROVISIONER_NAME={{ stepca_init_provisioner_name }}
 {% endif %}
-{% if stepca_init_ssh %}
-      - DOCKER_STEPCA_INIT_SSH={{ stepca_init_ssh }}
+{% if stepca_init_ssh | bool %}
+      - DOCKER_STEPCA_INIT_SSH=true
 {% endif %}
 {% if stepca_init_password %}
       - DOCKER_STEPCA_INIT_PASSWORD={{ stepca_init_password }}
