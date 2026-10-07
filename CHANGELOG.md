@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261007.0] - 2026-10-07
+
+### Fixed
+- Fix stepca container health check failing on deployments with a separate manager by resolving the CA's DNS names to itself instead of the unreachable internal VIP (osism/ansible-collection-services#2175)
+- Fix stepca not initializing the SSH CA because the init flag was rendered as a Python boolean instead of the string the entrypoint expects (osism/ansible-collection-services#2175)
+
 ## [v0.20261005.0] - 2026-10-05
 
 ### Added
