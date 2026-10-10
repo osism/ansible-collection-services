@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261010.0] - 2026-10-10
+
+### Fixed
+- Opentelemetry_collector: name the OTLP gRPC exporter otlp_grpc for collector versions 0.144.0 and later to avoid a deprecation warning, keeping otlp for older tags (osism/ansible-collection-services#2176)
+
+### Removed
+- Rsyslog: drop unused fluentd_host and fluentd_port aliases left over from the 2021 rename to rsyslog_fluentd_host and rsyslog_fluentd_port (osism/ansible-collection-services#2180)
+
 ## [v0.20261007.0] - 2026-10-07
 
 ### Fixed
