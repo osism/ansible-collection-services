@@ -16,7 +16,6 @@
         "^roles\\/kepler\\/defaults\\/main.yml$",
         "^roles\\/manager\\/defaults\\/main.yml$",
         "^roles\\/netbox\\/defaults\\/main.yml$",
-        "^roles\\/nexus\\/defaults\\/main.yml$",
         "^roles\\/phpmyadmin\\/defaults\\/main.yml$",
         "^roles\\/scaphandre\\/defaults\\/main.yml$",
         "^roles\\/stepca\\/defaults\\/main.yml$",
