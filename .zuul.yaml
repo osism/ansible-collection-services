@@ -303,15 +303,6 @@
       - '^molecule\/delegated\/tests\/netdata.*$'
 
 - job:
-    name: ansible-collection-services-molecule-nexus
-    parent: abstract-ansible-collection-services-molecule
-    vars:
-      ansible_role: nexus
-    files:
-      - '^roles\/nexus\/.*$'
-      - '^molecule\/delegated\/tests\/nexus.*$'
-
-- job:
     name: ansible-collection-services-molecule-openstackclient
     parent: abstract-ansible-collection-services-molecule
     vars:
@@ -514,7 +505,6 @@
         - ansible-collection-services-molecule-netbird
         - ansible-collection-services-molecule-netbox
         - ansible-collection-services-molecule-netdata
-        - ansible-collection-services-molecule-nexus
         - ansible-collection-services-molecule-openstackclient
         - ansible-collection-services-molecule-opentelemetry_collector
         - ansible-collection-services-molecule-osquery
