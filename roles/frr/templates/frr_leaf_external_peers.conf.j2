@@ -1,0 +1,180 @@
+{# Leaf configuration for a router that also peers with a BGP speaker off a directly connected link, such as an OpenStack neutron-dynamic-routing agent or a route injector. #}
+frr version {{ frr_version }}
+frr defaults traditional
+hostname {{ frr_hostname }}
+log syslog informational
+service integrated-vtysh-config
+!
+{% if frr_bfd_profiles is defined and frr_bfd_profiles | length > 0 %}
+bfd
+{% for profile in frr_bfd_profiles %}
+ profile {{ profile.name }}
+  receive-interval {{ profile.receive_interval }}
+  transmit-interval {{ profile.transmit_interval }}
+  detect-multiplier {{ profile.detect_multiplier }}
+ exit
+{% endfor %}
+exit
+!
+{% endif %}
+router bgp {{ frr_local_as }}
+ no bgp ebgp-requires-policy
+ bgp bestpath as-path multipath-relax
+ bgp router-id {{ frr_loopback_v4 }}
+{% for item in _frr_uplinks %}
+ neighbor {{ item.interface }} interface remote-as {{ item.remote_as }}
+{% if "password" in item %}
+ neighbor {{ item.interface }} password {{ item.password }}
+{% endif %}
+{% if item.bfd_profile is defined %}
+ neighbor {{ item.interface }} bfd profile {{ item.bfd_profile }}
+{% elif item.bfd is defined and item.bfd %}
+ neighbor {{ item.interface }} bfd
+{% endif %}
+{% endfor %}
+{% for item in frr_bgp_neighbors %}
+ neighbor {{ item.address }} remote-as {{ item.remote_as }}
+{% if "description" in item %}
+ neighbor {{ item.address }} description {{ item.description }}
+{% endif %}
+{% if "password" in item %}
+ neighbor {{ item.address }} password {{ item.password }}
+{% endif %}
+{% if item.passive | default(false) | bool %}
+ neighbor {{ item.address }} passive
+{% endif %}
+{% if "ebgp_multihop" in item %}
+ neighbor {{ item.address }} ebgp-multihop {{ item.ebgp_multihop }}
+{% endif %}
+{% if "update_source" in item %}
+ neighbor {{ item.address }} update-source {{ item.update_source }}
+{% endif %}
+{% if item.bfd_profile is defined %}
+ neighbor {{ item.address }} bfd profile {{ item.bfd_profile }}
+{% elif item.bfd is defined and item.bfd %}
+ neighbor {{ item.address }} bfd
+{% endif %}
+{% endfor %}
+ !
+ address-family ipv4 unicast
+  redistribute connected route-map bgp_out
+{% for item in _frr_uplinks %}
+{% if "local_pref" in item %}
+  neighbor {{ item.interface }} route-map local-pref-{{ item.local_pref }} in
+{% endif %}
+  neighbor {{ item.interface }} route-map bgp_out out
+{% endfor %}
+{% for item in frr_bgp_neighbors %}
+{# frr defaults traditional implies bgp default ipv4-unicast, so a neighbor is activated unless it is explicitly switched off. #}
+{% if item.activate_ipv4 | default(true) | bool %}
+{% if "route_map_in" in item %}
+  neighbor {{ item.address }} route-map {{ item.route_map_in }} in
+{% endif %}
+  neighbor {{ item.address }} route-map {{ item.route_map_out | default("bgp_out") }} out
+{% else %}
+  no neighbor {{ item.address }} activate
+{% endif %}
+{% endfor %}
+{% if frr_maximum_paths | int > 0 %}
+  maximum-paths {{ frr_maximum_paths | int }}
+{% endif %}
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  redistribute connected route-map bgp_out
+{% for item in _frr_uplinks %}
+  neighbor {{ item.interface }} activate
+{% if "local_pref" in item %}
+  neighbor {{ item.interface }} route-map local-pref-{{ item.local_pref }} in
+{% endif %}
+  neighbor {{ item.interface }} route-map bgp_out out
+{% endfor %}
+{% for item in frr_bgp_neighbors %}
+{% if item.activate_ipv6 | default(false) | bool %}
+  neighbor {{ item.address }} activate
+{% if "route_map_in" in item %}
+  neighbor {{ item.address }} route-map {{ item.route_map_in }} in
+{% endif %}
+  neighbor {{ item.address }} route-map {{ item.route_map_out | default("bgp_out") }} out
+{% endif %}
+{% endfor %}
+ exit-address-family
+exit
+!
+route-map bgp_out permit 10
+ match interface {{ frr_loopback_interface }}
+exit
+!
+{% for _frr_extra_interface in frr_extra_interfaces %}
+route-map bgp_out permit {{ (loop.index + 1) * 10 }}
+ match interface {{ _frr_extra_interface }}
+exit
+!
+{% endfor %}
+{# Prefix based bgp_out clauses, numbered after the interface ones so both lists can grow, for routes this router learned from a peer rather than originated. #}
+{% set _frr_bgp_out_seq = (frr_extra_interfaces | length + 2) * 10 %}
+{% set _frr_bgp_out = namespace(v4=[], v6=[]) %}
+{% for item in frr_bgp_out_prefixes %}
+{% if ":" in item.prefix %}
+{% set _frr_bgp_out.v6 = _frr_bgp_out.v6 + [item] %}
+{% else %}
+{% set _frr_bgp_out.v4 = _frr_bgp_out.v4 + [item] %}
+{% endif %}
+{% endfor %}
+{% if _frr_bgp_out.v4 | length > 0 %}
+{% for item in _frr_bgp_out.v4 %}
+ip prefix-list {{ frr_bgp_out_prefix_list4 }} seq {{ loop.index * 10 }} permit {{ item.prefix }}{% if "ge" in item %} ge {{ item.ge }}{% endif %}{% if "le" in item %} le {{ item.le }}{% endif %}
+
+{% endfor %}
+!
+route-map bgp_out permit {{ _frr_bgp_out_seq }}
+ match ip address prefix-list {{ frr_bgp_out_prefix_list4 }}
+exit
+!
+{% endif %}
+{% if _frr_bgp_out.v6 | length > 0 %}
+{% for item in _frr_bgp_out.v6 %}
+ipv6 prefix-list {{ frr_bgp_out_prefix_list6 }} seq {{ loop.index * 10 }} permit {{ item.prefix }}{% if "ge" in item %} ge {{ item.ge }}{% endif %}{% if "le" in item %} le {{ item.le }}{% endif %}
+
+{% endfor %}
+!
+route-map bgp_out permit {{ _frr_bgp_out_seq + 10 }}
+ match ipv6 address prefix-list {{ frr_bgp_out_prefix_list6 }}
+exit
+!
+{% endif %}
+route-map RM_SET_SRC4 permit 10
+ set src {{ frr_loopback_v4 }}
+exit
+!
+route-map RM_SET_SRC6 permit 10
+ set src {{ frr_loopback_v6 }}
+exit
+!
+{% for item in frr_local_pref %}
+route-map local-pref-{{ item }} permit 10
+  set local-preference {{ item }}
+exit
+!
+{% endfor %}
+ip protocol bgp route-map RM_SET_SRC4
+!
+ipv6 protocol bgp route-map RM_SET_SRC6
+!
+{% for vrrp_group in frr_vrrp_groups %}
+interface {{ vrrp_group.interface }}
+ vrrp {{ vrrp_group.id }} version 3
+
+ vrrp {{ vrrp_group.id }} priority {{ vrrp_group.priority | default(100) }}
+{% if vrrp_group.preempt | default(true) | bool == false %}
+ no vrrp {{ vrrp_group.id }} preempt
+{% endif %}
+{% for ip in vrrp_group.ipv4 | default([]) %}
+ vrrp {{ vrrp_group.id }} ip {{ ip }}
+{% endfor %}
+{% for ip in vrrp_group.ipv6 | default([]) %}
+ vrrp {{ vrrp_group.id }} ipv6 {{ ip }}
+{% endfor %}
+exit
+!
+{% endfor %}
