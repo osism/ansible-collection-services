@@ -1,0 +1,30 @@
+---
+# FRR announces the host's own addresses by matching the interface that
+# carries them. If that interface does not exist, nothing is announced and
+# the host drops off the fabric without an error, so fail before frr.conf
+# changes. Only templates that use frr_loopback_interface are checked.
+# Template files arrive verbatim, but frr_config_template arrives already
+# rendered, so also look for the rendered "match interface <name>".
+- name: Determine whether the frr.conf template uses frr_loopback_interface
+  ansible.builtin.set_fact:
+    _frr_uses_loopback_interface: >-
+      {{ _frr_template_text is search('frr_loopback_interface([^_a-zA-Z0-9]|$)')
+         or _frr_template_text is search('match interface '
+              ~ (frr_loopback_interface | regex_escape) ~ '([^-_.a-zA-Z0-9]|$)') }}
+
+- name: Check that the loopback interface exists
+  ansible.builtin.stat:
+    path: "/sys/class/net/{{ frr_loopback_interface }}"
+  register: _frr_loopback_interface_stat
+  when: _frr_uses_loopback_interface | bool
+
+- name: Fail if the loopback interface does not exist
+  ansible.builtin.fail:
+    msg: >-
+      frr_loopback_interface is {{ frr_loopback_interface }}, but this host has
+      no interface {{ frr_loopback_interface }}, so FRR would announce none of
+      the host's addresses. Rename the interface that carries them to
+      loopback0, or set frr_loopback_interface to its name.
+  when:
+    - _frr_uses_loopback_interface | bool
+    - not _frr_loopback_interface_stat.stat.exists
