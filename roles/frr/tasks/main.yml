@@ -25,6 +25,12 @@
   ansible.builtin.set_fact:
     _frr_uplinks: "{{ lookup('community.general.merge_variables', '^frr_uplinks__.+$', initial_value=frr_uplinks, groups=frr_uplinks_groups) }}"
 
+- name: Check the loopback interface for frr_config_template
+  ansible.builtin.include_tasks: check-loopback-interface.yml
+  vars:
+    _frr_template_text: "{{ frr_config_template }}"
+  when: frr_config_template is defined
+
 - name: Write frr_config_template to temporary file
   ansible.builtin.copy:
     content: "{{ frr_config_template }}"
@@ -69,6 +75,14 @@
             - "{{ configuration_directory | default('/opt/configuration') }}/environments/generic/files/frr/"
           skip: true
 
+    - name: Check the loopback interface for the configuration repository's frr.conf
+      ansible.builtin.include_tasks: check-loopback-interface.yml
+      vars:
+        _frr_template_text: "{{ lookup('ansible.builtin.file', result.results.0.stat.path) }}"
+      when:
+        - result.results.0.stat.exists is defined
+        - result.results.0.stat.exists | bool
+
     - name: Copy frr.conf file from the configuration repository
       become: true
       ansible.builtin.template:
@@ -81,6 +95,13 @@
       when:
         - result.results.0.stat.exists is defined
         - result.results.0.stat.exists | bool
+
+    - name: "Check the loopback interface for frr.conf of type {{ frr_type }}"
+      ansible.builtin.include_tasks: check-loopback-interface.yml
+      vars:
+        _frr_template_text: "{{ lookup('ansible.builtin.file', role_path ~ '/templates/frr_' ~ frr_type ~ '.conf.j2') }}"
+      when:
+        - result.results.0.stat.exists is not defined
 
     - name: "Copy default frr.conf file of type {{ frr_type }}"
       become: true
