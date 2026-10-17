@@ -55,11 +55,6 @@ operator_group: "{{ operator_user }}"
 ##########################
 # private keys
 
-deploy_private_key: |
-  -----BEGIN RSA PRIVATE KEY-----
-  ...
-  -----END RSA PRIVATE KEY-----
-
 operator_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
   ...
@@ -71,7 +66,6 @@ ceph_ssh_private_key: |
   -----END RSA PRIVATE KEY-----
 
 private_keys:
-  deploy: "{{ deploy_private_key }}"
   operator: "{{ operator_private_key }}"
   ceph: "{{ ceph_ssh_private_key }}"
 
