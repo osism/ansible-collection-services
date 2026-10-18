@@ -366,8 +366,12 @@ manager_wrapper_scripts:
 ##########################
 # environment
 
+# NOTE: requests in the Ansible and client containers uses its own certifi
+#       bundle, not the host's CA bundle that is mounted to this path, so it
+#       does not trust a private CA without this. Set to "" to not set it.
+manager_requests_ca_bundle: /etc/ssl/certs/ca-certificates.crt
+
 manager_environment_extra: {}
-#   REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
 
 ##########################
 # proxy
