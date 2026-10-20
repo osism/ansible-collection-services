@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261019.0] - 2026-10-19
+
+### Changed
+- Manager: Ansible and client containers now trust the host's CA bundle by default via a new `manager_requests_ca_bundle` variable, picked up automatically without manual `REQUESTS_CA_BUNDLE` overrides (osism/ansible-collection-services#2186)
+
+### Fixed
+- Netbox: build netbox_init_users as a mapping so initial user/token setup works with ansible-core 2.19 (osism/ansible-collection-services#2178)
+
+### Removed
+- Remove the nexus role, its molecule tests, and the associated Zuul job (osism/ansible-collection-services#2182)
+- Manager: stop writing the unused deploy private key (osism/ansible-collection-services#2184)
+
+### Dependencies
+- molecule 26.9.0 → 26.10.0 (osism/ansible-collection-services#2183)
+
 ## [v0.20261010.0] - 2026-10-10
 
 ### Fixed
