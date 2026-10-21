@@ -393,6 +393,7 @@
     files:
       - '^roles\/sshd\/.*$'
       - '^molecule\/delegated\/tests\/sshd.*$'
+      - '^molecule\/delegated\/vars\/sshd.*$'
 
 - job:
     name: ansible-collection-services-molecule-stepca

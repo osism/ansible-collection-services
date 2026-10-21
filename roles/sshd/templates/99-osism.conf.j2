@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+{% if sshd_deny_users | length > 0 %}
+DenyUsers {{ sshd_deny_users | join(' ') }}
+{% endif %}
+{% if sshd_allow_users | length > 0 %}
+AllowUsers {{ sshd_allow_users | join(' ') }}
+{% endif %}

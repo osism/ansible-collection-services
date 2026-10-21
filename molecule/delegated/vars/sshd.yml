@@ -1,1 +1,7 @@
 ---
+# Neither value restricts the Zuul executor's own SSH access: "*" matches
+# every user, and 192.0.2.0/24 is TEST-NET-1 (RFC 5737).
+sshd_allow_users:
+  - "*"
+sshd_deny_users:
+  - "*@192.0.2.*"
