@@ -1,4 +1,19 @@
 ---
+- name: Assert that sshd_allow_users and sshd_deny_users are lists of patterns
+  ansible.builtin.assert:
+    that:
+      - sshd_allow_users is sequence
+      - sshd_allow_users is not string
+      - sshd_allow_users is not mapping
+      - sshd_allow_users | select('string') | select | list | length == sshd_allow_users | length
+      - sshd_deny_users is sequence
+      - sshd_deny_users is not string
+      - sshd_deny_users is not mapping
+      - sshd_deny_users | select('string') | select | list | length == sshd_deny_users | length
+    fail_msg: >-
+      sshd_allow_users and sshd_deny_users must be lists of non-empty
+      sshd user patterns, for example ["*@172.20.*"].
+
 - name: Include distribution specific install tasks
   ansible.builtin.include_tasks: "install-{{ ansible_os_family }}-family.yml"
 
@@ -8,3 +23,25 @@
     name: sshd
     state: started
     enabled: true
+
+- name: Copy sshd access control configuration file
+  become: true
+  ansible.builtin.template:
+    src: 99-osism.conf.j2
+    dest: /etc/ssh/sshd_config.d/99-osism.conf
+    owner: root
+    group: root
+    mode: 0644
+    validate: /usr/sbin/sshd -t -f %s
+  when: sshd_allow_users | length > 0 or sshd_deny_users | length > 0
+  notify: Restart sshd service
+
+- name: Remove sshd access control configuration file
+  become: true
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d/99-osism.conf
+    state: absent
+  when:
+    - sshd_allow_users | length == 0
+    - sshd_deny_users | length == 0
+  notify: Restart sshd service

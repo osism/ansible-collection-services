@@ -1,1 +1,21 @@
 ---
+##########################
+# access control
+
+# User patterns written as DenyUsers and AllowUsers to
+# /etc/ssh/sshd_config.d/99-osism.conf, in USER or USER@HOST form
+# (see sshd_config(5)), for example:
+#
+#   sshd_deny_users:
+#     - "*@172.20.*"
+#
+# The role owns that file. With both lists empty it removes the file,
+# including one placed by hand, so move hand-written lines into these
+# lists before running the sshd play.
+#
+# A non-empty sshd_allow_users refuses every user it does not match,
+# including the operator user Ansible connects as.
+#
+# sshd -T | grep -E '^(allow|deny)users' shows what sshd applies.
+sshd_allow_users: []
+sshd_deny_users: []
