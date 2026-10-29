@@ -1,0 +1,7 @@
+---
+- name: Install prometheus-ipmi-exporter package
+  become: true
+  ansible.builtin.apt:
+    name: "{{ ipmi_exporter_package_name }}"
+    state: present
+    lock_timeout: "{{ apt_lock_timeout | default(300) }}"
