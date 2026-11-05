@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261105.0] - 2026-11-05
+
+### Added
+- sshd: add `sshd_allow_users` and `sshd_deny_users` to manage AllowUsers and DenyUsers in `/etc/ssh/sshd_config.d/99-osism.conf`, validated with sshd -t before being applied (osism/ansible-collection-services#2189)
+- frr: add a router template (`frr_type: router`) supporting numbered BGP neighbors via `frr_bgp_neighbors` and route re-export of learned prefixes via `frr_bgp_out_prefixes` (osism/ansible-collection-services#2192, contributed by Timon Schnell (@kingspeedy95))
+
+### Dependencies
+- pytest 9.1.1 → 9.2.0 (osism/ansible-collection-services#2191)
+
 ## [v0.20261019.0] - 2026-10-19
 
 ### Changed
