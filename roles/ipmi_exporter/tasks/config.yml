@@ -1,0 +1,39 @@
+---
+- name: Create configuration directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ ipmi_exporter_configuration_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy ipmi_exporter configuration file
+  become: true
+  ansible.builtin.template:
+    src: ipmi_local_sudo.yml.j2
+    dest: "{{ ipmi_exporter_configuration_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart ipmi_exporter service
+
+- name: Copy ipmi_exporter defaults file
+  become: true
+  ansible.builtin.template:
+    src: prometheus-ipmi-exporter.j2
+    dest: /etc/default/prometheus-ipmi-exporter
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart ipmi_exporter service
+
+- name: Copy ipmi_exporter sudoers file
+  become: true
+  ansible.builtin.template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/prometheus-ipmi-exporter
+    owner: root
+    group: root
+    mode: 0440
+    validate: visudo -cf %s

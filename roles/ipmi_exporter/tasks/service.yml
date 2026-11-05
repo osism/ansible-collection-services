@@ -1,0 +1,7 @@
+---
+- name: Manage ipmi_exporter service
+  become: true
+  ansible.builtin.service:
+    name: "{{ ipmi_exporter_service_name }}"
+    state: started
+    enabled: true

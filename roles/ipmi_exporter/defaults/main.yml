@@ -1,0 +1,89 @@
+---
+##########################
+# packages
+
+ipmi_exporter_package_name: prometheus-ipmi-exporter
+
+##########################
+# services
+
+ipmi_exporter_service_name: prometheus-ipmi-exporter
+
+##########################
+# ipmi_exporter
+
+# User the exporter runs as. The package creates it and the sudoers file
+# grants it the FreeIPMI commands listed in ipmi_exporter_sudo_commands.
+ipmi_exporter_user: prometheus
+
+ipmi_exporter_configuration_directory: /etc/prometheus
+ipmi_exporter_configuration_file: "{{ ipmi_exporter_configuration_directory }}/ipmi_local_sudo.yml"
+
+ipmi_exporter_host: 127.0.0.1
+ipmi_exporter_port: 9290
+
+ipmi_exporter_flags_defaults:
+  - "--web.listen-address={{ ('[' ~ ipmi_exporter_host ~ ']') if ':' in ipmi_exporter_host else ipmi_exporter_host }}:{{ ipmi_exporter_port }}"
+  - "--config.file={{ ipmi_exporter_configuration_file }}"
+  - "--freeipmi.path=/usr/bin"
+ipmi_exporter_flags_extra: []
+ipmi_exporter_flags: "{{ ipmi_exporter_flags_defaults + ipmi_exporter_flags_extra }}"
+
+##########################
+# configuration
+
+ipmi_exporter_collectors:
+  - ipmi
+  - bmc
+  - chassis
+  - dcmi
+
+# Sensors to ignore.
+ipmi_exporter_exclude_sensor_ids:
+  - 2
+  - 29
+  - 32
+
+# Custom metrics for SEL entries.
+ipmi_exporter_sel_events: []
+
+# Command used to run each collector, keyed by collector name.
+ipmi_exporter_collector_cmd:
+  ipmi: sudo
+  bmc: sudo
+  chassis: sudo
+  dcmi: sudo
+
+# Arguments passed to the collector_cmd of each collector, keyed by
+# collector name.
+ipmi_exporter_custom_args:
+  ipmi:
+    - /usr/sbin/ipmimonitoring
+  bmc:
+    - /usr/sbin/bmc-info
+  chassis:
+    - /usr/sbin/ipmi-chassis
+  dcmi:
+    - /usr/sbin/ipmi-dcmi
+
+# Content of ipmi_exporter_configuration_file
+ipmi_exporter_configuration:
+  modules:
+    default:
+      collectors: "{{ ipmi_exporter_collectors }}"
+      exclude_sensor_ids: "{{ ipmi_exporter_exclude_sensor_ids }}"
+      sel_events: "{{ ipmi_exporter_sel_events }}"
+      collector_cmd: "{{ ipmi_exporter_collector_cmd }}"
+      custom_args: "{{ ipmi_exporter_custom_args }}"
+
+##########################
+# sudoers
+
+ipmi_exporter_sudo_commands:
+  - /usr/sbin/ipmimonitoring
+  - /usr/sbin/ipmi-sensors
+  - /usr/sbin/ipmi-dcmi
+  - /usr/sbin/ipmi-raw
+  - /usr/sbin/bmc-info
+  - /usr/sbin/ipmi-chassis
+  - /usr/sbin/ipmi-sel
