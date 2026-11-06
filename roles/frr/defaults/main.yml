@@ -1,4 +1,11 @@
 ---
+# The host comes with a working FRR setup that OSISM must leave alone. If
+# true, the role changes nothing on the host: no package, configuration
+# file, sysctl, service or exporter change. Defaults to network_managed_externally (osism.commons.network), so
+# a host whose network is managed externally is left alone by both roles;
+# set this explicitly to decide FRR separately.
+frr_managed_externally: "{{ network_managed_externally | default(false) }}"
+
 frr_package_name: frr
 frr_service_name: frr
 

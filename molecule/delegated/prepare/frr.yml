@@ -3,3 +3,51 @@
   ansible.builtin.include_role:
     name: osism.commons.repository
   when: ansible_os_family == "RedHat"
+
+# frr_managed_externally: the role must leave the host unchanged. The run
+# sets only network_managed_externally, so it also checks that
+# frr_managed_externally follows it by default. With its defaults the role
+# would install frr and write /etc/frr, so a role that ignored the flag
+# would change the fingerprint.
+- name: Fingerprint the FRR configuration before the opted-out run
+  become: true
+  ansible.builtin.shell:
+    cmd: &frr_fingerprint |
+      set -o pipefail
+      for path in /etc/frr /etc/sysctl.d/50-frr.conf \
+          /etc/default/prometheus-frr-exporter; do
+        if [ -e "$path" ]; then find "$path" -type f -exec sha256sum {} +; fi
+      done | sort
+      if command -v dpkg-query >/dev/null; then
+        dpkg-query -W -f '${binary:Package} ${Version} ${db:Status-Abbrev}\n'
+      else
+        rpm -qa
+      fi | sort
+    executable: /bin/bash
+  register: frr_fingerprint_before
+  changed_when: false
+
+- name: Run the frr role with network_managed_externally
+  ansible.builtin.include_role:
+    name: frr
+  vars:
+    network_managed_externally: true
+
+- name: Run the frr role with frr_managed_externally
+  ansible.builtin.include_role:
+    name: frr
+  vars:
+    frr_managed_externally: true
+
+- name: Fingerprint the FRR configuration after the opted-out run
+  become: true
+  ansible.builtin.shell:
+    cmd: *frr_fingerprint
+    executable: /bin/bash
+  register: frr_fingerprint_after
+  changed_when: false
+
+- name: Assert that the opted-out run changed nothing
+  ansible.builtin.assert:
+    that: frr_fingerprint_after.stdout == frr_fingerprint_before.stdout
+    fail_msg: frr_managed_externally is true, but the frr role changed the host
