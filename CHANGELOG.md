@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261111.0] - 2026-11-11
+
+### Added
+- frr: add `frr_managed_externally` opt-out to leave FRR unchanged on hosts whose network is managed externally (osism/ansible-collection-services#2195)
+
+### Changed
+- frr: default `frr_loopback_interface` to `loopback0` instead of `dummy0`, and fail before writing frr.conf if the configured interface does not exist on the host (osism/ansible-collection-services#2185)
+- Run the publish workflow on Python 3.12 with ansible-core 2.18.18 instead of Python 3.9 with ansible-core 2.12, since the GitHub runner no longer ships Python 3.9 (osism/ansible-collection-services#2196)
+
+### Dependencies
+- molecule 26.10.0 → 26.11.0 (osism/ansible-collection-services#2194)
+
 ## [v0.20261105.0] - 2026-11-05
 
 ### Added
