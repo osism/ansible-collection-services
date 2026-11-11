@@ -15,10 +15,10 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v7
         with:
-          python-version: 3.9
+          python-version: '3.12'
       - name: Install dependencies
         run: |
-          python3 -m pip install ansible-core~=2.12.3
+          python3 -m pip install ansible-core==2.18.18
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
