@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261111.0] - 2026-11-11
+
+### Changed
+
+- frr: Default the loopback interface to loopback0 (osism/ansible-collection-services#2185)
+- chore(deps): update dependency molecule to v26.11.0 (osism/ansible-collection-services#2194)
+- frr: add frr_managed_externally opt-out (osism/ansible-collection-services#2195)
+- publish: run on Python 3.12, ansible-core 2.18 (osism/ansible-collection-services#2196)
+
 ## [v0.20261105.0] - 2026-11-05
 
 ### Added
