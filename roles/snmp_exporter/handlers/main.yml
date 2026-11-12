@@ -1,0 +1,10 @@
+---
+- name: Restart snmp_exporter service
+  become: true
+  ansible.builtin.service:
+    name: "{{ snmp_exporter_service_name }}"
+    state: restarted
+  register: result
+  until: result["status"]["ActiveState"] == "active"
+  retries: 10
+  delay: 20

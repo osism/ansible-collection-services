@@ -1,0 +1,29 @@
+---
+- name: Create required directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  loop:
+    - "{{ snmp_exporter_docker_compose_directory }}"
+    - "{{ snmp_exporter_configuration_directory }}"
+
+- name: Check for custom snmp.yaml configuration file
+  ansible.builtin.stat:
+    path: "{{ snmp_exporter_snmp_config }}"
+  register: snmp_exporter_snmp_config_check
+  become: false
+  delegate_to: localhost
+
+- name: Copy custom snmp.yaml configuration file
+  ansible.builtin.copy:
+    src: "{{ snmp_exporter_snmp_config }}"
+    dest: "{{ snmp_exporter_configuration_directory }}/snmp.yaml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+  when: snmp_exporter_snmp_config_check.stat.exists
+  notify: Restart snmp_exporter service

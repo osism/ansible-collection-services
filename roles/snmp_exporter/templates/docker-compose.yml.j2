@@ -1,0 +1,15 @@
+---
+services:
+  snmp-exporter:
+    image: "{{ snmp_exporter_image }}"
+    container_name: "{{ snmp_exporter_container_name }}"
+    restart: unless-stopped
+    entrypoint: /bin/snmp_exporter {{ snmp_exporter_flags|join(" ") }}
+    network_mode: host
+{% if snmp_exporter_snmp_config_check.stat.exists %}
+    volumes:
+      - type: bind
+        source: "{{ snmp_exporter_configuration_directory }}/snmp.yaml"
+        target: /etc/snmp_exporter/snmp.yml
+        read_only: true
+{% endif %}
