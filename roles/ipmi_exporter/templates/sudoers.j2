@@ -1,0 +1,2 @@
+# {{ ansible_managed }}
+{{ ipmi_exporter_user }} ALL = NOPASSWD: {{ ipmi_exporter_sudo_commands | join(',\\\n    ') }}
