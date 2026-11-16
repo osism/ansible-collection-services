@@ -51,3 +51,85 @@
   ansible.builtin.assert:
     that: frr_fingerprint_after.stdout == frr_fingerprint_before.stdout
     fail_msg: frr_managed_externally is true, but the frr role changed the host
+
+# The loopback interface check: an interface the netplan configuration
+# declares but that is not up yet (osism apply network before the reboot)
+# passes, one that is neither up nor declared fails. frrtest0 is never
+# created; the netplan file is only read, never applied. The CI nodes
+# come without netplan, so install it. Debian bookworm's netplan (0.106)
+# does not know dummy-devices, the device type loopback0 has on a node,
+# and refuses the whole configuration; declare frrtest0 under ethernets
+# there, which the check treats the same.
+- name: Check the loopback interface check against netplan
+  when: ansible_os_family == "Debian"
+  vars:
+    frr_loopback_interface: frrtest0
+    _frr_template_text: "route-map bgp_out permit 10\n match interface frrtest0\n"
+  block:
+    - name: Install netplan
+      become: true
+      ansible.builtin.apt:
+        name: netplan.io
+        state: present
+        update_cache: true
+        lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+
+    - name: Declare frrtest0 in a netplan file
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/netplan/99-molecule-frrtest.yaml
+        mode: 0600
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+          {% if ansible_distribution == "Ubuntu" %}
+            dummy-devices:
+              frrtest0:
+                addresses:
+                  - 198.18.255.1/32
+          {% else %}
+            ethernets:
+              frrtest0:
+                optional: true
+          {% endif %}
+
+    - name: Run the check with frrtest0 declared but not up
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+
+    - name: Run the check with frrtest0 declared but not up in check mode
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+        apply:
+          check_mode: true
+
+    - name: Remove the netplan file again
+      become: true
+      ansible.builtin.file:
+        path: /etc/netplan/99-molecule-frrtest.yaml
+        state: absent
+
+    - name: Run the check with frrtest0 neither up nor declared
+      block:
+        - name: Run the check with frrtest0 neither up nor declared
+          ansible.builtin.include_role:
+            name: frr
+            tasks_from: check-loopback-interface
+
+        - name: Assert that the check failed
+          ansible.builtin.fail:
+            msg: the check passed although frrtest0 is neither up nor declared
+      rescue:
+        - name: Assert that the check failed for the missing interface
+          ansible.builtin.assert:
+            that: "'its netplan configuration declares none' in ansible_failed_result.msg"
+            fail_msg: "unexpected failure: {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
+  always:
+    - name: Make sure the netplan file is gone
+      become: true
+      ansible.builtin.file:
+        path: /etc/netplan/99-molecule-frrtest.yaml
+        state: absent

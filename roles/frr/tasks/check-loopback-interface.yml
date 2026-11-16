@@ -11,6 +11,7 @@
       {{ _frr_template_text is search('frr_loopback_interface([^_a-zA-Z0-9]|$)')
          or _frr_template_text is search('match interface '
               ~ (frr_loopback_interface | regex_escape) ~ '([^-_.a-zA-Z0-9]|$)') }}
+    _frr_loopback_interface_declared: false
 
 - name: Check that the loopback interface exists
   ansible.builtin.stat:
@@ -18,13 +19,47 @@
   register: _frr_loopback_interface_stat
   when: _frr_uses_loopback_interface | bool
 
+# osism apply network only writes the netplan files by default
+# (network_allow_service_restart: false); they take effect at the next
+# reboot. Until then an interface the netplan configuration declares is
+# not in /sys/class/net yet, and a frr.conf that matches it is still
+# right: FRR picks the interface up when it appears. netplan get reads the
+# configuration files, not the live state. Without netplan, or when it
+# cannot parse the files, the interface counts as not declared.
+# netplan get only reads, so it also runs in check mode; skipped, it
+# would leave the interface undeclared and fail a valid dry run.
+- name: Read the netplan configuration
+  become: true
+  ansible.builtin.command: netplan get
+  register: _frr_netplan_get
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  when:
+    - _frr_uses_loopback_interface | bool
+    - not _frr_loopback_interface_stat.stat.exists
+
+- name: Determine whether netplan declares the loopback interface
+  ansible.builtin.set_fact:
+    _frr_loopback_interface_declared: >-
+      {{ frr_loopback_interface in
+         ((((_frr_netplan_get.stdout | from_yaml) or {}).network | default({})) or {})
+         | dict2items | selectattr('value', 'mapping')
+         | map(attribute='value') | map('list') | flatten }}
+  when:
+    - _frr_uses_loopback_interface | bool
+    - not _frr_loopback_interface_stat.stat.exists
+    - (_frr_netplan_get.rc | default(1)) == 0
+
 - name: Fail if the loopback interface does not exist
   ansible.builtin.fail:
     msg: >-
       frr_loopback_interface is {{ frr_loopback_interface }}, but this host has
-      no interface {{ frr_loopback_interface }}, so FRR would announce none of
-      the host's addresses. Rename the interface that carries them to
-      loopback0, or set frr_loopback_interface to its name.
+      no interface {{ frr_loopback_interface }} and its netplan configuration
+      declares none, so FRR would announce none of the host's addresses.
+      Rename the interface that carries them to {{ frr_loopback_interface }},
+      or set frr_loopback_interface to its name.
   when:
     - _frr_uses_loopback_interface | bool
     - not _frr_loopback_interface_stat.stat.exists
+    - not (_frr_loopback_interface_declared | default(false) | bool)
