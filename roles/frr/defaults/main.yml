@@ -44,14 +44,15 @@ frr_local_as: 4200000000
 # frr_dummy_interface is deprecated; set frr_loopback_interface instead.
 # TODO(frickler): remove old var after deprecation
 frr_loopback_interface: "{{ frr_dummy_interface | default('loopback0') }}"
-# Fail before frr.conf changes when the template announces
-# frr_loopback_interface and the host has neither such an interface nor
-# a netplan configuration that declares one. Off by default: on a node
-# deployed through Ironic, the first-boot play runs this role from the
-# collection baked into the node image, so a check that fails where
-# frr.conf would be right stops the node's setup, and the manager cannot
-# change the default for that run. Turn it on only once it has been
-# shown not to fail on such a first boot.
+# Check before frr.conf changes that FRR will find frr_loopback_interface,
+# when the template announces the host's addresses by matching it. The
+# interface passes if it exists or if the netplan configuration declares
+# it. true fails the play when it does not, false skips the check, and
+# warn reports it as an ignored error ("ignored=1" in the recap) and goes
+# on. Off by default: on a node deployed through Ironic, the first-boot
+# play runs this role from the collection baked into the node image, where
+# a failing check stops the node's setup and the manager cannot change the
+# default for that run.
 frr_check_loopback_interface: false
 frr_type: leaf
 frr_loopback_v4: 127.0.0.42

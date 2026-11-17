@@ -54,7 +54,9 @@
 
 # The loopback interface check: an interface the netplan configuration
 # declares but that is not up yet (osism apply network before the reboot)
-# passes, one that is neither up nor declared fails. frrtest0 is never
+# passes, one that is neither up nor declared fails with true and is
+# reported as an ignored error with warn, and so is an error in the check
+# itself. frrtest0 is never
 # created; the netplan file is only read, never applied. The CI nodes
 # come without netplan, so install it. Debian bookworm's netplan (0.106)
 # does not know dummy-devices, the device type loopback0 has on a node,
@@ -64,6 +66,7 @@
   when: ansible_os_family == "Debian"
   vars:
     frr_loopback_interface: frrtest0
+    frr_check_loopback_interface: true
     _frr_template_text: "route-map bgp_out permit 10\n match interface frrtest0\n"
   block:
     - name: Install netplan
@@ -126,6 +129,57 @@
         - name: Assert that the check failed for the missing interface
           ansible.builtin.assert:
             that: "'its netplan configuration declares none' in ansible_failed_result.msg"
+            fail_msg: "unexpected failure: {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
+
+    # warn: the same finding is an ignored error, and the play goes on.
+    - name: Run the check in warn mode with frrtest0 neither up nor declared
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+      vars:
+        frr_check_loopback_interface: warn
+
+    - name: Assert that the check reported frrtest0 and went on
+      ansible.builtin.assert:
+        that:
+          - _frr_loopback_check_result is failed
+          - "'its netplan configuration declares none' in _frr_loopback_check_result.msg"
+          - "'frr_check_loopback_interface is warn' in _frr_loopback_check_result.msg"
+        fail_msg: "unexpected result: {{ _frr_loopback_check_result }}"
+
+    # An error in the check itself, here an undefined template text, is
+    # reported like a finding: ignored in warn mode, fatal with true.
+    - name: Run the check in warn mode with an error in the check
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+      vars:
+        frr_check_loopback_interface: warn
+        _frr_template_text: "{{ frr_molecule_undefined_variable }}"
+
+    - name: Assert that the error was reported and the play went on
+      ansible.builtin.assert:
+        that:
+          - _frr_loopback_check_result is failed
+          - "'could not run' in _frr_loopback_check_result.msg"
+        fail_msg: "unexpected result: {{ _frr_loopback_check_result }}"
+
+    - name: Run the check with true and an error in the check
+      block:
+        - name: Run the check with true and an error in the check
+          ansible.builtin.include_role:
+            name: frr
+            tasks_from: check-loopback-interface
+          vars:
+            _frr_template_text: "{{ frr_molecule_undefined_variable }}"
+
+        - name: Assert that the check failed
+          ansible.builtin.fail:
+            msg: the check passed although it could not run
+      rescue:
+        - name: Assert that the check failed because it could not run
+          ansible.builtin.assert:
+            that: "'could not run' in ansible_failed_result.msg"
             fail_msg: "unexpected failure: {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
   always:
     - name: Make sure the netplan file is gone
