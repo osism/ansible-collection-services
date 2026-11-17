@@ -16,6 +16,24 @@
     _frr_loopback_interface_declared: false
     _frr_loopback_check_error: ""
 
+# In the first-boot play of a node deployed through Ironic, true only
+# warns. A failure there stops the node's setup before the network
+# role's netplan apply handler, so the node comes up without network,
+# while a wrong frr.conf that gets through can be fixed from the manager.
+# On a running node it is the other way round. That play runs from
+# ansible-init.service, a oneshot unit that stays activating until the
+# play has ended; in any later run it is active, or there is no such
+# unit.
+- name: Determine whether this is the first-boot play
+  ansible.builtin.systemd_service:
+    name: ansible-init.service
+  register: _frr_ansible_init_state
+  failed_when: false
+
+- name: Record whether this is the first-boot play
+  ansible.builtin.set_fact:
+    _frr_first_boot: "{{ (_frr_ansible_init_state.status | default({})).ActiveState | default('') == 'activating' }}"
+
 - name: Gather the facts for the loopback interface check
   block:
     - name: Determine whether the frr.conf template uses frr_loopback_interface
@@ -83,7 +101,11 @@
                ~ ', or set frr_loopback_interface to its name.') }}
     _frr_loopback_check_note: >-
       {{ ' frr_check_loopback_interface is warn, so the play goes on.'
-         if _frr_check_loopback_mode == 'warn' else '' }}
+         if _frr_check_loopback_configured == 'warn'
+         else (' This is the first-boot play, where the check only warns,'
+               ~ ' so the play goes on.')
+         if _frr_check_loopback_mode == 'warn'
+         else '' }}
   register: _frr_loopback_check_result
   ignore_errors: "{{ _frr_check_loopback_mode == 'warn' }}"
   when: >-
