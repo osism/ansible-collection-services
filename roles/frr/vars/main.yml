@@ -1,0 +1,14 @@
+---
+# frr_check_loopback_interface as one of off, warn and fail. "warn" is
+# tested first, as a string: the bool filter does not know it.
+_frr_check_loopback_configured: >-
+  {{ 'warn' if (frr_check_loopback_interface is string
+                and frr_check_loopback_interface | lower == 'warn')
+     else ('fail' if frr_check_loopback_interface | bool else 'off') }}
+
+# The mode the check runs in: never fail in the first-boot play of a node
+# deployed through Ironic (see check-loopback-interface.yml).
+_frr_check_loopback_mode: >-
+  {{ 'warn' if (_frr_check_loopback_configured == 'fail'
+                and _frr_first_boot | default(false) | bool)
+     else _frr_check_loopback_configured }}

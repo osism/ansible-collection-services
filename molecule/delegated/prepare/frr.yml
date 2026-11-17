@@ -51,3 +51,179 @@
   ansible.builtin.assert:
     that: frr_fingerprint_after.stdout == frr_fingerprint_before.stdout
     fail_msg: frr_managed_externally is true, but the frr role changed the host
+
+# The loopback interface check: an interface the netplan configuration
+# declares but that is not up yet (osism apply network before the reboot)
+# passes, one that is neither up nor declared fails with true and is
+# reported as an ignored error with warn, and so is an error in the check
+# itself. frrtest0 is never
+# created; the netplan file is only read, never applied. The CI nodes
+# come without netplan, so install it. Debian bookworm's netplan (0.106)
+# does not know dummy-devices, the device type loopback0 has on a node,
+# and refuses the whole configuration; declare frrtest0 under ethernets
+# there, which the check treats the same.
+- name: Check the loopback interface check against netplan
+  when: ansible_os_family == "Debian"
+  vars:
+    frr_loopback_interface: frrtest0
+    frr_check_loopback_interface: true
+    _frr_template_text: "route-map bgp_out permit 10\n match interface frrtest0\n"
+  block:
+    - name: Install netplan
+      become: true
+      ansible.builtin.apt:
+        name: netplan.io
+        state: present
+        update_cache: true
+        lock_timeout: "{{ apt_lock_timeout | default(300) }}"
+
+    - name: Declare frrtest0 in a netplan file
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/netplan/99-molecule-frrtest.yaml
+        mode: 0600
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+          {% if ansible_distribution == "Ubuntu" %}
+            dummy-devices:
+              frrtest0:
+                addresses:
+                  - 198.18.255.1/32
+          {% else %}
+            ethernets:
+              frrtest0:
+                optional: true
+          {% endif %}
+
+    - name: Run the check with frrtest0 declared but not up
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+
+    - name: Run the check with frrtest0 declared but not up in check mode
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+        apply:
+          check_mode: true
+
+    - name: Remove the netplan file again
+      become: true
+      ansible.builtin.file:
+        path: /etc/netplan/99-molecule-frrtest.yaml
+        state: absent
+
+    - name: Run the check with frrtest0 neither up nor declared
+      block:
+        - name: Run the check with frrtest0 neither up nor declared
+          ansible.builtin.include_role:
+            name: frr
+            tasks_from: check-loopback-interface
+
+        - name: Assert that the check failed
+          ansible.builtin.fail:
+            msg: the check passed although frrtest0 is neither up nor declared
+      rescue:
+        - name: Assert that the check failed for the missing interface
+          ansible.builtin.assert:
+            that: "'its netplan configuration declares none' in ansible_failed_result.msg"
+            fail_msg: "unexpected failure: {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
+
+    # warn: the same finding is an ignored error, and the play goes on.
+    - name: Run the check in warn mode with frrtest0 neither up nor declared
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+      vars:
+        frr_check_loopback_interface: warn
+
+    - name: Assert that the check reported frrtest0 and went on
+      ansible.builtin.assert:
+        that:
+          - _frr_loopback_check_result is failed
+          - "'its netplan configuration declares none' in _frr_loopback_check_result.msg"
+          - "'frr_check_loopback_interface is warn' in _frr_loopback_check_result.msg"
+        fail_msg: "unexpected result: {{ _frr_loopback_check_result }}"
+
+    # An error in the check itself, here an undefined template text, is
+    # reported like a finding: ignored in warn mode, fatal with true.
+    - name: Run the check in warn mode with an error in the check
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+      vars:
+        frr_check_loopback_interface: warn
+        _frr_template_text: "{{ frr_molecule_undefined_variable }}"
+
+    - name: Assert that the error was reported and the play went on
+      ansible.builtin.assert:
+        that:
+          - _frr_loopback_check_result is failed
+          - "'could not run' in _frr_loopback_check_result.msg"
+        fail_msg: "unexpected result: {{ _frr_loopback_check_result }}"
+
+    - name: Run the check with true and an error in the check
+      block:
+        - name: Run the check with true and an error in the check
+          ansible.builtin.include_role:
+            name: frr
+            tasks_from: check-loopback-interface
+          vars:
+            _frr_template_text: "{{ frr_molecule_undefined_variable }}"
+
+        - name: Assert that the check failed
+          ansible.builtin.fail:
+            msg: the check passed although it could not run
+      rescue:
+        - name: Assert that the check failed because it could not run
+          ansible.builtin.assert:
+            that: "'could not run' in ansible_failed_result.msg"
+            fail_msg: "unexpected failure: {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
+
+    # The first-boot play runs from ansible-init.service, a oneshot unit
+    # that stays activating while the play runs. A transient unit of that
+    # name that sleeps stands in for it: with true, the check only warns.
+    - name: Start a stand-in for ansible-init.service
+      become: true
+      ansible.builtin.command: >-
+        systemd-run --unit=ansible-init --service-type=oneshot --no-block --collect
+        sleep 600
+      changed_when: true
+
+    - name: Wait until the stand-in is activating
+      become: true
+      ansible.builtin.command: systemctl show --property=ActiveState --value ansible-init.service
+      register: frr_molecule_ansible_init_state
+      until: frr_molecule_ansible_init_state.stdout == 'activating'
+      retries: 10
+      delay: 1
+      changed_when: false
+
+    - name: Run the check with true in the first-boot play
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+
+    - name: Assert that the check reported frrtest0 and went on
+      ansible.builtin.assert:
+        that:
+          - _frr_first_boot | bool
+          - _frr_loopback_check_result is failed
+          - "'its netplan configuration declares none' in _frr_loopback_check_result.msg"
+          - "'This is the first-boot play' in _frr_loopback_check_result.msg"
+        fail_msg: "unexpected result: {{ _frr_loopback_check_result }}"
+  always:
+    - name: Make sure the netplan file is gone
+      become: true
+      ansible.builtin.file:
+        path: /etc/netplan/99-molecule-frrtest.yaml
+        state: absent
+
+    - name: Stop the stand-in for ansible-init.service
+      become: true
+      ansible.builtin.command: systemctl stop ansible-init.service
+      register: frr_molecule_ansible_init_stop
+      changed_when: frr_molecule_ansible_init_stop.rc == 0
+      failed_when: false
