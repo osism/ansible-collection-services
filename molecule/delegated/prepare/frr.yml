@@ -181,9 +181,49 @@
           ansible.builtin.assert:
             that: "'could not run' in ansible_failed_result.msg"
             fail_msg: "unexpected failure: {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
+
+    # The first-boot play runs from ansible-init.service, a oneshot unit
+    # that stays activating while the play runs. A transient unit of that
+    # name that sleeps stands in for it: with true, the check only warns.
+    - name: Start a stand-in for ansible-init.service
+      become: true
+      ansible.builtin.command: >-
+        systemd-run --unit=ansible-init --service-type=oneshot --no-block --collect
+        sleep 600
+      changed_when: true
+
+    - name: Wait until the stand-in is activating
+      become: true
+      ansible.builtin.command: systemctl show --property=ActiveState --value ansible-init.service
+      register: frr_molecule_ansible_init_state
+      until: frr_molecule_ansible_init_state.stdout == 'activating'
+      retries: 10
+      delay: 1
+      changed_when: false
+
+    - name: Run the check with true in the first-boot play
+      ansible.builtin.include_role:
+        name: frr
+        tasks_from: check-loopback-interface
+
+    - name: Assert that the check reported frrtest0 and went on
+      ansible.builtin.assert:
+        that:
+          - _frr_first_boot | bool
+          - _frr_loopback_check_result is failed
+          - "'its netplan configuration declares none' in _frr_loopback_check_result.msg"
+          - "'This is the first-boot play' in _frr_loopback_check_result.msg"
+        fail_msg: "unexpected result: {{ _frr_loopback_check_result }}"
   always:
     - name: Make sure the netplan file is gone
       become: true
       ansible.builtin.file:
         path: /etc/netplan/99-molecule-frrtest.yaml
         state: absent
+
+    - name: Stop the stand-in for ansible-init.service
+      become: true
+      ansible.builtin.command: systemctl stop ansible-init.service
+      register: frr_molecule_ansible_init_stop
+      changed_when: frr_molecule_ansible_init_stop.rc == 0
+      failed_when: false

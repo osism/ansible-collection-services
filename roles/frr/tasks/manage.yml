@@ -30,7 +30,7 @@
   vars:
     _frr_template_text: "{{ frr_config_template }}"
   when:
-    - _frr_check_loopback_mode != 'off'
+    - _frr_check_loopback_configured != 'off'
     - frr_config_template is defined
 
 - name: Write frr_config_template to temporary file
@@ -82,7 +82,7 @@
       vars:
         _frr_template_text: "{{ lookup('ansible.builtin.file', result.results.0.stat.path) }}"
       when:
-        - _frr_check_loopback_mode != 'off'
+        - _frr_check_loopback_configured != 'off'
         - result.results.0.stat.exists is defined
         - result.results.0.stat.exists | bool
 
@@ -104,7 +104,7 @@
       vars:
         _frr_template_text: "{{ lookup('ansible.builtin.file', role_path ~ '/templates/frr_' ~ frr_type ~ '.conf.j2') }}"
       when:
-        - _frr_check_loopback_mode != 'off'
+        - _frr_check_loopback_configured != 'off'
         - result.results.0.stat.exists is not defined
 
     - name: "Copy default frr.conf file of type {{ frr_type }}"
