@@ -1,0 +1,7 @@
+---
+# frr_check_loopback_interface as one of off, warn and fail. "warn" is
+# tested first, as a string: the bool filter does not know it.
+_frr_check_loopback_mode: >-
+  {{ 'warn' if (frr_check_loopback_interface is string
+                and frr_check_loopback_interface | lower == 'warn')
+     else ('fail' if frr_check_loopback_interface | bool else 'off') }}
