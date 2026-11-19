@@ -169,6 +169,18 @@ frr_daemons_file: "/etc/frr/daemons"
 
 frr_allow_service_restart: true
 
+# Restart FRR after every start of systemd-networkd. networkd deletes the
+# kernel nexthop objects zebra installed when it starts; zebra does not
+# reinstall its ECMP routes afterwards (FRR 8.4 and 10.7 alike), so a node
+# whose networkd restarts (e.g. through an upgrade of the systemd packages)
+# loses its multipath routes, its default route among them, until FRR
+# restarts. Two drop-ins: networkd try-restarts FRR after it started (a
+# stopped FRR stays stopped), and FRR is ordered after networkd. Costs a few
+# seconds of BGP reconvergence per networkd start.
+frr_restart_with_networkd: true
+frr_networkd_dropin_file: "/etc/systemd/system/{{ frr_service_name }}.service.d/osism-networkd.conf"
+frr_networkd_service_dropin_file: "/etc/systemd/system/systemd-networkd.service.d/osism-frr.conf"
+
 # YRZN 001 configuration
 frr_yrzn001_maximum_paths: 2
 
