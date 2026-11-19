@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+# Start FRR after systemd-networkd, so that the restart networkd triggers
+# (systemd-networkd.service.d) runs once networkd has configured the links.
+[Unit]
+After=systemd-networkd.service

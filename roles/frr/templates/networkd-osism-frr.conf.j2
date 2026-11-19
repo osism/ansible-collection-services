@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+# networkd removes the kernel nexthop objects zebra installed when it starts,
+# and zebra does not reinstall its multipath routes on its own: restart FRR
+# after networkd started, if FRR is running. "+" because networkd runs
+# unprivileged; --no-block because FRR is ordered after networkd.
+[Service]
+ExecStartPost=-+/usr/bin/systemctl --no-block try-restart {{ frr_service_name }}.service
