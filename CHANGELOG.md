@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This file was started on December 19, 2020. Changes prior to this date are not included in the CHANGELOG.
 
+## [v0.20261123.0] - 2026-11-23
+
+### Fixed
+- Make the frr loopback interface check optional and disabled by default, since it failed on Ironic-deployed nodes where the check ran before netplan created the loopback interface (osism/ansible-collection-services#2199)
+- Restart frr after systemd-networkd starts, since networkd removes zebra's kernel nexthop objects and frr does not reinstall its ECMP routes on its own (osism/ansible-collection-services#2201)
+
 ## [v0.20261111.0] - 2026-11-11
 
 ### Added
