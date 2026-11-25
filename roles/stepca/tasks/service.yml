@@ -34,7 +34,7 @@
     enabled: true
     daemon_reload: "{{ stepca_systemd_unit_file.changed }}"
   register: stepca_service
-  until: stepca_service["status"]["ActiveState"] == "active"
+  until: stepca_service is not failed and stepca_service["status"]["ActiveState"] == "active"
   retries: 10
   delay: 20
 

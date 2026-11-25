@@ -5,7 +5,7 @@
     name: "{{ gnmic_service_name }}"
     state: restarted
   register: result
-  until: result["status"]["ActiveState"] == "active"
+  until: result is not failed and result["status"]["ActiveState"] == "active"
   retries: 10
   delay: 20
   when: _gnmic_service_restart | default(true) | bool

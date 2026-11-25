@@ -69,7 +69,7 @@
         state: started
         enabled: true
       register: result
-      until: result["status"]["ActiveState"] == "active"
+      until: result is not failed and result["status"]["ActiveState"] == "active"
       retries: 10
       delay: 20
       notify: Wait for squid service to start
@@ -96,7 +96,7 @@
         name: "{{ squid_service_name }}"
         state: started
       register: result
-      until: result["status"]["ActiveState"] == "active"
+      until: result is not failed and result["status"]["ActiveState"] == "active"
       retries: 10
       delay: 20
       notify: Register that squid service was started
