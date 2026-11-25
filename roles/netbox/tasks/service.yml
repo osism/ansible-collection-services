@@ -50,7 +50,7 @@
         enabled: true
         daemon_reload: "{{ netbox_systemd_unit_file.changed }}"
       register: netbox_service
-      until: netbox_service["status"]["ActiveState"] == "active"
+      until: netbox_service is not failed and netbox_service["status"]["ActiveState"] == "active"
       retries: 10
       delay: 20
       notify: Wait for an healthy netbox service

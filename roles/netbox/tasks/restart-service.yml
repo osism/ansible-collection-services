@@ -111,7 +111,7 @@
         name: "{{ netbox_service_name }}"
         state: started
       register: netbox_service
-      until: netbox_service["status"]["ActiveState"] == "active"
+      until: netbox_service is not failed and netbox_service["status"]["ActiveState"] == "active"
       retries: 10
       delay: 20
       notify:
